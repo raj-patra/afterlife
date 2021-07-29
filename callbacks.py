@@ -14,6 +14,13 @@ def bash():
 
 def powershell():
     os.system("start powershell")
+
+def universal(url=None):
+    if url:
+        if '.' in url:
+            webbrowser.get('edge').open(url)
+        else:
+            os.system("start {}".format(url))
     
 
 def browser():

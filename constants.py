@@ -17,7 +17,11 @@ theme = {
 }
 
 buttons = {
-    
+    0: [['CMD', 'cmd /k cd /d %USERPROFILE%\Desktop'], ['Bash', 'bash'], ['Python', 'python'], ['Node', 'node']],
+    1: [['Browser', 'google.com'], ['Github', 'github.com'], ['Youtube', 'youtube.com'], ['Spotify', 'open.spotify.com']],
+    2: [['Gmail', 'mail.google.com'], ['Docs', 'docs.new'], ['Sheets', 'sheets.new'], ['Slides', 'slides.new']],
+    3: [['Instagram', 'instagram.com'], ['Reddit', 'reddit.com'], ['Whatsapp', 'web.whatsapp.com'], ['Linkedin', 'linkedin.com']],
+
 }
 
 NOUNS = ['fishbowl', 'chairman', 'vineyard', 'caretaker', 'carwash', 'inland', 'barnyard', 'because', 'password', 'fireman', 'worldwide', 'buttercup', 'quicksand', 'courthouse', 'workshop', 'dustpan', 'backfield', 'bobcat', 'ratline', 'background', 'bathroom', 'rawboned', 'grapefruit', 'aircraft', 'talebearer',
@@ -39,10 +43,6 @@ ADJECTIVES = ['adorable', 'adventurous', 'aggressive', 'agreeable', 'alert', 'al
 'uptight', 'useful']
 
 QUOTE_API = "https://api.quotable.io/random"
-FACTS_API = "https://uselessfacts.jsph.pl//random.json?language=en"
-KANYE_API = "https://api.kanye.rest/"
-TRUMP_API = "https://api.whatdoestrumpthink.com/api/v1/quotes/random"
-
 PUB_IP = requests.get('https://ident.me').text
 PRI_IP = socket.gethostbyname(socket.gethostname())
 MAC = getmac.get_mac_address()
