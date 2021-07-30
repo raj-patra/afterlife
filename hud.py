@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import random, string, time, psutil, GPUtil, os
+import random, string, time, psutil, GPUtil, gc
 
 from tkinter import *
 from constants import *
@@ -45,10 +45,26 @@ class HUD:
                         fg=theme[THEME]['fg'], height=5, width=25, 
                         font=('noto mono', 12), padx=20)
 
-        self.arrange_widgets()
+        self.render_menu()
+        self.render_widgets()
         self.initiate()
     
-    def arrange_widgets(self):
+    def render_menu(self):
+        menu_bar = Menu(root)
+        menu_bar.add_command(label='About', command=partial(universal_callback, "start cmd"))
+
+        for key, values in menus.items():
+
+            menu_item = Menu(menu_bar)
+            for value in values:
+                menu_item.add_command(label=value[0], command=partial(universal_callback, value[1]))
+
+            menu_bar.add_cascade(label=key, menu=menu_item)
+        menu_bar.add_command(label='Exit', command=quit)
+
+        root.config(menu=menu_bar)
+
+    def render_widgets(self):
         self.left.pack(side=LEFT, fill=BOTH, expand=1)
         self.right.pack(side=RIGHT, fill=BOTH, expand=1)
 
@@ -72,7 +88,7 @@ class HUD:
 
             for j in buttons[i]:
                 button = Button(command_row, text=j[0], font=('noto mono', 15), 
-                                command=partial(universal, url=j[1]), height=2, 
+                                command=partial(universal_callback, url=j[1]), height=2, 
                                 width=10, relief=GROOVE, overrelief=GROOVE, 
                                 bg=theme[THEME]['primary'], fg=theme[THEME]['fg'])
                 button.pack(side=LEFT, fill=BOTH, expand=1)
@@ -127,6 +143,8 @@ class HUD:
 
 
 if __name__ == '__main__':
+    gc.enable()
+
     root = Tk()
     root.config(bg=theme[THEME]['root'], bd=5)
     root.resizable(1, 1)
@@ -139,3 +157,5 @@ if __name__ == '__main__':
 
     root.protocol("WM_DELETE_WINDOW", quit)
     root.mainloop()
+
+    gc.collect()

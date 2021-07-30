@@ -17,11 +17,29 @@ theme = {
 }
 
 buttons = {
-    0: [['CMD', 'cmd /k cd /d %USERPROFILE%\Desktop'], ['Bash', 'bash'], ['Python', 'python'], ['Node', 'node']],
+    0: [['CMD', 'start cmd /k cd /d %USERPROFILE%\Desktop'], ['Bash', 'start bash'], ['Python', 'start python'], ['Node', 'start node']],
     1: [['Browser', 'google.com'], ['Github', 'github.com'], ['Youtube', 'youtube.com'], ['Spotify', 'open.spotify.com']],
     2: [['Gmail', 'mail.google.com'], ['Docs', 'docs.new'], ['Sheets', 'sheets.new'], ['Slides', 'slides.new']],
     3: [['Instagram', 'instagram.com'], ['Reddit', 'reddit.com'], ['Whatsapp', 'web.whatsapp.com'], ['Linkedin', 'linkedin.com']],
 
+}
+
+menus = {
+    "System": [ ["System Info", "start cmd /k systeminfo"], 
+                ["Environment Variables", "start cmd /k set"], 
+                ["Available Drivers", "start cmd /k driverquery"]],
+
+    "Network": [["Ping", "start cmd /k ping google.com"], 
+                ["DNS Flush", "start cmd /k ipconfig /flushdns"], 
+                ["IP details", "start cmd /k ipconfig"],
+                ["TCP/IP Status", "start cmd /k netstat"]],
+
+    "Advanced": [["Powershell", "start powershell"], 
+                ["Bash", "start bash"], 
+                ["Control Panel", "start control"],
+                ["Registry Editor", "start regedit"], 
+                ["Disk Management", "start diskmgmt"]]
+    
 }
 
 NOUNS = ['fishbowl', 'chairman', 'vineyard', 'caretaker', 'carwash', 'inland', 'barnyard', 'because', 'password', 'fireman', 'worldwide', 'buttercup', 'quicksand', 'courthouse', 'workshop', 'dustpan', 'backfield', 'bobcat', 'ratline', 'background', 'bathroom', 'rawboned', 'grapefruit', 'aircraft', 'talebearer',
