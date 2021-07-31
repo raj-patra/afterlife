@@ -72,23 +72,8 @@ PUB_IP = requests.get('https://ident.me').text
 PRI_IP = socket.gethostbyname(socket.gethostname())
 MAC = getmac.get_mac_address()
 
-# WELCOME = """
-# Hello there, {}
-# I hope you have a good day.
-# .
-# .
-# Quote of the day:
-
-# {}
-
-# - {}
-# """.format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]),
-#             requests.get(QUOTE_API).json()['content'], 
-#             requests.get(QUOTE_API).json()['author'])
-
-WELCOME = """
-Hello there, {}
-I hope you have a good day.
+WELCOME_RECURSIVE = """
+Good day, {}
 .
 .
 Quote of the day:
@@ -96,7 +81,14 @@ Quote of the day:
 {}
 
 - {}
-""".format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]), 'Hello', 'World')
+""".format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]),
+            requests.get(QUOTE_API).json()['content'], 
+            requests.get(QUOTE_API).json()['author'])
+
+WELCOME_START = """
+Hello there, {}
+I hope you have a good day.
+""".format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]))
 
 FUN = """
 Did you know,

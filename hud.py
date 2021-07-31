@@ -97,11 +97,10 @@ class HUD:
                 button.pack(side=LEFT, fill=BOTH, expand=1)
         
     def initiate(self):
-        self.welcome.insert(END, WELCOME.strip())
+        self.welcome.insert(END, WELCOME_START.strip())
         self.welcome.config(state=DISABLED)
 
         self.agenda.insert(END, "Type your agenda here:")
-        # self.api.insert(END, FUN.strip().format(requests.get(FACTS_API).json()['text']))
         self.clock.config(text = time.strftime(" %I:%M %p | %A %n %d %B %Y", time.localtime()))
         
         self.network.insert(END, NETWORK)
@@ -123,6 +122,12 @@ class HUD:
             
             if (time.time()-update) > 60:
                 update = time.time()
+                
+                self.welcome.config(state=NORMAL)
+                self.welcome.delete('1.0', END)
+                self.welcome.insert(END, WELCOME_RECURSIVE.strip())
+                self.welcome.config(state=DISABLED)
+                
                 self.clock.config(text = time.strftime(" %I:%M %p | %A %n %d %B %Y", time.localtime()))
                 
             if (time.time()-start) > 10:
