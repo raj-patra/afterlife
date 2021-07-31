@@ -35,17 +35,17 @@ menus = {
                 ["Registry Editor", "start regedit"], 
                 ["Disk Management", "start diskmgmt"]],
 
-    "Network": [["Ping", "start cmd /k ping google.com"], 
-                ["DNS Flush", "start cmd /k ipconfig /flushdns"], 
-                ["IP details", "start cmd /k ipconfig"],
-                ["TCP/IP Status", "start cmd /k netstat"]],
+    "Network": [["Ping", "ping google.com"], 
+                ["DNS Flush", "ipconfig /flushdns"], 
+                ["IP details", " ipconfig"],
+                ["TCP/IP Status", " netstat"]],
 
     "Advanced": [["Powershell", "start powershell"], 
                 ["Bash", "start bash"], "---",
 
-                ["System Info", "start cmd /k systeminfo"], 
-                ["Environment Variables", "start cmd /k set"], 
-                ["Available Drivers", "start cmd /k driverquery"]]
+                ["System Info", " systeminfo"], 
+                ["Environment Variables", " set"], 
+                ["Available Drivers", " driverquery"]]
     
 }
 

@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import random, string, time, psutil, GPUtil, gc
+import subprocess as sp
 
 from tkinter import *
 from constants import *
@@ -19,11 +20,11 @@ class HUD:
         self.commands = Frame(self.right, width=80,
                                 height=50, bg=theme[THEME]['root'], padx=5, pady=5)
         
-        self.gibberish = Text(self.left, bg=theme[THEME]['primary'], 
-                            fg=theme[THEME]['fg'], font=('ebrima', 8), width=60)
+        self.prompt = Text(self.left, bg=theme[THEME]['primary'],
+                            fg=theme[THEME]['fg'], font=('noto mono', 12), width=40)
 
         self.welcome = Text(self.intro, bg=theme[THEME]['secondary'], 
-                            fg=theme[THEME]['fg'], width=30, height=2, 
+                            fg=theme[THEME]['fg'], width=25, height=2, 
                             font=('noto mono', 13, 'bold'), padx=20, 
                             pady=20, wrap=WORD)
 
@@ -58,7 +59,7 @@ class HUD:
             menu_item = Menu(menu_bar)
             for value in values:
                 if type(value) == list:
-                    menu_item.add_command(label=value[0], command=partial(universal_callback, value[1]))
+                    menu_item.add_command(label=value[0], command=partial(self.cmd_prompt, value[1]))
                 else:
                     menu_item.add_separator()
 
@@ -75,7 +76,7 @@ class HUD:
         self.welcome.pack(side=LEFT, fill=BOTH, expand=1)
         self.agenda.pack(side=RIGHT, fill=BOTH, expand=1)
 
-        self.gibberish.pack(side=BOTTOM, fill=BOTH, expand=1)
+        self.prompt.pack(side=BOTTOM, fill=BOTH, expand=1)
 
         self.clock.pack(side=TOP, fill=BOTH, expand=1)
 
@@ -132,7 +133,7 @@ class HUD:
                 
             if (time.time()-start) > 10:
                 start = time.time()
-                self.gibberish.delete('1.0', END)
+                self.prompt.delete('1.0', END)
 
                 self.system.config(state=NORMAL)
                 self.system.delete('1.0', END)
@@ -144,10 +145,22 @@ class HUD:
                                                     battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
                 self.system.config(state=DISABLED)
             
-            self.gibberish.insert(CURRENT, ''.join(random.choice(string.printable)))
-            self.gibberish.after(2, loop)
+            self.prompt.insert(CURRENT, ''.join(random.choice(string.printable)))
+            self.prompt.after(2, loop)
 
         loop()
+
+    def cmd_prompt(self, command):
+        if command.startswith('start'):
+            os.system("{}".format(command))
+        else:
+            response = sp.getoutput(command)
+
+            self.prompt.config(state=NORMAL)
+            self.prompt.delete('1.0', END)
+            self.prompt.insert(END, response)
+            self.prompt.config(state=DISABLED)
+
 
 
 if __name__ == '__main__':
