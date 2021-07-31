@@ -25,9 +25,15 @@ buttons = {
 }
 
 menus = {
-    "System": [ ["System Info", "start cmd /k systeminfo"], 
-                ["Environment Variables", "start cmd /k set"], 
-                ["Available Drivers", "start cmd /k driverquery"]],
+    "System": [ ["Win EXplorer", "start explorer"],
+                ["Calculator", "start calc"],
+                ["Notepad", "start notepad"],
+                ["Paint", "start mspaint"], "---",
+
+                ["Task Manager", "start taskmgr"],
+                ["Control Panel", "start control"],
+                ["Registry Editor", "start regedit"], 
+                ["Disk Management", "start diskmgmt"]],
 
     "Network": [["Ping", "start cmd /k ping google.com"], 
                 ["DNS Flush", "start cmd /k ipconfig /flushdns"], 
@@ -35,10 +41,11 @@ menus = {
                 ["TCP/IP Status", "start cmd /k netstat"]],
 
     "Advanced": [["Powershell", "start powershell"], 
-                ["Bash", "start bash"], 
-                ["Control Panel", "start control"],
-                ["Registry Editor", "start regedit"], 
-                ["Disk Management", "start diskmgmt"]]
+                ["Bash", "start bash"], "---",
+
+                ["System Info", "start cmd /k systeminfo"], 
+                ["Environment Variables", "start cmd /k set"], 
+                ["Available Drivers", "start cmd /k driverquery"]]
     
 }
 
@@ -65,6 +72,20 @@ PUB_IP = requests.get('https://ident.me').text
 PRI_IP = socket.gethostbyname(socket.gethostname())
 MAC = getmac.get_mac_address()
 
+# WELCOME = """
+# Hello there, {}
+# I hope you have a good day.
+# .
+# .
+# Quote of the day:
+
+# {}
+
+# - {}
+# """.format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]),
+#             requests.get(QUOTE_API).json()['content'], 
+#             requests.get(QUOTE_API).json()['author'])
+
 WELCOME = """
 Hello there, {}
 I hope you have a good day.
@@ -75,9 +96,7 @@ Quote of the day:
 {}
 
 - {}
-""".format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]),
-            requests.get(QUOTE_API).json()['content'], 
-            requests.get(QUOTE_API).json()['author'])
+""".format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]), 'Hello', 'World')
 
 FUN = """
 Did you know,

@@ -57,7 +57,10 @@ class HUD:
 
             menu_item = Menu(menu_bar)
             for value in values:
-                menu_item.add_command(label=value[0], command=partial(universal_callback, value[1]))
+                if type(value) == list:
+                    menu_item.add_command(label=value[0], command=partial(universal_callback, value[1]))
+                else:
+                    menu_item.add_separator()
 
             menu_bar.add_cascade(label=key, menu=menu_item)
         menu_bar.add_command(label='Exit', command=quit)
