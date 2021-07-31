@@ -26,7 +26,7 @@ class HUD:
 
         self.welcome = Text(self.intro, bg=THEME[CHOICE]['secondary'], 
                             fg=THEME[CHOICE]['fg'], width=25, height=2, 
-                            font=('noto mono', 11, 'bold'), padx=20, 
+                            font=('noto mono', 13, 'bold'), padx=20, 
                             pady=20, wrap=WORD)
 
         self.agenda = Text(self.intro, bg=THEME[CHOICE]['secondary'], 
@@ -51,7 +51,7 @@ class HUD:
 
         self.render_menu()
         self.render_widgets()
-        self.initiate()
+        self.start_widgets()
     
     def render_menu(self):
         menu_bar = Menu(root)
@@ -104,7 +104,7 @@ class HUD:
                 bg.rotate(1)
                 button.pack(side=LEFT, fill=BOTH, expand=1)
         
-    def initiate(self):
+    def start_widgets(self):
         self.welcome.insert(END, WELCOME.strip())
         self.welcome.config(state=DISABLED)
 
@@ -120,13 +120,13 @@ class HUD:
         ram = psutil.virtual_memory()[2]
         gpu = GPUtil.getGPUs()
         battery = psutil.sensors_battery()
-        self.system.insert(END, MISC.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
+        self.system.insert(END, SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
                                             battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
         self.system.config(state=DISABLED)
 
-        self.recursive()
+        self.update_widgets()
 
-    def recursive(self):
+    def update_widgets(self):
         
         def loop():
         
@@ -142,7 +142,7 @@ class HUD:
             ram = psutil.virtual_memory()[2]
             gpu = GPUtil.getGPUs()
             battery = psutil.sensors_battery()
-            self.system.insert(END, MISC.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
+            self.system.insert(END, SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
                                                 battery.percent, "(Charging)" if battery.power_plugged else " "))
             self.system.config(state=DISABLED)
             

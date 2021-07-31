@@ -91,22 +91,10 @@ Hey there, {}
 I hope you are having a good day.
 .
 .
-Quote of the day:
+Just remember, wherever you go, leave your mark behind.
+Have fun.""".format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]))
 
-{}
-
-- {}
-""".format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]),
-            requests.get(QUOTE_API).json()['content'], 
-            requests.get(QUOTE_API).json()['author'])
-
-FUN = """
-Did you know,
-{}
-
-"""
-
-MISC = """
+SYSTEM = """
 CPU Usage: {} %
 Memory: {} %
 
