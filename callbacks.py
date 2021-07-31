@@ -1,5 +1,8 @@
 import  os, webbrowser
 
+from tkinter import messagebox
+from constants import *
+
 chrome_path="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
 
@@ -12,3 +15,10 @@ def universal_callback(url=None):
             os.system("{}".format(url))
         else:
             webbrowser.get('edge').open(url)
+
+def about():
+    messagebox.showinfo('About', ABOUT)
+
+def exit(root):
+    if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        root.destroy()

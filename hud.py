@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import random, string, time, psutil, GPUtil, gc
+import time, psutil, GPUtil, gc
 import subprocess as sp
 
 from tkinter import *
@@ -57,7 +57,7 @@ class HUD:
     
     def render_menu(self):
         menu_bar = Menu(root)
-        menu_bar.add_command(label='About', command=partial(messagebox.showinfo, 'About', ABOUT))
+        menu_bar.add_command(label='About', command=about)
 
         for key, values in MENUS.items():
 
@@ -71,7 +71,7 @@ class HUD:
             menu_bar.add_cascade(label=key, menu=menu_item)
 
         menu_bar.add_command(label='Clear Prompt', command=partial(self.cmd_prompt, " "))
-        menu_bar.add_command(label='Exit', command=quit)
+        menu_bar.add_command(label='Exit', command=partial(exit, root))
 
         root.config(menu=menu_bar)
 
@@ -93,16 +93,17 @@ class HUD:
 
         self.commands.pack(side=TOP, fill=BOTH, expand=1)  
 
-        bg = deque([THEME[CHOICE]['primary'], THEME[CHOICE]['secondary']])
+        bg = deque([THEME[CHOICE]['secondary'], THEME[CHOICE]['primary']])
         for row in range(len(BUTTONS)):
             command_row = Frame(self.commands, bg=THEME[CHOICE]['root'])
             command_row.pack(side=TOP, fill=BOTH, expand=1)
-
+            bg.rotate(1)
             for button in BUTTONS[row]:
                 button = Button(command_row, text=button[0], font=('noto mono', 12), height=2, 
                                 command=partial(universal_callback, url=button[1]),  width=6, 
                                 relief=FLAT, overrelief=RAISED, bg=bg[0], fg=THEME[CHOICE]['fg'], 
                                 activebackground=THEME[CHOICE]['root'], activeforeground="white")
+
                 bg.rotate(1)
                 button.pack(side=LEFT, fill=BOTH, expand=1)
         
@@ -148,7 +149,7 @@ class HUD:
                                                 battery.percent, "(Charging)" if battery.power_plugged else " "))
             self.system.config(state=DISABLED)
             
-            self.prompt.after(10000, loop)
+            self.prompt.after(5000, loop)
 
         loop()
 
@@ -176,6 +177,7 @@ if __name__ == '__main__':
     root = Tk()
     root.config(bg=THEME[CHOICE]['root'], bd=5)
     root.resizable(1, 1)
+    root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
     root.title("Afterlife")
 
     start = time.time()

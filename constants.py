@@ -17,10 +17,22 @@ THEME = {
 }
 
 BUTTONS = {
-    0: [['Google', 'google.com'], ['Gmail', 'mail.google.com'], ['Youtube', 'youtube.com'], ['Photos', 'photos.google.com'], ['Maps', 'maps.google.com']],
-    1: [['Instagram', 'instagram.com'], ['Reddit', 'reddit.com'], ['Whatsapp', 'web.whatsapp.com'], ['Telegram', 'web.telegram.org'], ['Spotify', 'open.spotify.com']],
-    2: [['Facebook', 'facebook.com'], ['Twitter', 'twitter.com'], ['Tumblr', 'tumblr.com'], ['Linkedin', 'linkedin.com'], ['Pinterest', 'pinterest.com']],
-    3: [['Drive', 'drive.google.com'], ['Docs', 'docs.new'], ['Sheets', 'sheets.new'], ['Slides', 'slides.new'], ['Keep', 'keep.google.com']],
+    0: [['Mail', 'start outlookmail:'], ['Calculator', 'start calc'], ['Calendar', 'start outlookcal:'], 
+        ['Camera', 'start microsoft.windows.camera:'], ['Music', 'start mswindowsmusic:'], ['Browser', 'start microsoft-edge:']],
+
+    1: [['Google', 'google.com'], ['Gmail', 'mail.google.com'], ['Youtube', 'youtube.com'], 
+        ['Photos', 'photos.google.com'], ['Maps', 'maps.google.com'], ['Keep', 'keep.google.com']],
+
+    2: [['Docs', 'docs.new'], ['Sheets', 'sheets.new'], ['Slides', 'slides.new'], 
+        ["Sticky Notes", "start explorer.exe shell:appsFolder\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe!App"], 
+        ["Notepad", "start notepad"], ["Paint", "start mspaint"]],
+
+    3: [['Instagram', 'instagram.com'], ['Reddit', 'reddit.com'], ['Twitter', 'twitter.com'], 
+        ['Spotify', 'open.spotify.com'], ['Telegram', 'web.telegram.org'], ['Whatsapp', 'web.whatsapp.com']],
+
+    4: [['Tumblr', 'tumblr.com'], ['Linkedin', 'linkedin.com'], ['Pinterest', 'pinterest.com'], 
+        ["Tasks", "start taskmgr"], ["Panel", "start control"], 
+        ["Run", "start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"]],
 }
 
 MENUS = {
@@ -30,15 +42,6 @@ MENUS = {
 
                 ["Python", " start python"],
                 ["Node", " start node"]],
-
-    "System": [ ["Explorer", "start explorer"],
-                ["Calculator", "start calc"],
-                ["Notepad", "start notepad"],
-                ["Paint", "start mspaint"], "---",
-
-                ["Task Manager", "start taskmgr"],
-                ["Control Panel", "start control"],
-                ["Run", "start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"]],
 
     "Network": [["Ping", "subprocess ping google.com"], 
                 ["DNS Servers", "subprocess ipconfig /displaydns"], 
@@ -121,7 +124,8 @@ Default Gateway: 192.168.0.0/1
 
 ABOUT = """
 Afterlife is a minimalistic HUD.
-It brings all the important functions of Windows to the fingertips of its users.
+
+It brings all the important functions of Windows to the fingertips of its users and helps them connect to the internet faster.
 
 Made with ♥ by a_ignorant_mortal
-"""
+""".strip()
