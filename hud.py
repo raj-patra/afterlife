@@ -7,6 +7,8 @@ from constants import *
 from callbacks import *
 from functools import partial
 from collections import deque
+from tkinter import messagebox
+
 
 CHOICE = 'dark_blue'
 
@@ -55,7 +57,7 @@ class HUD:
     
     def render_menu(self):
         menu_bar = Menu(root)
-        menu_bar.add_command(label='About', command=partial(universal_callback, "start cmd"))
+        menu_bar.add_command(label='About', command=partial(messagebox.showinfo, 'About', ABOUT))
 
         for key, values in MENUS.items():
 

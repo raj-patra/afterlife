@@ -118,3 +118,10 @@ MAC Address: {}
 
 Default Gateway: 192.168.0.0/1
 """.format(HOST, USER, PUB_IP, PRI_IP, MAC)
+
+ABOUT = """
+Afterlife is a minimalistic HUD.
+It brings all the important functions of Windows to the fingertips of its users.
+
+Made with ♥ by a_ignorant_mortal
+"""
