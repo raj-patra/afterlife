@@ -20,7 +20,7 @@ class HUD:
         self.commands = Frame(self.right, width=80,
                                 height=50, bg=THEME[CHOICE]['root'], padx=5, pady=5)
         
-        self.prompt = Text(self.left, bg=THEME[CHOICE]['primary'],
+        self.prompt = Text(self.left, bg=THEME[CHOICE]['primary'], wrap=WORD,
                             fg=THEME[CHOICE]['fg'], font=('noto mono', 12), width=40)
 
         self.welcome = Text(self.intro, bg=THEME[CHOICE]['secondary'], 
@@ -120,13 +120,15 @@ class HUD:
         self.recursive()
 
     def recursive(self):
+        
         def loop():
+        
             global start, update
             
             if (time.time()-update) > 60:
                 update = time.time()
                 self.clock.config(text = time.strftime(" %I:%M %p | %A %n %d %B %Y", time.localtime()))
-                
+
             if (time.time()-start) > 10:
                 start = time.time()
     
@@ -142,10 +144,10 @@ class HUD:
                 self.system.insert(END, MISC.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
                                                     battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
                 self.system.config(state=DISABLED)
-            
+
             if not self.prompt_blocked:
                 self.prompt.insert(CURRENT, ''.join(random.choice(string.printable)))
-                self.prompt.after(2, loop)
+                self.prompt.after(10, loop)
 
         loop()
 

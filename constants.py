@@ -32,28 +32,28 @@ MENUS = {
                 ["Python", " start python"],
                 ["Node", " start node"]],
 
-    "System": [ ["Win EXplorer", "start explorer"],
+    "System": [ ["Explorer", "start explorer"],
                 ["Calculator", "start calc"],
                 ["Notepad", "start notepad"],
                 ["Paint", "start mspaint"], "---",
 
                 ["Task Manager", "start taskmgr"],
                 ["Control Panel", "start control"],
-                ["Registry Editor", "start regedit"], 
-                ["Disk Management", "start diskmgmt"]],
+                ],
 
     "Network": [["Ping", "ping google.com"], 
+                ["DNS Servers", "ipconfig /displaydns"], 
                 ["DNS Flush", "ipconfig /flushdns"], 
-                ["IP details", " ipconfig"],
-                ["TCP/IP Status", " netstat"]],
+                ["IP Config", " ipconfig /allcompartments /all"]],
 
-    "Advanced": [["Powershell", "start powershell"], 
-                ["Bash", "start bash"], "---",
-
+    "Advanced": [
+                ["God Mode", "start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"],
+                ["Registry Editor", "start regedit"], 
+                ["Disk Management", "start diskmgmt"], "---",
+                
                 ["System Info", " systeminfo"], 
                 ["Environment Variables", " set"], 
                 ["Available Drivers", " driverquery"]]
-    
 }
 
 NOUNS = [
@@ -116,4 +116,6 @@ Public IP: {}
 Private IP: {}
 
 MAC Address: {}
+
+Default Gateway: 192.168.0.0/1
 """.format(PUB_IP, PRI_IP, MAC)
