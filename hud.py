@@ -36,7 +36,7 @@ class HUD:
 
         
         self.clock = Label(self.right, bg=THEME[CHOICE]['primary'], relief=GROOVE,
-                            fg=THEME[CHOICE]['fg'], height=3, width=20, 
+                            fg=THEME[CHOICE]['fg'], height=2, width=20, 
                             font=('cursed timer ulil', 18, 'bold'))
 
         self.network = Text(self.details, bg=THEME[CHOICE]['secondary'], 
@@ -109,7 +109,7 @@ class HUD:
         self.welcome.config(state=DISABLED)
 
         self.agenda.insert(END, "Type your agenda here:")
-        self.clock.config(text = time.strftime(" %I:%M %p - %A %n %d %B %Y", time.localtime()))
+        self.clock.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         
         self.network.insert(END, NETWORK)
         self.network.config(state=DISABLED)
@@ -134,7 +134,7 @@ class HUD:
             
             if (time.time()-update) > 60:
                 update = time.time()
-                self.clock.config(text = time.strftime(" %I:%M %p - %A %n %d %B %Y", time.localtime()))
+                self.clock.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
             self.system.config(state=NORMAL)
             self.system.delete('1.0', END)

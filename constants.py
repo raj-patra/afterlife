@@ -25,7 +25,7 @@ BUTTONS = {
 
 MENUS = {
     "CLI": [    ["Command Prompt ", "start cmd /k cd /d %USERPROFILE%\Desktop"], 
-                ["Bash", "start bash"], 
+                ["WSL Bash", "start bash"], 
                 ["Powershell", " start powershell"], "---",
 
                 ["Python", " start python"],
