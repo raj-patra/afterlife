@@ -56,7 +56,7 @@ class HUD:
         menu_bar = Menu(root)
         menu_bar.add_command(label='About', command=partial(universal_callback, "start cmd"))
 
-        for key, values in menus.items():
+        for key, values in MENUS.items():
 
             menu_item = Menu(menu_bar)
             for value in values:
@@ -88,14 +88,14 @@ class HUD:
 
         self.commands.pack(side=TOP, fill=BOTH, expand=1)  
 
-        for i in range(len(buttons)):
+        for row in range(len(BUTTONS)):
             command_row = Frame(self.commands, bg=THEME[CHOICE]['root'])
             command_row.pack(side=TOP, fill=BOTH, expand=1)
 
-            for j in buttons[i]:
-                button = Button(command_row, text=j[0], font=('noto mono', 12), 
-                                command=partial(universal_callback, url=j[1]), height=2, 
-                                width=8, relief=GROOVE, overrelief=GROOVE, 
+            for button in BUTTONS[row]:
+                button = Button(command_row, text=button[0], font=('noto mono', 12), 
+                                command=partial(universal_callback, url=button[1]), height=2, 
+                                width=6, relief=GROOVE, overrelief=GROOVE, 
                                 bg=THEME[CHOICE]['primary'], fg=THEME[CHOICE]['fg'])
                 button.pack(side=LEFT, fill=BOTH, expand=1)
         
