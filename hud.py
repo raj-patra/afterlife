@@ -7,7 +7,7 @@ from constants import *
 from callbacks import *
 from functools import partial
 
-THEME = 'dark_blue'
+CHOICE = 'dark_blue'
 
 
 class HUD:
@@ -18,33 +18,35 @@ class HUD:
         self.details = Frame(self.right, height=1)
 
         self.commands = Frame(self.right, width=80,
-                                height=50, bg=theme[THEME]['root'], padx=5, pady=5)
+                                height=50, bg=THEME[CHOICE]['root'], padx=5, pady=5)
         
-        self.prompt = Text(self.left, bg=theme[THEME]['primary'],
-                            fg=theme[THEME]['fg'], font=('noto mono', 12), width=40)
+        self.prompt = Text(self.left, bg=THEME[CHOICE]['primary'],
+                            fg=THEME[CHOICE]['fg'], font=('noto mono', 12), width=40)
 
-        self.welcome = Text(self.intro, bg=theme[THEME]['secondary'], 
-                            fg=theme[THEME]['fg'], width=25, height=2, 
+        self.welcome = Text(self.intro, bg=THEME[CHOICE]['secondary'], 
+                            fg=THEME[CHOICE]['fg'], width=25, height=2, 
                             font=('noto mono', 13, 'bold'), padx=20, 
                             pady=20, wrap=WORD)
 
-        self.agenda = Text(self.intro, bg=theme[THEME]['secondary'], 
-                            fg=theme[THEME]['fg'], width=25, height=2, 
+        self.agenda = Text(self.intro, bg=THEME[CHOICE]['secondary'], 
+                            fg=THEME[CHOICE]['fg'], width=25, height=2, 
                             font=('noto mono', 13, 'bold'), wrap=WORD, 
                             insertbackground="white", padx=18, pady=20)
 
         
-        self.clock = Label(self.right, bg=theme[THEME]['primary'], relief=GROOVE,
-                            fg=theme[THEME]['fg'], height=2, width=20, 
+        self.clock = Label(self.right, bg=THEME[CHOICE]['primary'], relief=GROOVE,
+                            fg=THEME[CHOICE]['fg'], height=3, width=20, 
                             font=('cursed timer ulil', 18, 'bold'))
 
-        self.network = Text(self.details, bg=theme[THEME]['secondary'], 
-                            fg=theme[THEME]['fg'], height=5, width=25, 
+        self.network = Text(self.details, bg=THEME[CHOICE]['secondary'], 
+                            fg=THEME[CHOICE]['fg'], height=5, width=30, 
                             font=('noto mono', 12), padx=20)
 
-        self.system = Text(self.details, bg=theme[THEME]['secondary'], 
-                        fg=theme[THEME]['fg'], height=5, width=25, 
+        self.system = Text(self.details, bg=THEME[CHOICE]['secondary'], 
+                        fg=THEME[CHOICE]['fg'], height=5, width=30, 
                         font=('noto mono', 12), padx=20)
+
+        self.prompt_blocked = 0
 
         self.render_menu()
         self.render_widgets()
@@ -78,7 +80,7 @@ class HUD:
 
         self.prompt.pack(side=BOTTOM, fill=BOTH, expand=1)
 
-        self.clock.pack(side=TOP, fill=BOTH, expand=1)
+        self.clock.pack(side=TOP, fill=BOTH, expand=0)
 
         self.details.pack(side=TOP, fill=BOTH, expand=1)
         self.network.pack(side=RIGHT, fill=BOTH, expand=1)
@@ -86,19 +88,19 @@ class HUD:
 
         self.commands.pack(side=TOP, fill=BOTH, expand=1)  
 
-        for i in range(4):
-            command_row = Frame(self.commands, bg=theme[THEME]['root'])
+        for i in range(len(buttons)):
+            command_row = Frame(self.commands, bg=THEME[CHOICE]['root'])
             command_row.pack(side=TOP, fill=BOTH, expand=1)
 
             for j in buttons[i]:
-                button = Button(command_row, text=j[0], font=('noto mono', 15), 
+                button = Button(command_row, text=j[0], font=('noto mono', 12), 
                                 command=partial(universal_callback, url=j[1]), height=2, 
-                                width=10, relief=GROOVE, overrelief=GROOVE, 
-                                bg=theme[THEME]['primary'], fg=theme[THEME]['fg'])
+                                width=8, relief=GROOVE, overrelief=GROOVE, 
+                                bg=THEME[CHOICE]['primary'], fg=THEME[CHOICE]['fg'])
                 button.pack(side=LEFT, fill=BOTH, expand=1)
         
     def initiate(self):
-        self.welcome.insert(END, WELCOME_START.strip())
+        self.welcome.insert(END, WELCOME.strip())
         self.welcome.config(state=DISABLED)
 
         self.agenda.insert(END, "Type your agenda here:")
@@ -123,17 +125,13 @@ class HUD:
             
             if (time.time()-update) > 60:
                 update = time.time()
-                
-                self.welcome.config(state=NORMAL)
-                self.welcome.delete('1.0', END)
-                self.welcome.insert(END, WELCOME_RECURSIVE.strip())
-                self.welcome.config(state=DISABLED)
-                
                 self.clock.config(text = time.strftime(" %I:%M %p | %A %n %d %B %Y", time.localtime()))
                 
             if (time.time()-start) > 10:
                 start = time.time()
-                self.prompt.delete('1.0', END)
+    
+                if not self.prompt_blocked:
+                    self.prompt.delete('1.0', END)
 
                 self.system.config(state=NORMAL)
                 self.system.delete('1.0', END)
@@ -145,15 +143,19 @@ class HUD:
                                                     battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
                 self.system.config(state=DISABLED)
             
-            self.prompt.insert(CURRENT, ''.join(random.choice(string.printable)))
-            self.prompt.after(2, loop)
+            if not self.prompt_blocked:
+                self.prompt.insert(CURRENT, ''.join(random.choice(string.printable)))
+                self.prompt.after(2, loop)
 
         loop()
 
     def cmd_prompt(self, command):
+
         if command.startswith('start'):
             os.system("{}".format(command))
         else:
+            self.prompt_blocked = 1
+
             response = sp.getoutput(command)
 
             self.prompt.config(state=NORMAL)
@@ -167,7 +169,7 @@ if __name__ == '__main__':
     gc.enable()
 
     root = Tk()
-    root.config(bg=theme[THEME]['root'], bd=5)
+    root.config(bg=THEME[CHOICE]['root'], bd=5)
     root.resizable(1, 1)
     root.title("Afterlife")
 

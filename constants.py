@@ -1,6 +1,6 @@
 import random, requests, getmac, socket
 
-theme = {
+THEME = {
     "green": {
         "root": '#0f612f',
         "fg": '#39FF14',
@@ -17,14 +17,21 @@ theme = {
 }
 
 buttons = {
-    0: [['CMD', 'start cmd /k cd /d %USERPROFILE%\Desktop'], ['Bash', 'start bash'], ['Python', 'start python'], ['Node', 'start node']],
-    1: [['Browser', 'google.com'], ['Github', 'github.com'], ['Youtube', 'youtube.com'], ['Spotify', 'open.spotify.com']],
-    2: [['Gmail', 'mail.google.com'], ['Docs', 'docs.new'], ['Sheets', 'sheets.new'], ['Slides', 'slides.new']],
-    3: [['Instagram', 'instagram.com'], ['Reddit', 'reddit.com'], ['Whatsapp', 'web.whatsapp.com'], ['Linkedin', 'linkedin.com']],
+    0: [['Google', 'google.com'], ['Gmail', 'mail.google.com'], ['Youtube', 'youtube.com'], ['Photos', 'photos.google.com'], ['Maps', 'maps.google.com']],
+    1: [['Instagram', 'instagram.com'], ['Reddit', 'reddit.com'], ['Whatsapp', 'web.whatsapp.com'], ['Linkedin', 'linkedin.com']],
+    2: [['Facebook', 'facebook.com'], ['Twitter', 'twitter.com'], ['Tumblr', 'tumblr.com'], ['Pinterest', 'pinterest.com']],
+    3: [['GDrive', 'drive.google.com'], ['Docs', 'docs.new'], ['Sheets', 'sheets.new'], ['Slides', 'slides.new'], ['Spotify', 'open.spotify.com']],
 
 }
 
 menus = {
+    "CLI": [    ["Command Prompt ", "start cmd /k cd /d %USERPROFILE%\Desktop"], 
+                ["Bash", "start bash"], 
+                ["Powershell", " start powershell"], "---",
+
+                ["Python", " start python"],
+                ["Node", " start node"]],
+
     "System": [ ["Win EXplorer", "start explorer"],
                 ["Calculator", "start calc"],
                 ["Notepad", "start notepad"],
@@ -72,7 +79,7 @@ PUB_IP = requests.get('https://ident.me').text
 PRI_IP = socket.gethostbyname(socket.gethostname())
 MAC = getmac.get_mac_address()
 
-WELCOME_RECURSIVE = """
+WELCOME = """
 Good day, {}
 .
 .
@@ -84,11 +91,6 @@ Quote of the day:
 """.format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]),
             requests.get(QUOTE_API).json()['content'], 
             requests.get(QUOTE_API).json()['author'])
-
-WELCOME_START = """
-Hello there, {}
-I hope you have a good day.
-""".format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]))
 
 FUN = """
 Did you know,
