@@ -6,6 +6,7 @@ from tkinter import *
 from constants import *
 from callbacks import *
 from functools import partial
+from collections import deque
 
 CHOICE = 'dark_blue'
 
@@ -20,18 +21,18 @@ class HUD:
         self.commands = Frame(self.right, width=80,
                                 height=50, bg=THEME[CHOICE]['root'], padx=5, pady=5)
         
-        self.prompt = Text(self.left, bg=THEME[CHOICE]['primary'], wrap=WORD,
-                            fg=THEME[CHOICE]['fg'], font=('noto mono', 12), width=40)
+        self.prompt = Text(self.left, bg=THEME[CHOICE]['primary'], wrap=WORD, padx=20, pady=20,
+                            fg=THEME[CHOICE]['fg'], font=('noto mono', 11), width=50)
 
         self.welcome = Text(self.intro, bg=THEME[CHOICE]['secondary'], 
                             fg=THEME[CHOICE]['fg'], width=25, height=2, 
-                            font=('noto mono', 13, 'bold'), padx=20, 
+                            font=('noto mono', 11, 'bold'), padx=20, 
                             pady=20, wrap=WORD)
 
         self.agenda = Text(self.intro, bg=THEME[CHOICE]['secondary'], 
                             fg=THEME[CHOICE]['fg'], width=25, height=2, 
                             font=('noto mono', 13, 'bold'), wrap=WORD, 
-                            insertbackground="white", padx=18, pady=20)
+                            insertbackground="white", padx=20, pady=20)
 
         
         self.clock = Label(self.right, bg=THEME[CHOICE]['primary'], relief=GROOVE,
@@ -39,11 +40,11 @@ class HUD:
                             font=('cursed timer ulil', 18, 'bold'))
 
         self.network = Text(self.details, bg=THEME[CHOICE]['secondary'], 
-                            fg=THEME[CHOICE]['fg'], height=5, width=30, 
+                            fg=THEME[CHOICE]['fg'], height=5, width=29, 
                             font=('noto mono', 12), padx=20)
 
         self.system = Text(self.details, bg=THEME[CHOICE]['secondary'], 
-                        fg=THEME[CHOICE]['fg'], height=5, width=30, 
+                        fg=THEME[CHOICE]['fg'], height=5, width=31, 
                         font=('noto mono', 12), padx=20)
 
         self.prompt_blocked = 0
@@ -66,6 +67,8 @@ class HUD:
                     menu_item.add_separator()
 
             menu_bar.add_cascade(label=key, menu=menu_item)
+
+        menu_bar.add_command(label='Clear Prompt', command=partial(self.cmd_prompt, " "))
         menu_bar.add_command(label='Exit', command=quit)
 
         root.config(menu=menu_bar)
@@ -88,15 +91,17 @@ class HUD:
 
         self.commands.pack(side=TOP, fill=BOTH, expand=1)  
 
+        bg = deque([THEME[CHOICE]['primary'], THEME[CHOICE]['secondary']])
         for row in range(len(BUTTONS)):
             command_row = Frame(self.commands, bg=THEME[CHOICE]['root'])
             command_row.pack(side=TOP, fill=BOTH, expand=1)
 
             for button in BUTTONS[row]:
-                button = Button(command_row, text=button[0], font=('noto mono', 12), 
-                                command=partial(universal_callback, url=button[1]), height=2, 
-                                width=6, relief=GROOVE, overrelief=GROOVE, 
-                                bg=THEME[CHOICE]['primary'], fg=THEME[CHOICE]['fg'])
+                button = Button(command_row, text=button[0], font=('noto mono', 12), height=2, 
+                                command=partial(universal_callback, url=button[1]),  width=6, 
+                                relief=FLAT, overrelief=RAISED, bg=bg[0], fg=THEME[CHOICE]['fg'], 
+                                activebackground=THEME[CHOICE]['root'], activeforeground="white")
+                bg.rotate(1)
                 button.pack(side=LEFT, fill=BOTH, expand=1)
         
     def initiate(self):
@@ -104,10 +109,12 @@ class HUD:
         self.welcome.config(state=DISABLED)
 
         self.agenda.insert(END, "Type your agenda here:")
-        self.clock.config(text = time.strftime(" %I:%M %p | %A %n %d %B %Y", time.localtime()))
+        self.clock.config(text = time.strftime(" %I:%M %p - %A %n %d %B %Y", time.localtime()))
         
         self.network.insert(END, NETWORK)
         self.network.config(state=DISABLED)
+
+        self.cmd_prompt("subprocess systeminfo")
 
         cpu = psutil.cpu_percent()
         ram = psutil.virtual_memory()[2]
@@ -116,7 +123,7 @@ class HUD:
         self.system.insert(END, MISC.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
                                             battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
         self.system.config(state=DISABLED)
-    
+
         self.recursive()
 
     def recursive(self):
@@ -127,27 +134,19 @@ class HUD:
             
             if (time.time()-update) > 60:
                 update = time.time()
-                self.clock.config(text = time.strftime(" %I:%M %p | %A %n %d %B %Y", time.localtime()))
+                self.clock.config(text = time.strftime(" %I:%M %p - %A %n %d %B %Y", time.localtime()))
 
-            if (time.time()-start) > 10:
-                start = time.time()
-    
-                if not self.prompt_blocked:
-                    self.prompt.delete('1.0', END)
-
-                self.system.config(state=NORMAL)
-                self.system.delete('1.0', END)
-                cpu = psutil.cpu_percent()
-                ram = psutil.virtual_memory()[2]
-                gpu = GPUtil.getGPUs()
-                battery = psutil.sensors_battery()
-                self.system.insert(END, MISC.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
-                                                    battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
-                self.system.config(state=DISABLED)
-
-            if not self.prompt_blocked:
-                self.prompt.insert(CURRENT, ''.join(random.choice(string.printable)))
-                self.prompt.after(10, loop)
+            self.system.config(state=NORMAL)
+            self.system.delete('1.0', END)
+            cpu = psutil.cpu_percent()
+            ram = psutil.virtual_memory()[2]
+            gpu = GPUtil.getGPUs()
+            battery = psutil.sensors_battery()
+            self.system.insert(END, MISC.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
+                                                battery.percent, "(Charging)" if battery.power_plugged else " "))
+            self.system.config(state=DISABLED)
+            
+            self.prompt.after(10000, loop)
 
         loop()
 
@@ -158,7 +157,9 @@ class HUD:
         else:
             self.prompt_blocked = 1
 
-            response = sp.getoutput(command)
+            process = command.split(' ', 1)[-1]
+
+            response = sp.getoutput(process)
 
             self.prompt.config(state=NORMAL)
             self.prompt.delete('1.0', END)

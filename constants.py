@@ -1,4 +1,5 @@
 import random, requests, getmac, socket
+import subprocess as sp
 
 THEME = {
     "green": {
@@ -13,7 +14,6 @@ THEME = {
         "primary": '#090b10',
         "secondary": '#0f111a'
     },
-    
 }
 
 BUTTONS = {
@@ -21,7 +21,6 @@ BUTTONS = {
     1: [['Instagram', 'instagram.com'], ['Reddit', 'reddit.com'], ['Whatsapp', 'web.whatsapp.com'], ['Telegram', 'web.telegram.org'], ['Spotify', 'open.spotify.com']],
     2: [['Facebook', 'facebook.com'], ['Twitter', 'twitter.com'], ['Tumblr', 'tumblr.com'], ['Linkedin', 'linkedin.com'], ['Pinterest', 'pinterest.com']],
     3: [['Drive', 'drive.google.com'], ['Docs', 'docs.new'], ['Sheets', 'sheets.new'], ['Slides', 'slides.new'], ['Keep', 'keep.google.com']],
-
 }
 
 MENUS = {
@@ -39,21 +38,22 @@ MENUS = {
 
                 ["Task Manager", "start taskmgr"],
                 ["Control Panel", "start control"],
-                ],
+                ["Run", "start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"]],
 
-    "Network": [["Ping", "ping google.com"], 
-                ["DNS Servers", "ipconfig /displaydns"], 
-                ["DNS Flush", "ipconfig /flushdns"], 
-                ["IP Config", " ipconfig /allcompartments /all"]],
+    "Network": [["Ping", "subprocess ping google.com"], 
+                ["DNS Servers", "subprocess ipconfig /displaydns"], 
+                ["DNS Flush", "subprocess ipconfig /flushdns"], 
+                ["IP Config", "subprocess ipconfig /allcompartments /all"]],
 
     "Advanced": [
                 ["God Mode", "start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"],
                 ["Registry Editor", "start regedit"], 
                 ["Disk Management", "start diskmgmt"], "---",
                 
-                ["System Info", " systeminfo"], 
-                ["Environment Variables", " set"], 
-                ["Available Drivers", " driverquery"]]
+                ["System Info", "subprocess systeminfo"], 
+                ["Running Processes", "subprocess tasklist"], 
+                ["Environment Variables", "subprocess set"], 
+                ["Available Drivers", "subprocess driverquery"]]
 }
 
 NOUNS = [
@@ -77,12 +77,18 @@ ADJECTIVES = [
     'uptight', 'useful']
 
 QUOTE_API = "https://api.quotable.io/random"
+
 PUB_IP = requests.get('https://ident.me').text
 PRI_IP = socket.gethostbyname(socket.gethostname())
 MAC = getmac.get_mac_address()
+HOST = sp.getoutput("hostname")
+USER = sp.getoutput("whoami")
+
+DISK = sp.getoutput("wmic logicaldisk get size,freespace,caption").replace("\n\n", "\n")
 
 WELCOME = """
-Good day, {}
+Hey there, {}
+I hope you are having a good day.
 .
 .
 Quote of the day:
@@ -102,15 +108,20 @@ Did you know,
 
 MISC = """
 CPU Usage: {} %
-
 Memory: {} %
 
 {}: {:.1f} %
+Battery: {} % {}
 
-Battery: {} % ({})
-"""
+------------------------------------
+
+"""+DISK
 
 NETWORK = """
+Host Name: {}
+
+User: {}
+
 Public IP: {}
 
 Private IP: {}
@@ -118,4 +129,4 @@ Private IP: {}
 MAC Address: {}
 
 Default Gateway: 192.168.0.0/1
-""".format(PUB_IP, PRI_IP, MAC)
+""".format(HOST, USER, PUB_IP, PRI_IP, MAC)
