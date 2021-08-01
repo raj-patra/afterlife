@@ -19,6 +19,6 @@ def universal_callback(url=None):
 def about():
     messagebox.showinfo('About', ABOUT)
 
-def exit(root):
+def destroy(root):
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         root.destroy()

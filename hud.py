@@ -71,7 +71,7 @@ class HUD:
             menu_bar.add_cascade(label=key, menu=menu_item)
 
         menu_bar.add_command(label='Clear Prompt', command=partial(self.cmd_prompt, " "))
-        menu_bar.add_command(label='Exit', command=partial(exit, root))
+        menu_bar.add_command(label='Exit', command=partial(destroy, root))
 
         root.config(menu=menu_bar)
 
@@ -93,13 +93,12 @@ class HUD:
 
         self.commands.pack(side=TOP, fill=BOTH, expand=1)  
 
-        bg = deque([THEME[CHOICE]['secondary'], THEME[CHOICE]['primary']])
+        bg = deque([THEME[CHOICE]['primary'], THEME[CHOICE]['secondary']])
         for row in range(len(BUTTONS)):
             command_row = Frame(self.commands, bg=THEME[CHOICE]['root'])
             command_row.pack(side=TOP, fill=BOTH, expand=1)
-            bg.rotate(1)
             for button in BUTTONS[row]:
-                button = Button(command_row, text=button[0], font=('noto mono', 12), height=2, 
+                button = Button(command_row, text=button[0], font=('noto mono', 12), height=1, 
                                 command=partial(universal_callback, url=button[1]),  width=6, 
                                 relief=FLAT, overrelief=RAISED, bg=bg[0], fg=THEME[CHOICE]['fg'], 
                                 activebackground=THEME[CHOICE]['root'], activeforeground="white")
