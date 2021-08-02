@@ -10,7 +10,7 @@ from functools import partial
 from collections import deque
 
 
-CHOICE = 'great-gatsby'
+CHOICE = 'jolly'
 
 
 class HUD:
@@ -21,7 +21,7 @@ class HUD:
         self.details = Frame(self.right, height=1)
 
         self.commands = Frame(self.right, width=80,
-                                height=50, bg=THEMES[CHOICE]['root'], padx=5, pady=5)
+                                height=50, bg=THEMES[CHOICE]['root'], padx=2, pady=2)
         
         self.prompt = Text(self.left, bg=THEMES[CHOICE]['primary'], wrap=WORD, padx=20, pady=20,
                             fg=THEMES[CHOICE]['fg'], font=('noto mono', 11), width=50)
