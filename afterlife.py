@@ -60,15 +60,18 @@ class HUD:
         menu_bar.add_command(label='About', command=about)
 
         for key, values in MENUS.items():
-
             menu_item = Menu(menu_bar)
             for value in values:
                 if type(value) == list:
                     menu_item.add_command(label=value[0], command=partial(self.cmd_prompt, value[1]))
                 else:
                     menu_item.add_separator()
-
             menu_bar.add_cascade(label=key, menu=menu_item)
+
+        theme_choice = Menu(menu_bar)
+        for key in THEMES.keys():
+            theme_choice.add_command(label=key)
+        menu_bar.add_cascade(label="Themes", menu=theme_choice)
 
         menu_bar.add_command(label='Clear Prompt', command=partial(self.cmd_prompt, " "))
         menu_bar.add_command(label='Exit', command=partial(destroy, root))

@@ -89,13 +89,13 @@ THEMES = {
         "secondary": "#fffefe",
         "primary": "#dfdede",
     },
-    "vue-dark": {
+    "vue_dark": {
         "root": "#41b883",
         "fg": "#41b883",
         "secondary": "#374859",
         "primary": "#273849",
     },
-    "shades-of-purple": {
+    "shades_of_purple": {
         "root": "#fad000",
         "fg": "#b362ff",
         "secondary": "#3d3b65",
@@ -113,7 +113,7 @@ THEMES = {
         "secondary": "#363636",
         "primary": "#262626",
     },
-    "blue-green": {
+    "blue_green": {
         "root": "#d5a700",
         "fg": "#f5b700",
         "secondary": "#141f1f",
@@ -125,7 +125,7 @@ THEMES = {
         "secondary": "#151f3c",
         "primary": "#050F2C",
     },
-    "great-gatsby": {
+    "great_gatsby": {
         "root": "#ffa726",
         "fg": "#ffb74d",
         "secondary": "#202020",
@@ -143,19 +143,19 @@ THEMES = {
         "secondary": "#2f3033",
         "primary": "#1f2023",
     },
-    "solarized-dark": {
+    "solarized_dark": {
         "root": "#268bd2",
         "fg": "#b58900",
         "secondary": "#103b46",
         "primary": "#002b36",
     },
-    "solarized-light": {
+    "solarized_light": {
         "root": "#b58900",
         "fg": "#b58900",
         "secondary": "#fdf6e3",
         "primary": "#ddd6c3",
     },
-    "chartreuse-dark": {
+    "chartreuse_dark": {
         "root": "#7fff00",
         "fg": "#00AEFF",
         "secondary": "#111",
@@ -173,7 +173,7 @@ THEMES = {
         "secondary": "#1c2024",
         "primary": "#0c1014",
     },
-    "material-palenight": {
+    "material_palenight": {
         "root": "#c792ea",
         "fg": "#89ddff",
         "secondary": "#393d4e",
@@ -185,19 +185,19 @@ THEMES = {
         "secondary": "#24292e",
         "primary": "#14191e",
     },
-    "vision-friendly-dark": {
+    "vision_friendly_dark": {
         "root": "#ffb0ff",
         "fg": "#785ef0",
         "secondary": "#202020",
         "primary": "#000000",
     },
-    "ayu-mirage": {
+    "ayu_mirage": {
         "root": "#33b0af",
         "fg": "#73d0ff",
         "secondary": "#2f3440",
         "primary": "#1f2430",
     },
-    "midnight-purple": {
+    "midnight_purple": {
         "root": "#9745f5",
         "fg": "#9f4bff",
         "secondary": "#202020",
@@ -286,10 +286,10 @@ THEMES = {
 
 CHOICES = ['og_blue', 'default_repocard', 'dark', 'radical', 'merko', 
 'gruvbox', 'tokyonight', 'onedark', 'cobalt', 'synthwave', 'highcontrast', 
-'dracula', 'prussian', 'monokai', 'vue', 'vue-dark', 'shades-of-purple', 
-'nightowl', 'buefy', 'blue-green', 'algolia', 'great-gatsby', 'darcula', 
-'bear', 'solarized-dark', 'solarized-light', 'chartreuse-dark', 'nord', 
-'gotham', 'material-palenight', 'graphite', 'vision-friendly-dark', 
-'ayu-mirage', 'midnight-purple', 'calm', 'omni', 'react', 'jolly', 
+'dracula', 'prussian', 'monokai', 'vue', 'vue_dark', 'shades_of_purple', 
+'nightowl', 'buefy', 'blue_green', 'algolia', 'great_gatsby', 'darcula', 
+'bear', 'solarized_dark', 'solarized_light', 'chartreuse_dark', 'nord', 
+'gotham', 'material_palenight', 'graphite', 'vision_friendly_dark', 
+'ayu_mirage', 'midnight_purple', 'calm', 'omni', 'react', 'jolly', 
 'maroongold', 'yeblu', 'blueberry', 'slateorange', 'kacho_ga', 'ocean_dark', 
 'city_lights', 'github_dark', 'discord_old_blurple']
