@@ -70,7 +70,7 @@ class HUD:
 
         theme_choice = Menu(menu_bar)
         for key in THEMES.keys():
-            theme_choice.add_command(label=key)
+            theme_choice.add_command(label=key, partial=(self.set_theme, key))
         menu_bar.add_cascade(label="Themes", menu=theme_choice)
 
         menu_bar.add_command(label='Clear Prompt', command=partial(self.cmd_prompt, " "))
@@ -171,6 +171,8 @@ class HUD:
             self.prompt.insert(END, response)
             self.prompt.config(state=DISABLED)
 
+    def set_theme(self, theme):
+        print(theme)
 
 
 if __name__ == '__main__':
