@@ -3,11 +3,10 @@ import time, psutil, GPUtil, gc
 import subprocess as sp
 
 from tkinter import *
-from constants import *
+from helpers.constants import *
 from callbacks import *
 from functools import partial
 from collections import deque
-from tkinter import messagebox
 
 
 CHOICE = 'dark_blue'
