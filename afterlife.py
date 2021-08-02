@@ -97,6 +97,8 @@ class HUD:
         self.commands.pack(side=TOP, fill=BOTH, expand=1)  
 
         bg = deque([THEMES[CHOICE]['primary'], THEMES[CHOICE]['secondary']])
+        self.action_items = []
+
         for row in range(len(BUTTONS)):
             command_row = Frame(self.commands, bg=THEMES[CHOICE]['root'])
             command_row.pack(side=TOP, fill=BOTH, expand=1)
@@ -106,6 +108,7 @@ class HUD:
                                 relief=FLAT, overrelief=RAISED, bg=bg[0], fg=THEMES[CHOICE]['fg'], 
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
 
+                self.action_items.append(button)
                 bg.rotate(1)
                 button.pack(side=LEFT, fill=BOTH, expand=1)
         
@@ -181,6 +184,12 @@ class HUD:
         self.agenda.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
         self.network.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
         self.system.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
+
+        colors = deque([THEMES[theme]['primary'], THEMES[theme]['secondary']])
+
+        for button in self.action_items:
+            button.config(bg=colors[0], fg=THEMES[theme]['fg'])
+            colors.rotate(1)
 
 
 
