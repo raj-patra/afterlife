@@ -69,8 +69,12 @@ class HUD:
             menu_bar.add_cascade(label=key, menu=menu_item)
 
         theme_choice = Menu(menu_bar)
-        for key in THEMES.keys():
-            theme_choice.add_command(label=key, command=partial(self.set_theme, key))
+        for category, themes in THEME_TYPES.items():
+            theme_category = Menu(theme_choice)
+            for theme in themes:
+                theme_category.add_command(label=theme, command=partial(self.set_theme, theme))
+            theme_choice.add_cascade(label=category, menu=theme_category)
+
         menu_bar.add_cascade(label="Themes", menu=theme_choice)
 
         menu_bar.add_command(label='Clear Prompt', command=partial(self.cmd_prompt, " "))
