@@ -10,7 +10,7 @@ from functools import partial
 from collections import deque
 
 
-CHOICE = 'og_blue'
+CHOICE = 'great-gatsby'
 
 
 class HUD:
