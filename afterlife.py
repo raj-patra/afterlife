@@ -70,7 +70,7 @@ class HUD:
 
         theme_choice = Menu(menu_bar)
         for key in THEMES.keys():
-            theme_choice.add_command(label=key, partial=(self.set_theme, key))
+            theme_choice.add_command(label=key, command=partial(self.set_theme, key))
         menu_bar.add_cascade(label="Themes", menu=theme_choice)
 
         menu_bar.add_command(label='Clear Prompt', command=partial(self.cmd_prompt, " "))
@@ -172,7 +172,16 @@ class HUD:
             self.prompt.config(state=DISABLED)
 
     def set_theme(self, theme):
-        print(theme)
+        root.config(bg=THEMES[theme]['root'])
+
+        self.prompt.config(bg=THEMES[theme]['primary'], fg=THEMES[theme]['fg'])
+        self.clock.config(bg=THEMES[theme]['primary'], fg=THEMES[theme]['fg'])
+        
+        self.welcome.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
+        self.agenda.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
+        self.network.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
+        self.system.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
+
 
 
 if __name__ == '__main__':
