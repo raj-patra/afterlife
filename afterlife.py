@@ -4,12 +4,13 @@ import subprocess as sp
 
 from tkinter import *
 from helpers.constants import *
+from helpers.themes import *
 from callbacks import *
 from functools import partial
 from collections import deque
 
 
-CHOICE = 'dark_blue'
+CHOICE = 'og_blue'
 
 
 class HUD:
@@ -20,32 +21,32 @@ class HUD:
         self.details = Frame(self.right, height=1)
 
         self.commands = Frame(self.right, width=80,
-                                height=50, bg=THEME[CHOICE]['root'], padx=5, pady=5)
+                                height=50, bg=THEMES[CHOICE]['root'], padx=5, pady=5)
         
-        self.prompt = Text(self.left, bg=THEME[CHOICE]['primary'], wrap=WORD, padx=20, pady=20,
-                            fg=THEME[CHOICE]['fg'], font=('noto mono', 11), width=50)
+        self.prompt = Text(self.left, bg=THEMES[CHOICE]['primary'], wrap=WORD, padx=20, pady=20,
+                            fg=THEMES[CHOICE]['fg'], font=('noto mono', 11), width=50)
 
-        self.welcome = Text(self.intro, bg=THEME[CHOICE]['secondary'], 
-                            fg=THEME[CHOICE]['fg'], width=25, height=2, 
+        self.welcome = Text(self.intro, bg=THEMES[CHOICE]['secondary'], 
+                            fg=THEMES[CHOICE]['fg'], width=25, height=2, 
                             font=('noto mono', 13, 'bold'), padx=20, 
                             pady=20, wrap=WORD)
 
-        self.agenda = Text(self.intro, bg=THEME[CHOICE]['secondary'], 
-                            fg=THEME[CHOICE]['fg'], width=25, height=2, 
+        self.agenda = Text(self.intro, bg=THEMES[CHOICE]['secondary'], 
+                            fg=THEMES[CHOICE]['fg'], width=25, height=2, 
                             font=('noto mono', 13, 'bold'), wrap=WORD, 
                             insertbackground="white", padx=20, pady=20)
 
         
-        self.clock = Label(self.right, bg=THEME[CHOICE]['primary'], relief=GROOVE,
-                            fg=THEME[CHOICE]['fg'], height=2, width=20, 
+        self.clock = Label(self.right, bg=THEMES[CHOICE]['primary'], relief=GROOVE,
+                            fg=THEMES[CHOICE]['fg'], height=2, width=20, 
                             font=('cursed timer ulil', 18, 'bold'))
 
-        self.network = Text(self.details, bg=THEME[CHOICE]['secondary'], 
-                            fg=THEME[CHOICE]['fg'], height=5, width=29, 
+        self.network = Text(self.details, bg=THEMES[CHOICE]['secondary'], 
+                            fg=THEMES[CHOICE]['fg'], height=5, width=29, 
                             font=('noto mono', 12), padx=20)
 
-        self.system = Text(self.details, bg=THEME[CHOICE]['secondary'], 
-                        fg=THEME[CHOICE]['fg'], height=5, width=31, 
+        self.system = Text(self.details, bg=THEMES[CHOICE]['secondary'], 
+                        fg=THEMES[CHOICE]['fg'], height=5, width=31, 
                         font=('noto mono', 12), padx=20)
 
         self.prompt_blocked = 0
@@ -92,15 +93,15 @@ class HUD:
 
         self.commands.pack(side=TOP, fill=BOTH, expand=1)  
 
-        bg = deque([THEME[CHOICE]['primary'], THEME[CHOICE]['secondary']])
+        bg = deque([THEMES[CHOICE]['primary'], THEMES[CHOICE]['secondary']])
         for row in range(len(BUTTONS)):
-            command_row = Frame(self.commands, bg=THEME[CHOICE]['root'])
+            command_row = Frame(self.commands, bg=THEMES[CHOICE]['root'])
             command_row.pack(side=TOP, fill=BOTH, expand=1)
             for button in BUTTONS[row]:
                 button = Button(command_row, text=button[0], font=('noto mono', 12), height=1, 
                                 command=partial(universal_callback, url=button[1]),  width=6, 
-                                relief=FLAT, overrelief=RAISED, bg=bg[0], fg=THEME[CHOICE]['fg'], 
-                                activebackground=THEME[CHOICE]['root'], activeforeground="white")
+                                relief=FLAT, overrelief=RAISED, bg=bg[0], fg=THEMES[CHOICE]['fg'], 
+                                activebackground=THEMES[CHOICE]['root'], activeforeground="white")
 
                 bg.rotate(1)
                 button.pack(side=LEFT, fill=BOTH, expand=1)
@@ -173,7 +174,7 @@ if __name__ == '__main__':
     gc.enable()
 
     root = Tk()
-    root.config(bg=THEME[CHOICE]['root'], bd=5)
+    root.config(bg=THEMES[CHOICE]['root'], bd=5)
     root.resizable(1, 1)
     root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
     root.title("Afterlife")
