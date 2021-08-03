@@ -42,11 +42,11 @@ class HUD:
                             font=('cursed timer ulil', 18, 'bold'))
 
         self.network = Text(self.details, bg=THEMES[CHOICE]['secondary'], 
-                            fg=THEMES[CHOICE]['fg'], height=5, width=29, 
+                            fg=THEMES[CHOICE]['fg'], height=5, width=28, 
                             font=('noto mono', 12), padx=20)
 
         self.system = Text(self.details, bg=THEMES[CHOICE]['secondary'], 
-                        fg=THEMES[CHOICE]['fg'], height=5, width=31, 
+                        fg=THEMES[CHOICE]['fg'], height=5, width=32, 
                         font=('noto mono', 12), padx=20)
 
         self.prompt_blocked = 0
