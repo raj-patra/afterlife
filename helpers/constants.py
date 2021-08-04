@@ -122,7 +122,7 @@ Default Gateway: 192.168.0.0/1
 ABOUT = """
 Afterlife is a minimalistic HUD.
 
-It brings all the important functions of Windows to the fingertips of its users and helps them connect to the internet faster.
+It brings all the important functions/commands of Windows to the fingertips of its users and helps them connect to the internet faster.
 
 Made with ♥ by a_ignorant_mortal
 """.strip()

@@ -69,8 +69,12 @@ class HUD:
             menu_bar.add_cascade(label=key, menu=menu_item)
 
         theme_choice = Menu(menu_bar)
+        theme_choice.add_command(label="Random Theme", command=self.set_theme)
+        theme_choice.add_separator()
+
         for category, themes in THEME_TYPES.items():
             theme_category = Menu(theme_choice)
+
             for theme in themes:
                 theme_category.add_command(label=theme, command=partial(self.set_theme, theme))
             theme_choice.add_cascade(label=category, menu=theme_category)
@@ -178,7 +182,10 @@ class HUD:
             self.prompt.insert(END, response)
             self.prompt.config(state=DISABLED)
 
-    def set_theme(self, theme):
+    def set_theme(self, theme=None):
+        if theme == None:
+            theme = random.choice(list(THEMES.keys()))
+
         root.config(bg=THEMES[theme]['root'])
 
         self.prompt.config(bg=THEMES[theme]['primary'], fg=THEMES[theme]['fg'])
