@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import time, psutil, GPUtil, gc
+import time, psutil, GPUtil, gc, random
 import subprocess as sp
 
 from tkinter import *
@@ -10,7 +10,7 @@ from functools import partial
 from collections import deque
 
 
-CHOICE = 'og_blue'
+CHOICE = random.choice(list(THEMES.keys()))
 
 
 class HUD:
@@ -189,6 +189,7 @@ class HUD:
         self.network.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
         self.system.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
 
+        self.commands.config(bg=THEMES[theme]['root'])
         colors = deque([THEMES[theme]['primary'], THEMES[theme]['secondary']])
 
         for button in self.action_items:

@@ -4,9 +4,9 @@ import subprocess as sp
 BUTTONS = {
 
     0: [['All Apps', 'start explorer.exe Shell:::{4234d49b-0245-4df3-b780-3893943456e1}'], 
-        ["Root Folder", "start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"],
-        ["Run", "start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"],
-        ["Task Manager", "start taskmgr"], ["Control Panel", "start control"]],
+        ["Root\nFolder", "start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"],
+        ["Task\nManager", "start taskmgr"], ["Control\nPanel", "start control"],
+        ["Run", "start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"]],
 
     1: [['Google', 'google.com'], ['Gmail', 'mail.google.com'], ['Youtube', 'youtube.com'], 
         ['Maps', 'maps.google.com'], ['Keep', 'keep.google.com']],
@@ -20,8 +20,8 @@ BUTTONS = {
     4: [['Spotify', 'open.spotify.com'], ['Tumblr', 'tumblr.com'], ['Linkedin', 'linkedin.com'], 
         ['Pinterest', 'pinterest.com'], ['Facebook', "facebook.com"]],
 
-    5: [['PDF Tools', 'smallpdf.com/pdf-tools'], ['Utilities', '123apps.com'], ['Cloud Convert', 'cloudconvert.com'], 
-        ['Net Speed', 'openspeedtest.com/?ref=OST-Results'], ['Genesis', "libgen.rs/index.php"]],
+    5: [['Cloud\nConvert', 'cloudconvert.com'], ['PDF\nTools', 'smallpdf.com/pdf-tools'], ['Utilities', '123apps.com'],  
+        ['Net\nSpeed', 'openspeedtest.com/?ref=OST-Results'], ['Library\nGenesis', "libgen.rs/index.php"]],
 
 }
 
