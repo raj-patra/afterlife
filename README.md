@@ -2,7 +2,7 @@
 
 Afterlife is a minimalistic HUD.
 
-It brings all the important functions of Windows to the fingertips of its users and helps them connect to the internet faster.
+It brings all the important functions/commands of Windows to its users and helps them work effortlessly.
 
 ### Usage
 ```
