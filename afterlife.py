@@ -213,6 +213,7 @@ if __name__ == '__main__':
     root.resizable(1, 1)
     root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
     root.title("Afterlife")
+    root.iconbitmap('static/hud.ico')
 
     start = time.time()
     update = time.time()
