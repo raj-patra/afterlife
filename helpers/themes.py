@@ -17,7 +17,7 @@ THEMES = {
         "secondary": "#fdf6e3",
         "primary": "#ddd6c3",
     },
-    "---":"---",
+
 
     "buefy": {
         "root": "#ef2850",
@@ -145,7 +145,7 @@ THEMES = {
         "secondary": "#3c3f43",
         "primary": "#2C2F33",
     },
-    "---":"---", 
+
 
     "og_blue": {
         "root": "#445469",

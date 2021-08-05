@@ -9,7 +9,6 @@ from callbacks import *
 from functools import partial
 from collections import deque
 
-
 CHOICE = random.choice(list(THEMES.keys()))
 
 
@@ -48,8 +47,6 @@ class HUD:
         self.system = Text(self.details, bg=THEMES[CHOICE]['secondary'], 
                         fg=THEMES[CHOICE]['fg'], height=5, width=32, 
                         font=('noto mono', 12), padx=20)
-
-        self.prompt_blocked = 0
 
         self.render_menu()
         self.render_widgets()
@@ -171,13 +168,9 @@ class HUD:
         if command.startswith('start'):
             os.system("{}".format(command))
         else:
-            self.prompt_blocked = 1
-
             process = command.split(' ', 1)[-1]
-
             response = sp.getoutput(process)
 
-            self.prompt.config(state=NORMAL)
             self.prompt.delete('1.0', END)
             self.prompt.insert(END, response)
             self.prompt.config(state=DISABLED)
