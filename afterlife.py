@@ -1,6 +1,5 @@
 #!/usr/bin/python
-import time, psutil, GPUtil, gc, random, requests
-import subprocess as sp
+import time, psutil, GPUtil, gc, random
 
 from tkinter import *
 from helpers.constants import *
@@ -143,7 +142,7 @@ class HUD:
         
         def loop():
         
-            global start, update
+            global update
             
             if (time.time()-update) > 60:
                 update = time.time()
@@ -219,7 +218,6 @@ if __name__ == '__main__':
     root.title("Afterlife")
     root.iconbitmap('static/hud.ico')
 
-    start = time.time()
     update = time.time()
 
     hud = HUD()

@@ -17,7 +17,7 @@ BUTTONS = {
     3: [['Cloud\nConvert', 'url www.cloudconvert.com'], ['PDF\nTools', 'url www.smallpdf.com/pdf-tools'], ['Utilities', 'url www.123apps.com'],  
         ['Net\nSpeed', 'url openspeedtest.com/?ref=OST-Results'], ['Library\nGenesis', "url libgen.rs/index.php"]],
 
-    4: [['Spotify', 'url open.spotify.com'], ['Bored\nButton', 'url www.boredbutton.com/random'], ['An Article?', 'url www.readsomethinggreat.com'], 
+    4: [['Spotify', 'url open.spotify.com'], ['An Article?', 'url www.readsomethinggreat.com'], ['Bored\nButton', 'url www.boredbutton.com/random'],
         ['Telegram', 'url web.telegram.org'], ['Whatsapp', 'url web.whatsapp.com']],
 
     5: [['Daily\nQuote', 'request quote'], ['Did you\nknow?', 'request fact'], ['Poem', 'request poem'],
