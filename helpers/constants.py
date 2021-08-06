@@ -8,20 +8,20 @@ BUTTONS = {
         ["Task\nManager", "start taskmgr"], ["Control\nPanel", "start control"],
         ["Run", "start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"]],
 
-    1: [['Google', 'google.com'], ['Gmail', 'mail.google.com'], ['Youtube', 'youtube.com'], 
-        ['Maps', 'maps.google.com'], ['Keep', 'keep.google.com']],
+    1: [['Google', 'url www.google.com'], ['Gmail', 'url mail.google.com'], ['Youtube', 'url www.youtube.com'], 
+        ['Maps', 'url maps.google.com'], ['Keep', 'url keep.google.com']],
 
-    2: [['Docs', 'docs.new'], ['Sheets', 'sheets.new'], ['Slides', 'slides.new'], ["Notepad", "start notepad"], 
+    2: [['Docs', 'url docs.new'], ['Sheets', 'url sheets.new'], ['Slides', 'url slides.new'], ["Notepad", "start notepad"], 
         ["Sticky Notes", "start explorer.exe shell:appsFolder\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe!App"]],
+    
+    3: [['Cloud\nConvert', 'url www.cloudconvert.com'], ['PDF\nTools', 'url www.smallpdf.com/pdf-tools'], ['Utilities', 'url www.123apps.com'],  
+        ['Net\nSpeed', 'url openspeedtest.com/?ref=OST-Results'], ['Library\nGenesis', "url libgen.rs/index.php"]],
 
-    3: [['Instagram', 'instagram.com'], ['Reddit', 'reddit.com'], ['Twitter', 'twitter.com'], 
-        ['Telegram', 'web.telegram.org'], ['Whatsapp', 'web.whatsapp.com']],
+    4: [['Spotify', 'url open.spotify.com'], ['Bored\nButton', 'url www.boredbutton.com/random'], ['An Article?', 'url www.readsomethinggreat.com'], 
+        ['Telegram', 'url web.telegram.org'], ['Whatsapp', 'url web.whatsapp.com']],
 
-    4: [['Spotify', 'open.spotify.com'], ['Tumblr', 'tumblr.com'], ['Linkedin', 'linkedin.com'], 
-        ['Pinterest', 'pinterest.com'], ['Facebook', "facebook.com"]],
-
-    5: [['Cloud\nConvert', 'cloudconvert.com'], ['PDF\nTools', 'smallpdf.com/pdf-tools'], ['Utilities', '123apps.com'],  
-        ['Net\nSpeed', 'openspeedtest.com/?ref=OST-Results'], ['Library\nGenesis', "libgen.rs/index.php"]],
+    5: [['Daily\nQuote', 'request quote'], ['Poem', 'request poem'], ['Did you\nknow?', 'request fact'], 
+        ['Shakespeare', 'request shakespeare'], ['Rare\nInsult', 'request insult']],
 
 }
 
@@ -40,7 +40,7 @@ MENUS = {
                 ["Python", " start python"],
                 ["Node", " start node"]],
 
-    "Network": [["Ping", "subprocess ping google.com"], 
+    "Network": [["Ping", "subprocess ping www.google.com"], 
                 ["List DNS Servers", "subprocess ipconfig /displaydns"], 
                 ["Initiate DNS Flush", "subprocess ipconfig /flushdns"], 
                 ["IP Configurations", "subprocess ipconfig /allcompartments /all"]],
@@ -55,9 +55,9 @@ MENUS = {
                 ["Environment Variables", "subprocess set"], 
                 ["Available Drivers", "subprocess driverquery"]],
 
-    "Socials":  [['Facebook', "facebook.com"], ['Instagram', 'instagram.com'], ['Reddit', 'reddit.com'], ['Twitter', 'twitter.com'], "---",
-                ['Telegram', 'web.telegram.org'], ['Whatsapp', 'web.whatsapp.com'], "---",
-                ['Tumblr', 'tumblr.com'], ['Pinterest', 'pinterest.com'], ['Linkedin', 'linkedin.com']],
+    "Socials":  [['Facebook', "url www.facebook.com"], ['Instagram', 'url www.instagram.com'], ['Reddit', 'url www.reddit.com'], ['Twitter', 'url www.twitter.com'], "---",
+                ['Telegram', 'url web.telegram.org'], ['Whatsapp', 'url web.whatsapp.com'], ["Discord", "www.discord.com/app"], ["Slack", "url www.slack.com"], "---",
+                ['Tumblr', 'url www.tumblr.com'], ['Pinterest', 'url www.pinterest.com'], ['Linkedin', 'url www.linkedin.com']],
 }
 
 NOUNS = [
@@ -80,7 +80,15 @@ ADJECTIVES = [
     'thoughtful', 'thoughtless', 'tired', 'smoggy', 'sore', 'sparkling', 'splendid', 'spotless', 'stormy', 'strange', 'stupid', 'successful', 'super ', 'svelte', 'wild', 'witty', 'worried', 'worrisome', 'wrong', 'zany', 'zealous', 'tough', 'troubled', 'ugliest', 'ugly', 'uninterested', 'unsightly', 'unusual', 'upset',
     'uptight', 'useful']
 
+# ----------------------------------------------------------------------------------
+
 QUOTE_API = "https://api.quotable.io/random"
+INSULT_API = "https://evilinsult.com/generate_insult.php?lang=en&type=json"
+FACTS_API = "https://uselessfacts.jsph.pl//random.json?language=en"
+POEMS_API = "https://www.poemist.com/api/v1/randompoems"
+SHAKE_API = "http://shakespeare-quotes-gen.herokuapp.com/api/v1/quotes/single"
+
+# ----------------------------------------------------------------------------------
 
 PUB_IP = requests.get('https://ident.me').text
 PRI_IP = socket.gethostbyname(socket.gethostname())
@@ -90,6 +98,8 @@ USER = sp.getoutput("whoami")
 
 DISK = sp.getoutput("wmic logicaldisk get size,freespace,caption").replace("\n\n", "\n")
 
+# ----------------------------------------------------------------------------------
+
 WELCOME = """
 Hey there, {}
 I hope you are having a good day.
@@ -97,6 +107,8 @@ I hope you are having a good day.
 .
 Just remember, wherever you go, leave your mark behind.
 Have fun.""".format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]))
+
+# ----------------------------------------------------------------------------------
 
 SYSTEM = """
 CPU Usage: {} %
@@ -108,6 +120,8 @@ Battery: {} % {}
 ------------------------------------
 
 """+DISK
+
+# ----------------------------------------------------------------------------------
 
 NETWORK = """
 Host Name: {}
@@ -122,6 +136,8 @@ MAC Address: {}
 
 Default Gateway: 192.168.0.0/1
 """.format(HOST, USER, PUB_IP, PRI_IP, MAC)
+
+# ----------------------------------------------------------------------------------
 
 ABOUT = """
 Afterlife is a minimalistic HUD.

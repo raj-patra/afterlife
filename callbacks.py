@@ -1,4 +1,4 @@
-import  os, webbrowser
+import  os, webbrowser, requests
 
 from tkinter import messagebox
 from helpers.constants import *
@@ -9,12 +9,19 @@ webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
 edge_path = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edge_path))
 
-def universal_callback(url=None):
+def universal_callback(command=None, url=None):
+    if command:
+        if command.startswith('start'):
+            os.system("{}".format(command))
+
+        if command.startswith('subprocess'):
+            process = command.split(' ', 1)[-1]
+            response = sp.getoutput(process)
+            return response
+    
     if url:
-        if ' ' in url:
-            os.system("{}".format(url))
-        else:
-            webbrowser.get('edge').open(url)
+        url = url.split(' ', 1)[-1]
+        webbrowser.get('edge').open(url)
 
 def about():
     messagebox.showinfo('About', ABOUT)

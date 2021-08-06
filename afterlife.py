@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import time, psutil, GPUtil, gc, random
+import time, psutil, GPUtil, gc, random, requests
 import subprocess as sp
 
 from tkinter import *
@@ -60,7 +60,7 @@ class HUD:
             menu_item = Menu(menu_bar, tearoff=0)
             for value in values:
                 if type(value) == list:
-                    menu_item.add_command(label=value[0], command=partial(self.cmd_prompt, value[1]))
+                    menu_item.add_command(label=value[0], command=partial(self.callback, value[1]))
                 else:
                     menu_item.add_separator()
             menu_bar.add_cascade(label=key, menu=menu_item)
@@ -78,7 +78,7 @@ class HUD:
 
         menu_bar.add_cascade(label="Themes", menu=theme_choice)
 
-        menu_bar.add_command(label='Clear Prompt', command=partial(self.cmd_prompt, " "))
+        menu_bar.add_command(label='Clear Prompt', command=partial(self.callback, " "))
         menu_bar.add_command(label='Exit', command=partial(destroy, root))
 
         root.config(menu=menu_bar)
@@ -109,7 +109,7 @@ class HUD:
             command_row.pack(side=TOP, fill=BOTH, expand=1)
             for button in BUTTONS[row]:
                 button = Button(command_row, text=button[0], font=('noto mono', 12), height=1, 
-                                command=partial(universal_callback, url=button[1]),  width=6, 
+                                command=partial(self.callback, command=button[1]),  width=6, 
                                 relief=FLAT, overrelief=RAISED, bg=bg[0], fg=THEMES[CHOICE]['fg'], 
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
 
@@ -127,7 +127,7 @@ class HUD:
         self.network.insert(END, NETWORK)
         self.network.config(state=DISABLED)
 
-        self.cmd_prompt("subprocess systeminfo")
+        self.callback("subprocess systeminfo")
 
         cpu = psutil.cpu_percent()
         ram = psutil.virtual_memory()[2]
@@ -159,24 +159,52 @@ class HUD:
                                                 battery.percent, "(Charging)" if battery.power_plugged else " "))
             self.system.config(state=DISABLED)
             
-            self.prompt.after(5000, loop)
+            self.system.after(5000, loop)
 
         loop()
 
-    def cmd_prompt(self, command):
+    def callback(self, command):
+        self.prompt.config(state=NORMAL)
+        
+        if command.startswith('start'):
+            universal_callback(command=command)
 
-        if ' ' in command:
-            if command.startswith('start'):
-                os.system("{}".format(command))
-            else:
-                process = command.split(' ', 1)[-1]
-                response = sp.getoutput(process)
+        elif command.startswith('url'):
+            universal_callback(url=command)
 
-                self.prompt.delete('1.0', END)
-                self.prompt.insert(END, response)
-                self.prompt.config(state=DISABLED)
-        else:
-            universal_callback(command)
+        elif command.startswith('request'):
+            url = command.split(' ', 1)[-1]
+
+            if url == 'quote':
+                response = requests.get(QUOTE_API).json()
+                caption = "{} \n\n- {}".format(response['content'], response['author'])
+
+            if url == 'fact':
+                response = requests.get(FACTS_API).json()
+                caption = "Did you know, \n\n{}".format(response['text'])
+
+            if url == 'poem':
+                response = random.choice(requests.get(POEMS_API).json())
+                caption = "{} \n\n{} \n\nBy {}".format(response['title'], response['content'], response['poet']['name'])
+
+            if url == 'insult':
+                response = requests.get(INSULT_API).json()
+                caption = "{}".format(response['insult'])
+
+            if url == 'shake':
+                response = requests.get(SHAKE_API).json()
+                caption = "{} \n\n{}\n#{}".format(response['quote']['quote'], response["quote"]["play"], response["quote"]["theme"])
+
+            self.prompt.insert(END, caption)
+
+        elif command.startswith('subprocess'):
+            self.prompt.delete('1.0', END)
+            response = universal_callback(command=command)
+            self.prompt.insert(END, response)
+            
+        
+
+        self.prompt.config(state=DISABLED)
 
     def set_theme(self, theme=None):
         if theme == None:
