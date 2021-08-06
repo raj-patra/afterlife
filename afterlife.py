@@ -78,7 +78,7 @@ class HUD:
 
         menu_bar.add_cascade(label="Themes", menu=theme_choice)
 
-        menu_bar.add_command(label='Clear Prompt', command=partial(self.callback, " "))
+        menu_bar.add_command(label='Clear Prompt', command=partial(self.callback, "clear"))
         menu_bar.add_command(label='Exit', command=partial(destroy, root))
 
         root.config(menu=menu_bar)
@@ -178,8 +178,12 @@ class HUD:
             universal_callback(http=command)
 
         elif command.startswith('request'):
+            self.prompt.delete('1.0', END)
             response = universal_callback(http=command)
             self.prompt.insert(END, response)
+        
+        else:
+            self.prompt.delete('1.0', END)
 
         self.prompt.config(state=DISABLED)
 
@@ -201,9 +205,8 @@ class HUD:
         colors = deque([THEMES[theme]['primary'], THEMES[theme]['secondary']])
 
         for button in self.action_items:
-            button.config(bg=colors[0], fg=THEMES[theme]['fg'])
+            button.config(bg=colors[0], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
             colors.rotate(1)
-
 
 
 if __name__ == '__main__':

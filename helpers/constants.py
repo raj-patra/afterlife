@@ -20,8 +20,8 @@ BUTTONS = {
     4: [['Spotify', 'url open.spotify.com'], ['Bored\nButton', 'url www.boredbutton.com/random'], ['An Article?', 'url www.readsomethinggreat.com'], 
         ['Telegram', 'url web.telegram.org'], ['Whatsapp', 'url web.whatsapp.com']],
 
-    5: [['Daily\nQuote', 'request quote'], ['Poem', 'request poem'], ['Did you\nknow?', 'request fact'], 
-        ['Shakespeare', 'request shakespeare'], ['Rare\nInsult', 'request insult']],
+    5: [['Daily\nQuote', 'request quote'], ['Did you\nknow?', 'request fact'], ['Poem', 'request poem'],
+        ['Kanye\nREST', 'request kanye'], ['Rare\nInsult', 'request insult']],
 
 }
 
@@ -86,7 +86,7 @@ QUOTE_API = "https://api.quotable.io/random"
 INSULT_API = "https://evilinsult.com/generate_insult.php?lang=en&type=json"
 FACTS_API = "https://uselessfacts.jsph.pl//random.json?language=en"
 POEMS_API = "https://www.poemist.com/api/v1/randompoems"
-SHAKE_API = "http://shakespeare-quotes-gen.herokuapp.com/api/v1/quotes/single"
+KANYE_API = "https://api.kanye.rest/"
 
 # ----------------------------------------------------------------------------------
 

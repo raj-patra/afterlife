@@ -177,7 +177,7 @@ THEMES = {
         "secondary": "#2a2b37",
         "primary": "#1a1b27",
     },   
-    "highcontrast": {
+    "cyberpunk": {
         "root": "#e7f216",
         "fg": "#00ffff",
         "secondary": "#111",
@@ -288,7 +288,7 @@ THEME_TYPES = { "Light Themes": ['default_repocard', 'vue', 'solarized_light'],
                                         'nord', 'material_palenight', 'ayu_mirage', 'react', 'calm', 'blueberry', 
                                         'slateorange', 'jolly', 'discord_old_blurple'],
                 
-                "High Contrast Themes": ['og_blue', 'dark', 'radical', 'merko', 'tokyonight', 'highcontrast', 
+                "High Contrast Themes": ['og_blue', 'dark', 'radical', 'merko', 'tokyonight', 'cyberpunk', 
                                         'prussian', 'nightowl', 'blue_green', 'algolia', 'great_gatsby', 'chartreuse_dark', 
                                         'gotham', 'graphite', 'vision_friendly_dark', 'omni', 
                                         'maroongold', 'yeblu', 'kacho_ga', 'ocean_dark', 'city_lights', 'github_dark']

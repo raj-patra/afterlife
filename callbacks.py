@@ -43,9 +43,9 @@ def universal_callback(command=None, http=None):
                 response = requests.get(INSULT_API).json()
                 return "{}".format(response['insult'])
 
-            if url == 'shake':
-                response = requests.get(SHAKE_API).json()
-                return "{} \n\n{}\n#{}".format(response['quote']['quote'], response["quote"]["play"], response["quote"]["theme"])
+            if url == 'kanye':
+                response = requests.get(KANYE_API).json()
+                return "Kanye REST once said, \n\n*{}*".format(response['quote'])
 
 def about():
     messagebox.showinfo('About', ABOUT)
