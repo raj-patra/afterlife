@@ -168,41 +168,18 @@ class HUD:
         
         if command.startswith('start'):
             universal_callback(command=command)
-
-        elif command.startswith('url'):
-            universal_callback(url=command)
-
-        elif command.startswith('request'):
-            url = command.split(' ', 1)[-1]
-
-            if url == 'quote':
-                response = requests.get(QUOTE_API).json()
-                caption = "{} \n\n- {}".format(response['content'], response['author'])
-
-            if url == 'fact':
-                response = requests.get(FACTS_API).json()
-                caption = "Did you know, \n\n{}".format(response['text'])
-
-            if url == 'poem':
-                response = random.choice(requests.get(POEMS_API).json())
-                caption = "{} \n\n{} \n\nBy {}".format(response['title'], response['content'], response['poet']['name'])
-
-            if url == 'insult':
-                response = requests.get(INSULT_API).json()
-                caption = "{}".format(response['insult'])
-
-            if url == 'shake':
-                response = requests.get(SHAKE_API).json()
-                caption = "{} \n\n{}\n#{}".format(response['quote']['quote'], response["quote"]["play"], response["quote"]["theme"])
-
-            self.prompt.insert(END, caption)
-
+        
         elif command.startswith('subprocess'):
             self.prompt.delete('1.0', END)
             response = universal_callback(command=command)
             self.prompt.insert(END, response)
-            
-        
+
+        elif command.startswith('url'):
+            universal_callback(http=command)
+
+        elif command.startswith('request'):
+            response = universal_callback(http=command)
+            self.prompt.insert(END, response)
 
         self.prompt.config(state=DISABLED)
 

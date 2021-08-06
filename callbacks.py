@@ -9,7 +9,7 @@ webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
 edge_path = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edge_path))
 
-def universal_callback(command=None, url=None):
+def universal_callback(command=None, http=None):
     if command:
         if command.startswith('start'):
             os.system("{}".format(command))
@@ -19,9 +19,33 @@ def universal_callback(command=None, url=None):
             response = sp.getoutput(process)
             return response
     
-    if url:
-        url = url.split(' ', 1)[-1]
-        webbrowser.get('edge').open(url)
+    if http:
+        if http.startswith('url'):
+            http = http.split(' ', 1)[-1]
+            webbrowser.get('edge').open(http)
+        
+        if http.startswith('request'):
+            url = http.split(' ', 1)[-1]
+
+            if url == 'quote':
+                response = requests.get(QUOTE_API).json()
+                return "{} \n\n- {}".format(response['content'], response['author'])
+
+            if url == 'fact':
+                response = requests.get(FACTS_API).json()
+                return "Did you know, \n\n{}".format(response['text'])
+
+            if url == 'poem':
+                response = random.choice(requests.get(POEMS_API).json())
+                return "{} \n\n{} \n\nBy {}".format(response['title'], response['content'], response['poet']['name'])
+
+            if url == 'insult':
+                response = requests.get(INSULT_API).json()
+                return "{}".format(response['insult'])
+
+            if url == 'shake':
+                response = requests.get(SHAKE_API).json()
+                return "{} \n\n{}\n#{}".format(response['quote']['quote'], response["quote"]["play"], response["quote"]["theme"])
 
 def about():
     messagebox.showinfo('About', ABOUT)
