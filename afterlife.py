@@ -53,11 +53,11 @@ class HUD:
         self.start_widgets()
     
     def render_menu(self):
-        menu_bar = Menu(root)
+        menu_bar = Menu(root, tearoff=0)
         menu_bar.add_command(label='About', command=about)
 
         for key, values in MENUS.items():
-            menu_item = Menu(menu_bar)
+            menu_item = Menu(menu_bar, tearoff=0)
             for value in values:
                 if type(value) == list:
                     menu_item.add_command(label=value[0], command=partial(self.cmd_prompt, value[1]))
@@ -65,12 +65,12 @@ class HUD:
                     menu_item.add_separator()
             menu_bar.add_cascade(label=key, menu=menu_item)
 
-        theme_choice = Menu(menu_bar)
+        theme_choice = Menu(menu_bar, tearoff=0)
         theme_choice.add_command(label="Random Theme", command=self.set_theme)
         theme_choice.add_separator()
 
         for category, themes in THEME_TYPES.items():
-            theme_category = Menu(theme_choice)
+            theme_category = Menu(theme_choice, tearoff=0)
 
             for theme in themes:
                 theme_category.add_command(label=theme, command=partial(self.set_theme, theme))
@@ -165,15 +165,18 @@ class HUD:
 
     def cmd_prompt(self, command):
 
-        if command.startswith('start'):
-            os.system("{}".format(command))
-        else:
-            process = command.split(' ', 1)[-1]
-            response = sp.getoutput(process)
+        if ' ' in command:
+            if command.startswith('start'):
+                os.system("{}".format(command))
+            else:
+                process = command.split(' ', 1)[-1]
+                response = sp.getoutput(process)
 
-            self.prompt.delete('1.0', END)
-            self.prompt.insert(END, response)
-            self.prompt.config(state=DISABLED)
+                self.prompt.delete('1.0', END)
+                self.prompt.insert(END, response)
+                self.prompt.config(state=DISABLED)
+        else:
+            universal_callback(command)
 
     def set_theme(self, theme=None):
         if theme == None:

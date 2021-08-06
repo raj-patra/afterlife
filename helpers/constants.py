@@ -53,7 +53,11 @@ MENUS = {
                 ["System Info", "subprocess systeminfo"], 
                 ["Running Processes", "subprocess tasklist"], 
                 ["Environment Variables", "subprocess set"], 
-                ["Available Drivers", "subprocess driverquery"]]
+                ["Available Drivers", "subprocess driverquery"]],
+
+    "Socials":  [['Facebook', "facebook.com"], ['Instagram', 'instagram.com'], ['Reddit', 'reddit.com'], ['Twitter', 'twitter.com'], "---",
+                ['Telegram', 'web.telegram.org'], ['Whatsapp', 'web.whatsapp.com'], "---",
+                ['Tumblr', 'tumblr.com'], ['Pinterest', 'pinterest.com'], ['Linkedin', 'linkedin.com']],
 }
 
 NOUNS = [
