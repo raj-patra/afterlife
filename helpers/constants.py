@@ -17,21 +17,24 @@ BUTTONS = {
     3: [['Cloud\nConvert', 'url www.cloudconvert.com'], ['PDF\nTools', 'url www.smallpdf.com/pdf-tools'], ['Utilities', 'url www.123apps.com'],  
         ['Net\nSpeed', 'url openspeedtest.com/?ref=OST-Results'], ['Library\nGenesis', "url libgen.rs/index.php"]],
 
-    4: [['Spotify', 'url open.spotify.com'], ['An Article?', 'url www.readsomethinggreat.com'], ['Bored\nButton', 'url www.boredbutton.com/random'],
+    4: [['Spotify', 'url open.spotify.com'], ['Good Reads', 'url www.readsomethinggreat.com'], ['Bored\nButton', 'url www.boredbutton.com/random'],
         ['Telegram', 'url web.telegram.org'], ['Whatsapp', 'url web.whatsapp.com']],
 
-    5: [['Daily\nQuote', 'request quote'], ['Did you\nknow?', 'request fact'], ['Poem', 'request poem'],
+    5: [['Daily\nQuote', 'request quote'], ['Did you\nknow?', 'request fact'], ['A Poem?', 'request poem'],
         ['Kanye\nREST', 'request kanye'], ['Rare\nInsult', 'request insult']],
 
 }
 
 MENUS = {
-    "Native Apps": [ ['Windows Mail', 'start outlookmail:'], 
+    "Native Apps": [  
                 ['Calculator', 'start calc'], 
                 ['Calendar', 'start outlookcal:'], 
                 ['Camera', 'start microsoft.windows.camera:'], 
-                ['Groove Music', 'start mswindowsmusic:'], 
-                ["MS Paint", "start mspaint"]],
+                ['Groove Music', 'start mswindowsmusic:'], "---",
+
+                ['MS Mail', 'start outlookmail:'],
+                ["MS Paint", "start mspaint"],
+                ["MS Store", "start ms-windows-store:"]],
 
     "CLIs": [   ["Command Prompt ", "start cmd /k cd /d %USERPROFILE%\Desktop"], 
                 ["WSL Bash", "start bash"], 
@@ -40,9 +43,10 @@ MENUS = {
                 ["Python", " start python"],
                 ["Node", " start node"]],
 
-    "Network": [["Ping", "subprocess ping www.google.com"], 
+    "Network": [["Ping", "subprocess ping www.google.com"], "---",
                 ["List DNS Servers", "subprocess ipconfig /displaydns"], 
-                ["Initiate DNS Flush", "subprocess ipconfig /flushdns"], 
+                ["Initiate DNS Flush", "subprocess ipconfig /flushdns"], "---",
+                ["Network Connections", "subprocess netstat -an"],
                 ["IP Configurations", "subprocess ipconfig /allcompartments /all"]],
 
     "Advanced": [
