@@ -37,8 +37,9 @@ MENUS = {
                 ["MS Store", "start ms-windows-store:"]],
 
     "CLIs": [   ["Command Prompt ", "start cmd /k cd /d %USERPROFILE%\Desktop"], 
-                ["WSL Bash", "start bash"], 
-                ["Powershell", " start powershell"], "---",
+                ["Command Prompt - Admin", 'start powershell "start cmd -v runAs"'], 
+                ["Powershell", " start powershell"], 
+                ["WSL Bash", "start bash"], "---",
 
                 ["Python", " start python"],
                 ["Node", " start node"]],
@@ -128,7 +129,7 @@ Battery: {} % {}
 # ----------------------------------------------------------------------------------
 
 NETWORK = """
-Host Name: {}
+Host: {}
 
 User: {}
 
@@ -146,7 +147,7 @@ Default Gateway: 192.168.0.0/1
 ABOUT = """
 Afterlife is a minimalistic HUD.
 
-It brings all the important functions/commands of Windows to the fingertips of its users and helps them connect to the internet faster.
+It brings all the important functions/commands of Windows to the fingertips of its users. It also highlights some of the popular internet services/utilities.
 
 Made with ♥ by a_ignorant_mortal
 """.strip()
