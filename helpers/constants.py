@@ -3,7 +3,7 @@ import subprocess as sp
 
 BUTTONS = {
 
-    0: [['All Apps', 'start explorer.exe Shell:::{4234d49b-0245-4df3-b780-3893943456e1}'], 
+    0: [['All Apps', 'start explorer.exe Shell:::AppsFolder'], 
         ["Root\nFolder", "start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"],
         ["Task\nManager", "start taskmgr"], ["Control\nPanel", "start control"],
         ["Run", "start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"]],
