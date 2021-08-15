@@ -50,7 +50,7 @@ MENUS = {
                 ["Network Connections", "subprocess netstat -an"],
                 ["IP Configurations", "subprocess ipconfig /allcompartments /all"]],
 
-    "Advanced": [
+    "Advanced": [["Installed Apps", "start cmd /k wmic product get name,version"],
                 ["God Mode", "start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"],
                 ["Registry Editor", "start regedit"], 
                 ["Disk Management", "start diskmgmt"], "---",
