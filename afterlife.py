@@ -13,37 +13,39 @@ CHOICE = random.choice(list(THEMES.keys()))
 
 class HUD:
     def __init__(self):
+        # Root Frames
         self.left = Frame(root)
         self.right = Frame(root)
-        self.intro = Frame(self.left)
-        self.details = Frame(self.right, height=1)
 
-        self.commands = Frame(self.right, width=80,
-                                height=50, bg=THEMES[CHOICE]['root'], padx=2, pady=2)
-        
+            # Widgets on root.left
+        self.left_top = Frame(self.left)
         self.prompt = Text(self.left, bg=THEMES[CHOICE]['primary'], wrap=WORD, padx=20, pady=20,
                             fg=THEMES[CHOICE]['fg'], font=('noto mono', 11), width=50)
-
-        self.welcome = Text(self.intro, bg=THEMES[CHOICE]['secondary'], 
+                
+                # Widgets on root.left.intro
+        self.welcome = Text(self.left_top, bg=THEMES[CHOICE]['secondary'], 
                             fg=THEMES[CHOICE]['fg'], width=25, height=2, 
                             font=('noto mono', 13, 'bold'), padx=20, 
                             pady=20, wrap=WORD)
-
-        self.agenda = Text(self.intro, bg=THEMES[CHOICE]['secondary'], 
+        self.agenda = Text(self.left_top, bg=THEMES[CHOICE]['secondary'], 
                             fg=THEMES[CHOICE]['fg'], width=25, height=2, 
                             font=('noto mono', 13, 'bold'), wrap=WORD, 
                             insertbackground="white", padx=20, pady=20)
-
         
+
+            # Widgets on root.right
         self.clock = Label(self.right, bg=THEMES[CHOICE]['primary'], relief=GROOVE,
                             fg=THEMES[CHOICE]['fg'], height=2, width=20, 
                             font=('cursed timer ulil', 18, 'bold'))
-
-        self.network = Text(self.details, bg=THEMES[CHOICE]['secondary'], 
+        self.info = Frame(self.right, height=1)
+        self.buttons = Frame(self.right, width=80,
+                                height=50, bg=THEMES[CHOICE]['root'], padx=2, pady=2)
+        
+                # Widgets on root.right.details
+        self.network = Text(self.info, bg=THEMES[CHOICE]['secondary'], 
                             fg=THEMES[CHOICE]['fg'], height=5, width=28, 
                             font=('noto mono', 12), padx=20)
-
-        self.system = Text(self.details, bg=THEMES[CHOICE]['secondary'], 
+        self.system = Text(self.info, bg=THEMES[CHOICE]['secondary'], 
                         fg=THEMES[CHOICE]['fg'], height=5, width=32, 
                         font=('noto mono', 12), padx=20)
 
@@ -86,7 +88,7 @@ class HUD:
         self.left.pack(side=LEFT, fill=BOTH, expand=1)
         self.right.pack(side=RIGHT, fill=BOTH, expand=1)
 
-        self.intro.pack(side=TOP, fill=BOTH, expand=1)
+        self.left_top.pack(side=TOP, fill=BOTH, expand=1)
         self.welcome.pack(side=LEFT, fill=BOTH, expand=1)
         self.agenda.pack(side=RIGHT, fill=BOTH, expand=1)
 
@@ -94,17 +96,17 @@ class HUD:
 
         self.clock.pack(side=TOP, fill=BOTH, expand=0)
 
-        self.details.pack(side=TOP, fill=BOTH, expand=1)
+        self.info.pack(side=TOP, fill=BOTH, expand=1)
         self.network.pack(side=RIGHT, fill=BOTH, expand=1)
         self.system.pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.commands.pack(side=TOP, fill=BOTH, expand=1)  
+        self.buttons.pack(side=TOP, fill=BOTH, expand=1)  
 
         bg = deque([THEMES[CHOICE]['primary'], THEMES[CHOICE]['secondary']])
         self.action_items = []
 
         for row in range(len(BUTTONS)):
-            command_row = Frame(self.commands, bg=THEMES[CHOICE]['root'])
+            command_row = Frame(self.buttons, bg=THEMES[CHOICE]['root'])
             command_row.pack(side=TOP, fill=BOTH, expand=1)
             for button in BUTTONS[row]:
                 button = Button(command_row, text=button[0], font=('noto mono', 12), height=1, 
@@ -200,7 +202,7 @@ class HUD:
         self.network.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
         self.system.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
 
-        self.commands.config(bg=THEMES[theme]['root'])
+        self.buttons.config(bg=THEMES[theme]['root'])
         colors = deque([THEMES[theme]['primary'], THEMES[theme]['secondary']])
 
         for button in self.action_items:
