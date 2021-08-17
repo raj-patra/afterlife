@@ -30,13 +30,11 @@ class HUD:
         self.cmd = Frame(self.left_top)
 
         self.cmd_title = Label(self.cmd, bg=THEMES[CHOICE]['secondary'], relief=GROOVE,
-                            fg=THEMES[CHOICE]['fg'], height=2, width=25, padx=2, pady=2,
-                            font=('noto mono', 12), text="Integrated CMD Prompt")
-        self.cmd_input = Text(self.cmd, bg=THEMES[CHOICE]['primary'], 
-                            fg=THEMES[CHOICE]['fg'], width=30, height=2, 
-                            font=('noto mono', 10, 'bold'), wrap=WORD, 
-                            insertbackground="white", padx=20, pady=20)
-        self.cmd_submit = Button(self.cmd, text="Run Command", font=('noto mono', 12), height=1, 
+                            fg=THEMES[CHOICE]['fg'], height=2, width=28, padx=2, pady=2,
+                            font=('noto mono', 14), text="Integrated CMD Prompt")
+        self.cmd_input = Entry(self.cmd, bg=THEMES[CHOICE]['primary'], fg=THEMES[CHOICE]['fg'], bd=7,
+                            width=28, font=('noto mono', 12, 'bold'), insertbackground="white",)
+        self.cmd_submit = Button(self.cmd, text="Execute", font=('noto mono', 12), height=1, 
                                 command=partial(self.callback, command="command"),  width=6, 
                                 relief=FLAT, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
@@ -44,7 +42,7 @@ class HUD:
 
             # Widgets on root.right
         self.clock = Label(self.right, bg=THEMES[CHOICE]['primary'], relief=GROOVE,
-                            fg=THEMES[CHOICE]['fg'], height=2, width=20, 
+                            fg=THEMES[CHOICE]['fg'], height=2, width=20,
                             font=('cursed timer ulil', 18, 'bold'))
         self.info = Frame(self.right, height=1)
         self.buttons = Frame(self.right, width=80,
@@ -200,7 +198,7 @@ class HUD:
         
         else:
             self.prompt.delete('1.0', END)
-            command = self.cmd_input.get('1.0', END)   
+            command = self.cmd_input.get()   
 
             if ">" in command:
                 command = command.split('>')[-1]
@@ -208,10 +206,9 @@ class HUD:
             response = universal_callback(command="subprocess "+command)
             self.prompt.insert(END, response)
 
-            self.cmd_input.delete('1.0', END)
+            self.cmd_input.delete(0, END)
             self.cmd_input.insert(END, "> ")
             
-
         self.prompt.config(state=DISABLED)
 
     def set_theme(self, theme=None):
