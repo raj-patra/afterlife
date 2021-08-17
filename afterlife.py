@@ -27,10 +27,19 @@ class HUD:
                             fg=THEMES[CHOICE]['fg'], width=25, height=2, 
                             font=('noto mono', 13, 'bold'), padx=20, 
                             pady=20, wrap=WORD)
-        self.agenda = Text(self.left_top, bg=THEMES[CHOICE]['secondary'], 
-                            fg=THEMES[CHOICE]['fg'], width=25, height=2, 
-                            font=('noto mono', 13, 'bold'), wrap=WORD, 
+        self.cmd = Frame(self.left_top)
+
+        self.cmd_title = Label(self.cmd, bg=THEMES[CHOICE]['secondary'], relief=GROOVE,
+                            fg=THEMES[CHOICE]['fg'], height=2, width=25, padx=2, pady=2,
+                            font=('noto mono', 12), text="Integrated CMD Prompt")
+        self.cmd_input = Text(self.cmd, bg=THEMES[CHOICE]['primary'], 
+                            fg=THEMES[CHOICE]['fg'], width=30, height=2, 
+                            font=('noto mono', 10, 'bold'), wrap=WORD, 
                             insertbackground="white", padx=20, pady=20)
+        self.cmd_submit = Button(self.cmd, text="Run Command", font=('noto mono', 12), height=1, 
+                                command=partial(self.callback, command="command"),  width=6, 
+                                relief=FLAT, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
+                                activebackground=THEMES[CHOICE]['root'], activeforeground="white")
         
 
             # Widgets on root.right
@@ -90,7 +99,11 @@ class HUD:
 
         self.left_top.pack(side=TOP, fill=BOTH, expand=1)
         self.welcome.pack(side=LEFT, fill=BOTH, expand=1)
-        self.agenda.pack(side=RIGHT, fill=BOTH, expand=1)
+        self.cmd.pack(side=RIGHT, fill=BOTH, expand=1)
+
+        self.cmd_title.pack(side=TOP, fill=BOTH, expand=0)
+        self.cmd_input.pack(side=TOP, fill=BOTH, expand=1)
+        self.cmd_submit.pack(side=TOP, fill=BOTH, expand=0)
 
         self.prompt.pack(side=BOTTOM, fill=BOTH, expand=1)
 
@@ -122,11 +135,13 @@ class HUD:
         self.welcome.insert(END, WELCOME.strip())
         self.welcome.config(state=DISABLED)
 
-        self.agenda.insert(END, "Type your agenda here:")
+        self.cmd_input.insert(END, "> ")
         self.clock.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         
         self.network.insert(END, NETWORK)
         self.network.config(state=DISABLED)
+
+        self.cmd_input.bind('<Return>', partial(self.callback, "command"))
 
         self.callback("subprocess systeminfo")
 
@@ -164,7 +179,7 @@ class HUD:
 
         loop()
 
-    def callback(self, command):
+    def callback(self, command, event=None):
         self.prompt.config(state=NORMAL)
         
         if command.startswith('start'):
@@ -185,6 +200,17 @@ class HUD:
         
         else:
             self.prompt.delete('1.0', END)
+            command = self.cmd_input.get('1.0', END)   
+
+            if ">" in command:
+                command = command.split('>')[-1]
+
+            response = universal_callback(command="subprocess "+command)
+            self.prompt.insert(END, response)
+
+            self.cmd_input.delete('1.0', END)
+            self.cmd_input.insert(END, "> ")
+            
 
         self.prompt.config(state=DISABLED)
 
@@ -198,7 +224,11 @@ class HUD:
         self.clock.config(bg=THEMES[theme]['primary'], fg=THEMES[theme]['fg'])
         
         self.welcome.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
-        self.agenda.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
+
+        self.cmd_title.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
+        self.cmd_input.config(bg=THEMES[theme]['primary'], fg=THEMES[theme]['fg'])
+        self.cmd_submit.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
+
         self.network.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
         self.system.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
 
