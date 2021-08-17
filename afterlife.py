@@ -31,7 +31,7 @@ class HUD:
 
         self.cmd_title = Label(self.cmd, bg=THEMES[CHOICE]['secondary'], relief=GROOVE,
                             fg=THEMES[CHOICE]['fg'], height=2, width=28, padx=2, pady=2,
-                            font=('noto mono', 14), text="Integrated CMD Prompt")
+                            font=('noto mono', 14), text="Integrated Command Prompt")
         self.cmd_input = Entry(self.cmd, bg=THEMES[CHOICE]['primary'], fg=THEMES[CHOICE]['fg'], bd=7,
                             width=28, font=('noto mono', 12, 'bold'), insertbackground="white",)
         self.cmd_submit = Button(self.cmd, text="Execute", font=('noto mono', 12), height=1, 
