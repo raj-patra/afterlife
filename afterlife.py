@@ -29,16 +29,16 @@ class HUD:
                             pady=20, wrap=WORD)
         self.cmd = Frame(self.left_top)
 
-        self.cmd_title = Label(self.cmd, bg=THEMES[CHOICE]['primary'],
-                            fg=THEMES[CHOICE]['fg'], height=1, width=25, 
-                            font=('noto mono', 13, 'bold'), text="Integrated CMD")
-        self.cmd_input = Text(self.cmd, bg=THEMES[CHOICE]['secondary'], 
+        self.cmd_title = Label(self.cmd, bg=THEMES[CHOICE]['secondary'], relief=GROOVE,
+                            fg=THEMES[CHOICE]['fg'], height=2, width=25, padx=2, pady=2,
+                            font=('noto mono', 12), text="Integrated CMD Prompt")
+        self.cmd_input = Text(self.cmd, bg=THEMES[CHOICE]['primary'], 
                             fg=THEMES[CHOICE]['fg'], width=25, height=2, 
-                            font=('noto mono', 13, 'bold'), wrap=WORD, 
+                            font=('noto mono', 10, 'bold'), wrap=WORD, 
                             insertbackground="white", padx=20, pady=20)
-        self.cmd_submit = Button(self.cmd, text="Run", font=('noto mono', 10), height=1, 
+        self.cmd_submit = Button(self.cmd, text="Run Command", font=('noto mono', 12), height=1, 
                                 command=partial(self.callback, command="subprocess hostname"),  width=6, 
-                                relief=FLAT, overrelief=RAISED, bg=THEMES[CHOICE]['root'], fg=THEMES[CHOICE]['fg'], 
+                                relief=FLAT, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
         
 
@@ -135,7 +135,7 @@ class HUD:
         self.welcome.insert(END, WELCOME.strip())
         self.welcome.config(state=DISABLED)
 
-        self.cmd_input.insert(END, "Type your agenda here:")
+        self.cmd_input.insert(END, ">>> ")
         self.clock.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         
         self.network.insert(END, NETWORK)
