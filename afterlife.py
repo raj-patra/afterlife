@@ -211,7 +211,11 @@ class HUD:
         self.clock.config(bg=THEMES[theme]['primary'], fg=THEMES[theme]['fg'])
         
         self.welcome.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
-        self.cmd_input.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
+
+        self.cmd_title.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
+        self.cmd_input.config(bg=THEMES[theme]['primary'], fg=THEMES[theme]['fg'])
+        self.cmd_submit.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
+
         self.network.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
         self.system.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
 
