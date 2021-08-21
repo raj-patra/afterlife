@@ -115,10 +115,12 @@ class HUD:
 
         bg = deque([THEMES[CHOICE]['primary'], THEMES[CHOICE]['secondary']])
         self.action_items = []
+        self.button_frames = []
 
         for row in range(len(BUTTONS)):
-            command_row = Frame(self.buttons, bg=THEMES[CHOICE]['root'])
+            command_row = Frame(self.buttons, bg=THEMES[CHOICE]['root'], pady=1)
             command_row.pack(side=TOP, fill=BOTH, expand=1)
+            self.button_frames.append(command_row)
             for button in BUTTONS[row]:
                 button = Button(command_row, text=button[0], font=('noto mono', 12), height=1, 
                                 command=partial(self.callback, command=button[1]),  width=6, 
@@ -231,6 +233,9 @@ class HUD:
 
         self.buttons.config(bg=THEMES[theme]['root'])
         colors = deque([THEMES[theme]['primary'], THEMES[theme]['secondary']])
+
+        for frame in self.button_frames:
+            frame.config(bg=THEMES[theme]['root'])
 
         for button in self.action_items:
             button.config(bg=colors[0], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
