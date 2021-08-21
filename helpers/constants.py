@@ -6,7 +6,8 @@ BUTTONS = {
     0: [['All Apps', 'start explorer.exe Shell:::AppsFolder'], 
         ["Root\nFolder", "start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"],
         ["Task\nManager", "start taskmgr"], ["Control\nPanel", "start control"],
-        ["Run", "start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"]],
+        ['Settings', 'start ms-settings:'],
+        ],
 
     1: [['Google', 'url www.google.com'], ['Gmail', 'url mail.google.com'], ['Youtube', 'url www.youtube.com'], 
         ['Maps', 'url maps.google.com'], ['Keep', 'url keep.google.com']],
@@ -26,7 +27,7 @@ BUTTONS = {
 }
 
 MENUS = {
-    "Native Apps": [  
+    "Native Apps": [
                 ['Calculator', 'start calc'], 
                 ['Calendar', 'start outlookcal:'], 
                 ['Camera', 'start microsoft.windows.camera:'], 
@@ -50,15 +51,17 @@ MENUS = {
                 ["Network Connections", "subprocess netstat -an"],
                 ["IP Configurations", "subprocess ipconfig /allcompartments /all"]],
 
-    "Advanced": [["Installed Apps", "start cmd /k wmic product get name,version"],
-                ["God Mode", "start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"],
-                ["Registry Editor", "start regedit"], 
-                ["Disk Management", "start diskmgmt"], "---",
-                
-                ["System Info", "subprocess systeminfo"], 
+    "Advanced": [["System Info", "subprocess systeminfo"], 
                 ["Running Processes", "subprocess tasklist"], 
                 ["Environment Variables", "subprocess set"], 
-                ["Available Drivers", "subprocess driverquery"]],
+                ["Available Drivers", "subprocess driverquery"], "---",
+
+                ["Run", "start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"],
+                ["Installed Apps", "start cmd /k wmic product get name,version"],
+                ["God Mode", "start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"],
+                ["Registry Editor", "start regedit"], ["Disk Management", "start diskmgmt"],
+                ["Device Management", "start devmgmt"]],
+                
 
     "Socials":  [['Facebook', "url www.facebook.com"], ['Instagram', 'url www.instagram.com'], ['Reddit', 'url www.reddit.com'], ['Twitter', 'url www.twitter.com'], "---",
                 ['Telegram', 'url web.telegram.org'], ['Whatsapp', 'url web.whatsapp.com'], ["Discord", "www.discord.com/app"], ["Slack", "url www.slack.com"], "---",
