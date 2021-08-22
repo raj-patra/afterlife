@@ -25,7 +25,7 @@ class HUD:
                 # Widgets on root.left.intro
         self.welcome = Text(self.left_top, bg=THEMES[CHOICE]['secondary'], 
                             fg=THEMES[CHOICE]['fg'], width=25, height=2, 
-                            font=('noto mono', 13, 'bold'), padx=20, 
+                            font=('noto mono', 13), padx=20, 
                             pady=20, wrap=WORD)
         self.cmd = Frame(self.left_top)
 
@@ -41,11 +41,11 @@ class HUD:
                                 relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
         self.cmd_copy = Button(self.cmd_buttons, text="Copy command", font=('noto mono', 12), height=1, 
-                                command=partial(self.callback, command="command"),  width=6, 
+                                command=partial(self.callback, command="copy"),  width=6, 
                                 relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
         self.cmd_external = Button(self.cmd, text="Open in external terminal", font=('noto mono', 12), height=1, 
-                                command=partial(self.callback, command="command"),  width=6, 
+                                command=partial(self.callback, command="external"),  width=6, 
                                 relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
         
@@ -219,8 +219,15 @@ class HUD:
 
             root.clipboard_append(command)
             self.prompt.delete('1.0', END)
-            self.prompt.insert(END, "Command copied to clipboard")
+            self.prompt.insert(END, "Command copied to clipboard!")
         
+        elif command == 'external':
+            command = self.cmd_input.get()
+            if ">" in command:
+                command = command.split('>')[-1]
+
+            universal_callback(command="start cmd /k "+command)
+
         else:
             self.prompt.delete('1.0', END)
             command = self.cmd_input.get()   
