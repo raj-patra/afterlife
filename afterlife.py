@@ -34,9 +34,19 @@ class HUD:
                             font=('noto mono', 14), text="Integrated Command Prompt")
         self.cmd_input = Entry(self.cmd, bg=THEMES[CHOICE]['primary'], fg=THEMES[CHOICE]['fg'], bd=7,
                             width=28, font=('noto mono', 12, 'bold'), insertbackground="white",)
-        self.cmd_submit = Button(self.cmd, text="Execute", font=('noto mono', 12), height=1, 
+
+        self.cmd_buttons = Frame(self.cmd)
+        self.cmd_submit = Button(self.cmd_buttons, text="Execute command", font=('noto mono', 12), height=1, 
                                 command=partial(self.callback, command="command"),  width=6, 
-                                relief=FLAT, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
+                                relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
+                                activebackground=THEMES[CHOICE]['root'], activeforeground="white")
+        self.cmd_copy = Button(self.cmd_buttons, text="Copy to clipboard", font=('noto mono', 12), height=1, 
+                                command=partial(self.callback, command="command"),  width=6, 
+                                relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
+                                activebackground=THEMES[CHOICE]['root'], activeforeground="white")
+        self.cmd_external = Button(self.cmd, text="Open in external", font=('noto mono', 12), height=1, 
+                                command=partial(self.callback, command="command"),  width=6, 
+                                relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
         
 
@@ -101,7 +111,11 @@ class HUD:
 
         self.cmd_title.pack(side=TOP, fill=BOTH, expand=0)
         self.cmd_input.pack(side=TOP, fill=BOTH, expand=1)
-        self.cmd_submit.pack(side=TOP, fill=BOTH, expand=0)
+        self.cmd_buttons.pack(side=TOP, fill=BOTH, expand=0)
+
+        self.cmd_submit.pack(side=LEFT, fill=BOTH, expand=1)
+        self.cmd_copy.pack(side=LEFT, fill=BOTH, expand=1)
+        self.cmd_external.pack(side=TOP, fill=BOTH, expand=0)
 
         self.prompt.pack(side=BOTTOM, fill=BOTH, expand=1)
 
