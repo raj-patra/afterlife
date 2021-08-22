@@ -36,15 +36,15 @@ class HUD:
                             width=28, font=('noto mono', 12, 'bold'), insertbackground="white",)
 
         self.cmd_buttons = Frame(self.cmd)
-        self.cmd_submit = Button(self.cmd_buttons, text="Execute command", font=('noto mono', 12), height=1, 
+        self.cmd_execute = Button(self.cmd_buttons, text="Execute command", font=('noto mono', 12), height=1, 
                                 command=partial(self.callback, command="command"),  width=6, 
                                 relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
-        self.cmd_copy = Button(self.cmd_buttons, text="Copy to clipboard", font=('noto mono', 12), height=1, 
+        self.cmd_copy = Button(self.cmd_buttons, text="Copy command", font=('noto mono', 12), height=1, 
                                 command=partial(self.callback, command="command"),  width=6, 
                                 relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
-        self.cmd_external = Button(self.cmd, text="Open in external", font=('noto mono', 12), height=1, 
+        self.cmd_external = Button(self.cmd, text="Open in external terminal", font=('noto mono', 12), height=1, 
                                 command=partial(self.callback, command="command"),  width=6, 
                                 relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
@@ -60,10 +60,10 @@ class HUD:
         
                 # Widgets on root.right.details
         self.network = Text(self.info, bg=THEMES[CHOICE]['secondary'], 
-                            fg=THEMES[CHOICE]['fg'], height=5, width=28, 
+                            fg=THEMES[CHOICE]['fg'], height=5, width=27, 
                             font=('noto mono', 12), padx=20)
         self.system = Text(self.info, bg=THEMES[CHOICE]['secondary'], 
-                        fg=THEMES[CHOICE]['fg'], height=5, width=32, 
+                        fg=THEMES[CHOICE]['fg'], height=5, width=33, 
                         font=('noto mono', 12), padx=20)
 
         self.render_menu()
@@ -113,7 +113,7 @@ class HUD:
         self.cmd_input.pack(side=TOP, fill=BOTH, expand=1)
         self.cmd_buttons.pack(side=TOP, fill=BOTH, expand=0)
 
-        self.cmd_submit.pack(side=LEFT, fill=BOTH, expand=1)
+        self.cmd_execute.pack(side=LEFT, fill=BOTH, expand=1)
         self.cmd_copy.pack(side=LEFT, fill=BOTH, expand=1)
         self.cmd_external.pack(side=TOP, fill=BOTH, expand=0)
 
@@ -146,7 +146,7 @@ class HUD:
                 button.pack(side=LEFT, fill=BOTH, expand=1)
         
     def start_widgets(self):
-        self.welcome.insert(END, WELCOME.strip())
+        self.welcome.insert(END, WELCOME.lstrip()+CURRENT_THEME.format(CHOICE))
         self.welcome.config(state=DISABLED)
 
         self.cmd_input.insert(END, "> ")
@@ -212,6 +212,15 @@ class HUD:
             response = universal_callback(http=command)
             self.prompt.insert(END, response)
         
+        elif command == 'copy':
+            command = self.cmd_input.get()
+            if ">" in command:
+                command = command.split('>')[-1]
+
+            root.clipboard_append(command)
+            self.prompt.delete('1.0', END)
+            self.prompt.insert(END, "Command copied to clipboard")
+        
         else:
             self.prompt.delete('1.0', END)
             command = self.cmd_input.get()   
@@ -240,7 +249,9 @@ class HUD:
 
         self.cmd_title.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
         self.cmd_input.config(bg=THEMES[theme]['primary'], fg=THEMES[theme]['fg'])
-        self.cmd_submit.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
+        self.cmd_execute.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
+        self.cmd_copy.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
+        self.cmd_external.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
 
         self.network.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
         self.system.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
@@ -254,6 +265,11 @@ class HUD:
         for button in self.action_items:
             button.config(bg=colors[0], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
             colors.rotate(1)
+
+        self.welcome.config(state=NORMAL)
+        self.welcome.delete('1.0', END)
+        self.welcome.insert(END, WELCOME.lstrip()+CURRENT_THEME.format(theme))
+        self.welcome.config(state=DISABLED)
 
 
 if __name__ == '__main__':
