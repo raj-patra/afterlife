@@ -1,4 +1,5 @@
 import random, requests, getmac, socket
+from tkinter.constants import CURRENT
 import subprocess as sp
 
 BUTTONS = {
@@ -111,10 +112,13 @@ DISK = sp.getoutput("wmic logicaldisk get size,freespace,caption").replace("\n\n
 WELCOME = """
 Hey there, {}
 I hope you are having a good day.
-.
-.
+
 Just remember, wherever you go, leave your mark behind.
-Have fun.""".format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]))
+Have fun.
+
+""".format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]))
+
+CURRENT_THEME = "FYI, Current theme: {}"
 
 # ----------------------------------------------------------------------------------
 
