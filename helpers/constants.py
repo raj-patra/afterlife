@@ -17,10 +17,10 @@ BUTTONS = {
         ["Sticky Notes", "start explorer.exe shell:appsFolder\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe!App"]],
     
     3: [['Cloud\nConvert', 'url www.cloudconvert.com'], ['PDF\nTools', 'url www.smallpdf.com/pdf-tools'], ['Utilities', 'url www.123apps.com'],  
-        ['Net\nSpeed', 'url openspeedtest.com/?ref=OST-Results'], ['Library\nGenesis', "url libgen.rs/index.php"]],
+        ['Net\nSpeed', 'url openspeedtest.com/?ref=OST-Results'], ['Photopea\nEditor', "url www.photopea.com"]],
 
     4: [['Spotify', 'url open.spotify.com'], ['Good Reads', 'url www.readsomethinggreat.com'], ['Bored\nButton', 'url www.boredbutton.com/random'],
-        ['Telegram', 'url web.telegram.org'], ['Whatsapp', 'url web.whatsapp.com']],
+        ['Wikipedia', 'url www.wikipedia.org'], ['Library\nGenesis', "url libgen.rs/index.php"]],
 
     5: [['Daily\nQuote', 'request quote'], ['Did you\nknow?', 'request fact'], ['A Poem?', 'request poem'],
         ['Kanye\nREST', 'request kanye'], ['Rare\nInsult', 'request insult']],
