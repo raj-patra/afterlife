@@ -158,3 +158,12 @@ It brings all the important functions/commands of Windows to the fingertips of i
 
 Made with ♥ by a_ignorant_mortal
 """.strip()
+
+# ----------------------------------------------------------------------------------
+
+WIKI = """
+Title - {}
+Details at - {}
+
+Summary - {}
+"""

@@ -1,4 +1,4 @@
-import  os, webbrowser, requests
+import  os, webbrowser, requests, wikipedia
 
 from tkinter import messagebox
 from helpers.constants import *
@@ -10,7 +10,7 @@ webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
 edge_path = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edge_path))
 
-def universal_callback(command=None, http=None):
+def universal_callback(command=None, web=None):
     if command:
         if command.startswith('start'):
             os.system("{}".format(command))
@@ -20,13 +20,13 @@ def universal_callback(command=None, http=None):
             response = sp.getoutput(process)
             return response
     
-    if http:
-        if http.startswith('url'):
-            http = http.split(' ', 1)[-1]
-            webbrowser.get('edge').open(http)
+    if web:
+        if web.startswith('url'):
+            web = web.split(' ', 1)[-1]
+            webbrowser.get('edge').open(web)
         
-        if http.startswith('request'):
-            url = http.split(' ', 1)[-1]
+        if web.startswith('request'):
+            url = web.split(' ', 1)[-1]
 
             if url == 'quote':
                 response = requests.get(QUOTE_API).json()
@@ -47,6 +47,24 @@ def universal_callback(command=None, http=None):
             if url == 'kanye':
                 response = requests.get(KANYE_API).json()
                 return "Kanye REST once said, \n\n*{}*".format(response['quote'])
+
+        if web.startswith('wiki'):
+            web = web.split(' ', 1)[-1]
+            query = ''.join(web.split(' '))
+            try:
+                page = wikipedia.page(query)
+                return {
+                "title": page.title,
+                "url": page.url,
+                "summary": page.summary
+            }
+            except:
+                return {
+                "title": "Error Occured",
+                "url": "NA",
+                "summary": "Error Occured in fetching the article. Please make sure the search query does not have special characters except for whitespaces.\n\nTry again maybe?\nIf the issue presists, try any other combination for the search query."
+            }
+            
 
 def about():
     messagebox.showinfo('About', ABOUT)

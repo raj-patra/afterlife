@@ -31,21 +31,21 @@ class HUD:
 
         self.cmd_title = Label(self.cmd, bg=THEMES[CHOICE]['secondary'], relief=GROOVE,
                             fg=THEMES[CHOICE]['fg'], height=2, width=28, padx=2, pady=2,
-                            font=('noto mono', 14), text="Integrated Command Prompt")
+                            font=('noto mono', 14), text="Integrated CMD / Wiki Search")
         self.cmd_input = Entry(self.cmd, bg=THEMES[CHOICE]['primary'], fg=THEMES[CHOICE]['fg'], bd=7,
                             width=28, font=('noto mono', 12, 'bold'), insertbackground="white",)
 
         self.cmd_buttons = Frame(self.cmd)
-        self.cmd_execute = Button(self.cmd_buttons, text="Execute command", font=('noto mono', 12), height=1, 
+        self.cmd_execute = Button(self.cmd_buttons, text="Execute", font=('noto mono', 12), height=1, 
                                 command=partial(self.callback, command="command"),  width=6, 
                                 relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
-        self.cmd_copy = Button(self.cmd_buttons, text="Copy command", font=('noto mono', 12), height=1, 
-                                command=partial(self.callback, command="copy"),  width=6, 
+        self.cmd_external = Button(self.cmd_buttons, text="Execute External", font=('noto mono', 12), height=1, 
+                                command=partial(self.callback, command="external"),  width=6, 
                                 relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
-        self.cmd_external = Button(self.cmd, text="Open in external terminal", font=('noto mono', 12), height=1, 
-                                command=partial(self.callback, command="external"),  width=6, 
+        self.wiki_execute = Button(self.cmd, text="Search Wikipedia", font=('noto mono', 12), height=1, 
+                                command=partial(self.callback, command="wiki"),  width=6, 
                                 relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
         
@@ -114,8 +114,8 @@ class HUD:
         self.cmd_buttons.pack(side=TOP, fill=BOTH, expand=0)
 
         self.cmd_execute.pack(side=LEFT, fill=BOTH, expand=1)
-        self.cmd_copy.pack(side=LEFT, fill=BOTH, expand=1)
-        self.cmd_external.pack(side=TOP, fill=BOTH, expand=0)
+        self.cmd_external.pack(side=LEFT, fill=BOTH, expand=1)
+        self.wiki_execute.pack(side=TOP, fill=BOTH, expand=0)
 
         self.prompt.pack(side=BOTTOM, fill=BOTH, expand=1)
 
@@ -205,28 +205,27 @@ class HUD:
             self.prompt.insert(END, response)
 
         elif command.startswith('url'):
-            universal_callback(http=command)
+            universal_callback(web=command)
 
         elif command.startswith('request'):
             self.prompt.delete('1.0', END)
-            response = universal_callback(http=command)
+            response = universal_callback(web=command)
             self.prompt.insert(END, response)
-        
-        elif command == 'copy':
-            command = self.cmd_input.get()
-            if ">" in command:
-                command = command.split('>')[-1]
-
-            root.clipboard_append(command)
-            self.prompt.delete('1.0', END)
-            self.prompt.insert(END, "Command copied to clipboard!")
         
         elif command == 'external':
             command = self.cmd_input.get()
             if ">" in command:
                 command = command.split('>')[-1]
-
             universal_callback(command="start cmd /k "+command)
+
+        elif command == 'wiki':
+            self.prompt.delete('1.0', END)
+            command = self.cmd_input.get()
+            if ">" in command:
+                command = command.split('>')[-1]
+            response = universal_callback(web="wiki "+command)
+
+            self.prompt.insert(END, WIKI.format(*response.values()))
 
         else:
             self.prompt.delete('1.0', END)
@@ -257,8 +256,8 @@ class HUD:
         self.cmd_title.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
         self.cmd_input.config(bg=THEMES[theme]['primary'], fg=THEMES[theme]['fg'])
         self.cmd_execute.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
-        self.cmd_copy.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
         self.cmd_external.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
+        self.wiki_execute.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
 
         self.network.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
         self.system.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
