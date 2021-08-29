@@ -58,7 +58,7 @@ def universal_callback(command=None, web=None):
                 "url": page.url,
                 "summary": page.summary
             }
-            except:
+            except Exception:
                 return {
                 "title": "Error Occured",
                 "url": "NA",

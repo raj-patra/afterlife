@@ -2,6 +2,7 @@
 import time, psutil, GPUtil, gc, random
 
 from tkinter import *
+
 from helpers.constants import *
 from helpers.themes import *
 from callbacks import *
@@ -16,39 +17,40 @@ class HUD:
         # Root Frames
         self.left = Frame(root)
         self.right = Frame(root)
+        self.default_font = 'noto mono'
 
             # Widgets on root.left
         self.left_top = Frame(self.left)
         self.prompt = Text(self.left, bg=THEMES[CHOICE]['primary'], wrap=WORD, padx=20, pady=20,
-                            fg=THEMES[CHOICE]['fg'], font=('noto mono', 11), width=50)
-                
+                            fg=THEMES[CHOICE]['fg'], font=(self.default_font, 11), width=50)
+
                 # Widgets on root.left.intro
-        self.welcome = Text(self.left_top, bg=THEMES[CHOICE]['secondary'], 
-                            fg=THEMES[CHOICE]['fg'], width=25, height=2, 
-                            font=('noto mono', 13), padx=20, 
+        self.welcome = Text(self.left_top, bg=THEMES[CHOICE]['secondary'],
+                            fg=THEMES[CHOICE]['fg'], width=25, height=2,
+                            font=(self.default_font, 13), padx=20,
                             pady=20, wrap=WORD)
         self.cmd = Frame(self.left_top)
 
         self.cmd_title = Label(self.cmd, bg=THEMES[CHOICE]['secondary'], relief=GROOVE,
                             fg=THEMES[CHOICE]['fg'], height=2, width=28, padx=2, pady=2,
-                            font=('noto mono', 14), text="Integrated CMD / Wiki Search")
+                            font=(self.default_font, 14), text="Integrated CMD / Wiki Search")
         self.cmd_input = Entry(self.cmd, bg=THEMES[CHOICE]['primary'], fg=THEMES[CHOICE]['fg'], bd=7,
-                            width=28, font=('noto mono', 12, 'bold'), insertbackground="white",)
+                            width=28, font=(self.default_font, 12, 'bold'), insertbackground="white",)
 
         self.cmd_buttons = Frame(self.cmd)
-        self.cmd_execute = Button(self.cmd_buttons, text="Execute", font=('noto mono', 12), height=1, 
-                                command=partial(self.callback, command="command"),  width=6, 
-                                relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
+        self.cmd_execute = Button(self.cmd_buttons, text="Execute", font=(self.default_font, 12), height=1,
+                                command=partial(self.callback, command="command"),  width=6,
+                                relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'],
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
-        self.cmd_external = Button(self.cmd_buttons, text="Execute External", font=('noto mono', 12), height=1, 
-                                command=partial(self.callback, command="external"),  width=6, 
-                                relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
+        self.cmd_external = Button(self.cmd_buttons, text="Execute External", font=(self.default_font, 12), height=1,
+                                command=partial(self.callback, command="external"),  width=6,
+                                relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'],
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
-        self.wiki_execute = Button(self.cmd, text="Search Wikipedia", font=('noto mono', 12), height=1, 
-                                command=partial(self.callback, command="wiki"),  width=6, 
-                                relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'], 
+        self.wiki_execute = Button(self.cmd, text="Search Wikipedia", font=(self.default_font, 12), height=1,
+                                command=partial(self.callback, command="wiki"),  width=6,
+                                relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'],
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
-        
+
 
             # Widgets on root.right
         self.clock = Label(self.right, bg=THEMES[CHOICE]['primary'], relief=GROOVE,
@@ -57,14 +59,14 @@ class HUD:
         self.info = Frame(self.right, height=1)
         self.buttons = Frame(self.right, width=80,
                                 height=50, bg=THEMES[CHOICE]['root'], padx=2, pady=2)
-        
+
                 # Widgets on root.right.details
-        self.network = Text(self.info, bg=THEMES[CHOICE]['secondary'], 
-                            fg=THEMES[CHOICE]['fg'], height=5, width=27, 
-                            font=('noto mono', 12), padx=20)
-        self.system = Text(self.info, bg=THEMES[CHOICE]['secondary'], 
-                        fg=THEMES[CHOICE]['fg'], height=5, width=33, 
-                        font=('noto mono', 12), padx=20)
+        self.network = Text(self.info, bg=THEMES[CHOICE]['secondary'],
+                            fg=THEMES[CHOICE]['fg'], height=5, width=27,
+                            font=(self.default_font, 12), padx=20)
+        self.system = Text(self.info, bg=THEMES[CHOICE]['secondary'],
+                        fg=THEMES[CHOICE]['fg'], height=5, width=33,
+                        font=(self.default_font, 12), padx=20)
 
         self.render_menu()
         self.render_widgets()
@@ -136,7 +138,7 @@ class HUD:
             command_row.pack(side=TOP, fill=BOTH, expand=1)
             self.button_frames.append(command_row)
             for button in BUTTONS[row]:
-                button = Button(command_row, text=button[0], font=('noto mono', 12), height=1, 
+                button = Button(command_row, text=button[0], font=(self.default_font, 12), height=1, 
                                 command=partial(self.callback, command=button[1]),  width=6, 
                                 relief=FLAT, overrelief=RAISED, bg=bg[0], fg=THEMES[CHOICE]['fg'], 
                                 activebackground=THEMES[CHOICE]['root'], activeforeground="white")
