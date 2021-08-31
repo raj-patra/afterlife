@@ -1,15 +1,17 @@
 #!/usr/bin/python
 import time, psutil, GPUtil, gc, random
 
-from tkinter import *
+from tkinter import Tk, Text, Label, Entry, Button, Frame, Menu
+from tkinter.constants import WORD, GROOVE, RAISED, FLAT, END
+from tkinter.constants import LEFT, RIGHT, TOP, BOTTOM, BOTH, DISABLED, NORMAL
 
-from helpers.constants import *
-from helpers.themes import *
-from callbacks import *
+import helpers.constants as constants
+import helpers.themes as scheme
+from callbacks import universal_callback, about, destroy
 from functools import partial
 from collections import deque
 
-CHOICE = random.choice(list(THEMES.keys()))
+CHOICE = random.choice(list(scheme.THEMES.keys()))
 
 
 class HUD:
@@ -21,51 +23,51 @@ class HUD:
 
             # Widgets on root.left
         self.left_top = Frame(self.left)
-        self.prompt = Text(self.left, bg=THEMES[CHOICE]['primary'], wrap=WORD, padx=20, pady=20,
-                            fg=THEMES[CHOICE]['fg'], font=(self.default_font, 11), width=50)
+        self.prompt = Text(self.left, bg=scheme.THEMES[CHOICE]['primary'], wrap=WORD, padx=20, pady=20,
+                            fg=scheme.THEMES[CHOICE]['fg'], font=(self.default_font, 11), width=50)
 
                 # Widgets on root.left.intro
-        self.welcome = Text(self.left_top, bg=THEMES[CHOICE]['secondary'],
-                            fg=THEMES[CHOICE]['fg'], width=25, height=2,
+        self.welcome = Text(self.left_top, bg=scheme.THEMES[CHOICE]['secondary'],
+                            fg=scheme.THEMES[CHOICE]['fg'], width=25, height=2,
                             font=(self.default_font, 13), padx=20,
                             pady=20, wrap=WORD)
         self.cmd = Frame(self.left_top)
 
-        self.cmd_title = Label(self.cmd, bg=THEMES[CHOICE]['secondary'], relief=GROOVE,
-                            fg=THEMES[CHOICE]['fg'], height=2, width=28, padx=2, pady=2,
+        self.cmd_title = Label(self.cmd, bg=scheme.THEMES[CHOICE]['secondary'], relief=GROOVE,
+                            fg=scheme.THEMES[CHOICE]['fg'], height=2, width=28, padx=2, pady=2,
                             font=(self.default_font, 14), text="Integrated CMD / Wiki Search")
-        self.cmd_input = Entry(self.cmd, bg=THEMES[CHOICE]['primary'], fg=THEMES[CHOICE]['fg'], bd=7,
+        self.cmd_input = Entry(self.cmd, bg=scheme.THEMES[CHOICE]['primary'], fg=scheme.THEMES[CHOICE]['fg'], bd=7,
                             width=28, font=(self.default_font, 12, 'bold'), insertbackground="white",)
 
         self.cmd_buttons = Frame(self.cmd)
         self.cmd_execute = Button(self.cmd_buttons, text="Execute", font=(self.default_font, 12), height=1,
                                 command=partial(self.callback, command="command"),  width=6,
-                                relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'],
-                                activebackground=THEMES[CHOICE]['root'], activeforeground="white")
+                                relief=RAISED, overrelief=RAISED, bg=scheme.THEMES[CHOICE]['secondary'], fg=scheme.THEMES[CHOICE]['fg'],
+                                activebackground=scheme.THEMES[CHOICE]['root'], activeforeground="white")
         self.cmd_external = Button(self.cmd_buttons, text="Execute External", font=(self.default_font, 12), height=1,
                                 command=partial(self.callback, command="external"),  width=6,
-                                relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'],
-                                activebackground=THEMES[CHOICE]['root'], activeforeground="white")
+                                relief=RAISED, overrelief=RAISED, bg=scheme.THEMES[CHOICE]['secondary'], fg=scheme.THEMES[CHOICE]['fg'],
+                                activebackground=scheme.THEMES[CHOICE]['root'], activeforeground="white")
         self.wiki_execute = Button(self.cmd, text="Search Wikipedia", font=(self.default_font, 12), height=1,
                                 command=partial(self.callback, command="wiki"),  width=6,
-                                relief=RAISED, overrelief=RAISED, bg=THEMES[CHOICE]['secondary'], fg=THEMES[CHOICE]['fg'],
-                                activebackground=THEMES[CHOICE]['root'], activeforeground="white")
+                                relief=RAISED, overrelief=RAISED, bg=scheme.THEMES[CHOICE]['secondary'], fg=scheme.THEMES[CHOICE]['fg'],
+                                activebackground=scheme.THEMES[CHOICE]['root'], activeforeground="white")
 
 
             # Widgets on root.right
-        self.clock = Label(self.right, bg=THEMES[CHOICE]['primary'], relief=GROOVE,
-                            fg=THEMES[CHOICE]['fg'], height=2, width=20,
+        self.clock = Label(self.right, bg=scheme.THEMES[CHOICE]['primary'], relief=GROOVE,
+                            fg=scheme.THEMES[CHOICE]['fg'], height=2, width=20,
                             font=('cursed timer ulil', 18, 'bold'))
         self.info = Frame(self.right, height=1)
         self.buttons = Frame(self.right, width=80,
-                                height=50, bg=THEMES[CHOICE]['root'], padx=2, pady=2)
+                                height=50, bg=scheme.THEMES[CHOICE]['root'], padx=2, pady=2)
 
                 # Widgets on root.right.details
-        self.network = Text(self.info, bg=THEMES[CHOICE]['secondary'],
-                            fg=THEMES[CHOICE]['fg'], height=5, width=27,
+        self.network = Text(self.info, bg=scheme.THEMES[CHOICE]['secondary'],
+                            fg=scheme.THEMES[CHOICE]['fg'], height=5, width=27,
                             font=(self.default_font, 12), padx=20)
-        self.system = Text(self.info, bg=THEMES[CHOICE]['secondary'],
-                        fg=THEMES[CHOICE]['fg'], height=5, width=33,
+        self.system = Text(self.info, bg=scheme.THEMES[CHOICE]['secondary'],
+                        fg=scheme.THEMES[CHOICE]['fg'], height=5, width=33,
                         font=(self.default_font, 12), padx=20)
 
         self.render_menu()
@@ -76,7 +78,7 @@ class HUD:
         menu_bar = Menu(root, tearoff=0)
         menu_bar.add_command(label='About', command=about)
 
-        for key, values in MENUS.items():
+        for key, values in constants.MENUS.items():
             menu_item = Menu(menu_bar, tearoff=0)
             for value in values:
                 if type(value) == list:
@@ -89,7 +91,7 @@ class HUD:
         theme_choice.add_command(label="Random Theme", command=self.set_theme)
         theme_choice.add_separator()
 
-        for category, themes in THEME_TYPES.items():
+        for category, themes in scheme.THEME_TYPES.items():
             theme_category = Menu(theme_choice, tearoff=0)
 
             for theme in themes:
@@ -129,32 +131,32 @@ class HUD:
 
         self.buttons.pack(side=TOP, fill=BOTH, expand=1)  
 
-        bg = deque([THEMES[CHOICE]['primary'], THEMES[CHOICE]['secondary']])
+        bg = deque([scheme.THEMES[CHOICE]['primary'], scheme.THEMES[CHOICE]['secondary']])
         self.action_items = []
         self.button_frames = []
 
-        for row in range(len(BUTTONS)):
-            command_row = Frame(self.buttons, bg=THEMES[CHOICE]['root'], pady=1)
+        for row in range(len(constants.BUTTONS)):
+            command_row = Frame(self.buttons, bg=scheme.THEMES[CHOICE]['root'], pady=1)
             command_row.pack(side=TOP, fill=BOTH, expand=1)
             self.button_frames.append(command_row)
-            for button in BUTTONS[row]:
+            for button in constants.BUTTONS[row]:
                 button = Button(command_row, text=button[0], font=(self.default_font, 12), height=1, 
                                 command=partial(self.callback, command=button[1]),  width=6, 
-                                relief=FLAT, overrelief=RAISED, bg=bg[0], fg=THEMES[CHOICE]['fg'], 
-                                activebackground=THEMES[CHOICE]['root'], activeforeground="white")
+                                relief=FLAT, overrelief=RAISED, bg=bg[0], fg=scheme.THEMES[CHOICE]['fg'], 
+                                activebackground=scheme.THEMES[CHOICE]['root'], activeforeground="white")
 
                 self.action_items.append(button)
                 bg.rotate(1)
                 button.pack(side=LEFT, fill=BOTH, expand=1)
         
     def start_widgets(self):
-        self.welcome.insert(END, WELCOME.lstrip()+CURRENT_THEME.format(CHOICE))
+        self.welcome.insert(END, constants.WELCOME.lstrip()+constants.CURRENT_THEME.format(CHOICE))
         self.welcome.config(state=DISABLED)
 
         self.cmd_input.insert(END, "> ")
         self.clock.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         
-        self.network.insert(END, NETWORK)
+        self.network.insert(END, constants.NETWORK)
         self.network.config(state=DISABLED)
 
         self.cmd_input.bind('<Return>', partial(self.callback, "command"))
@@ -165,7 +167,7 @@ class HUD:
         ram = psutil.virtual_memory()[2]
         gpu = GPUtil.getGPUs()
         battery = psutil.sensors_battery()
-        self.system.insert(END, SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
+        self.system.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
                                             battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
         self.system.config(state=DISABLED)
 
@@ -187,7 +189,7 @@ class HUD:
             ram = psutil.virtual_memory()[2]
             gpu = GPUtil.getGPUs()
             battery = psutil.sensors_battery()
-            self.system.insert(END, SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
+            self.system.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
                                                 battery.percent, "(Charging)" if battery.power_plugged else " "))
             self.system.config(state=DISABLED)
             
@@ -227,7 +229,7 @@ class HUD:
                 command = command.split('>')[-1]
             response = universal_callback(web="wiki "+command)
 
-            self.prompt.insert(END, WIKI.format(*response.values()))
+            self.prompt.insert(END, constants.WIKI.format(*response.values()))
 
         else:
             self.prompt.delete('1.0', END)
@@ -246,37 +248,37 @@ class HUD:
 
     def set_theme(self, theme=None):
         if theme == None:
-            theme = random.choice(list(THEMES.keys()))
+            theme = random.choice(list(scheme.THEMES.keys()))
 
-        root.config(bg=THEMES[theme]['root'])
+        root.config(bg=scheme.THEMES[theme]['root'])
 
-        self.prompt.config(bg=THEMES[theme]['primary'], fg=THEMES[theme]['fg'])
-        self.clock.config(bg=THEMES[theme]['primary'], fg=THEMES[theme]['fg'])
+        self.prompt.config(bg=scheme.THEMES[theme]['primary'], fg=scheme.THEMES[theme]['fg'])
+        self.clock.config(bg=scheme.THEMES[theme]['primary'], fg=scheme.THEMES[theme]['fg'])
         
-        self.welcome.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
+        self.welcome.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'])
 
-        self.cmd_title.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
-        self.cmd_input.config(bg=THEMES[theme]['primary'], fg=THEMES[theme]['fg'])
-        self.cmd_execute.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
-        self.cmd_external.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
-        self.wiki_execute.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
+        self.cmd_title.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'])
+        self.cmd_input.config(bg=scheme.THEMES[theme]['primary'], fg=scheme.THEMES[theme]['fg'])
+        self.cmd_execute.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'], activebackground=scheme.THEMES[theme]['root'])
+        self.cmd_external.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'], activebackground=scheme.THEMES[theme]['root'])
+        self.wiki_execute.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'], activebackground=scheme.THEMES[theme]['root'])
 
-        self.network.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
-        self.system.config(bg=THEMES[theme]['secondary'], fg=THEMES[theme]['fg'])
+        self.network.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'])
+        self.system.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'])
 
-        self.buttons.config(bg=THEMES[theme]['root'])
-        colors = deque([THEMES[theme]['primary'], THEMES[theme]['secondary']])
+        self.buttons.config(bg=scheme.THEMES[theme]['root'])
+        colors = deque([scheme.THEMES[theme]['primary'], scheme.THEMES[theme]['secondary']])
 
         for frame in self.button_frames:
-            frame.config(bg=THEMES[theme]['root'])
+            frame.config(bg=scheme.THEMES[theme]['root'])
 
         for button in self.action_items:
-            button.config(bg=colors[0], fg=THEMES[theme]['fg'], activebackground=THEMES[theme]['root'])
+            button.config(bg=colors[0], fg=scheme.THEMES[theme]['fg'], activebackground=scheme.THEMES[theme]['root'])
             colors.rotate(1)
 
         self.welcome.config(state=NORMAL)
         self.welcome.delete('1.0', END)
-        self.welcome.insert(END, WELCOME.lstrip()+CURRENT_THEME.format(theme))
+        self.welcome.insert(END, constants.WELCOME.lstrip()+constants.CURRENT_THEME.format(theme))
         self.welcome.config(state=DISABLED)
 
 
@@ -284,7 +286,7 @@ if __name__ == '__main__':
     gc.enable()
 
     root = Tk()
-    root.config(bg=THEMES[CHOICE]['root'], bd=5)
+    root.config(bg=scheme.THEMES[CHOICE]['root'], bd=5)
     root.resizable(1, 1)
     root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
     root.title("Afterlife")

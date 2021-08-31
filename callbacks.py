@@ -1,7 +1,7 @@
-import  os, webbrowser, requests, wikipedia
+import  os, webbrowser, requests, wikipedia, random
 
 from tkinter import messagebox
-from helpers.constants import *
+import helpers.constants as constants
 import subprocess as sp
 
 chrome_path="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
@@ -29,23 +29,23 @@ def universal_callback(command=None, web=None):
             url = web.split(' ', 1)[-1]
 
             if url == 'quote':
-                response = requests.get(QUOTE_API).json()
+                response = requests.get(constants.QUOTE_API).json()
                 return "{} \n\n- {}".format(response['content'], response['author'])
 
             if url == 'fact':
-                response = requests.get(FACTS_API).json()
+                response = requests.get(constants.FACTS_API).json()
                 return "Did you know, \n\n{}".format(response['text'])
 
             if url == 'poem':
-                response = random.choice(requests.get(POEMS_API).json())
+                response = random.choice(requests.get(constants.POEMS_API).json())
                 return "{} \n\n{} \n\nBy {}".format(response['title'], response['content'], response['poet']['name'])
 
             if url == 'insult':
-                response = requests.get(INSULT_API).json()
+                response = requests.get(constants.INSULT_API).json()
                 return "{}".format(response['insult'])
 
             if url == 'kanye':
-                response = requests.get(KANYE_API).json()
+                response = requests.get(constants.KANYE_API).json()
                 return "Kanye REST once said, \n\n*{}*".format(response['quote'])
 
         if web.startswith('wiki'):
@@ -67,7 +67,7 @@ def universal_callback(command=None, web=None):
             
 
 def about():
-    messagebox.showinfo('About', ABOUT)
+    messagebox.showinfo('About', constants.ABOUT)
 
 def destroy(root):
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
