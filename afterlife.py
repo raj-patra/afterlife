@@ -2,6 +2,7 @@
 import time, psutil, GPUtil, gc, random
 
 from tkinter import Tk, Text, Label, Entry, Button, Frame, Menu
+from tkinter import filedialog, messagebox
 from tkinter.constants import WORD, GROOVE, RAISED, FLAT, END
 from tkinter.constants import LEFT, RIGHT, TOP, BOTTOM, BOTH, DISABLED, NORMAL
 
@@ -160,6 +161,7 @@ class HUD:
         self.network.config(state=DISABLED)
 
         self.cmd_input.bind('<Return>', partial(self.callback, "command"))
+        self.prompt.bind('<Control-s>', self.save_file_as)
 
         self.callback("subprocess systeminfo")
 
@@ -281,6 +283,12 @@ class HUD:
         self.welcome.insert(END, constants.WELCOME.lstrip()+constants.CURRENT_THEME.format(theme))
         self.welcome.config(state=DISABLED)
 
+    def save_file_as(self, event = None):
+        self.filename = filedialog.asksaveasfilename(defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
+        with open(self.filename, 'w') as handle:
+            handle.write(self.prompt.get('1.0', 'end'))
+            handle.close()
+        messagebox.showinfo('FYI', 'File Saved')
 
 if __name__ == '__main__':
     gc.enable()
