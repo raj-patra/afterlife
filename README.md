@@ -11,8 +11,7 @@ pip install -r requirements.txt
 
 cd afterlife
 
-# comes with a shebang
-afterlife.py
+py afterlife.py
 ```
 
 ### Screenshots
