@@ -25,7 +25,7 @@ class HUD:
             # Widgets on root.left
         self.left_top = Frame(self.left)
         self.prompt = Text(self.left, bg=scheme.THEMES[CHOICE]['primary'], wrap=WORD, padx=20, pady=20,
-                            fg=scheme.THEMES[CHOICE]['fg'], font=(self.default_font, 11), width=50)
+                            fg=scheme.THEMES[CHOICE]['fg'], font=('noto mono', 11), width=50)
 
                 # Widgets on root.left.intro
         self.welcome = Text(self.left_top, bg=scheme.THEMES[CHOICE]['secondary'],
@@ -169,7 +169,12 @@ class HUD:
         ram = psutil.virtual_memory()[2]
         gpu = GPUtil.getGPUs()
         battery = psutil.sensors_battery()
-        self.system.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
+
+        if len(gpu) > 0:
+            self.system.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
+                                            battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
+        else:
+            self.system.insert(END, constants.SYSTEM.format(  cpu, ram, 'No GPU found', 0,
                                             battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
         self.system.config(state=DISABLED)
 
@@ -191,8 +196,12 @@ class HUD:
             ram = psutil.virtual_memory()[2]
             gpu = GPUtil.getGPUs()
             battery = psutil.sensors_battery()
-            self.system.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
-                                                battery.percent, "(Charging)" if battery.power_plugged else " "))
+            if len(gpu) > 0:
+                self.system.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
+                                                battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
+            else:
+                self.system.insert(END, constants.SYSTEM.format(  cpu, ram, 'No GPU found', 0,
+                                                battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
             self.system.config(state=DISABLED)
             
             self.system.after(5000, loop)
