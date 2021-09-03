@@ -25,7 +25,7 @@ class HUD:
             # Widgets on root.left
         self.left_top = Frame(self.left)
         self.prompt = Text(self.left, bg=scheme.THEMES[CHOICE]['primary'], wrap=WORD, padx=20, pady=20,
-                            fg=scheme.THEMES[CHOICE]['fg'], font=('noto mono', 11), width=50)
+                            fg=scheme.THEMES[CHOICE]['fg'], font=(self.default_font, 11), width=50)
 
                 # Widgets on root.left.intro
         self.welcome = Text(self.left_top, bg=scheme.THEMES[CHOICE]['secondary'],
