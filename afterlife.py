@@ -169,7 +169,12 @@ class HUD:
         ram = psutil.virtual_memory()[2]
         gpu = GPUtil.getGPUs()
         battery = psutil.sensors_battery()
-        self.system.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
+
+        if len(gpu) > 0:
+            self.system.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
+                                            battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
+        else:
+            self.system.insert(END, constants.SYSTEM.format(  cpu, ram, 'None', 0,
                                             battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
         self.system.config(state=DISABLED)
 
@@ -191,8 +196,12 @@ class HUD:
             ram = psutil.virtual_memory()[2]
             gpu = GPUtil.getGPUs()
             battery = psutil.sensors_battery()
-            self.system.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
-                                                battery.percent, "(Charging)" if battery.power_plugged else " "))
+            if len(gpu) > 0:
+                self.system.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
+                                                battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
+            else:
+                self.system.insert(END, constants.SYSTEM.format(  cpu, ram, 'None', 0,
+                                                battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
             self.system.config(state=DISABLED)
             
             self.system.after(5000, loop)
