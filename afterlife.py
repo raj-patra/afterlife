@@ -162,6 +162,7 @@ class HUD:
 
         self.cmd_input.bind('<Return>', partial(self.callback, "command"))
         self.prompt.bind('<Control-s>', self.save_file_as)
+        self.prompt.bind('<Control-S>', self.save_file_as)
 
         self.callback("subprocess systeminfo")
 
