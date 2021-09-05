@@ -171,7 +171,7 @@ class HUD:
         self.network.insert(END, constants.NETWORK)
         self.network.config(state=DISABLED)
 
-        self.cmd_input.bind('<Return>', partial(self.callback, "command"))
+        self.cmd_input.bind('<Return>', partial(self.callback, "cmd execute"))
         self.prompt.bind('<Control-s>', self.save_file_as)
         self.prompt.bind('<Control-S>', self.save_file_as)
 
@@ -231,18 +231,19 @@ class HUD:
             response = universal_callback(command=command)
             self.prompt.insert(END, response)
 
-        elif command.startswith('url'):
-            universal_callback(web=command)
-
         elif command.startswith('request'):
             self.prompt.delete('1.0', END)
             response = universal_callback(web=command)
             self.prompt.insert(END, response)
-        
+
+        elif command.startswith('url'):
+            universal_callback(web=command)
+
         elif command.startswith('cmd') or command.startswith('wiki'):
             query = self.cmd_input.get()
             if ">" in query:
                 query = query.split('>')[-1]
+                
             if command == 'cmd execute':
                 self.prompt.delete('1.0', END)
                 response = universal_callback(command="subprocess "+query)
