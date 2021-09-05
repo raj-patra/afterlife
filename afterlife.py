@@ -20,7 +20,9 @@ class HUD:
         # Root Frames
         self.left = Frame(root)
         self.right = Frame(root)
-        self.default_font = 'noto mono'
+        # self.default_font = 'MS Reference Sans Serif'
+        self.default_font = 'Maiandra GD'
+        # self.default_font = 'Lucida Sans'
 
             # Widgets on root.left
         self.left_top = Frame(self.left)
@@ -41,16 +43,22 @@ class HUD:
                             width=28, font=(self.default_font, 12, 'bold'), insertbackground="white",)
 
         self.cmd_buttons = Frame(self.cmd)
-        self.cmd_execute = Button(self.cmd_buttons, text="Execute", font=(self.default_font, 12), height=1,
-                                command=partial(self.callback, command="command"),  width=6,
+        self.cmd_execute = Button(self.cmd_buttons, text="Execute Command", font=(self.default_font, 12), height=1,
+                                command=partial(self.callback, command="cmd execute"), width=6,
                                 relief=RAISED, overrelief=RAISED, bg=scheme.THEMES[CHOICE]['secondary'], fg=scheme.THEMES[CHOICE]['fg'],
                                 activebackground=scheme.THEMES[CHOICE]['root'], activeforeground="white")
         self.cmd_external = Button(self.cmd_buttons, text="Execute External", font=(self.default_font, 12), height=1,
-                                command=partial(self.callback, command="external"),  width=6,
+                                command=partial(self.callback, command="cmd external"), width=6,
                                 relief=RAISED, overrelief=RAISED, bg=scheme.THEMES[CHOICE]['secondary'], fg=scheme.THEMES[CHOICE]['fg'],
                                 activebackground=scheme.THEMES[CHOICE]['root'], activeforeground="white")
+        
+        self.wiki_buttons = Frame(self.cmd)
         self.wiki_execute = Button(self.cmd, text="Search Wikipedia", font=(self.default_font, 12), height=1,
-                                command=partial(self.callback, command="wiki"),  width=6,
+                                command=partial(self.callback, command="wiki execute"), width=6,
+                                relief=RAISED, overrelief=RAISED, bg=scheme.THEMES[CHOICE]['secondary'], fg=scheme.THEMES[CHOICE]['fg'],
+                                activebackground=scheme.THEMES[CHOICE]['root'], activeforeground="white")
+        self.wiki_external = Button(self.cmd, text="Search External", font=(self.default_font, 12), height=1,
+                                command=partial(self.callback, command="wiki external"), width=6,
                                 relief=RAISED, overrelief=RAISED, bg=scheme.THEMES[CHOICE]['secondary'], fg=scheme.THEMES[CHOICE]['fg'],
                                 activebackground=scheme.THEMES[CHOICE]['root'], activeforeground="white")
 
@@ -116,11 +124,14 @@ class HUD:
 
         self.cmd_title.pack(side=TOP, fill=BOTH, expand=0)
         self.cmd_input.pack(side=TOP, fill=BOTH, expand=1)
-        self.cmd_buttons.pack(side=TOP, fill=BOTH, expand=0)
 
+        self.cmd_buttons.pack(side=TOP, fill=BOTH, expand=0)
         self.cmd_execute.pack(side=LEFT, fill=BOTH, expand=1)
         self.cmd_external.pack(side=LEFT, fill=BOTH, expand=1)
-        self.wiki_execute.pack(side=TOP, fill=BOTH, expand=0)
+
+        self.wiki_buttons.pack(side=TOP, fill=BOTH, expand=0)
+        self.wiki_execute.pack(side=LEFT, fill=BOTH, expand=1)
+        self.wiki_external.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.prompt.pack(side=BOTTOM, fill=BOTH, expand=1)
 
@@ -160,8 +171,9 @@ class HUD:
         self.network.insert(END, constants.NETWORK)
         self.network.config(state=DISABLED)
 
-        self.cmd_input.bind('<Return>', partial(self.callback, "command"))
+        self.cmd_input.bind('<Return>', partial(self.callback, "cmd execute"))
         self.prompt.bind('<Control-s>', self.save_file_as)
+        self.prompt.bind('<Control-S>', self.save_file_as)
 
         self.callback("subprocess systeminfo")
 
@@ -219,41 +231,39 @@ class HUD:
             response = universal_callback(command=command)
             self.prompt.insert(END, response)
 
-        elif command.startswith('url'):
-            universal_callback(web=command)
-
         elif command.startswith('request'):
             self.prompt.delete('1.0', END)
             response = universal_callback(web=command)
             self.prompt.insert(END, response)
-        
-        elif command == 'external':
-            command = self.cmd_input.get()
-            if ">" in command:
-                command = command.split('>')[-1]
-            universal_callback(command="start cmd /k "+command)
 
-        elif command == 'wiki':
-            self.prompt.delete('1.0', END)
-            command = self.cmd_input.get()
-            if ">" in command:
-                command = command.split('>')[-1]
-            response = universal_callback(web="wiki "+command)
+        elif command.startswith('url'):
+            universal_callback(web=command)
 
-            self.prompt.insert(END, constants.WIKI.format(*response.values()))
+        elif command.startswith('cmd') or command.startswith('wiki'):
+            query = self.cmd_input.get()
+            if ">" in query:
+                query = query.split('>')[-1]
+                
+            if command == 'cmd execute':
+                self.prompt.delete('1.0', END)
+                response = universal_callback(command="subprocess "+query)
+                self.prompt.insert(END, response)
+            elif command == 'cmd external':
+                universal_callback(command="start cmd /k "+query)
+
+            elif command == 'wiki execute':
+                response = universal_callback(web="wiki "+query)
+                self.prompt.delete('1.0', END)
+                self.prompt.insert(END, constants.WIKI.format(*response.values()))
+            elif command == 'wiki external':
+                response = universal_callback(web="wiki "+query)
+                universal_callback(web='url '+response['url'])
+            
+            self.cmd_input.delete(0, END)
+            self.cmd_input.insert(END, "> ")
 
         else:
             self.prompt.delete('1.0', END)
-            command = self.cmd_input.get()   
-
-            if ">" in command:
-                command = command.split('>')[-1]
-
-            response = universal_callback(command="subprocess "+command)
-            self.prompt.insert(END, response)
-
-            self.cmd_input.delete(0, END)
-            self.cmd_input.insert(END, "> ")
             
         self.prompt.config(state=DISABLED)
 
