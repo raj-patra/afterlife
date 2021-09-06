@@ -108,7 +108,6 @@ class HUD:
             theme_choice.add_cascade(label=category, menu=theme_category)
 
         menu_bar.add_cascade(label="Themes", menu=theme_choice)
-
         menu_bar.add_command(label='Clear Prompt', command=partial(self.callback, "clear"))
         menu_bar.add_command(label='Exit', command=partial(destroy, root))
 
