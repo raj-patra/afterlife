@@ -85,7 +85,13 @@ class HUD:
     
     def render_menu(self):
         menu_bar = Menu(root, tearoff=0)
-        menu_bar.add_command(label='About', command=about)
+
+        menu_item = Menu(menu_bar, tearoff=0)
+        menu_item.add_command(label='About', command=about)
+        menu_item.add_separator()
+        menu_item.add_command(label='Clear Prompt', command=partial(self.callback, "clear"))
+        menu_item.add_command(label='Exit', command=partial(destroy, root))
+        menu_bar.add_cascade(label='Application', menu=menu_item)
 
         for key, values in constants.MENUS.items():
             menu_item = Menu(menu_bar, tearoff=0)
@@ -108,8 +114,6 @@ class HUD:
             theme_choice.add_cascade(label=category, menu=theme_category)
 
         menu_bar.add_cascade(label="Themes", menu=theme_choice)
-        menu_bar.add_command(label='Clear Prompt', command=partial(self.callback, "clear"))
-        menu_bar.add_command(label='Exit', command=partial(destroy, root))
 
         root.config(menu=menu_bar)
 
