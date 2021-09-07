@@ -66,7 +66,7 @@ def universal_callback(command=None, web=None):
             }
             
 
-def about():
+def about(event=None):
     messagebox.showinfo('About', constants.ABOUT)
 
 def destroy(root):

@@ -175,8 +175,9 @@ class HUD:
         self.network.config(state=DISABLED)
 
         self.cmd_input.bind('<Return>', partial(self.callback, "cmd execute"))
-        self.prompt.bind('<Control-s>', self.save_file_as)
-        self.prompt.bind('<Control-S>', self.save_file_as)
+        root.bind('<Control-s>', self.save_file_as)
+        root.bind('<Control-S>', self.save_file_as)
+        root.bind('<F1>', about)
 
         self.callback("subprocess systeminfo")
 
