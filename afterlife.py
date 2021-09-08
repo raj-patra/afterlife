@@ -177,6 +177,7 @@ class HUD:
         self.cmd_input.bind('<Return>', partial(self.callback, "cmd execute"))
         root.bind('<Control-s>', self.save_file_as)
         root.bind('<Control-S>', self.save_file_as)
+        root.bind('<Control-t>', partial(self.set_theme, None))
         root.bind('<F1>', about)
 
         self.callback("subprocess systeminfo")
@@ -271,7 +272,7 @@ class HUD:
             
         self.prompt.config(state=DISABLED)
 
-    def set_theme(self, theme=None):
+    def set_theme(self, theme=None, event=None):
         if theme == None:
             theme = random.choice(list(scheme.THEMES.keys()))
 
