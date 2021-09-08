@@ -87,10 +87,10 @@ class HUD:
         menu_bar = Menu(root, tearoff=0)
 
         menu_item = Menu(menu_bar, tearoff=0)
-        menu_item.add_command(label='About', command=about)
+        menu_item.add_command(label='About', command=about, accelerator='F1')
         menu_item.add_separator()
-        menu_item.add_command(label='Clear Prompt', command=partial(self.callback, "clear"))
-        menu_item.add_command(label='Exit', command=partial(destroy, root))
+        menu_item.add_command(label='Clear Prompt', command=partial(self.callback, "clear"), accelerator='Ctrl+Del')
+        menu_item.add_command(label='Exit', command=partial(destroy, root), accelerator='Alt+F4')
         menu_bar.add_cascade(label='Application', menu=menu_item)
 
         for key, values in constants.MENUS.items():
@@ -103,7 +103,7 @@ class HUD:
             menu_bar.add_cascade(label=key, menu=menu_item)
 
         theme_choice = Menu(menu_bar, tearoff=0)
-        theme_choice.add_command(label="Random Theme", command=self.set_theme)
+        theme_choice.add_command(label="Random Theme", command=self.set_theme, accelerator='Ctrl+T')
         theme_choice.add_separator()
 
         for category, themes in scheme.THEME_TYPES.items():
@@ -177,6 +177,9 @@ class HUD:
         self.cmd_input.bind('<Return>', partial(self.callback, "cmd execute"))
         root.bind('<Control-s>', self.save_file_as)
         root.bind('<Control-S>', self.save_file_as)
+        root.bind('<Control-t>', partial(self.set_theme, None))
+        root.bind('<Control-T>', partial(self.set_theme, None))
+        root.bind('<Control-Delete>', partial(self.callback, 'clear'))
         root.bind('<F1>', about)
 
         self.callback("subprocess systeminfo")
@@ -271,7 +274,7 @@ class HUD:
             
         self.prompt.config(state=DISABLED)
 
-    def set_theme(self, theme=None):
+    def set_theme(self, theme=None, event=None):
         if theme == None:
             theme = random.choice(list(scheme.THEMES.keys()))
 
@@ -287,6 +290,7 @@ class HUD:
         self.cmd_execute.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'], activebackground=scheme.THEMES[theme]['root'])
         self.cmd_external.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'], activebackground=scheme.THEMES[theme]['root'])
         self.wiki_execute.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'], activebackground=scheme.THEMES[theme]['root'])
+        self.wiki_external.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'], activebackground=scheme.THEMES[theme]['root'])
 
         self.network.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'])
         self.system.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'])
