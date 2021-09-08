@@ -87,10 +87,10 @@ class HUD:
         menu_bar = Menu(root, tearoff=0)
 
         menu_item = Menu(menu_bar, tearoff=0)
-        menu_item.add_command(label='About', command=about)
+        menu_item.add_command(label='About', command=about, accelerator='F1')
         menu_item.add_separator()
-        menu_item.add_command(label='Clear Prompt', command=partial(self.callback, "clear"))
-        menu_item.add_command(label='Exit', command=partial(destroy, root))
+        menu_item.add_command(label='Clear Prompt', command=partial(self.callback, "clear"), accelerator='Ctrl+Del')
+        menu_item.add_command(label='Exit', command=partial(destroy, root), accelerator='Alt+F4')
         menu_bar.add_cascade(label='Application', menu=menu_item)
 
         for key, values in constants.MENUS.items():
@@ -103,7 +103,7 @@ class HUD:
             menu_bar.add_cascade(label=key, menu=menu_item)
 
         theme_choice = Menu(menu_bar, tearoff=0)
-        theme_choice.add_command(label="Random Theme", command=self.set_theme)
+        theme_choice.add_command(label="Random Theme", command=self.set_theme, accelerator='Ctrl+T')
         theme_choice.add_separator()
 
         for category, themes in scheme.THEME_TYPES.items():
@@ -179,6 +179,7 @@ class HUD:
         root.bind('<Control-S>', self.save_file_as)
         root.bind('<Control-t>', partial(self.set_theme, None))
         root.bind('<Control-T>', partial(self.set_theme, None))
+        root.bind('<Control-Delete>', partial(self.callback, 'clear'))
         root.bind('<F1>', about)
 
         self.callback("subprocess systeminfo")
