@@ -178,6 +178,7 @@ class HUD:
         root.bind('<Control-s>', self.save_file_as)
         root.bind('<Control-S>', self.save_file_as)
         root.bind('<Control-t>', partial(self.set_theme, None))
+        root.bind('<Control-T>', partial(self.set_theme, None))
         root.bind('<F1>', about)
 
         self.callback("subprocess systeminfo")
@@ -288,6 +289,7 @@ class HUD:
         self.cmd_execute.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'], activebackground=scheme.THEMES[theme]['root'])
         self.cmd_external.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'], activebackground=scheme.THEMES[theme]['root'])
         self.wiki_execute.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'], activebackground=scheme.THEMES[theme]['root'])
+        self.wiki_external.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'], activebackground=scheme.THEMES[theme]['root'])
 
         self.network.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'])
         self.system.config(bg=scheme.THEMES[theme]['secondary'], fg=scheme.THEMES[theme]['fg'])
