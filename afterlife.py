@@ -193,10 +193,10 @@ class HUD:
 
         if len(gpu) > 0:
             self.system.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
-                                            battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
+                                            battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)"))
         else:
             self.system.insert(END, constants.SYSTEM.format(  cpu, ram, 'No GPU found', 0,
-                                            battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
+                                            battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)"))
         self.system.config(state=DISABLED)
 
         self.update_widgets()
@@ -219,10 +219,10 @@ class HUD:
             battery = psutil.sensors_battery()
             if len(gpu) > 0:
                 self.system.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
-                                                battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
+                                                battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)"))
             else:
                 self.system.insert(END, constants.SYSTEM.format(  cpu, ram, 'No GPU found', 0,
-                                                battery.percent, "Plugged In" if battery.power_plugged else "Not Plugged In"))
+                                                battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)"))
             self.system.config(state=DISABLED)
             
             self.system.after(5000, loop)
