@@ -89,6 +89,8 @@ class HUD:
         menu_item = Menu(menu_bar, tearoff=0)
         menu_item.add_command(label='About', command=about, accelerator='F1')
         menu_item.add_separator()
+        menu_item.add_command(label='Save', command=self.save_file_as, accelerator='Ctrl+S')
+        menu_item.add_separator()
         menu_item.add_command(label='Clear Prompt', command=partial(self.callback, "clear"), accelerator='Ctrl+Del')
         menu_item.add_command(label='Exit', command=partial(destroy, root), accelerator='Alt+F4')
         menu_bar.add_cascade(label='Application', menu=menu_item)
@@ -310,7 +312,7 @@ class HUD:
         self.welcome.insert(END, constants.WELCOME.lstrip()+constants.CURRENT_THEME.format(theme))
         self.welcome.config(state=DISABLED)
 
-    def save_file_as(self, event = None):
+    def save_file_as(self, event=None):
         self.filename = filedialog.asksaveasfilename(defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
         with open(self.filename, 'w') as handle:
             handle.write(self.prompt.get('1.0', 'end'))
