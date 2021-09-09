@@ -127,7 +127,7 @@ CPU Usage: {} %
 Memory: {} %
 
 {}: {:.1f} %
-Battery: {} % {}
+Battery: {}% {}
 
 ------------------------------------
 
@@ -145,8 +145,6 @@ Public IP: {}
 Private IP: {}
 
 MAC Address: {}
-
-Default Gateway: 192.168.0.0/1
 """.format(HOST, USER, PUB_IP, PRI_IP, MAC)
 
 # ----------------------------------------------------------------------------------
