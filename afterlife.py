@@ -89,7 +89,7 @@ class HUD:
         menu_item = Menu(menu_bar, tearoff=0)
         menu_item.add_command(label='About', command=about, accelerator='F1')
         menu_item.add_separator()
-        menu_item.add_command(label='Save', command=self.save_file_as, accelerator='Ctrl+S')
+        menu_item.add_command(label='Save', command=self.save_prompt_content, accelerator='Ctrl+S')
         menu_item.add_separator()
         menu_item.add_command(label='Clear Prompt', command=partial(self.callback, "clear"), accelerator='Ctrl+Del')
         menu_item.add_command(label='Exit', command=partial(destroy, root), accelerator='Alt+F4')
@@ -177,8 +177,8 @@ class HUD:
         self.network.config(state=DISABLED)
 
         self.cmd_input.bind('<Return>', partial(self.callback, "cmd execute"))
-        root.bind('<Control-s>', self.save_file_as)
-        root.bind('<Control-S>', self.save_file_as)
+        root.bind('<Control-s>', self.save_prompt_content)
+        root.bind('<Control-S>', self.save_prompt_content)
         root.bind('<Control-t>', partial(self.set_theme, None))
         root.bind('<Control-T>', partial(self.set_theme, None))
         root.bind('<Control-Delete>', partial(self.callback, 'clear'))
@@ -312,12 +312,12 @@ class HUD:
         self.welcome.insert(END, constants.WELCOME.lstrip()+constants.CURRENT_THEME.format(theme))
         self.welcome.config(state=DISABLED)
 
-    def save_file_as(self, event=None):
+    def save_prompt_content(self, event=None):
         self.filename = filedialog.asksaveasfilename(defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
         with open(self.filename, 'w') as handle:
             handle.write(self.prompt.get('1.0', 'end'))
             handle.close()
-        messagebox.showinfo('FYI', 'File Saved')
+        messagebox.showinfo('Info', 'The contents of the Text Widget has been saved.')
 
 if __name__ == '__main__':
     gc.enable()
