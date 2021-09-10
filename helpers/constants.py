@@ -105,6 +105,8 @@ MAC = getmac.get_mac_address()
 HOST = sp.getoutput("hostname")
 USER = sp.getoutput("whoami")
 
+boot = sp.getoutput("wmic path Win32_OperatingSystem get LastBootUpTime").split('\n')[2].split('.')[0]
+LAST_BOOT = "Last Bootup Time: {}{}/{}/{} {}:{}:{}".format(*[boot[i:i+2] for i in range(0, len(boot), 2)])
 DISK = sp.getoutput("wmic logicaldisk get size,freespace,caption").replace("\n\n", "\n")
 
 # ----------------------------------------------------------------------------------
@@ -122,16 +124,11 @@ CURRENT_THEME = "FYI, Current theme: {}"
 
 # ----------------------------------------------------------------------------------
 
-SYSTEM = """
-CPU Usage: {} %
-Memory: {} %
+SYSTEM = '\n'+LAST_BOOT+'\n\n'+DISK+"""CPU Usage: {}%    |    Memory Usage: {}%
 
 {}: {:.1f} %
-Battery: {}% {}
 
-------------------------------------
-
-"""+DISK
+Battery: {}% {}"""
 
 # ----------------------------------------------------------------------------------
 

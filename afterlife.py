@@ -20,9 +20,8 @@ class HUD:
         # Root Frames
         self.left = Frame(root)
         self.right = Frame(root)
-        # self.default_font = 'MS Reference Sans Serif'
         self.default_font = 'Maiandra GD'
-        # self.default_font = 'Lucida Sans'
+        self.timer_font = 'cursed timer ulil'
 
             # Widgets on root.left
         self.left_top = Frame(self.left)
@@ -66,7 +65,7 @@ class HUD:
             # Widgets on root.right
         self.clock = Label(self.right, bg=scheme.THEMES[CHOICE]['primary'], relief=GROOVE,
                             fg=scheme.THEMES[CHOICE]['fg'], height=2, width=20,
-                            font=('cursed timer ulil', 18, 'bold'))
+                            font=(self.default_font, 18, 'bold'))
         self.info = Frame(self.right, height=1)
         self.buttons = Frame(self.right, width=80,
                                 height=50, bg=scheme.THEMES[CHOICE]['root'], padx=2, pady=2)
