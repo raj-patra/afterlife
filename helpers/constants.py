@@ -124,7 +124,7 @@ CURRENT_THEME = "FYI, Current theme: {}"
 
 # ----------------------------------------------------------------------------------
 
-SYSTEM = '\n'+LAST_BOOT+'\n\n'+DISK+"""CPU Usage: {}%    |    RAM Usage: {}%
+SYSTEM = '\n'+LAST_BOOT+'\n\n'+DISK+"""CPU Usage: {}%   |   RAM Usage: {}%
 
 {}: {:.1f} %
 
