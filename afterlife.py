@@ -73,10 +73,10 @@ class HUD:
 
                 # Widgets on root.right.details
         self.network = Text(self.info, bg=scheme.THEMES[CHOICE]['secondary'],
-                            fg=scheme.THEMES[CHOICE]['fg'], height=5, width=27,
+                            fg=scheme.THEMES[CHOICE]['fg'], height=5, width=25,
                             font=(self.default_font, 12), padx=20)
         self.system = Text(self.info, bg=scheme.THEMES[CHOICE]['secondary'],
-                        fg=scheme.THEMES[CHOICE]['fg'], height=5, width=33,
+                        fg=scheme.THEMES[CHOICE]['fg'], height=5, width=35,
                         font=(self.default_font, 12), padx=20)
 
         self.render_menu()
