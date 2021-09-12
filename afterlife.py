@@ -314,9 +314,10 @@ class HUD:
 
     def save_prompt_content(self, event=None):
         handle = filedialog.asksaveasfile(mode="w", defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
-        handle.write(self.prompt.get('1.0', 'end'))
-        handle.close()
-        messagebox.showinfo('Info', 'The contents of the Text Widget has been saved.')
+        if handle != None:
+            handle.write(self.prompt.get('1.0', 'end'))
+            handle.close()
+            messagebox.showinfo('Info', 'The contents of the Text Widget has been saved.')
 
 if __name__ == '__main__':
     gc.enable()
