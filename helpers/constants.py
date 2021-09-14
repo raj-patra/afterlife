@@ -4,10 +4,10 @@ import subprocess as sp
 
 BUTTONS = {
 
-    0: [['All Apps', 'start explorer.exe Shell:::AppsFolder'],
+    0: [['All\nApps', 'start explorer.exe Shell:::AppsFolder'],
         ["Root\nFolder", "start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"],
         ["Task\nManager", "start taskmgr"], ["Control\nPanel", "start control"],
-        ['Settings', 'start ms-settings:'],
+        ['System\nSettings', 'start ms-settings:'],
         ],
 
     1: [['Google', 'url www.google.com'], ['Gmail', 'url mail.google.com'], ['Youtube', 'url www.youtube.com'],
