@@ -177,6 +177,7 @@ class HUD:
         self.network.config(state=DISABLED)
 
         self.cmd_input.bind('<Return>', partial(self.callback, "cmd execute"))
+        self.cmd_input.bind('<Control-Return>', partial(self.callback, "wiki execute"))
         root.bind('<Control-s>', self.save_prompt_content)
         root.bind('<Control-S>', self.save_prompt_content)
         root.bind('<Control-t>', partial(self.set_theme, None))
