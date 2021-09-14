@@ -89,9 +89,9 @@ class HUD:
         menu_item = Menu(menu_bar, tearoff=0)
         menu_item.add_command(label='About', command=about, accelerator='F1')
         menu_item.add_separator()
-        menu_item.add_command(label='Save', command=self.save_prompt_content, accelerator='Ctrl+S')
-        menu_item.add_separator()
+        menu_item.add_command(label='Save Prompt', command=self.save_prompt_content, accelerator='Ctrl+S')
         menu_item.add_command(label='Clear Prompt', command=partial(self.callback, "clear"), accelerator='Ctrl+Del')
+        menu_item.add_separator()
         menu_item.add_command(label='Exit', command=partial(destroy, root), accelerator='Alt+F4')
         menu_bar.add_cascade(label='Application', menu=menu_item)
 
