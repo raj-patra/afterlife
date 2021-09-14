@@ -92,6 +92,7 @@ class HUD:
         menu_item.add_command(label='Save Prompt', command=self.save_prompt_content, accelerator='Ctrl+S')
         menu_item.add_command(label='Clear Prompt', command=partial(self.callback, "clear"), accelerator='Ctrl+Del')
         menu_item.add_separator()
+        menu_item.add_command(label='Send Feedback', command=partial(self.callback, "start mailto:rajpatra.kishore@gmail.com"), accelerator='Ctrl+F')
         menu_item.add_command(label='Exit', command=partial(destroy, root), accelerator='Alt+F4')
         menu_bar.add_cascade(label='Application', menu=menu_item)
 
@@ -182,6 +183,8 @@ class HUD:
         root.bind('<Control-S>', self.save_prompt_content)
         root.bind('<Control-t>', partial(self.set_theme, None))
         root.bind('<Control-T>', partial(self.set_theme, None))
+        root.bind('<Control-f>', partial(self.callback, "start mailto:rajpatra.kishore@gmail.com"))
+        root.bind('<Control-F>', partial(self.callback, "start mailto:rajpatra.kishore@gmail.com"))
         root.bind('<Control-Delete>', partial(self.callback, 'clear'))
         root.bind('<F1>', about)
 
