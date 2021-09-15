@@ -57,8 +57,9 @@ MENUS = {
                 ["Environment Variables", "subprocess set"], 
                 ["Available Drivers", "subprocess driverquery"], "---",
 
+                ["Installed Apps", "start cmd /k wmic product get name,version"], "---",
+                
                 ["Run", "start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"],
-                ["Installed Apps", "start cmd /k wmic product get name,version"],
                 ["God Mode", "start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"],
                 ["Registry Editor", "start regedit"], ["Disk Management", "start diskmgmt"],
                 ["Device Management", "start devmgmt"]],

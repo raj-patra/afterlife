@@ -283,13 +283,13 @@ THEMES = {
 
 THEME_TYPES = { "Light Themes": ['default_repocard', 'vue', 'solarized_light'],
                 
-                "Low Contrast Themes": ['buefy', 'gruvbox', 'onedark', 'cobalt', 'synthwave', 'dracula', 
-                                        'monokai', 'vue_dark', 'shades_of_purple', 'darcula', 'bear', 'solarized_dark', 
+                "Low Contrast Themes": ['gruvbox', 'onedark', 'cobalt', 'synthwave', 'dracula', 
+                                        'monokai', 'vue_dark', 'darcula', 'bear', 'solarized_dark', 'omni', 'kacho_ga',
                                         'nord', 'material_palenight', 'ayu_mirage', 'react', 'calm', 'blueberry', 
-                                        'slateorange', 'jolly', 'discord_old_blurple'],
+                                        'slateorange', 'jolly', 'shades_of_purple', 'discord_old_blurple', 'prussian'],
                 
                 "High Contrast Themes": ['og_blue', 'dark', 'radical', 'merko', 'tokyonight', 'cyberpunk', 
-                                        'prussian', 'nightowl', 'blue_green', 'algolia', 'great_gatsby', 'chartreuse_dark', 
-                                        'gotham', 'graphite', 'vision_friendly_dark', 'omni', 
-                                        'maroongold', 'yeblu', 'kacho_ga', 'ocean_dark', 'city_lights', 'github_dark']
+                                        'buefy', 'nightowl', 'blue_green', 'algolia', 'great_gatsby', 'chartreuse_dark', 
+                                        'gotham', 'graphite', 'vision_friendly_dark', 'maroongold', 'yeblu',
+                                         'ocean_dark', 'city_lights', 'github_dark']
             }
