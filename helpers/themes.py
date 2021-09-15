@@ -281,14 +281,14 @@ THEMES = {
     },
 }
 
-THEME_TYPES = { "Light Themes": ['default_repocard', 'vue', 'solarized_light'],
+THEME_TYPES = { "Light Mode": ['default_repocard', 'vue', 'solarized_light'],
                 
-                "Low Contrast Themes": ['gruvbox', 'onedark', 'cobalt', 'synthwave', 'dracula', 
-                                        'monokai', 'vue_dark', 'darcula', 'bear', 'solarized_dark', 'omni', 'kacho_ga',
+                "Dark Mode (Low Contrast)": ['gruvbox', 'onedark', 'cobalt', 'synthwave', 'dracula', 
+                                        'monokai', 'vue_dark', 'darcula', 'bear', 'solarized_dark', 'kacho_ga',
                                         'nord', 'material_palenight', 'ayu_mirage', 'react', 'calm', 'blueberry', 
                                         'slateorange', 'jolly', 'shades_of_purple', 'discord_old_blurple', 'prussian'],
                 
-                "High Contrast Themes": ['og_blue', 'dark', 'radical', 'merko', 'tokyonight', 'cyberpunk', 
+                "Dark Mode (High Contrast)": ['og_blue', 'dark', 'radical', 'merko', 'tokyonight', 'cyberpunk', 'omni',
                                         'buefy', 'nightowl', 'blue_green', 'algolia', 'great_gatsby', 'chartreuse_dark', 
                                         'gotham', 'graphite', 'vision_friendly_dark', 'maroongold', 'yeblu',
                                          'ocean_dark', 'city_lights', 'github_dark']
