@@ -99,7 +99,11 @@ KANYE_API = "https://api.kanye.rest/"
 
 # ----------------------------------------------------------------------------------
 
-PUB_IP = requests.get('https://ident.me').text
+try:
+    PUB_IP = requests.get('https://ident.me').text
+except Exception as e:
+    PUB_IP = "NA. Error Occured."
+
 PRI_IP = socket.gethostbyname(socket.gethostname())
 MAC = getmac.get_mac_address()
 HOST = sp.getoutput("hostname")
