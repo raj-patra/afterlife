@@ -7,7 +7,7 @@ from tkinter.constants import WORD, GROOVE, RAISED, FLAT, END
 from tkinter.constants import LEFT, RIGHT, TOP, BOTTOM, BOTH, DISABLED, NORMAL
 
 import helpers.constants as constants
-import helpers.themes as scheme
+import helpers.schemes as scheme
 from callbacks import universal_callback, about, destroy
 from functools import partial
 from collections import deque
