@@ -91,6 +91,7 @@ class HUD:
         menu_item.add_separator()
         menu_item.add_command(label='Save Prompt', command=self.save_prompt_content, accelerator='Ctrl+S')
         menu_item.add_command(label='Clear Prompt', command=partial(self.callback, "clear"), accelerator='Ctrl+Del')
+        menu_item.add_separator()
 
         theme_choice = Menu(menu_bar, tearoff=0)
         theme_choice.add_command(label="Random Theme", command=self.set_theme, accelerator='Ctrl+T')
