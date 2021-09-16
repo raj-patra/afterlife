@@ -61,8 +61,8 @@ MENUS = {
                 
                 ["Run", "start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"],
                 ["God Mode", "start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"],
-                ["Registry Editor", "start regedit"], ["Disk Management", "start diskmgmt"],
-                ["Device Management", "start devmgmt"]],
+                ["Device Management", "start devmgmt"], ["Disk Management", "start diskmgmt"],
+                ["Registry Editor", "start regedit"]],
                 
 
     "Socials":  [['Facebook', "url www.facebook.com"], ['Instagram', 'url www.instagram.com'], ['Reddit', 'url www.reddit.com'], ['Twitter', 'url www.twitter.com'], "---",
