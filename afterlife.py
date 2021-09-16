@@ -91,19 +91,6 @@ class HUD:
         menu_item.add_separator()
         menu_item.add_command(label='Save Prompt', command=self.save_prompt_content, accelerator='Ctrl+S')
         menu_item.add_command(label='Clear Prompt', command=partial(self.callback, "clear"), accelerator='Ctrl+Del')
-        menu_item.add_separator()
-        menu_item.add_command(label='Send Feedback', command=partial(self.callback, "start mailto:rajpatra.kishore@gmail.com"), accelerator='Ctrl+F')
-        menu_item.add_command(label='Exit', command=partial(destroy, root), accelerator='Alt+F4')
-        menu_bar.add_cascade(label='Application', menu=menu_item)
-
-        for key, values in constants.MENUS.items():
-            menu_item = Menu(menu_bar, tearoff=0)
-            for value in values:
-                if type(value) == list:
-                    menu_item.add_command(label=value[0], command=partial(self.callback, value[1]))
-                else:
-                    menu_item.add_separator()
-            menu_bar.add_cascade(label=key, menu=menu_item)
 
         theme_choice = Menu(menu_bar, tearoff=0)
         theme_choice.add_command(label="Random Theme", command=self.set_theme, accelerator='Ctrl+T')
@@ -116,7 +103,20 @@ class HUD:
                 theme_category.add_command(label=theme, command=partial(self.set_theme, theme))
             theme_choice.add_cascade(label=category, menu=theme_category)
 
-        menu_bar.add_cascade(label="Themes", menu=theme_choice)
+        menu_item.add_cascade(label="Themes", menu=theme_choice)
+        menu_item.add_separator()
+        menu_item.add_command(label='Send Feedback', command=partial(self.callback, "start mailto:rajpatra.kishore@gmail.com"), accelerator='Ctrl+F')
+        menu_item.add_command(label='Exit', command=partial(destroy, root), accelerator='Alt+F4')
+        menu_bar.add_cascade(label='Application', menu=menu_item)
+
+        for key, values in constants.MENUS.items():
+            item = Menu(menu_bar, tearoff=0)
+            for value in values:
+                if type(value) == list:
+                    item.add_command(label=value[0], command=partial(self.callback, value[1]))
+                else:
+                    item.add_separator()
+            menu_bar.add_cascade(label=key, menu=item)
 
         root.config(menu=menu_bar)
 
