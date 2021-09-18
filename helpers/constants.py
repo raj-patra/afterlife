@@ -28,16 +28,6 @@ BUTTONS = {
 }
 
 MENUS = {
-    "Native Apps": [
-                ['Calculator', 'start calc'], 
-                ['Calendar', 'start outlookcal:'], 
-                ['Camera', 'start microsoft.windows.camera:'], 
-                ['Groove Music', 'start mswindowsmusic:'], "---",
-
-                ['MS Mail', 'start outlookmail:'],
-                ["MS Paint", "start mspaint"],
-                ["MS Store", "start ms-windows-store:"]],
-
     "CLIs": [   ["Command Prompt ", "start cmd /k cd /d %USERPROFILE%\Desktop"], 
                 ["Command Prompt - Admin", 'start powershell "start cmd -v runAs"'], 
                 ["Powershell", " start powershell"], 
