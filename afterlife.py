@@ -110,6 +110,16 @@ class HUD:
         menu_item.add_command(label='Exit', command=partial(destroy, root), accelerator='Alt+F4')
         menu_bar.add_cascade(label='Application', menu=menu_item)
 
+        app_choice = Menu(menu_bar, tearoff=0)
+        for app_type in scheme.APP_TYPES.keys():
+            app_category = Menu(app_choice, tearoff=0)
+
+            for app in scheme.APP_TYPES[app_type]:
+                app_category.add_command(label=app[0], command=partial(self.callback, app[1]))
+            app_choice.add_cascade(label=app_type, menu=app_category)
+        
+        menu_bar.add_cascade(label="Native Apps", menu=app_choice)
+
         for key, values in constants.MENUS.items():
             item = Menu(menu_bar, tearoff=0)
             for value in values:
