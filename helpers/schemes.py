@@ -281,15 +281,59 @@ THEMES = {
     },
 }
 
-THEME_TYPES = { "Light Mode": ['default_repocard', 'vue', 'solarized_light'],
+THEME_TYPES = { 
+    
+    "Light Mode": ['default_repocard', 'vue', 'solarized_light'],
                 
-                "Dark Mode (Low Contrast)": ['gruvbox', 'onedark', 'cobalt', 'synthwave', 'dracula', 
-                                        'monokai', 'vue_dark', 'darcula', 'bear', 'solarized_dark', 'kacho_ga',
-                                        'nord', 'material_palenight', 'ayu_mirage', 'react', 'calm', 'blueberry', 
-                                        'slateorange', 'jolly', 'shades_of_purple', 'discord_old_blurple', 'prussian'],
-                
-                "Dark Mode (High Contrast)": ['og_blue', 'dark', 'radical', 'merko', 'tokyonight', 'cyberpunk', 'omni',
-                                        'buefy', 'nightowl', 'blue_green', 'algolia', 'great_gatsby', 'chartreuse_dark', 
-                                        'gotham', 'graphite', 'vision_friendly_dark', 'maroongold', 'yeblu',
-                                         'ocean_dark', 'city_lights', 'github_dark']
-            }
+    "Dark Mode (Low Contrast)": ['gruvbox', 'onedark', 'cobalt', 'synthwave', 'dracula', 
+                            'monokai', 'vue_dark', 'darcula', 'bear', 'solarized_dark', 'kacho_ga',
+                            'nord', 'material_palenight', 'ayu_mirage', 'react', 'calm', 'blueberry', 
+                            'slateorange', 'jolly', 'shades_of_purple', 'discord_old_blurple', 'prussian'],
+    
+    "Dark Mode (High Contrast)": ['og_blue', 'dark', 'radical', 'merko', 'tokyonight', 'cyberpunk', 'omni',
+                            'buefy', 'nightowl', 'blue_green', 'algolia', 'great_gatsby', 'chartreuse_dark', 
+                            'gotham', 'graphite', 'vision_friendly_dark', 'maroongold', 'yeblu',
+                                'ocean_dark', 'city_lights', 'github_dark']
+}
+
+APP_TYPES = {
+    "System Settings": [
+        ["Settings", "start ms-settings:"],
+        ["Action Center", "start ms-actioncenter:"],
+        ["Available Networks", "start ms-availablenetworks:"],
+        ["Device Discovery", "start ms-settings-connectabledevices:devicediscovery"]
+    ],
+    "Most Used": [
+        ["Alarms & Clock", "start ms-clock:"],
+        ["Calculator", "start calculator:"],
+        ["Calendar", "start outlook cal:"],
+        ["Camera", "start microsoft.windows.camera:"],
+        ["Drawboard PDF", "start drawboardpdf:"],
+        ["Groove Music", "start mswindowsmusic:"],
+        ["Mail", "start outlookmail:"],
+        ["Microsoft Edge", "start microsoft-edge:"],
+        ["Microsoft Whiteboard", "start ms-whiteboard-cmd:"],
+        ["Movies & TV", "start mswindowsvideo:"],
+        ["Photos", "start ms-photos:"],
+        ["Screen Snip", "start ms-screenclip:"],
+        ["Snip & Sketch", "start ms-ScreenSketch:"],
+        ["Windows Security", "start windowsdefender:"], 
+
+    ],
+    "Least Used": [
+        ["3D Builder", "start com.microsoft.builder3d:"],
+        ["3D Viewer", "start com.microsoft.3dviewer:"],
+        ["Cortana", "start ms-cortana:"],
+        ["Feedback Hub", "start feedback-hub:"],
+        ["Get Help", "start ms-contact-support:"],
+        ["Maps", "start bingmaps:"],
+        ["Messaging", "start ms-chat:"],
+        ["Microsoft News", "start bingnews:"],
+        ["Microsoft Store", "start ms-windows-store:"],
+        ["Paint 3D", "start ms-paint:"],
+        ["People", "start ms-people:"],
+        ["Tips", "start ms-get-started:"],
+        ["Weather", "start bingweather:"],
+        ["Xbox", "start xbox:"]
+    ]
+}
