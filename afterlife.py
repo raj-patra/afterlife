@@ -24,12 +24,12 @@ class HUD:
         self.default_font = 'noto mono'
         self.timer_font = 'cursed timer ulil'
 
-            # Widgets on root.left
+        # Widgets on root.left
         self.left_top = Frame(self.left)
         self.prompt = Text(self.left, bg=scheme.THEMES[THEME_CHOICE]['primary'], wrap=WORD, padx=20, pady=20,
                             fg=scheme.THEMES[THEME_CHOICE]['fg'], font=(self.default_font, 11), width=50)
 
-                # Widgets on root.left.intro
+         # Widgets on root.left.intro
         self.welcome = Text(self.left_top, bg=scheme.THEMES[THEME_CHOICE]['secondary'],
                             fg=scheme.THEMES[THEME_CHOICE]['fg'], width=25, height=2,
                             font=(self.default_font, 13), padx=20,
@@ -63,7 +63,7 @@ class HUD:
                                 activebackground=scheme.THEMES[THEME_CHOICE]['root'], activeforeground="white")
 
 
-            # Widgets on root.right
+        # Widgets on root.right
         self.clock = Label(self.right, bg=scheme.THEMES[THEME_CHOICE]['primary'], relief=GROOVE,
                             fg=scheme.THEMES[THEME_CHOICE]['fg'], height=2, width=20,
                             font=(self.timer_font, 18, 'bold'))
@@ -71,7 +71,7 @@ class HUD:
         self.buttons = Frame(self.right, width=80,
                                 height=50, bg=scheme.THEMES[THEME_CHOICE]['root'], padx=2, pady=2)
 
-                # Widgets on root.right.details
+        # Widgets on root.right.details
         self.network = Text(self.info, bg=scheme.THEMES[THEME_CHOICE]['secondary'],
                             fg=scheme.THEMES[THEME_CHOICE]['fg'], height=5, width=25,
                             font=(self.default_font, 12), padx=20)
