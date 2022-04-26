@@ -296,7 +296,7 @@ THEME_TYPES = {
                                 'ocean_dark', 'city_lights', 'github_dark']
 }
 
-APP_TYPES = {
+APPLICATIONS = {
     "System Settings": [
         dict(name="Settings", command="start ms-settings:"),
         dict(name="Action Center", command="start ms-actioncenter:"),
