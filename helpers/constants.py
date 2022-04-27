@@ -28,36 +28,42 @@ BUTTONS = {
 }
 
 MENUS = {
-    "CLIs": [   ["Command Prompt ", "start cmd /k cd /d %USERPROFILE%\Desktop"], 
-                ["Command Prompt - Admin", 'start powershell "start cmd -v runAs"'], 
-                ["Powershell", " start powershell"], 
-                ["WSL Bash", "start bash"], "---",
-
-                ["Python", " start python"],
-                ["Node", " start node"]],
-
-    "Network": [["Ping", "subprocess ping www.google.com"], "---",
-                ["List DNS Servers", "subprocess ipconfig /displaydns"], 
-                ["Initiate DNS Flush", "subprocess ipconfig /flushdns"], "---",
-                ["Network Connections", "subprocess netstat -an"],
-                ["IP Configurations", "subprocess ipconfig /allcompartments /all"]],
-
-    "Advanced": [["System Info", "subprocess systeminfo"], 
-                ["Running Processes", "subprocess tasklist"], 
-                ["Environment Variables", "subprocess set"], 
-                ["Available Drivers", "subprocess driverquery"], "---",
-
-                ["Installed Apps", "start cmd /k wmic product get name,version"], "---",
-                
-                ["Run", "start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"],
-                ["God Mode", "start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"],
-                ["Device Management", "start devmgmt"], ["Disk Management", "start diskmgmt"],
-                ["Registry Editor", "start regedit"]],
-                
-
-    "Socials":  [['Facebook', "url www.facebook.com"], ['Instagram', 'url www.instagram.com'], ['Reddit', 'url www.reddit.com'], ['Twitter', 'url www.twitter.com'], "---",
-                ['Telegram', 'url web.telegram.org'], ['Whatsapp', 'url web.whatsapp.com'], ["Discord", "www.discord.com/app"], ["Slack", "url www.slack.com"], "---",
-                ['Tumblr', 'url www.tumblr.com'], ['Pinterest', 'url www.pinterest.com'], ['Linkedin', 'url www.linkedin.com']],
+    "CLIs": [
+        ["Command Prompt ", "start cmd /k cd /d %USERPROFILE%\Desktop"],
+        ["Command Prompt - Admin", 'start powershell "start cmd -v runAs"'],
+        ["Powershell", " start powershell"],
+        ["WSL Bash", "start bash"],
+        "---",
+        ["Python", " start python"],
+        ["Node", " start node"]
+    ],
+    "Network": [
+        ["Ping", "subprocess ping www.google.com"],
+        "---",
+        ["List DNS Servers", "subprocess ipconfig /displaydns"],
+        ["Initiate DNS Flush", "subprocess ipconfig /flushdns"],
+        "---",
+        ["Network Connections", "subprocess netstat -an"],
+        ["IP Configurations", "subprocess ipconfig /allcompartments /all"]
+    ],
+    "Advanced": [
+        ["System Info", "subprocess systeminfo"],
+        ["Running Processes", "subprocess tasklist"],
+        ["Environment Variables", "subprocess set"],
+        ["Available Drivers", "subprocess driverquery"],
+        "---",
+        ["Installed Apps", "start cmd /k wmic product get name,version"],
+        "---",
+        ["Run", "start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"],
+        ["God Mode", "start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"],
+        ["Device Management", "start devmgmt"], ["Disk Management", "start diskmgmt"],
+        ["Registry Editor", "start regedit"]
+    ],
+    "Socials": [
+        ['Facebook', "url www.facebook.com"], ['Instagram', 'url www.instagram.com'], ['Reddit', 'url www.reddit.com'], ['Twitter', 'url www.twitter.com'], "---",
+        ['Telegram', 'url web.telegram.org'], ['Whatsapp', 'url web.whatsapp.com'], ["Discord", "www.discord.com/app"], ["Slack", "url www.slack.com"], "---",
+        ['Tumblr', 'url www.tumblr.com'], ['Pinterest', 'url www.pinterest.com'], ['Linkedin', 'url www.linkedin.com']
+    ],
 }
 
 NOUNS = [
