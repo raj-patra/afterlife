@@ -118,7 +118,7 @@ class HUD:
 
         menu_bar.add_cascade(label="Native Apps", menu=app_choice)
 
-        for key, values in constants.MENUS.items():
+        for key, values in applications.MENUS.items():
             item = Menu(menu_bar, tearoff=0)
             for value in values:
                 if type(value) == list:
