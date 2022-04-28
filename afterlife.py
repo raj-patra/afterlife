@@ -162,11 +162,11 @@ class HUD:
         self.action_items = []
         self.button_frames = []
 
-        for row in range(len(constants.BUTTONS)):
+        for row in range(len(applications.ACTION_CENTRE)):
             command_row = Frame(self.buttons, bg=schemes.THEMES[THEME_CHOICE]['root'], pady=1)
             command_row.pack(side=TOP, fill=BOTH, expand=1)
             self.button_frames.append(command_row)
-            for button in constants.BUTTONS[row]:
+            for button in applications.ACTION_CENTRE[row]:
                 button = Button(command_row, text=button[0], font=(self.default_font, 12), height=1,
                                 command=partial(self.callback, command=button[1]),  width=6,
                                 relief=FLAT, overrelief=RAISED, bg=bg[0], fg=schemes.THEMES[THEME_CHOICE]['fg'],

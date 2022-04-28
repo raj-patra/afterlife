@@ -40,3 +40,28 @@ NATIVE_APPS = {
         dict(name="Xbox", command="start xbox:"),
     ]
 }
+
+ACTION_CENTRE = {
+
+    0: [['All\nApps', 'start explorer.exe Shell:::AppsFolder'],
+        ["Root\nFolder", "start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"],
+        ["Task\nManager", "start taskmgr"], ["Control\nPanel", "start control"],
+        ['System\nSettings', 'start ms-settings:'],
+        ],
+
+    1: [['Google', 'url www.google.com'], ['Gmail', 'url mail.google.com'], ['Youtube', 'url www.youtube.com'],
+        ['Maps', 'url maps.google.com'], ['Keep', 'url keep.google.com']],
+
+    2: [['Docs', 'url docs.new'], ['Sheets', 'url sheets.new'], ['Slides', 'url slides.new'], ["Notepad", "start notepad"],
+        ["Sticky Notes", "start explorer.exe shell:appsFolder\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe!App"]],
+
+    3: [['Cloud\nConvert', 'url www.cloudconvert.com'], ['PDF\nTools', 'url www.smallpdf.com/pdf-tools'], ['Utilities', 'url www.123apps.com'],
+        ['Net\nSpeed', 'url www.speedtest.net'], ['Photopea\nEditor', "url www.photopea.com"]],
+
+    4: [['Spotify', 'url open.spotify.com'], ['Bored\nButton', 'url www.boredbutton.com/random'], ['Wikipedia', 'url www.wikipedia.org'],
+        ['Library\nGenesis', "url libgen.rs/index.php"], ['Good Reads', 'url www.readsomethinggreat.com']],
+
+    5: [['Daily\nQuote', 'request quote'], ['Did you\nknow?', 'request fact'], ['A Poem?', 'request poem'],
+        ['Kanye\nREST', 'request kanye'], ['Rare\nInsult', 'request insult']],
+
+}

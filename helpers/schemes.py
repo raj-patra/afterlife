@@ -295,5 +295,3 @@ THEME_TYPES = {
                             'gotham', 'graphite', 'vision_friendly_dark', 'maroongold', 'yeblu',
                                 'ocean_dark', 'city_lights', 'github_dark']
 }
-
-
