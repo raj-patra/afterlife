@@ -6,6 +6,7 @@ from tkinter import filedialog, messagebox
 from tkinter.constants import WORD, GROOVE, RAISED, FLAT, END
 from tkinter.constants import LEFT, RIGHT, TOP, BOTTOM, BOTH, DISABLED, NORMAL
 
+from helpers import applications, constants, schemes
 import helpers.constants as constants
 import helpers.schemes as scheme
 from callbacks import universal_callback, about, destroy
@@ -111,7 +112,7 @@ class HUD:
         menu_bar.add_cascade(label='Application', menu=menu_item)
 
         app_choice = Menu(menu_bar, tearoff=0)
-        for app_type, apps in scheme.APPLICATIONS.items():
+        for app_type, apps in applications.NATIVE_APPS.items():
             app_category = Menu(app_choice, tearoff=0)
             for app in apps:
                 app_category.add_command(label=app["name"], command=partial(self.callback, app["command"]))
