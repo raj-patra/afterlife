@@ -1,4 +1,4 @@
-import  os, webbrowser, requests, wikipedia, random
+import  os, webbrowser, wikipedia
 
 from tkinter import messagebox
 import helpers.constants as constants
