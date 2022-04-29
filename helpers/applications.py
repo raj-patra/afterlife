@@ -61,9 +61,6 @@ ACTION_CENTRE = {
     4: [['Spotify', 'url open.spotify.com'], ['Bored\nButton', 'url www.boredbutton.com/random'], ['Wikipedia', 'url www.wikipedia.org'],
         ['Library\nGenesis', "url libgen.rs/index.php"], ['Good Reads', 'url www.readsomethinggreat.com']],
 
-    5: [['Daily\nQuote', 'request quote'], ['Did you\nknow?', 'request fact'], ['A Poem?', 'request poem'],
-        ['Kanye\nREST', 'request kanye'], ['Rare\nInsult', 'request insult']],
-
 }
 
 MENUS = {
