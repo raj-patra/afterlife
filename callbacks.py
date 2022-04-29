@@ -24,31 +24,6 @@ def universal_callback(command=None, web=None):
         if web.startswith('url'):
             web = web.split(' ', 1)[-1]
             webbrowser.get('edge').open(web)
-        
-        if web.startswith('request'):
-            url = web.split(' ', 1)[-1]
-            try:
-                if url == 'quote':
-                    response = requests.get(constants.QUOTE_API).json()
-                    return "{} \n\n- {}".format(response['content'], response['author'])
-
-                if url == 'fact':
-                    response = requests.get(constants.FACTS_API).json()
-                    return "Did you know, \n\n{}".format(response['text'])
-
-                if url == 'poem':
-                    response = random.choice(requests.get(constants.POEMS_API).json())
-                    return "{} \n\n{} \n\nBy {}".format(response['title'], response['content'], response['poet']['name'])
-
-                if url == 'insult':
-                    response = requests.get(constants.INSULT_API).json()
-                    return "{}".format(response['insult'])
-
-                if url == 'kanye':
-                    response = requests.get(constants.KANYE_API).json()
-                    return "Kanye REST once said, \n\n*{}*".format(response['quote'])
-            except Exception as e:
-                return "Hmmm. Something went wrong.\n\nThis wasn't supposed to happen though ʘ‿ʘ\n\nIf you think you can understand what's wrong, here you go:\n{}".format(e)
 
         if web.startswith('wiki'):
             web = web.split(' ', 1)[-1]
