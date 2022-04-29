@@ -41,7 +41,6 @@ def universal_callback(command=None, web=None):
                 "url": "NA",
                 "summary": "Error Occured in fetching the article. Please make sure the search query does not have special characters except for whitespaces.\n\nTry again maybe?\nIf the issue presists, try any other combination for the search query."
             }
-            
 
 def about(event=None):
     messagebox.showinfo('About', constants.ABOUT)
