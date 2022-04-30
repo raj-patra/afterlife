@@ -25,14 +25,6 @@ ADJECTIVES = [
 
 # ----------------------------------------------------------------------------------
 
-QUOTE_API = "https://api.quotable.io/random"
-INSULT_API = "https://evilinsult.com/generate_insult.php?lang=en&type=json"
-FACTS_API = "https://uselessfacts.jsph.pl//random.json?language=en"
-POEMS_API = "https://www.poemist.com/api/v1/randompoems"
-KANYE_API = "https://api.kanye.rest/"
-
-# ----------------------------------------------------------------------------------
-
 try:
     PUB_IP = requests.get('https://ident.me').text
 except Exception as e:
@@ -51,14 +43,13 @@ DISK = sp.getoutput("wmic logicaldisk get size,freespace,caption").replace("\n\n
 
 WELCOME = """
 Hey there, {}
-I hope you are having a good day.
 
-Just remember, wherever you go, leave your mark behind.
+I hope you are having a good day.
 Have fun.
 
 """.format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]))
 
-CURRENT_THEME = "FYI, Current theme: {}"
+CURRENT_THEME = "Current theme: {}"
 
 # ----------------------------------------------------------------------------------
 
