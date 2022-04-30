@@ -25,14 +25,6 @@ ADJECTIVES = [
 
 # ----------------------------------------------------------------------------------
 
-QUOTE_API = "https://api.quotable.io/random"
-INSULT_API = "https://evilinsult.com/generate_insult.php?lang=en&type=json"
-FACTS_API = "https://uselessfacts.jsph.pl//random.json?language=en"
-POEMS_API = "https://www.poemist.com/api/v1/randompoems"
-KANYE_API = "https://api.kanye.rest/"
-
-# ----------------------------------------------------------------------------------
-
 try:
     PUB_IP = requests.get('https://ident.me').text
 except Exception as e:
