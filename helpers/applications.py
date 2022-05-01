@@ -41,6 +41,16 @@ NATIVE_APPS = {
     ]
 }
 
+ACTIONS = {
+    0: [
+        dict(label="All\nApps", command="start explorer.exe Shell:::AppsFolder"),
+        dict(label="Root\nFolder", command="start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"),
+        dict(label="Task\nManager", command="start taskmgr"),
+        dict(label="Control\nPanel", command="start control"),
+        dict(label="System\nSettings", command="start ms-settings:"),
+    ]
+}
+
 ACTION_CENTRE = {
 
     0: [['All\nApps', 'start explorer.exe Shell:::AppsFolder'],
