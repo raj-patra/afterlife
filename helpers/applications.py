@@ -43,7 +43,7 @@ NATIVE_APPS = {
 
 ACTIONS = {
     0: [
-        dict(label="All\nApps", command="start explorer.exe Shell:::AppsFolder"),
+        dict(label="Installed\nApps", command="start explorer.exe Shell:::AppsFolder"),
         dict(label="Root\nFolder", command="start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"),
         dict(label="Task\nManager", command="start taskmgr"),
         dict(label="Control\nPanel", command="start control"),
@@ -64,11 +64,11 @@ ACTIONS = {
         dict(label="Sticky Notes", command="start explorer.exe shell:appsFolder\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe!App"),
     ],
     3: [
-        dict(label="Cloud\nConvert", command="url www.cloudconvert.com"),
-        dict(label="PDF\nTools", command="url www.smallpdf.com/pdf-tools"),
-        dict(label="Utilities", command="url www.123apps.com"),
+        dict(label="Web\nUtilities", command="url www.123apps.com"),
+        dict(label="Cloud File\nConverter", command="url www.cloudconvert.com"),
+        dict(label="Digital PDF\nTools", command="url www.smallpdf.com/pdf-tools"),
+        dict(label="Online Photo\nEditor", command="url www.photopea.com"),
         dict(label="Net\nSpeed", command="url www.speedtest.net"),
-        dict(label="Photopea\nEditor", command="url www.photopea.com"),
     ],
     4: [
         dict(label="Spotify", command="url open.spotify.com"),
@@ -77,49 +77,6 @@ ACTIONS = {
         dict(label="Library\nGenesis", command="url libgen.rs/index.php"),
         dict(label="Good Reads", command="url www.readsomethinggreat.com"),
     ]
-}
-
-ACTION_CENTRE = {
-
-    0: [
-        ['All\nApps', 'start explorer.exe Shell:::AppsFolder'],
-        ["Root\nFolder", "start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"],
-        ["Task\nManager", "start taskmgr"], ["Control\nPanel", "start control"],
-        ['System\nSettings', 'start ms-settings:'],
-    ],
-
-    1: [
-        ['Google', 'url www.google.com'],
-        ['Gmail', 'url mail.google.com'],
-        ['Youtube', 'url www.youtube.com'],
-        ['Maps', 'url maps.google.com'],
-        ['Keep', 'url keep.google.com'],
-    ],
-
-    2: [
-        ['Docs', 'url docs.new'],
-        ['Sheets', 'url sheets.new'],
-        ['Slides', 'url slides.new'],
-        ["Notepad", "start notepad"],
-        ["Sticky Notes", "start explorer.exe shell:appsFolder\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe!App"]
-    ],
-
-    3: [
-        ['Cloud\nConvert', 'url www.cloudconvert.com'],
-        ['PDF\nTools', 'url www.smallpdf.com/pdf-tools'],
-        ['Utilities', 'url www.123apps.com'],
-        ['Net\nSpeed', 'url www.speedtest.net'],
-        ['Photopea\nEditor', "url www.photopea.com"],
-    ],
-
-    4: [
-        ['Spotify', 'url open.spotify.com'],
-        ['Bored\nButton', 'url www.boredbutton.com/random'],
-        ['Wikipedia', 'url www.wikipedia.org'],
-        ['Library\nGenesis', "url libgen.rs/index.php"],
-        ['Good Reads', 'url www.readsomethinggreat.com'],
-    ],
-
 }
 
 MENUS = {
