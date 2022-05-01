@@ -113,7 +113,7 @@ class HUD:
         for app_type, apps in applications.NATIVE_APPS.items():
             app_category = Menu(app_choice, tearoff=0)
             for app in apps:
-                app_category.add_command(label=app["name"], command=partial(self.callback, app["command"]))
+                app_category.add_command(label=app["label"], command=partial(self.callback, app["command"]))
             app_choice.add_cascade(label=app_type, menu=app_category)
 
         menu_bar.add_cascade(label="Native Apps", menu=app_choice)
@@ -161,17 +161,17 @@ class HUD:
         bg = deque([schemes.THEMES[THEME_CHOICE]['primary'], schemes.THEMES[THEME_CHOICE]['secondary']])
         self.action_items = []
         self.button_frames = []
-
-        for row in range(len(applications.ACTION_CENTRE)):
-            command_row = Frame(self.buttons, bg=schemes.THEMES[THEME_CHOICE]['root'], pady=1)
-            command_row.pack(side=TOP, fill=BOTH, expand=1)
-            self.button_frames.append(command_row)
-            for button in applications.ACTION_CENTRE[row]:
-                button = Button(command_row, text=button[0], font=(self.default_font, 12), height=1,
-                                command=partial(self.callback, command=button[1]),  width=6,
+        
+        for row in applications.ACTIONS.keys():
+            action_row = Frame(self.buttons, bg=schemes.THEMES[THEME_CHOICE]['root'], pady=1)
+            action_row.pack(side=TOP, fill=BOTH, expand=1)
+            self.button_frames.append(action_row)
+            
+            for action in applications.ACTIONS[row]:
+                button = Button(action_row, text=action["label"], font=(self.default_font, 12), height=1,
+                                command=partial(self.callback, command=action["command"]),  width=6,
                                 relief=FLAT, overrelief=RAISED, bg=bg[0], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                                 activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
-
                 self.action_items.append(button)
                 bg.rotate(1)
                 button.pack(side=LEFT, fill=BOTH, expand=1)
