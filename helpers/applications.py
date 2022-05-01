@@ -69,6 +69,13 @@ ACTIONS = {
         dict(label="Utilities", command="url www.123apps.com"),
         dict(label="Net\nSpeed", command="url www.speedtest.net"),
         dict(label="Photopea\nEditor", command="url www.photopea.com"),
+    ],
+    4: [
+        dict(label="Spotify", command="url open.spotify.com"),
+        dict(label="Bored\nButton", command="url www.boredbutton.com/random"),
+        dict(label="Wikipedia", command="url www.wikipedia.org"),
+        dict(label="Library\nGenesis", command="url libgen.rs/index.php"),
+        dict(label="Good Reads", command="url www.readsomethinggreat.com"),
     ]
 }
 
@@ -105,8 +112,13 @@ ACTION_CENTRE = {
         ['Photopea\nEditor', "url www.photopea.com"],
     ],
 
-    4: [['Spotify', 'url open.spotify.com'], ['Bored\nButton', 'url www.boredbutton.com/random'], ['Wikipedia', 'url www.wikipedia.org'],
-        ['Library\nGenesis', "url libgen.rs/index.php"], ['Good Reads', 'url www.readsomethinggreat.com']],
+    4: [
+        ['Spotify', 'url open.spotify.com'],
+        ['Bored\nButton', 'url www.boredbutton.com/random'],
+        ['Wikipedia', 'url www.wikipedia.org'],
+        ['Library\nGenesis', "url libgen.rs/index.php"],
+        ['Good Reads', 'url www.readsomethinggreat.com'],
+    ],
 
 }
 
