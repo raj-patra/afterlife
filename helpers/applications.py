@@ -90,13 +90,13 @@ MENUS = {
         dict(label="Node", command="start node"),
     ],
     "Network": [
-        ["Ping", "subprocess ping www.google.com"],
+        dict(label="Ping", command="subprocess ping www.google.com"),
         "---",
-        ["List DNS Servers", "subprocess ipconfig /displaydns"],
-        ["Initiate DNS Flush", "subprocess ipconfig /flushdns"],
+        dict(label="List DNS Servers", command="subprocess ipconfig /displaydns"),
+        dict(label="Initiate DNS Flush", command="subprocess ipconfig /flushdns"),
         "---",
-        ["Network Connections", "subprocess netstat -an"],
-        ["IP Configurations", "subprocess ipconfig /allcompartments /all"]
+        dict(label="Network Connections", command="subprocess netstat -an"),
+        dict(label="IP Configurations", command="subprocess ipconfig /allcompartments /all"),
     ],
     "Advanced": [
         ["System Info", "subprocess systeminfo"],
