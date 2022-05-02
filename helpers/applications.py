@@ -81,13 +81,13 @@ ACTIONS = {
 
 MENUS = {
     "CLIs": [
-        ["Command Prompt ", "start cmd /k cd /d %USERPROFILE%\Desktop"],
-        ["Command Prompt - Admin", 'start powershell "start cmd -v runAs"'],
-        ["Powershell", " start powershell"],
-        ["WSL Bash", "start bash"],
+        dict(label="Command Prompt", command="start cmd /k cd /d %USERPROFILE%\Desktop"),
+        dict(label="Command Prompt - Admin", command='start powershell "start cmd -v runAs"'),
+        dict(label="Powershell", command="start powershell"),
+        dict(label="WSL Bash", command="start bash"),
         "---",
-        ["Python", " start python"],
-        ["Node", " start node"]
+        dict(label="Python", command="start python"),
+        dict(label="Node", command="start node"),
     ],
     "Network": [
         ["Ping", "subprocess ping www.google.com"],
