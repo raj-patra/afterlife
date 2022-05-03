@@ -113,8 +113,18 @@ MENUS = {
         dict(label="Registry Editor", command="start regedit"),
     ],
     "Socials": [
-        ['Facebook', "url www.facebook.com"], ['Instagram', 'url www.instagram.com'], ['Reddit', 'url www.reddit.com'], ['Twitter', 'url www.twitter.com'], "---",
-        ['Telegram', 'url web.telegram.org'], ['Whatsapp', 'url web.whatsapp.com'], ["Discord", "www.discord.com/app"], ["Slack", "url www.slack.com"], "---",
-        ['Tumblr', 'url www.tumblr.com'], ['Pinterest', 'url www.pinterest.com'], ['Linkedin', 'url www.linkedin.com']
+        dict(label="Facebook", command="url www.facebook.com"),
+        dict(label="Instagram", command="url www.instagram.com"),
+        dict(label="Reddit", command="url www.reddit.com"),
+        dict(label="Twitter", command="url www.twitter.com"),
+        "---",
+        dict(label="Telegram", command="url web.telegram.org"),
+        dict(label="Whatsapp", command="url web.whatsapp.com"),
+        dict(label="Discord", command="www.discord.com/app"),
+        dict(label="Slack", command="url www.slack.com"),
+        "---",
+        dict(label="Tumblr", command="url www.tumblr.com"),
+        dict(label="Pinterest", command="url www.pinterest.com"),
+        dict(label="Linkedin", command="url www.linkedin.com"),
     ],
 }
