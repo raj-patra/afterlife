@@ -118,14 +118,14 @@ class HUD:
 
         menu_bar.add_cascade(label="Native Apps", menu=app_choice)
 
-        for key, values in applications.MENUS.items():
+        for label, actions in applications.MENUS.items():
             item = Menu(menu_bar, tearoff=0)
-            for value in values:
-                if type(value) == list:
-                    item.add_command(label=value[0], command=partial(self.callback, value[1]))
+            for action in actions:
+                if type(action) == dict:
+                    item.add_command(label=action["label"], command=partial(self.callback, action["command"]))
                 else:
                     item.add_separator()
-            menu_bar.add_cascade(label=key, menu=item)
+            menu_bar.add_cascade(label=label, menu=item)
 
         root.config(menu=menu_bar)
 
