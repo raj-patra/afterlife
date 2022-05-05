@@ -33,23 +33,23 @@ class HUD:
                             fg=schemes.THEMES[THEME_CHOICE]['fg'], width=25, height=2,
                             font=(self.default_font, 13), padx=20,
                             pady=20, wrap=WORD)
-        self.integrated_search = Frame(self.left_top)
+        self.integrated_exe = Frame(self.left_top)
 
-        self.cmd_title = Label(self.integrated_search, bg=schemes.THEMES[THEME_CHOICE]['secondary'], relief=GROOVE,
+        self.iexe_title = Label(self.integrated_exe, bg=schemes.THEMES[THEME_CHOICE]['secondary'], relief=GROOVE,
                             fg=schemes.THEMES[THEME_CHOICE]['fg'], height=2, width=28, padx=2, pady=2,
                             font=(self.default_font, 14), text="Integrated CMD / Wiki Search")
-        self.cmd_input = Entry(self.integrated_search, bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'], bd=7,
+        self.cmd_input = Entry(self.integrated_exe, bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'], bd=7,
                             width=28, font=(self.default_font, 12, 'bold'), insertbackground="white",)
 
-        self.cmd_execute = Button(self.integrated_search, text="Execute", font=(self.default_font, 12), height=1,
+        self.cmd_execute = Button(self.integrated_exe, text="Execute", font=(self.default_font, 12), height=1,
                                 command=partial(self.callback, command="cmd execute"), width=6,
                                 relief=RAISED, overrelief=RAISED, bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                                 activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
-        self.cmd_external = Button(self.integrated_search, text="Execute Command", font=(self.default_font, 12), height=1,
+        self.cmd_external = Button(self.integrated_exe, text="Execute Command", font=(self.default_font, 12), height=1,
                                 command=partial(self.callback, command="cmd external"), width=6,
                                 relief=RAISED, overrelief=RAISED, bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                                 activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
-        self.wiki_external = Button(self.integrated_search, text="Search Wikipedia", font=(self.default_font, 12), height=1,
+        self.wiki_external = Button(self.integrated_exe, text="Search Wikipedia", font=(self.default_font, 12), height=1,
                                 command=partial(self.callback, command="wiki external"), width=6,
                                 relief=RAISED, overrelief=RAISED, bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                                 activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
@@ -127,9 +127,9 @@ class HUD:
 
         self.left_top.pack(side=TOP, fill=BOTH, expand=1)
         self.welcome.pack(side=LEFT, fill=BOTH, expand=1)
-        self.integrated_search.pack(side=RIGHT, fill=BOTH, expand=1)
+        self.integrated_exe.pack(side=RIGHT, fill=BOTH, expand=1)
 
-        self.cmd_title.pack(side=TOP, fill=BOTH, expand=0)
+        self.iexe_title.pack(side=TOP, fill=BOTH, expand=0)
         self.cmd_input.pack(side=TOP, fill=BOTH, expand=1)
         self.cmd_execute.pack(side=TOP, fill=BOTH, expand=0)
         self.cmd_external.pack(side=LEFT, fill=BOTH, expand=1)
@@ -287,7 +287,7 @@ class HUD:
 
         self.welcome.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
 
-        self.cmd_title.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
+        self.iexe_title.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
         self.cmd_input.config(bg=schemes.THEMES[theme]['primary'], fg=schemes.THEMES[theme]['fg'])
         self.cmd_execute.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
         self.cmd_external.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
