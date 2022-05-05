@@ -41,26 +41,18 @@ class HUD:
         self.cmd_input = Entry(self.cmd, bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'], bd=7,
                             width=28, font=(self.default_font, 12, 'bold'), insertbackground="white",)
 
-        self.cmd_buttons = Frame(self.cmd)
-        self.cmd_execute = Button(self.cmd_buttons, text="Execute Command", font=(self.default_font, 12), height=1,
+        self.cmd_execute = Button(self.cmd, text="Execute", font=(self.default_font, 12), height=1,
                                 command=partial(self.callback, command="cmd execute"), width=6,
                                 relief=RAISED, overrelief=RAISED, bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                                 activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
-        self.cmd_external = Button(self.cmd_buttons, text="Execute External", font=(self.default_font, 12), height=1,
+        self.cmd_external = Button(self.cmd, text="Execute Command", font=(self.default_font, 12), height=1,
                                 command=partial(self.callback, command="cmd external"), width=6,
                                 relief=RAISED, overrelief=RAISED, bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                                 activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
-
-        self.wiki_buttons = Frame(self.cmd)
-        self.wiki_execute = Button(self.cmd, text="Search Wikipedia", font=(self.default_font, 12), height=1,
-                                command=partial(self.callback, command="wiki execute"), width=6,
-                                relief=RAISED, overrelief=RAISED, bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-                                activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
-        self.wiki_external = Button(self.cmd, text="Search External", font=(self.default_font, 12), height=1,
+        self.wiki_external = Button(self.cmd, text="Search Wikipedia", font=(self.default_font, 12), height=1,
                                 command=partial(self.callback, command="wiki external"), width=6,
                                 relief=RAISED, overrelief=RAISED, bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                                 activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
-
 
         # Widgets on root.right
         self.clock = Label(self.right, bg=schemes.THEMES[THEME_CHOICE]['primary'], relief=GROOVE,
@@ -139,13 +131,8 @@ class HUD:
 
         self.cmd_title.pack(side=TOP, fill=BOTH, expand=0)
         self.cmd_input.pack(side=TOP, fill=BOTH, expand=1)
-
-        self.cmd_buttons.pack(side=TOP, fill=BOTH, expand=0)
-        self.cmd_execute.pack(side=LEFT, fill=BOTH, expand=1)
+        self.cmd_execute.pack(side=TOP, fill=BOTH, expand=0)
         self.cmd_external.pack(side=LEFT, fill=BOTH, expand=1)
-
-        self.wiki_buttons.pack(side=TOP, fill=BOTH, expand=0)
-        self.wiki_execute.pack(side=LEFT, fill=BOTH, expand=1)
         self.wiki_external.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.prompt.pack(side=BOTTOM, fill=BOTH, expand=1)
@@ -304,7 +291,6 @@ class HUD:
         self.cmd_input.config(bg=schemes.THEMES[theme]['primary'], fg=schemes.THEMES[theme]['fg'])
         self.cmd_execute.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
         self.cmd_external.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
-        self.wiki_execute.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
         self.wiki_external.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
 
         self.network.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
