@@ -38,18 +38,18 @@ class HUD:
         self.iexe_title = Label(self.integrated_exe, bg=schemes.THEMES[THEME_CHOICE]['secondary'], relief=GROOVE,
                             fg=schemes.THEMES[THEME_CHOICE]['fg'], height=2, width=28, padx=2, pady=2,
                             font=(self.default_font, 14), text="Integrated CMD / Wiki Search")
-        self.cmd_input = Entry(self.integrated_exe, bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'], bd=7,
+        self.iexe_query = Entry(self.integrated_exe, bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'], bd=7,
                             width=28, font=(self.default_font, 12, 'bold'), insertbackground="white",)
 
-        self.cmd_execute = Button(self.integrated_exe, text="Execute", font=(self.default_font, 12), height=1,
+        self.iexe_search = Button(self.integrated_exe, text="Search", font=(self.default_font, 12), height=1,
                                 command=partial(self.callback, command="cmd execute"), width=6,
                                 relief=RAISED, overrelief=RAISED, bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                                 activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
-        self.cmd_external = Button(self.integrated_exe, text="Execute Command", font=(self.default_font, 12), height=1,
+        self.iexe_execute = Button(self.integrated_exe, text="Execute Command", font=(self.default_font, 12), height=1,
                                 command=partial(self.callback, command="cmd external"), width=6,
                                 relief=RAISED, overrelief=RAISED, bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                                 activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
-        self.wiki_external = Button(self.integrated_exe, text="Search Wikipedia", font=(self.default_font, 12), height=1,
+        self.iexe_wiki = Button(self.integrated_exe, text="Search Wikipedia", font=(self.default_font, 12), height=1,
                                 command=partial(self.callback, command="wiki external"), width=6,
                                 relief=RAISED, overrelief=RAISED, bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                                 activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
@@ -130,10 +130,10 @@ class HUD:
         self.integrated_exe.pack(side=RIGHT, fill=BOTH, expand=1)
 
         self.iexe_title.pack(side=TOP, fill=BOTH, expand=0)
-        self.cmd_input.pack(side=TOP, fill=BOTH, expand=1)
-        self.cmd_execute.pack(side=TOP, fill=BOTH, expand=0)
-        self.cmd_external.pack(side=LEFT, fill=BOTH, expand=1)
-        self.wiki_external.pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_query.pack(side=TOP, fill=BOTH, expand=1)
+        self.iexe_search.pack(side=TOP, fill=BOTH, expand=0)
+        self.iexe_execute.pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_wiki.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.prompt.pack(side=BOTTOM, fill=BOTH, expand=1)
 
@@ -167,14 +167,14 @@ class HUD:
         self.welcome.insert(END, constants.WELCOME.lstrip()+constants.CURRENT_THEME.format(THEME_CHOICE))
         self.welcome.config(state=DISABLED)
 
-        self.cmd_input.insert(END, "> ")
+        self.iexe_query.insert(END, "> ")
         self.clock.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
         self.network.insert(END, constants.NETWORK)
         self.network.config(state=DISABLED)
 
-        self.cmd_input.bind('<Return>', partial(self.callback, "cmd execute"))
-        self.cmd_input.bind('<Control-Return>', partial(self.callback, "wiki execute"))
+        self.iexe_query.bind('<Return>', partial(self.callback, "cmd execute"))
+        self.iexe_query.bind('<Control-Return>', partial(self.callback, "wiki execute"))
         root.bind('<Control-s>', self.save_prompt_content)
         root.bind('<Control-S>', self.save_prompt_content)
         root.bind('<Control-t>', partial(self.set_theme, None))
@@ -249,7 +249,7 @@ class HUD:
             universal_callback(web=command)
 
         elif command.startswith('cmd') or command.startswith('wiki'):
-            query = self.cmd_input.get()
+            query = self.iexe_query.get()
             if ">" in query:
                 query = query.split('>')[-1]
 
@@ -268,8 +268,8 @@ class HUD:
                 response = universal_callback(web="wiki "+query)
                 universal_callback(web='url '+response['url'])
 
-            self.cmd_input.delete(0, END)
-            self.cmd_input.insert(END, "> ")
+            self.iexe_query.delete(0, END)
+            self.iexe_query.insert(END, "> ")
 
         else:
             self.prompt.delete('1.0', END)
@@ -288,10 +288,10 @@ class HUD:
         self.welcome.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
 
         self.iexe_title.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
-        self.cmd_input.config(bg=schemes.THEMES[theme]['primary'], fg=schemes.THEMES[theme]['fg'])
-        self.cmd_execute.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
-        self.cmd_external.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
-        self.wiki_external.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
+        self.iexe_query.config(bg=schemes.THEMES[theme]['primary'], fg=schemes.THEMES[theme]['fg'])
+        self.iexe_search.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
+        self.iexe_execute.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
+        self.iexe_wiki.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
 
         self.network.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
         self.system.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
