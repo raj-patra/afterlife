@@ -37,20 +37,20 @@ class HUD:
 
         self.iexe_title = Label(self.integrated_exe, bg=schemes.THEMES[THEME_CHOICE]['secondary'], relief=GROOVE,
                             fg=schemes.THEMES[THEME_CHOICE]['fg'], height=2, width=28, padx=2, pady=2,
-                            font=(self.default_font, 14), text="Integrated CMD / Wiki Search")
+                            font=(self.default_font, 14), text="Integrated Search")
         self.iexe_query = Entry(self.integrated_exe, bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'], bd=7,
                             width=28, font=(self.default_font, 12, 'bold'), insertbackground="white",)
 
         self.iexe_search = Button(self.integrated_exe, text="Search", font=(self.default_font, 12), height=1,
-                                command=partial(self.callback, command="cmd execute"), width=6,
+                                command=partial(self.callback, command="iexe search"), width=6,
                                 relief=RAISED, overrelief=RAISED, bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                                 activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
         self.iexe_execute = Button(self.integrated_exe, text="Execute Command", font=(self.default_font, 12), height=1,
-                                command=partial(self.callback, command="cmd external"), width=6,
+                                command=partial(self.callback, command="iexe execute"), width=6,
                                 relief=RAISED, overrelief=RAISED, bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                                 activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
         self.iexe_wiki = Button(self.integrated_exe, text="Search Wikipedia", font=(self.default_font, 12), height=1,
-                                command=partial(self.callback, command="wiki external"), width=6,
+                                command=partial(self.callback, command="iexe wiki"), width=6,
                                 relief=RAISED, overrelief=RAISED, bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                                 activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
 
@@ -173,8 +173,8 @@ class HUD:
         self.network.insert(END, constants.NETWORK)
         self.network.config(state=DISABLED)
 
-        self.iexe_query.bind('<Return>', partial(self.callback, "cmd execute"))
-        self.iexe_query.bind('<Control-Return>', partial(self.callback, "wiki execute"))
+        # self.iexe_query.bind('<Return>', partial(self.callback, "cmd execute"))
+        # self.iexe_query.bind('<Control-Return>', partial(self.callback, "wiki execute"))
         root.bind('<Control-s>', self.save_prompt_content)
         root.bind('<Control-S>', self.save_prompt_content)
         root.bind('<Control-t>', partial(self.set_theme, None))
@@ -248,23 +248,18 @@ class HUD:
         elif command.startswith('url'):
             universal_callback(web=command)
 
-        elif command.startswith('cmd') or command.startswith('wiki'):
+        elif command.startswith('iexe'):
             query = self.iexe_query.get()
             if ">" in query:
                 query = query.split('>')[-1]
 
-            if command == 'cmd execute':
-                self.prompt.delete('1.0', END)
-                response = universal_callback(command="subprocess "+query)
-                self.prompt.insert(END, response)
-            elif command == 'cmd external':
+            if command == "iexe search":
+                universal_callback(web='search '+query)
+
+            if command == 'iexe execute':
                 universal_callback(command="start cmd /k "+query)
 
-            elif command == 'wiki execute':
-                response = universal_callback(web="wiki "+query)
-                self.prompt.delete('1.0', END)
-                self.prompt.insert(END, constants.WIKI.format(*response.values()))
-            elif command == 'wiki external':
+            elif command == 'iexe wiki':
                 response = universal_callback(web="wiki "+query)
                 universal_callback(web='url '+response['url'])
 
