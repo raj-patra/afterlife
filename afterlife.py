@@ -40,12 +40,12 @@ class HUD:
 
          # Widgets on root.left.intro
         self.welcome = Text(self.left_top,
-            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'], 
+            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 13), wrap=WORD,
             width=25, height=2, padx=20, pady=20,
         )
 
-        self.iexe_title = Label(self.integrated_exe, 
+        self.iexe_title = Label(self.integrated_exe,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 14), text="Integrated Search",
             relief=GROOVE, height=2, width=28, padx=2, pady=2,
@@ -182,8 +182,10 @@ class HUD:
         self.network.insert(END, constants.NETWORK)
         self.network.config(state=DISABLED)
 
-        # self.iexe_query.bind('<Return>', partial(self.callback, "cmd execute"))
-        # self.iexe_query.bind('<Control-Return>', partial(self.callback, "wiki execute"))
+        self.iexe_query.bind('<Return>', partial(self.callback, "iexe search"))
+        self.iexe_query.bind('<Control-Return>', partial(self.callback, "iexe execute"))
+        self.iexe_query.bind('<Shift-Return>', partial(self.callback, "iexe wiki"))
+
         root.bind('<Control-s>', self.save_prompt_content)
         root.bind('<Control-S>', self.save_prompt_content)
         root.bind('<Control-t>', partial(self.set_theme, None))
