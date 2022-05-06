@@ -18,22 +18,30 @@ class HUD:
     def __init__(self):
         # Root Frames
         self.left = Frame(root)
+        self.left_top = Frame(self.left)
+        self.integrated_exe = Frame(self.left_top)
+
         self.right = Frame(root)
+        self.info = Frame(self.right, height=1)
+        self.buttons = Frame(self.right, width=80,
+                                height=50, bg=schemes.THEMES[THEME_CHOICE]['root'], padx=2, pady=2)
+
         self.default_font = 'Maiandra GD'
         self.default_font = 'noto mono'
         self.timer_font = 'cursed timer ulil'
 
         # Widgets on root.left
-        self.left_top = Frame(self.left)
-        self.prompt = Text(self.left, bg=schemes.THEMES[THEME_CHOICE]['primary'], wrap=WORD, padx=20, pady=20,
-                            fg=schemes.THEMES[THEME_CHOICE]['fg'], font=(self.default_font, 11), width=50)
+        self.prompt = Text(self.left,
+            bg=schemes.THEMES[THEME_CHOICE]['primary'],
+            wrap=WORD, padx=20, pady=20,
+            fg=schemes.THEMES[THEME_CHOICE]['fg'], font=(self.default_font, 11), width=50)
 
          # Widgets on root.left.intro
-        self.welcome = Text(self.left_top, bg=schemes.THEMES[THEME_CHOICE]['secondary'],
-                            fg=schemes.THEMES[THEME_CHOICE]['fg'], width=25, height=2,
-                            font=(self.default_font, 13), padx=20,
-                            pady=20, wrap=WORD)
-        self.integrated_exe = Frame(self.left_top)
+        self.welcome = Text(self.left_top, 
+            bg=schemes.THEMES[THEME_CHOICE]['secondary'],
+            fg=schemes.THEMES[THEME_CHOICE]['fg'], width=25, height=2,
+            font=(self.default_font, 13), padx=20,
+            pady=20, wrap=WORD)
 
         self.iexe_title = Label(self.integrated_exe, bg=schemes.THEMES[THEME_CHOICE]['secondary'], relief=GROOVE,
                             fg=schemes.THEMES[THEME_CHOICE]['fg'], height=2, width=28, padx=2, pady=2,
@@ -58,9 +66,6 @@ class HUD:
         self.clock = Label(self.right, bg=schemes.THEMES[THEME_CHOICE]['primary'], relief=GROOVE,
                             fg=schemes.THEMES[THEME_CHOICE]['fg'], height=2, width=20,
                             font=(self.timer_font, 18, 'bold'))
-        self.info = Frame(self.right, height=1)
-        self.buttons = Frame(self.right, width=80,
-                                height=50, bg=schemes.THEMES[THEME_CHOICE]['root'], padx=2, pady=2)
 
         # Widgets on root.right.details
         self.network = Text(self.info, bg=schemes.THEMES[THEME_CHOICE]['secondary'],
@@ -148,12 +153,12 @@ class HUD:
         bg = deque([schemes.THEMES[THEME_CHOICE]['primary'], schemes.THEMES[THEME_CHOICE]['secondary']])
         self.action_items = []
         self.button_frames = []
-        
+
         for row in applications.ACTIONS.keys():
             action_row = Frame(self.buttons, bg=schemes.THEMES[THEME_CHOICE]['root'], pady=1)
             action_row.pack(side=TOP, fill=BOTH, expand=1)
             self.button_frames.append(action_row)
-            
+
             for action in applications.ACTIONS[row]:
                 button = Button(action_row, text=action["label"], font=(self.default_font, 12), height=1,
                                 command=partial(self.callback, command=action["command"]),  width=6,
