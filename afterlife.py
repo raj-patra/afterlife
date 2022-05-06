@@ -11,7 +11,7 @@ from callbacks import universal_callback, about, destroy
 from functools import partial
 from collections import deque
 
-THEME_CHOICE = random.choice(list(schemes.THEMES.keys()))
+THEME_CHOICE = "gotham"
 
 
 class HUD:
