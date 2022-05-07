@@ -38,7 +38,7 @@ class HUD:
             width=50, padx=20, pady=20,
         )
 
-         # Widgets on root.left.intro
+        # Widgets on root.left.intro
         self.welcome = Text(self.left_top,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 13), wrap=WORD,
