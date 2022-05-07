@@ -21,11 +21,15 @@ def universal_callback(command=None, web=None):
             return response
     
     if web:
-        if web.startswith('url'):
+        if web.startswith('search'):
+            url = "https://duckduckgo.com/?q={}".format(web.split(' ', 1)[-1].strip())
+            webbrowser.get('edge').open(url)
+
+        elif web.startswith('url'):
             web = web.split(' ', 1)[-1]
             webbrowser.get('edge').open(web)
 
-        if web.startswith('wiki'):
+        elif web.startswith('wiki'):
             web = web.split(' ', 1)[-1]
             query = ''.join(web.split(' '))
             try:
@@ -38,7 +42,7 @@ def universal_callback(command=None, web=None):
             except Exception:
                 return {
                 "title": "Error Occured",
-                "url": "NA",
+                "url": "https://en.wikipedia.org/wiki/{}".format(query),
                 "summary": "Error Occured in fetching the article. Please make sure the search query does not have special characters except for whitespaces.\n\nTry again maybe?\nIf the issue presists, try any other combination for the search query."
             }
 
