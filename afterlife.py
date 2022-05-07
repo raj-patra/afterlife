@@ -18,30 +18,42 @@ class HUD:
     def __init__(self):
         # Root Frames
         self.left = Frame(root)
+        self.left_top = Frame(self.left)
+        self.integrated_exe = Frame(self.left_top)
+
         self.right = Frame(root)
+        self.info = Frame(self.right, height=1)
+        self.action_centre = Frame(self.right,
+            width=80, height=50,
+            bg=schemes.THEMES[THEME_CHOICE]['root'], padx=2, pady=2)
+
         self.default_font = 'Maiandra GD'
         self.default_font = 'noto mono'
         self.timer_font = 'cursed timer ulil'
 
         # Widgets on root.left
-        self.left_top = Frame(self.left)
-        self.prompt = Text(self.left, bg=schemes.THEMES[THEME_CHOICE]['primary'], wrap=WORD, padx=20, pady=20,
-                            fg=schemes.THEMES[THEME_CHOICE]['fg'], font=(self.default_font, 11), width=50)
+        self.prompt = Text(self.left,
+            bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
+            font=(self.default_font, 11), wrap=WORD,
+            width=50, padx=20, pady=20,
+        )
 
-         # Widgets on root.left.intro
-        self.welcome = Text(self.left_top, bg=schemes.THEMES[THEME_CHOICE]['secondary'],
-                            fg=schemes.THEMES[THEME_CHOICE]['fg'], width=25, height=2,
-                            font=(self.default_font, 13), padx=20,
-                            pady=20, wrap=WORD)
-        self.integrated_exe = Frame(self.left_top)
+        # Widgets on root.left.intro
+        self.welcome = Text(self.left_top,
+            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
+            font=(self.default_font, 13), wrap=WORD,
+            width=25, height=2, padx=20, pady=20,
+        )
 
-        self.iexe_title = Label(self.integrated_exe, bg=schemes.THEMES[THEME_CHOICE]['secondary'], relief=GROOVE,
-                            fg=schemes.THEMES[THEME_CHOICE]['fg'], height=2, width=28, padx=2, pady=2,
-                            font=(self.default_font, 14), text="Integrated Search")
+        self.iexe_title = Label(self.integrated_exe,
+            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
+            font=(self.default_font, 14), text="Integrated Search",
+            relief=GROOVE, height=2, width=28, padx=2, pady=2,
+        )
         self.iexe_query = Entry(self.integrated_exe, bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'], bd=7,
                             width=28, font=(self.default_font, 12, 'bold'), insertbackground="white",)
 
-        self.iexe_search = Button(self.integrated_exe, text="Search", font=(self.default_font, 12), height=1,
+        self.iexe_search = Button(self.integrated_exe, text="Duck Duck Go!", font=(self.default_font, 12), height=1,
                                 command=partial(self.callback, command="iexe search"), width=6,
                                 relief=RAISED, overrelief=RAISED, bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                                 activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
@@ -58,9 +70,6 @@ class HUD:
         self.clock = Label(self.right, bg=schemes.THEMES[THEME_CHOICE]['primary'], relief=GROOVE,
                             fg=schemes.THEMES[THEME_CHOICE]['fg'], height=2, width=20,
                             font=(self.timer_font, 18, 'bold'))
-        self.info = Frame(self.right, height=1)
-        self.buttons = Frame(self.right, width=80,
-                                height=50, bg=schemes.THEMES[THEME_CHOICE]['root'], padx=2, pady=2)
 
         # Widgets on root.right.details
         self.network = Text(self.info, bg=schemes.THEMES[THEME_CHOICE]['secondary'],
@@ -126,6 +135,8 @@ class HUD:
         self.right.pack(side=RIGHT, fill=BOTH, expand=1)
 
         self.left_top.pack(side=TOP, fill=BOTH, expand=1)
+        self.prompt.pack(side=BOTTOM, fill=BOTH, expand=1)
+
         self.welcome.pack(side=LEFT, fill=BOTH, expand=1)
         self.integrated_exe.pack(side=RIGHT, fill=BOTH, expand=1)
 
@@ -135,25 +146,23 @@ class HUD:
         self.iexe_execute.pack(side=LEFT, fill=BOTH, expand=1)
         self.iexe_wiki.pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.prompt.pack(side=BOTTOM, fill=BOTH, expand=1)
-
         self.clock.pack(side=TOP, fill=BOTH, expand=0)
-
         self.info.pack(side=TOP, fill=BOTH, expand=1)
+
         self.network.pack(side=RIGHT, fill=BOTH, expand=1)
         self.system.pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.buttons.pack(side=TOP, fill=BOTH, expand=1)
+        self.action_centre.pack(side=TOP, fill=BOTH, expand=1)
 
         bg = deque([schemes.THEMES[THEME_CHOICE]['primary'], schemes.THEMES[THEME_CHOICE]['secondary']])
         self.action_items = []
         self.button_frames = []
-        
+
         for row in applications.ACTIONS.keys():
-            action_row = Frame(self.buttons, bg=schemes.THEMES[THEME_CHOICE]['root'], pady=1)
+            action_row = Frame(self.action_centre, bg=schemes.THEMES[THEME_CHOICE]['root'], pady=1)
             action_row.pack(side=TOP, fill=BOTH, expand=1)
             self.button_frames.append(action_row)
-            
+
             for action in applications.ACTIONS[row]:
                 button = Button(action_row, text=action["label"], font=(self.default_font, 12), height=1,
                                 command=partial(self.callback, command=action["command"]),  width=6,
@@ -173,8 +182,10 @@ class HUD:
         self.network.insert(END, constants.NETWORK)
         self.network.config(state=DISABLED)
 
-        # self.iexe_query.bind('<Return>', partial(self.callback, "cmd execute"))
-        # self.iexe_query.bind('<Control-Return>', partial(self.callback, "wiki execute"))
+        self.iexe_query.bind('<Return>', partial(self.callback, "iexe search"))
+        self.iexe_query.bind('<Control-Return>', partial(self.callback, "iexe execute"))
+        self.iexe_query.bind('<Shift-Return>', partial(self.callback, "iexe wiki"))
+
         root.bind('<Control-s>', self.save_prompt_content)
         root.bind('<Control-S>', self.save_prompt_content)
         root.bind('<Control-t>', partial(self.set_theme, None))
@@ -291,7 +302,7 @@ class HUD:
         self.network.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
         self.system.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
 
-        self.buttons.config(bg=schemes.THEMES[theme]['root'])
+        self.action_centre.config(bg=schemes.THEMES[theme]['root'])
         colors = deque([schemes.THEMES[theme]['primary'], schemes.THEMES[theme]['secondary']])
 
         for frame in self.button_frames:
