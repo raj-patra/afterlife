@@ -69,26 +69,29 @@ class HUD:
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe execute"),
         )
-        self.iexe_wiki = Button(self.integrated_exe, 
+        self.iexe_wiki = Button(self.integrated_exe,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
-            font=(self.default_font, 12), text="Search Wikipedia", 
-            height=1, width=6, relief=RAISED, overrelief=RAISED, 
-            command=partial(self.callback, command="iexe wiki"), 
+            font=(self.default_font, 12), text="Search Wikipedia",
+            height=1, width=6, relief=RAISED, overrelief=RAISED,
+            command=partial(self.callback, command="iexe wiki"),
         )
 
-        # Widgets on root.right
-        self.clock = Label(self.right, bg=schemes.THEMES[THEME_CHOICE]['primary'], relief=GROOVE,
-                            fg=schemes.THEMES[THEME_CHOICE]['fg'], height=2, width=20,
-                            font=(self.timer_font, 18, 'bold'))
-
-        # Widgets on root.right.details
-        self.network = Text(self.info, bg=schemes.THEMES[THEME_CHOICE]['secondary'],
-                            fg=schemes.THEMES[THEME_CHOICE]['fg'], height=5, width=25,
-                            font=(self.default_font, 12), padx=20)
-        self.system = Text(self.info, bg=schemes.THEMES[THEME_CHOICE]['secondary'],
-                        fg=schemes.THEMES[THEME_CHOICE]['fg'], height=5, width=35,
-                        font=(self.default_font, 12), padx=20)
+        self.clock = Label(self.right,
+            bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
+            font=(self.timer_font, 18, 'bold'),
+            height=2, width=20, relief=GROOVE,
+        )
+        self.network = Text(self.info,
+            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
+            font=(self.default_font, 12),
+            height=5, width=25, padx=20,
+        )
+        self.system = Text(self.info,
+            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
+            font=(self.default_font, 12),
+            height=5, width=35, padx=20,
+        )
 
         self.render_menu()
         self.render_widgets()
