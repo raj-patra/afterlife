@@ -69,10 +69,13 @@ class HUD:
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe execute"),
         )
-        self.iexe_wiki = Button(self.integrated_exe, text="Search Wikipedia", font=(self.default_font, 12), height=1,
-                                command=partial(self.callback, command="iexe wiki"), width=6,
-                                relief=RAISED, overrelief=RAISED, bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-                                activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
+        self.iexe_wiki = Button(self.integrated_exe, 
+            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
+            activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
+            font=(self.default_font, 12), text="Search Wikipedia", 
+            height=1, width=6, relief=RAISED, overrelief=RAISED, 
+            command=partial(self.callback, command="iexe wiki"), 
+        )
 
         # Widgets on root.right
         self.clock = Label(self.right, bg=schemes.THEMES[THEME_CHOICE]['primary'], relief=GROOVE,
