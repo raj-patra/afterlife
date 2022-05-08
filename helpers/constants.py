@@ -87,7 +87,7 @@ Made with ♥ by a_ignorant_mortal
 
 WIKI = """
 Title - {}
-Details at - {}
+Article URL - {}
 
 Summary - {}
 """

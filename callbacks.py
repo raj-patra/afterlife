@@ -1,4 +1,4 @@
-import  os, webbrowser, wikipedia
+import  os, webbrowser, wikipedia, locale
 
 from tkinter import messagebox
 import helpers.constants as constants
@@ -9,6 +9,9 @@ webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
 
 edge_path = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edge_path))
+
+# Get local language code for wikipedia articles
+lang_code = locale.getdefaultlocale()[0].split('_')[0]
 
 def universal_callback(command=None, web=None):
     if command:
@@ -33,17 +36,18 @@ def universal_callback(command=None, web=None):
             web = web.split(' ', 1)[-1]
             query = ''.join(web.split(' '))
             try:
+                wikipedia.set_lang(lang_code)
                 page = wikipedia.page(query)
                 return {
-                "title": page.title,
-                "url": page.url,
-                "summary": page.summary
+                    "title": page.title,
+                    "url": page.url,
+                    "summary": page.summary
             }
             except Exception:
                 return {
                 "title": "Error Occured",
-                "url": "https://en.wikipedia.org/wiki/{}".format(query),
-                "summary": "Error Occured in fetching the article. Please make sure the search query does not have special characters except for whitespaces.\n\nTry again maybe?\nIf the issue presists, try any other combination for the search query."
+                "url": "https://{lang_code}.wikipedia.org/wiki/{query}".format(lang_code=lang_code, query=query),
+                "summary": "Error Occured in fetching the article. Please try any other combination for the search query."
             }
 
 def about(event=None):
