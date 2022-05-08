@@ -27,7 +27,6 @@ class HUD:
             width=80, height=50,
             bg=schemes.THEMES[THEME_CHOICE]['root'], padx=2, pady=2)
 
-        self.default_font = 'Maiandra GD'
         self.default_font = 'noto mono'
         self.timer_font = 'cursed timer ulil'
 
