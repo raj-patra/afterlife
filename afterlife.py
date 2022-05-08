@@ -271,6 +271,8 @@ class HUD:
 
             elif command == 'iexe wiki':
                 response = universal_callback(web="wiki "+query)
+                self.prompt.delete('1.0', END)
+                self.prompt.insert(END, constants.WIKI.format(*response.values()))
                 universal_callback(web='url '+response['url'])
 
             self.iexe_query.delete(0, END)
