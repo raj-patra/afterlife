@@ -178,10 +178,13 @@ class HUD:
             self.button_frames.append(action_row)
 
             for action in applications.ACTIONS[row]:
-                button = Button(action_row, text=action["label"], font=(self.default_font, 12), height=1,
-                                command=partial(self.callback, command=action["command"]),  width=6,
-                                relief=FLAT, overrelief=RAISED, bg=bg[0], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-                                activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white")
+                button = Button(action_row, 
+                    bg=bg[0], fg=schemes.THEMES[THEME_CHOICE]['fg'],
+                    activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
+                    font=(self.default_font, 12), text=action["label"], 
+                    height=1, width=6, relief=FLAT, overrelief=RAISED, 
+                    command=partial(self.callback, command=action["command"]),  
+                )
                 self.action_items.append(button)
                 bg.rotate(1)
                 button.pack(side=LEFT, fill=BOTH, expand=1)
