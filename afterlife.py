@@ -47,12 +47,12 @@ class HUD:
         self.iexe_title = Label(self.integrated_exe,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 14), text="Integrated Search",
-            relief=GROOVE, height=2, width=28, padx=2, pady=2,
+            relief=FLAT, height=2, width=28, padx=2, pady=2,
         )
         self.iexe_query = Entry(self.integrated_exe,
             bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 12, 'bold'),
-            bd=7, width=28, insertbackground="white",
+            bd=5, width=28, insertbackground="white",
         )
 
         self.iexe_search = Button(self.integrated_exe,
