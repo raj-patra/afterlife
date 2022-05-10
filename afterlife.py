@@ -307,21 +307,55 @@ class HUD:
 
         root.config(bg=schemes.THEMES[theme]['root'])
 
-        self.prompt.config(bg=schemes.THEMES[theme]['primary'], fg=schemes.THEMES[theme]['fg'])
-        self.clock.config(bg=schemes.THEMES[theme]['primary'], fg=schemes.THEMES[theme]['fg'])
+        self.prompt.config(
+            bg=schemes.THEMES[theme]['primary'], 
+            fg=schemes.THEMES[theme]['fg']
+        )
+        self.clock.config(
+            bg=schemes.THEMES[theme]['primary'], 
+            fg=schemes.THEMES[theme]['fg']
+        )
+        self.welcome.config(
+            bg=schemes.THEMES[theme]['secondary'], 
+            fg=schemes.THEMES[theme]['fg']
+        )
 
-        self.welcome.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
+        self.iexe_title.config(
+            bg=schemes.THEMES[theme]['secondary'], 
+            fg=schemes.THEMES[theme]['fg']
+        )
+        self.iexe_query.config(
+            bg=schemes.THEMES[theme]['primary'], 
+            fg=schemes.THEMES[theme]['fg']
+        )
+        self.iexe_search.config(
+            bg=schemes.THEMES[theme]['secondary'], 
+            fg=schemes.THEMES[theme]['fg'], 
+            activebackground=schemes.THEMES[theme]['root']
+        )
+        self.iexe_execute.config(
+            bg=schemes.THEMES[theme]['secondary'], 
+            fg=schemes.THEMES[theme]['fg'], 
+            activebackground=schemes.THEMES[theme]['root']
+        )
+        self.iexe_wiki.config(
+            bg=schemes.THEMES[theme]['secondary'], 
+            fg=schemes.THEMES[theme]['fg'], 
+            activebackground=schemes.THEMES[theme]['root']
+        )
 
-        self.iexe_title.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
-        self.iexe_query.config(bg=schemes.THEMES[theme]['primary'], fg=schemes.THEMES[theme]['fg'])
-        self.iexe_search.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
-        self.iexe_execute.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
-        self.iexe_wiki.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
+        self.network.config(
+            bg=schemes.THEMES[theme]['secondary'], 
+            fg=schemes.THEMES[theme]['fg']
+        )
+        self.system.config(
+            bg=schemes.THEMES[theme]['secondary'], 
+            fg=schemes.THEMES[theme]['fg']
+        )
 
-        self.network.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
-        self.system.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
-
-        self.action_centre.config(bg=schemes.THEMES[theme]['root'])
+        self.action_centre.config(
+            bg=schemes.THEMES[theme]['root']
+        )
         colors = deque([schemes.THEMES[theme]['primary'], schemes.THEMES[theme]['secondary']])
 
         for frame in self.button_frames:
