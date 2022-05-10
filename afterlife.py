@@ -306,28 +306,23 @@ class HUD:
             theme = random.choice(list(schemes.THEMES.keys()))
 
         root.config(bg=schemes.THEMES[theme]['root'])
-
-        self.prompt.config(
+        
+        primary_bg_theme = dict(
             bg=schemes.THEMES[theme]['primary'],
-            fg=schemes.THEMES[theme]['fg']
+            fg=schemes.THEMES[theme]['fg'],
         )
-        self.clock.config(
-            bg=schemes.THEMES[theme]['primary'],
-            fg=schemes.THEMES[theme]['fg']
-        )
-        self.welcome.config(
+        secondary_bg_theme = dict(
             bg=schemes.THEMES[theme]['secondary'],
-            fg=schemes.THEMES[theme]['fg']
+            fg=schemes.THEMES[theme]['fg'],
         )
 
-        self.iexe_title.config(
-            bg=schemes.THEMES[theme]['secondary'],
-            fg=schemes.THEMES[theme]['fg']
-        )
-        self.iexe_query.config(
-            bg=schemes.THEMES[theme]['primary'],
-            fg=schemes.THEMES[theme]['fg']
-        )
+        self.prompt.config(**primary_bg_theme)
+        self.clock.config(**primary_bg_theme)
+        self.welcome.config(**secondary_bg_theme)
+
+        self.iexe_title.config(**secondary_bg_theme)
+        self.iexe_query.config(**primary_bg_theme)
+        
         self.iexe_search.config(
             bg=schemes.THEMES[theme]['secondary'],
             fg=schemes.THEMES[theme]['fg'],
@@ -344,14 +339,8 @@ class HUD:
             activebackground=schemes.THEMES[theme]['root']
         )
 
-        self.network.config(
-            bg=schemes.THEMES[theme]['secondary'],
-            fg=schemes.THEMES[theme]['fg']
-        )
-        self.system.config(
-            bg=schemes.THEMES[theme]['secondary'],
-            fg=schemes.THEMES[theme]['fg']
-        )
+        self.network.config(**secondary_bg_theme)
+        self.system.config(**secondary_bg_theme)
 
         self.action_centre.config(
             bg=schemes.THEMES[theme]['root']
