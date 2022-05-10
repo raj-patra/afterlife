@@ -178,12 +178,12 @@ class HUD:
             self.button_frames.append(action_row)
 
             for action in applications.ACTIONS[row]:
-                button = Button(action_row, 
+                button = Button(action_row,
                     bg=bg[0], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                     activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
-                    font=(self.default_font, 12), text=action["label"], 
-                    height=1, width=6, relief=FLAT, overrelief=RAISED, 
-                    command=partial(self.callback, command=action["command"]),  
+                    font=(self.default_font, 12), text=action["label"],
+                    height=1, width=6, relief=FLAT, overrelief=RAISED,
+                    command=partial(self.callback, command=action["command"]),
                 )
                 self.action_items.append(button)
                 bg.rotate(1)
@@ -308,48 +308,48 @@ class HUD:
         root.config(bg=schemes.THEMES[theme]['root'])
 
         self.prompt.config(
-            bg=schemes.THEMES[theme]['primary'], 
+            bg=schemes.THEMES[theme]['primary'],
             fg=schemes.THEMES[theme]['fg']
         )
         self.clock.config(
-            bg=schemes.THEMES[theme]['primary'], 
+            bg=schemes.THEMES[theme]['primary'],
             fg=schemes.THEMES[theme]['fg']
         )
         self.welcome.config(
-            bg=schemes.THEMES[theme]['secondary'], 
+            bg=schemes.THEMES[theme]['secondary'],
             fg=schemes.THEMES[theme]['fg']
         )
 
         self.iexe_title.config(
-            bg=schemes.THEMES[theme]['secondary'], 
+            bg=schemes.THEMES[theme]['secondary'],
             fg=schemes.THEMES[theme]['fg']
         )
         self.iexe_query.config(
-            bg=schemes.THEMES[theme]['primary'], 
+            bg=schemes.THEMES[theme]['primary'],
             fg=schemes.THEMES[theme]['fg']
         )
         self.iexe_search.config(
-            bg=schemes.THEMES[theme]['secondary'], 
-            fg=schemes.THEMES[theme]['fg'], 
+            bg=schemes.THEMES[theme]['secondary'],
+            fg=schemes.THEMES[theme]['fg'],
             activebackground=schemes.THEMES[theme]['root']
         )
         self.iexe_execute.config(
-            bg=schemes.THEMES[theme]['secondary'], 
-            fg=schemes.THEMES[theme]['fg'], 
+            bg=schemes.THEMES[theme]['secondary'],
+            fg=schemes.THEMES[theme]['fg'],
             activebackground=schemes.THEMES[theme]['root']
         )
         self.iexe_wiki.config(
-            bg=schemes.THEMES[theme]['secondary'], 
-            fg=schemes.THEMES[theme]['fg'], 
+            bg=schemes.THEMES[theme]['secondary'],
+            fg=schemes.THEMES[theme]['fg'],
             activebackground=schemes.THEMES[theme]['root']
         )
 
         self.network.config(
-            bg=schemes.THEMES[theme]['secondary'], 
+            bg=schemes.THEMES[theme]['secondary'],
             fg=schemes.THEMES[theme]['fg']
         )
         self.system.config(
-            bg=schemes.THEMES[theme]['secondary'], 
+            bg=schemes.THEMES[theme]['secondary'],
             fg=schemes.THEMES[theme]['fg']
         )
 
