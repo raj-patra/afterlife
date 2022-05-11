@@ -348,7 +348,11 @@ class HUD:
             frame.config(bg=schemes.THEMES[theme]['root'])
 
         for button in self.action_items:
-            button.config(bg=colors[0], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
+            button.config(
+                bg=colors[0], 
+                fg=schemes.THEMES[theme]['fg'], 
+                activebackground=schemes.THEMES[theme]['root']
+            )
             colors.rotate(1)
 
         self.welcome.config(state=NORMAL)
