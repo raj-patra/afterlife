@@ -324,18 +324,15 @@ class HUD:
         self.iexe_query.config(**primary_bg_theme)
         
         self.iexe_search.config(
-            bg=schemes.THEMES[theme]['secondary'],
-            fg=schemes.THEMES[theme]['fg'],
+            **secondary_bg_theme,
             activebackground=schemes.THEMES[theme]['root']
         )
         self.iexe_execute.config(
-            bg=schemes.THEMES[theme]['secondary'],
-            fg=schemes.THEMES[theme]['fg'],
+            **secondary_bg_theme,
             activebackground=schemes.THEMES[theme]['root']
         )
         self.iexe_wiki.config(
-            bg=schemes.THEMES[theme]['secondary'],
-            fg=schemes.THEMES[theme]['fg'],
+            **secondary_bg_theme,
             activebackground=schemes.THEMES[theme]['root']
         )
 
