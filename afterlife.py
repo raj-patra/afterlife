@@ -178,12 +178,12 @@ class HUD:
             self.button_frames.append(action_row)
 
             for action in applications.ACTIONS[row]:
-                button = Button(action_row, 
+                button = Button(action_row,
                     bg=bg[0], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                     activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
-                    font=(self.default_font, 12), text=action["label"], 
-                    height=1, width=6, relief=FLAT, overrelief=RAISED, 
-                    command=partial(self.callback, command=action["command"]),  
+                    font=(self.default_font, 12), text=action["label"],
+                    height=1, width=6, relief=FLAT, overrelief=RAISED,
+                    command=partial(self.callback, command=action["command"]),
                 )
                 self.action_items.append(button)
                 bg.rotate(1)
@@ -306,29 +306,53 @@ class HUD:
             theme = random.choice(list(schemes.THEMES.keys()))
 
         root.config(bg=schemes.THEMES[theme]['root'])
+        
+        primary_bg_theme = dict(
+            bg=schemes.THEMES[theme]['primary'],
+            fg=schemes.THEMES[theme]['fg'],
+        )
+        secondary_bg_theme = dict(
+            bg=schemes.THEMES[theme]['secondary'],
+            fg=schemes.THEMES[theme]['fg'],
+        )
 
-        self.prompt.config(bg=schemes.THEMES[theme]['primary'], fg=schemes.THEMES[theme]['fg'])
-        self.clock.config(bg=schemes.THEMES[theme]['primary'], fg=schemes.THEMES[theme]['fg'])
+        self.prompt.config(**primary_bg_theme)
+        self.clock.config(**primary_bg_theme)
+        self.welcome.config(**secondary_bg_theme)
 
-        self.welcome.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
+        self.iexe_title.config(**secondary_bg_theme)
+        self.iexe_query.config(**primary_bg_theme)
+        
+        self.iexe_search.config(
+            **secondary_bg_theme,
+            activebackground=schemes.THEMES[theme]['root']
+        )
+        self.iexe_execute.config(
+            **secondary_bg_theme,
+            activebackground=schemes.THEMES[theme]['root']
+        )
+        self.iexe_wiki.config(
+            **secondary_bg_theme,
+            activebackground=schemes.THEMES[theme]['root']
+        )
 
-        self.iexe_title.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
-        self.iexe_query.config(bg=schemes.THEMES[theme]['primary'], fg=schemes.THEMES[theme]['fg'])
-        self.iexe_search.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
-        self.iexe_execute.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
-        self.iexe_wiki.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
+        self.network.config(**secondary_bg_theme)
+        self.system.config(**secondary_bg_theme)
 
-        self.network.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
-        self.system.config(bg=schemes.THEMES[theme]['secondary'], fg=schemes.THEMES[theme]['fg'])
-
-        self.action_centre.config(bg=schemes.THEMES[theme]['root'])
+        self.action_centre.config(
+            bg=schemes.THEMES[theme]['root']
+        )
         colors = deque([schemes.THEMES[theme]['primary'], schemes.THEMES[theme]['secondary']])
 
         for frame in self.button_frames:
             frame.config(bg=schemes.THEMES[theme]['root'])
 
         for button in self.action_items:
-            button.config(bg=colors[0], fg=schemes.THEMES[theme]['fg'], activebackground=schemes.THEMES[theme]['root'])
+            button.config(
+                bg=colors[0], 
+                fg=schemes.THEMES[theme]['fg'], 
+                activebackground=schemes.THEMES[theme]['root']
+            )
             colors.rotate(1)
 
         self.welcome.config(state=NORMAL)
