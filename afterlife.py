@@ -16,19 +16,20 @@ THEME_CHOICE = "gotham"
 
 class HUD:
     def __init__(self):
+
+        self.default_font = 'Noto Mono'
+        self.timer_font = 'cursed timer ulil'
+
         # Root Frames
         self.left_frame = Frame(root)
         self.left_top_frame = Frame(self.left_frame)
         self.integrated_exe_frame = Frame(self.left_top_frame)
 
-        self.right = Frame(root)
-        self.info = Frame(self.right, height=1)
-        self.action_centre = Frame(self.right,
+        self.right_frame = Frame(root)
+        self.info_frame = Frame(self.right_frame, height=1)
+        self.action_centre_frame = Frame(self.right_frame,
             width=80, height=50,
             bg=schemes.THEMES[THEME_CHOICE]['root'], padx=2, pady=2)
-
-        self.default_font = 'Noto Mono'
-        self.timer_font = 'cursed timer ulil'
 
         # Widgets on root.left
         self.prompt = Text(self.left_frame,
@@ -77,17 +78,17 @@ class HUD:
             command=partial(self.callback, command="iexe wiki"),
         )
 
-        self.clock = Label(self.right,
+        self.clock = Label(self.right_frame,
             bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.timer_font, 18, 'bold'),
             height=2, width=20, relief=GROOVE,
         )
-        self.network = Text(self.info,
+        self.network = Text(self.info_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 12),
             height=5, width=25, padx=20,
         )
-        self.system = Text(self.info,
+        self.system = Text(self.info_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 12),
             height=5, width=35, padx=20,
@@ -146,7 +147,7 @@ class HUD:
 
     def render_widgets(self):
         self.left_frame.pack(side=LEFT, fill=BOTH, expand=1)
-        self.right.pack(side=RIGHT, fill=BOTH, expand=1)
+        self.right_frame.pack(side=RIGHT, fill=BOTH, expand=1)
 
         self.left_top_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt.pack(side=BOTTOM, fill=BOTH, expand=1)
@@ -161,19 +162,19 @@ class HUD:
         self.iexe_wiki.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.clock.pack(side=TOP, fill=BOTH, expand=0)
-        self.info.pack(side=TOP, fill=BOTH, expand=1)
+        self.info_frame.pack(side=TOP, fill=BOTH, expand=1)
 
         self.network.pack(side=RIGHT, fill=BOTH, expand=1)
         self.system.pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.action_centre.pack(side=TOP, fill=BOTH, expand=1)
+        self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
         bg = deque([schemes.THEMES[THEME_CHOICE]['primary'], schemes.THEMES[THEME_CHOICE]['secondary']])
         self.action_items = []
         self.button_frames = []
 
         for row in applications.ACTIONS.keys():
-            action_row = Frame(self.action_centre, bg=schemes.THEMES[THEME_CHOICE]['root'], pady=1)
+            action_row = Frame(self.action_centre_frame, bg=schemes.THEMES[THEME_CHOICE]['root'], pady=1)
             action_row.pack(side=TOP, fill=BOTH, expand=1)
             self.button_frames.append(action_row)
 
@@ -339,7 +340,7 @@ class HUD:
         self.network.config(**secondary_bg_theme)
         self.system.config(**secondary_bg_theme)
 
-        self.action_centre.config(
+        self.action_centre_frame.config(
             bg=schemes.THEMES[theme]['root']
         )
         colors = deque([schemes.THEMES[theme]['primary'], schemes.THEMES[theme]['secondary']])
