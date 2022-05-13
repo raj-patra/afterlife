@@ -17,9 +17,9 @@ THEME_CHOICE = "gotham"
 class HUD:
     def __init__(self):
         # Root Frames
-        self.left = Frame(root)
-        self.left_top = Frame(self.left)
-        self.integrated_exe = Frame(self.left_top)
+        self.left_frame = Frame(root)
+        self.left_top_frame = Frame(self.left_frame)
+        self.integrated_exe_frame = Frame(self.left_top_frame)
 
         self.right = Frame(root)
         self.info = Frame(self.right, height=1)
@@ -31,45 +31,45 @@ class HUD:
         self.timer_font = 'cursed timer ulil'
 
         # Widgets on root.left
-        self.prompt = Text(self.left,
+        self.prompt = Text(self.left_frame,
             bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 11), wrap=WORD,
             width=50, padx=20, pady=20,
         )
 
         # Widgets on root.left.intro
-        self.welcome = Text(self.left_top,
+        self.welcome = Text(self.left_top_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 13), wrap=WORD,
             width=25, height=2, padx=20, pady=20,
         )
 
-        self.iexe_title = Label(self.integrated_exe,
+        self.iexe_title = Label(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 14), text="Integrated Search",
             relief=FLAT, height=2, width=28, padx=2, pady=2,
         )
-        self.iexe_query = Entry(self.integrated_exe,
+        self.iexe_query = Entry(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 12, 'bold'),
             bd=5, width=28, insertbackground="white",
         )
 
-        self.iexe_search = Button(self.integrated_exe,
+        self.iexe_search = Button(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
             font=(self.default_font, 12), text="Duck Duck Go!",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe search"),
         )
-        self.iexe_execute = Button(self.integrated_exe,
+        self.iexe_execute = Button(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
             font=(self.default_font, 12), text="Execute Command",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe execute"),
         )
-        self.iexe_wiki = Button(self.integrated_exe,
+        self.iexe_wiki = Button(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
             font=(self.default_font, 12), text="Search Wikipedia",
@@ -145,14 +145,14 @@ class HUD:
         root.config(menu=menu_bar)
 
     def render_widgets(self):
-        self.left.pack(side=LEFT, fill=BOTH, expand=1)
+        self.left_frame.pack(side=LEFT, fill=BOTH, expand=1)
         self.right.pack(side=RIGHT, fill=BOTH, expand=1)
 
-        self.left_top.pack(side=TOP, fill=BOTH, expand=1)
+        self.left_top_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt.pack(side=BOTTOM, fill=BOTH, expand=1)
 
         self.welcome.pack(side=LEFT, fill=BOTH, expand=1)
-        self.integrated_exe.pack(side=RIGHT, fill=BOTH, expand=1)
+        self.integrated_exe_frame.pack(side=RIGHT, fill=BOTH, expand=1)
 
         self.iexe_title.pack(side=TOP, fill=BOTH, expand=0)
         self.iexe_query.pack(side=TOP, fill=BOTH, expand=1)
