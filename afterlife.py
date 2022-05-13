@@ -39,38 +39,38 @@ class HUD:
         )
 
         # Widgets on root.left.intro
-        self.welcome = Text(self.left_top_frame,
+        self.welcome_text = Text(self.left_top_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 13), wrap=WORD,
             width=25, height=2, padx=20, pady=20,
         )
 
-        self.iexe_title = Label(self.integrated_exe_frame,
+        self.iexe_title_label = Label(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 14), text="Integrated Search",
             relief=FLAT, height=2, width=28, padx=2, pady=2,
         )
-        self.iexe_query = Entry(self.integrated_exe_frame,
+        self.iexe_query_entry = Entry(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 12, 'bold'),
             bd=5, width=28, insertbackground="white",
         )
 
-        self.iexe_search = Button(self.integrated_exe_frame,
+        self.iexe_search_button = Button(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
             font=(self.default_font, 12), text="Duck Duck Go!",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe search"),
         )
-        self.iexe_execute = Button(self.integrated_exe_frame,
+        self.iexe_execute_button = Button(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
             font=(self.default_font, 12), text="Execute Command",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe execute"),
         )
-        self.iexe_wiki = Button(self.integrated_exe_frame,
+        self.iexe_wiki_button = Button(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
             font=(self.default_font, 12), text="Search Wikipedia",
@@ -152,14 +152,14 @@ class HUD:
         self.left_top_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt.pack(side=BOTTOM, fill=BOTH, expand=1)
 
-        self.welcome.pack(side=LEFT, fill=BOTH, expand=1)
+        self.welcome_text.pack(side=LEFT, fill=BOTH, expand=1)
         self.integrated_exe_frame.pack(side=RIGHT, fill=BOTH, expand=1)
 
-        self.iexe_title.pack(side=TOP, fill=BOTH, expand=0)
-        self.iexe_query.pack(side=TOP, fill=BOTH, expand=1)
-        self.iexe_search.pack(side=TOP, fill=BOTH, expand=0)
-        self.iexe_execute.pack(side=LEFT, fill=BOTH, expand=1)
-        self.iexe_wiki.pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_title_label.pack(side=TOP, fill=BOTH, expand=0)
+        self.iexe_query_entry.pack(side=TOP, fill=BOTH, expand=1)
+        self.iexe_search_button.pack(side=TOP, fill=BOTH, expand=0)
+        self.iexe_execute_button.pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_wiki_button.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.clock.pack(side=TOP, fill=BOTH, expand=0)
         self.info_frame.pack(side=TOP, fill=BOTH, expand=1)
@@ -191,18 +191,18 @@ class HUD:
                 button.pack(side=LEFT, fill=BOTH, expand=1)
 
     def start_widgets(self):
-        self.welcome.insert(END, constants.WELCOME.lstrip()+constants.CURRENT_THEME.format(THEME_CHOICE))
-        self.welcome.config(state=DISABLED)
+        self.welcome_text.insert(END, constants.WELCOME.lstrip()+constants.CURRENT_THEME.format(THEME_CHOICE))
+        self.welcome_text.config(state=DISABLED)
 
-        self.iexe_query.insert(END, "> ")
+        self.iexe_query_entry.insert(END, "> ")
         self.clock.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
         self.network.insert(END, constants.NETWORK)
         self.network.config(state=DISABLED)
 
-        self.iexe_query.bind('<Return>', partial(self.callback, "iexe search"))
-        self.iexe_query.bind('<Control-Return>', partial(self.callback, "iexe execute"))
-        self.iexe_query.bind('<Shift-Return>', partial(self.callback, "iexe wiki"))
+        self.iexe_query_entry.bind('<Return>', partial(self.callback, "iexe search"))
+        self.iexe_query_entry.bind('<Control-Return>', partial(self.callback, "iexe execute"))
+        self.iexe_query_entry.bind('<Shift-Return>', partial(self.callback, "iexe wiki"))
 
         root.bind('<Control-s>', self.save_prompt_content)
         root.bind('<Control-S>', self.save_prompt_content)
@@ -278,7 +278,7 @@ class HUD:
             universal_callback(web=command)
 
         elif command.startswith('iexe'):
-            query = self.iexe_query.get()
+            query = self.iexe_query_entry.get()
             if ">" in query:
                 query = query.split('>')[-1]
 
@@ -294,8 +294,8 @@ class HUD:
                 self.prompt.insert(END, constants.WIKI.format(*response.values()))
                 universal_callback(web='url '+response['url'])
 
-            self.iexe_query.delete(0, END)
-            self.iexe_query.insert(END, "> ")
+            self.iexe_query_entry.delete(0, END)
+            self.iexe_query_entry.insert(END, "> ")
 
         else:
             self.prompt.delete('1.0', END)
@@ -319,20 +319,20 @@ class HUD:
 
         self.prompt.config(**primary_bg_theme)
         self.clock.config(**primary_bg_theme)
-        self.welcome.config(**secondary_bg_theme)
+        self.welcome_text.config(**secondary_bg_theme)
 
-        self.iexe_title.config(**secondary_bg_theme)
-        self.iexe_query.config(**primary_bg_theme)
+        self.iexe_title_label.config(**secondary_bg_theme)
+        self.iexe_query_entry.config(**primary_bg_theme)
         
-        self.iexe_search.config(
+        self.iexe_search_button.config(
             **secondary_bg_theme,
             activebackground=schemes.THEMES[theme]['root']
         )
-        self.iexe_execute.config(
+        self.iexe_execute_button.config(
             **secondary_bg_theme,
             activebackground=schemes.THEMES[theme]['root']
         )
-        self.iexe_wiki.config(
+        self.iexe_wiki_button.config(
             **secondary_bg_theme,
             activebackground=schemes.THEMES[theme]['root']
         )
@@ -356,10 +356,10 @@ class HUD:
             )
             colors.rotate(1)
 
-        self.welcome.config(state=NORMAL)
-        self.welcome.delete('1.0', END)
-        self.welcome.insert(END, constants.WELCOME.lstrip()+constants.CURRENT_THEME.format(theme))
-        self.welcome.config(state=DISABLED)
+        self.welcome_text.config(state=NORMAL)
+        self.welcome_text.delete('1.0', END)
+        self.welcome_text.insert(END, constants.WELCOME.lstrip()+constants.CURRENT_THEME.format(theme))
+        self.welcome_text.config(state=DISABLED)
 
     def save_prompt_content(self, event=None):
         handle = filedialog.asksaveasfile(mode="w", defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
