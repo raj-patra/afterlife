@@ -32,7 +32,7 @@ class HUD:
             bg=schemes.THEMES[THEME_CHOICE]['root'], padx=2, pady=2)
 
         # Widgets on root.left
-        self.prompt = Text(self.left_frame,
+        self.prompt_text = Text(self.left_frame,
             bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 11), wrap=WORD,
             width=50, padx=20, pady=20,
@@ -78,17 +78,17 @@ class HUD:
             command=partial(self.callback, command="iexe wiki"),
         )
 
-        self.clock = Label(self.right_frame,
+        self.clock_label = Label(self.right_frame,
             bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.timer_font, 18, 'bold'),
             height=2, width=20, relief=GROOVE,
         )
-        self.network = Text(self.info_frame,
+        self.network_text = Text(self.info_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 12),
             height=5, width=25, padx=20,
         )
-        self.system = Text(self.info_frame,
+        self.system_text = Text(self.info_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 12),
             height=5, width=35, padx=20,
@@ -150,7 +150,7 @@ class HUD:
         self.right_frame.pack(side=RIGHT, fill=BOTH, expand=1)
 
         self.left_top_frame.pack(side=TOP, fill=BOTH, expand=1)
-        self.prompt.pack(side=BOTTOM, fill=BOTH, expand=1)
+        self.prompt_text.pack(side=BOTTOM, fill=BOTH, expand=1)
 
         self.welcome_text.pack(side=LEFT, fill=BOTH, expand=1)
         self.integrated_exe_frame.pack(side=RIGHT, fill=BOTH, expand=1)
@@ -161,11 +161,11 @@ class HUD:
         self.iexe_execute_button.pack(side=LEFT, fill=BOTH, expand=1)
         self.iexe_wiki_button.pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.clock.pack(side=TOP, fill=BOTH, expand=0)
+        self.clock_label.pack(side=TOP, fill=BOTH, expand=0)
         self.info_frame.pack(side=TOP, fill=BOTH, expand=1)
 
-        self.network.pack(side=RIGHT, fill=BOTH, expand=1)
-        self.system.pack(side=LEFT, fill=BOTH, expand=1)
+        self.network_text.pack(side=RIGHT, fill=BOTH, expand=1)
+        self.system_text.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
@@ -195,10 +195,10 @@ class HUD:
         self.welcome_text.config(state=DISABLED)
 
         self.iexe_query_entry.insert(END, "> ")
-        self.clock.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
+        self.clock_label.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
-        self.network.insert(END, constants.NETWORK)
-        self.network.config(state=DISABLED)
+        self.network_text.insert(END, constants.NETWORK)
+        self.network_text.config(state=DISABLED)
 
         self.iexe_query_entry.bind('<Return>', partial(self.callback, "iexe search"))
         self.iexe_query_entry.bind('<Control-Return>', partial(self.callback, "iexe execute"))
@@ -221,12 +221,12 @@ class HUD:
         battery = psutil.sensors_battery()
 
         if len(gpu) > 0:
-            self.system.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
+            self.system_text.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
                                             battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)"))
         else:
-            self.system.insert(END, constants.SYSTEM.format(  cpu, ram, 'No GPU found', 0,
+            self.system_text.insert(END, constants.SYSTEM.format(  cpu, ram, 'No GPU found', 0,
                                             battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)"))
-        self.system.config(state=DISABLED)
+        self.system_text.config(state=DISABLED)
 
         self.update_widgets()
 
@@ -238,41 +238,41 @@ class HUD:
 
             if (time.time()-update) > 60:
                 update = time.time()
-                self.clock.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
+                self.clock_label.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
-            self.system.config(state=NORMAL)
-            self.system.delete('1.0', END)
+            self.system_text.config(state=NORMAL)
+            self.system_text.delete('1.0', END)
             cpu = psutil.cpu_percent()
             ram = psutil.virtual_memory()[2]
             gpu = GPUtil.getGPUs()
             battery = psutil.sensors_battery()
             if len(gpu) > 0:
-                self.system.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
+                self.system_text.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
                                                 battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)"))
             else:
-                self.system.insert(END, constants.SYSTEM.format(  cpu, ram, 'No GPU found', 0,
+                self.system_text.insert(END, constants.SYSTEM.format(  cpu, ram, 'No GPU found', 0,
                                                 battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)"))
-            self.system.config(state=DISABLED)
+            self.system_text.config(state=DISABLED)
 
-            self.system.after(5000, loop)
+            self.system_text.after(5000, loop)
 
         loop()
 
     def callback(self, command, event=None):
-        self.prompt.config(state=NORMAL)
+        self.prompt_text.config(state=NORMAL)
 
         if command.startswith('start'):
             universal_callback(command=command)
 
         elif command.startswith('subprocess'):
-            self.prompt.delete('1.0', END)
+            self.prompt_text.delete('1.0', END)
             response = universal_callback(command=command)
-            self.prompt.insert(END, response)
+            self.prompt_text.insert(END, response)
 
         elif command.startswith('request'):
-            self.prompt.delete('1.0', END)
+            self.prompt_text.delete('1.0', END)
             response = universal_callback(web=command)
-            self.prompt.insert(END, response)
+            self.prompt_text.insert(END, response)
 
         elif command.startswith('url'):
             universal_callback(web=command)
@@ -290,17 +290,17 @@ class HUD:
 
             elif command == 'iexe wiki':
                 response = universal_callback(web="wiki "+query)
-                self.prompt.delete('1.0', END)
-                self.prompt.insert(END, constants.WIKI.format(*response.values()))
+                self.prompt_text.delete('1.0', END)
+                self.prompt_text.insert(END, constants.WIKI.format(*response.values()))
                 universal_callback(web='url '+response['url'])
 
             self.iexe_query_entry.delete(0, END)
             self.iexe_query_entry.insert(END, "> ")
 
         else:
-            self.prompt.delete('1.0', END)
+            self.prompt_text.delete('1.0', END)
 
-        self.prompt.config(state=DISABLED)
+        self.prompt_text.config(state=DISABLED)
 
     def set_theme(self, theme=None, event=None):
         if theme == None:
@@ -317,8 +317,8 @@ class HUD:
             fg=schemes.THEMES[theme]['fg'],
         )
 
-        self.prompt.config(**primary_bg_theme)
-        self.clock.config(**primary_bg_theme)
+        self.prompt_text.config(**primary_bg_theme)
+        self.clock_label.config(**primary_bg_theme)
         self.welcome_text.config(**secondary_bg_theme)
 
         self.iexe_title_label.config(**secondary_bg_theme)
@@ -337,8 +337,8 @@ class HUD:
             activebackground=schemes.THEMES[theme]['root']
         )
 
-        self.network.config(**secondary_bg_theme)
-        self.system.config(**secondary_bg_theme)
+        self.network_text.config(**secondary_bg_theme)
+        self.system_text.config(**secondary_bg_theme)
 
         self.action_centre_frame.config(
             bg=schemes.THEMES[theme]['root']
@@ -364,7 +364,7 @@ class HUD:
     def save_prompt_content(self, event=None):
         handle = filedialog.asksaveasfile(mode="w", defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
         if handle != None:
-            handle.write(self.prompt.get('1.0', 'end'))
+            handle.write(self.prompt_text.get('1.0', 'end'))
             handle.close()
             messagebox.showinfo('Info', 'The contents of the Text Widget has been saved.')
 
