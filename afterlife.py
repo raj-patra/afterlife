@@ -328,6 +328,7 @@ class HUD:
         self.prompt_text.config(**primary_bg_theme)
         self.clock_label.config(**primary_bg_theme)
         self.welcome_text.config(**secondary_bg_theme)
+        self.left_status_label.config(**secondary_bg_theme)
 
         self.iexe_title_label.config(**secondary_bg_theme)
         self.iexe_query_entry.config(**primary_bg_theme)
@@ -368,6 +369,7 @@ class HUD:
         self.welcome_text.delete('1.0', END)
         self.welcome_text.insert(END, constants.WELCOME.lstrip()+constants.CURRENT_THEME.format(theme))
         self.welcome_text.config(state=DISABLED)
+        self.left_status_label.config(text=constants.LEFT_STATUS_LABEL.format(theme))
 
     def save_prompt_content(self, event=None):
         handle = filedialog.asksaveasfile(mode="w", defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
