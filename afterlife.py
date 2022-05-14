@@ -39,7 +39,7 @@ class HUD:
             width=50, padx=20, pady=20,
         )
         self.left_status_label = Label(self.left_frame,
-            bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
+            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 10), text="☀", anchor=W,
             relief=FLAT, height=1, padx=3, pady=2,
         )
@@ -200,6 +200,7 @@ class HUD:
     def start_widgets(self):
         self.welcome_text.insert(END, constants.WELCOME.lstrip()+constants.CURRENT_THEME.format(THEME_CHOICE))
         self.welcome_text.config(state=DISABLED)
+        self.left_status_label.config(text=constants.LEFT_STATUS_LABEL.format(THEME_CHOICE))
 
         self.iexe_query_entry.insert(END, "> ")
         self.clock_label.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
