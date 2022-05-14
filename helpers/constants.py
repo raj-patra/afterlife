@@ -49,7 +49,6 @@ Have fun.
 
 """.format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]))
 
-CURRENT_THEME = "Current theme: {}"
 LEFT_STATUS_LABEL = "☀ {}  "
 
 # ----------------------------------------------------------------------------------

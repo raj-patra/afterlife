@@ -198,7 +198,7 @@ class HUD:
                 button.pack(side=LEFT, fill=BOTH, expand=1)
 
     def start_widgets(self):
-        self.welcome_text.insert(END, constants.WELCOME.lstrip()+constants.CURRENT_THEME.format(THEME_CHOICE))
+        self.welcome_text.insert(END, constants.WELCOME.lstrip())
         self.welcome_text.config(state=DISABLED)
         self.left_status_label.config(text=constants.LEFT_STATUS_LABEL.format(THEME_CHOICE))
 
@@ -365,10 +365,6 @@ class HUD:
             )
             colors.rotate(1)
 
-        self.welcome_text.config(state=NORMAL)
-        self.welcome_text.delete('1.0', END)
-        self.welcome_text.insert(END, constants.WELCOME.lstrip()+constants.CURRENT_THEME.format(theme))
-        self.welcome_text.config(state=DISABLED)
         self.left_status_label.config(text=constants.LEFT_STATUS_LABEL.format(theme))
 
     def save_prompt_content(self, event=None):
