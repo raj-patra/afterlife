@@ -5,6 +5,7 @@ from tkinter import Tk, Text, Label, Entry, Button, Frame, Menu
 from tkinter import filedialog, messagebox
 from tkinter.constants import WORD, GROOVE, RAISED, FLAT, END
 from tkinter.constants import LEFT, RIGHT, TOP, BOTTOM, BOTH, DISABLED, NORMAL
+from tkinter.constants import E, W, NW
 
 from helpers import applications, constants, schemes
 from callbacks import universal_callback, about, destroy
@@ -36,6 +37,11 @@ class HUD:
             bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 11), wrap=WORD,
             width=50, padx=20, pady=20,
+        )
+        self.left_status_label = Label(self.left_frame,
+            bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
+            font=(self.default_font, 10), text="☀", anchor=W,
+            relief=FLAT, height=1, padx=3, pady=2,
         )
 
         # Widgets on root.left.intro
@@ -150,7 +156,8 @@ class HUD:
         self.right_frame.pack(side=RIGHT, fill=BOTH, expand=1)
 
         self.left_top_frame.pack(side=TOP, fill=BOTH, expand=1)
-        self.prompt_text.pack(side=BOTTOM, fill=BOTH, expand=1)
+        self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
+        self.left_status_label.pack(side=TOP, fill=BOTH, expand=0)
 
         self.welcome_text.pack(side=LEFT, fill=BOTH, expand=1)
         self.integrated_exe_frame.pack(side=RIGHT, fill=BOTH, expand=1)
