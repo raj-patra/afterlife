@@ -5,6 +5,7 @@ from tkinter import Tk, Text, Label, Entry, Button, Frame, Menu
 from tkinter import filedialog, messagebox
 from tkinter.constants import WORD, GROOVE, RAISED, FLAT, END
 from tkinter.constants import LEFT, RIGHT, TOP, BOTTOM, BOTH, DISABLED, NORMAL
+from tkinter.constants import E, W, NW
 
 from helpers import applications, constants, schemes
 from callbacks import universal_callback, about, destroy
@@ -16,60 +17,66 @@ THEME_CHOICE = "gotham"
 
 class HUD:
     def __init__(self):
-        # Root Frames
-        self.left = Frame(root)
-        self.left_top = Frame(self.left)
-        self.integrated_exe = Frame(self.left_top)
-
-        self.right = Frame(root)
-        self.info = Frame(self.right, height=1)
-        self.action_centre = Frame(self.right,
-            width=80, height=50,
-            bg=schemes.THEMES[THEME_CHOICE]['root'], padx=2, pady=2)
 
         self.default_font = 'Noto Mono'
         self.timer_font = 'cursed timer ulil'
 
+        # Root Frames
+        self.left_frame = Frame(root)
+        self.left_top_frame = Frame(self.left_frame)
+        self.integrated_exe_frame = Frame(self.left_top_frame)
+
+        self.right_frame = Frame(root)
+        self.info_frame = Frame(self.right_frame, height=1)
+        self.action_centre_frame = Frame(self.right_frame,
+            width=80, height=50,
+            bg=schemes.THEMES[THEME_CHOICE]['root'], padx=2, pady=2)
+
         # Widgets on root.left
-        self.prompt = Text(self.left,
+        self.prompt_text = Text(self.left_frame,
             bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 11), wrap=WORD,
             width=50, padx=20, pady=20,
         )
+        self.left_status_label = Label(self.left_frame,
+            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
+            font=(self.default_font, 10), text="☀", anchor=W,
+            relief=FLAT, height=1, padx=3, pady=2,
+        )
 
         # Widgets on root.left.intro
-        self.welcome = Text(self.left_top,
+        self.welcome_text = Text(self.left_top_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 13), wrap=WORD,
             width=25, height=2, padx=20, pady=20,
         )
 
-        self.iexe_title = Label(self.integrated_exe,
+        self.iexe_title_label = Label(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 14), text="Integrated Search",
             relief=FLAT, height=2, width=28, padx=2, pady=2,
         )
-        self.iexe_query = Entry(self.integrated_exe,
+        self.iexe_query_entry = Entry(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 12, 'bold'),
             bd=5, width=28, insertbackground="white",
         )
 
-        self.iexe_search = Button(self.integrated_exe,
+        self.iexe_search_button = Button(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
             font=(self.default_font, 12), text="Duck Duck Go!",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe search"),
         )
-        self.iexe_execute = Button(self.integrated_exe,
+        self.iexe_execute_button = Button(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
             font=(self.default_font, 12), text="Execute Command",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe execute"),
         )
-        self.iexe_wiki = Button(self.integrated_exe,
+        self.iexe_wiki_button = Button(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
             font=(self.default_font, 12), text="Search Wikipedia",
@@ -77,17 +84,17 @@ class HUD:
             command=partial(self.callback, command="iexe wiki"),
         )
 
-        self.clock = Label(self.right,
+        self.clock_label = Label(self.right_frame,
             bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.timer_font, 18, 'bold'),
             height=2, width=20, relief=GROOVE,
         )
-        self.network = Text(self.info,
+        self.network_text = Text(self.info_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 12),
             height=5, width=25, padx=20,
         )
-        self.system = Text(self.info,
+        self.system_text = Text(self.info_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             font=(self.default_font, 12),
             height=5, width=35, padx=20,
@@ -145,35 +152,36 @@ class HUD:
         root.config(menu=menu_bar)
 
     def render_widgets(self):
-        self.left.pack(side=LEFT, fill=BOTH, expand=1)
-        self.right.pack(side=RIGHT, fill=BOTH, expand=1)
+        self.left_frame.pack(side=LEFT, fill=BOTH, expand=1)
+        self.right_frame.pack(side=RIGHT, fill=BOTH, expand=1)
 
-        self.left_top.pack(side=TOP, fill=BOTH, expand=1)
-        self.prompt.pack(side=BOTTOM, fill=BOTH, expand=1)
+        self.left_top_frame.pack(side=TOP, fill=BOTH, expand=1)
+        self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
+        self.left_status_label.pack(side=TOP, fill=BOTH, expand=0)
 
-        self.welcome.pack(side=LEFT, fill=BOTH, expand=1)
-        self.integrated_exe.pack(side=RIGHT, fill=BOTH, expand=1)
+        self.welcome_text.pack(side=LEFT, fill=BOTH, expand=1)
+        self.integrated_exe_frame.pack(side=RIGHT, fill=BOTH, expand=1)
 
-        self.iexe_title.pack(side=TOP, fill=BOTH, expand=0)
-        self.iexe_query.pack(side=TOP, fill=BOTH, expand=1)
-        self.iexe_search.pack(side=TOP, fill=BOTH, expand=0)
-        self.iexe_execute.pack(side=LEFT, fill=BOTH, expand=1)
-        self.iexe_wiki.pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_title_label.pack(side=TOP, fill=BOTH, expand=0)
+        self.iexe_query_entry.pack(side=TOP, fill=BOTH, expand=1)
+        self.iexe_search_button.pack(side=TOP, fill=BOTH, expand=0)
+        self.iexe_execute_button.pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_wiki_button.pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.clock.pack(side=TOP, fill=BOTH, expand=0)
-        self.info.pack(side=TOP, fill=BOTH, expand=1)
+        self.clock_label.pack(side=TOP, fill=BOTH, expand=0)
+        self.info_frame.pack(side=TOP, fill=BOTH, expand=1)
 
-        self.network.pack(side=RIGHT, fill=BOTH, expand=1)
-        self.system.pack(side=LEFT, fill=BOTH, expand=1)
+        self.network_text.pack(side=RIGHT, fill=BOTH, expand=1)
+        self.system_text.pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.action_centre.pack(side=TOP, fill=BOTH, expand=1)
+        self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
         bg = deque([schemes.THEMES[THEME_CHOICE]['primary'], schemes.THEMES[THEME_CHOICE]['secondary']])
         self.action_items = []
         self.button_frames = []
 
         for row in applications.ACTIONS.keys():
-            action_row = Frame(self.action_centre, bg=schemes.THEMES[THEME_CHOICE]['root'], pady=1)
+            action_row = Frame(self.action_centre_frame, bg=schemes.THEMES[THEME_CHOICE]['root'], pady=1)
             action_row.pack(side=TOP, fill=BOTH, expand=1)
             self.button_frames.append(action_row)
 
@@ -190,18 +198,19 @@ class HUD:
                 button.pack(side=LEFT, fill=BOTH, expand=1)
 
     def start_widgets(self):
-        self.welcome.insert(END, constants.WELCOME.lstrip()+constants.CURRENT_THEME.format(THEME_CHOICE))
-        self.welcome.config(state=DISABLED)
+        self.welcome_text.insert(END, constants.WELCOME.lstrip())
+        self.welcome_text.config(state=DISABLED)
+        self.left_status_label.config(text=constants.LEFT_STATUS_LABEL.format(THEME_CHOICE))
 
-        self.iexe_query.insert(END, "> ")
-        self.clock.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
+        self.iexe_query_entry.insert(END, "> ")
+        self.clock_label.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
-        self.network.insert(END, constants.NETWORK)
-        self.network.config(state=DISABLED)
+        self.network_text.insert(END, constants.NETWORK)
+        self.network_text.config(state=DISABLED)
 
-        self.iexe_query.bind('<Return>', partial(self.callback, "iexe search"))
-        self.iexe_query.bind('<Control-Return>', partial(self.callback, "iexe execute"))
-        self.iexe_query.bind('<Shift-Return>', partial(self.callback, "iexe wiki"))
+        self.iexe_query_entry.bind('<Return>', partial(self.callback, "iexe search"))
+        self.iexe_query_entry.bind('<Control-Return>', partial(self.callback, "iexe execute"))
+        self.iexe_query_entry.bind('<Shift-Return>', partial(self.callback, "iexe wiki"))
 
         root.bind('<Control-s>', self.save_prompt_content)
         root.bind('<Control-S>', self.save_prompt_content)
@@ -214,18 +223,27 @@ class HUD:
 
         self.callback("subprocess systeminfo")
 
+        boot_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(psutil.boot_time()))
         cpu = psutil.cpu_percent()
         ram = psutil.virtual_memory()[2]
         gpu = GPUtil.getGPUs()
         battery = psutil.sensors_battery()
 
         if len(gpu) > 0:
-            self.system.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
-                                            battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)"))
+            self.system_text.insert(END, constants.SYSTEM.format(  
+                boot_time, 
+                cpu, ram, 
+                gpu[0].name, gpu[0].memoryUtil*100,
+                battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
+            )
         else:
-            self.system.insert(END, constants.SYSTEM.format(  cpu, ram, 'No GPU found', 0,
-                                            battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)"))
-        self.system.config(state=DISABLED)
+            self.system_text.insert(END, constants.SYSTEM.format(  
+                boot_time, 
+                cpu, ram, 
+                'No GPU found', 0,
+                battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
+            )
+        self.system_text.config(state=DISABLED)
 
         self.update_widgets()
 
@@ -237,47 +255,56 @@ class HUD:
 
             if (time.time()-update) > 60:
                 update = time.time()
-                self.clock.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
+                self.clock_label.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
-            self.system.config(state=NORMAL)
-            self.system.delete('1.0', END)
+            self.system_text.config(state=NORMAL)
+            self.system_text.delete('1.0', END)
+            boot_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(psutil.boot_time()))
             cpu = psutil.cpu_percent()
             ram = psutil.virtual_memory()[2]
             gpu = GPUtil.getGPUs()
             battery = psutil.sensors_battery()
             if len(gpu) > 0:
-                self.system.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
-                                                battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)"))
+                self.system_text.insert(END, constants.SYSTEM.format(  
+                    boot_time, 
+                    cpu, ram, 
+                    gpu[0].name, gpu[0].memoryUtil*100,
+                    battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
+                )
             else:
-                self.system.insert(END, constants.SYSTEM.format(  cpu, ram, 'No GPU found', 0,
-                                                battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)"))
-            self.system.config(state=DISABLED)
+                self.system_text.insert(END, constants.SYSTEM.format(  
+                    boot_time, 
+                    cpu, ram, 
+                    'No GPU found', 0,
+                    battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
+                )
+            self.system_text.config(state=DISABLED)
 
-            self.system.after(5000, loop)
+            self.system_text.after(5000, loop)
 
         loop()
 
     def callback(self, command, event=None):
-        self.prompt.config(state=NORMAL)
+        self.prompt_text.config(state=NORMAL)
 
         if command.startswith('start'):
             universal_callback(command=command)
 
         elif command.startswith('subprocess'):
-            self.prompt.delete('1.0', END)
+            self.prompt_text.delete('1.0', END)
             response = universal_callback(command=command)
-            self.prompt.insert(END, response)
+            self.prompt_text.insert(END, response)
 
         elif command.startswith('request'):
-            self.prompt.delete('1.0', END)
+            self.prompt_text.delete('1.0', END)
             response = universal_callback(web=command)
-            self.prompt.insert(END, response)
+            self.prompt_text.insert(END, response)
 
         elif command.startswith('url'):
             universal_callback(web=command)
 
         elif command.startswith('iexe'):
-            query = self.iexe_query.get()
+            query = self.iexe_query_entry.get()
             if ">" in query:
                 query = query.split('>')[-1]
 
@@ -289,17 +316,17 @@ class HUD:
 
             elif command == 'iexe wiki':
                 response = universal_callback(web="wiki "+query)
-                self.prompt.delete('1.0', END)
-                self.prompt.insert(END, constants.WIKI.format(*response.values()))
+                self.prompt_text.delete('1.0', END)
+                self.prompt_text.insert(END, constants.WIKI.format(*response.values()))
                 universal_callback(web='url '+response['url'])
 
-            self.iexe_query.delete(0, END)
-            self.iexe_query.insert(END, "> ")
+            self.iexe_query_entry.delete(0, END)
+            self.iexe_query_entry.insert(END, "> ")
 
         else:
-            self.prompt.delete('1.0', END)
+            self.prompt_text.delete('1.0', END)
 
-        self.prompt.config(state=DISABLED)
+        self.prompt_text.config(state=DISABLED)
 
     def set_theme(self, theme=None, event=None):
         if theme == None:
@@ -316,30 +343,31 @@ class HUD:
             fg=schemes.THEMES[theme]['fg'],
         )
 
-        self.prompt.config(**primary_bg_theme)
-        self.clock.config(**primary_bg_theme)
-        self.welcome.config(**secondary_bg_theme)
+        self.prompt_text.config(**primary_bg_theme)
+        self.clock_label.config(**primary_bg_theme)
+        self.welcome_text.config(**secondary_bg_theme)
+        self.left_status_label.config(**secondary_bg_theme)
 
-        self.iexe_title.config(**secondary_bg_theme)
-        self.iexe_query.config(**primary_bg_theme)
+        self.iexe_title_label.config(**secondary_bg_theme)
+        self.iexe_query_entry.config(**primary_bg_theme)
         
-        self.iexe_search.config(
+        self.iexe_search_button.config(
             **secondary_bg_theme,
             activebackground=schemes.THEMES[theme]['root']
         )
-        self.iexe_execute.config(
+        self.iexe_execute_button.config(
             **secondary_bg_theme,
             activebackground=schemes.THEMES[theme]['root']
         )
-        self.iexe_wiki.config(
+        self.iexe_wiki_button.config(
             **secondary_bg_theme,
             activebackground=schemes.THEMES[theme]['root']
         )
 
-        self.network.config(**secondary_bg_theme)
-        self.system.config(**secondary_bg_theme)
+        self.network_text.config(**secondary_bg_theme)
+        self.system_text.config(**secondary_bg_theme)
 
-        self.action_centre.config(
+        self.action_centre_frame.config(
             bg=schemes.THEMES[theme]['root']
         )
         colors = deque([schemes.THEMES[theme]['primary'], schemes.THEMES[theme]['secondary']])
@@ -355,15 +383,12 @@ class HUD:
             )
             colors.rotate(1)
 
-        self.welcome.config(state=NORMAL)
-        self.welcome.delete('1.0', END)
-        self.welcome.insert(END, constants.WELCOME.lstrip()+constants.CURRENT_THEME.format(theme))
-        self.welcome.config(state=DISABLED)
+        self.left_status_label.config(text=constants.LEFT_STATUS_LABEL.format(theme))
 
     def save_prompt_content(self, event=None):
         handle = filedialog.asksaveasfile(mode="w", defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
         if handle != None:
-            handle.write(self.prompt.get('1.0', 'end'))
+            handle.write(self.prompt_text.get('1.0', 'end'))
             handle.close()
             messagebox.showinfo('Info', 'The contents of the Text Widget has been saved.')
 

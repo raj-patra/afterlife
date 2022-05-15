@@ -35,9 +35,11 @@ MAC = getmac.get_mac_address()
 HOST = sp.getoutput("hostname")
 USER = sp.getoutput("whoami")
 
+DISK = sp.getoutput("wmic logicaldisk get size,freespace,caption").replace("\n\n", "\n")
+
+# Deprecated
 boot = sp.getoutput("wmic path Win32_OperatingSystem get LastBootUpTime").split('\n')[2].split('.')[0]
 LAST_BOOT = "Last Bootup Time: {}{}/{}/{} {}:{}:{}".format(*[boot[i:i+2] for i in range(0, len(boot), 2)])
-DISK = sp.getoutput("wmic logicaldisk get size,freespace,caption").replace("\n\n", "\n")
 
 # ----------------------------------------------------------------------------------
 
@@ -49,11 +51,11 @@ Have fun.
 
 """.format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]))
 
-CURRENT_THEME = "Current theme: {}"
+LEFT_STATUS_LABEL = "☀ {}  "
 
 # ----------------------------------------------------------------------------------
 
-SYSTEM = '\n'+LAST_BOOT+'\n\n'+DISK+"""CPU Usage: {}%   |   RAM Usage: {}%
+SYSTEM = '\n'+'Last Bootup Time: {}'+'\n\n'+DISK+"""CPU Usage: {}%   |   RAM Usage: {}%
 
 {}: {:.1f} %
 
