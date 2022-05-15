@@ -1,5 +1,4 @@
 import random, requests, getmac, socket
-from tkinter.constants import CURRENT
 import subprocess as sp
 
 

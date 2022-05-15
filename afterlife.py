@@ -338,7 +338,7 @@ class HUD:
         self.prompt_text.config(state=DISABLED)
 
     def set_theme(self, theme=None, event=None):
-        if theme == None:
+        if not theme:
             theme = random.choice(list(schemes.THEMES.keys()))
 
         root.config(bg=schemes.THEMES[theme]['root'])
@@ -355,7 +355,6 @@ class HUD:
         self.prompt_text.config(**primary_bg_theme)
         self.clock_label.config(**primary_bg_theme)
         self.welcome_text.config(**secondary_bg_theme)
-        self.left_status_label.config(**secondary_bg_theme)
 
         self.iexe_title_label.config(**secondary_bg_theme)
         self.iexe_query_entry.config(**primary_bg_theme)
@@ -391,8 +390,16 @@ class HUD:
                 activebackground=schemes.THEMES[theme]['root']
             )
             colors.rotate(1)
-
-        self.left_status_label.config(text=constants.LEFT_STATUS_LABEL.format(theme))
+            
+        pc_stats = pc_stats_callback()
+        self.left_status_label.config(
+            **secondary_bg_theme,
+            text=constants.LEFT_STATUS_LABEL.format(
+                THEME_CHOICE,
+                pc_stats["cpu_usage"],
+                pc_stats["ram_usage"],
+            )
+        )
 
     def save_prompt_content(self, event=None):
         handle = filedialog.asksaveasfile(mode="w", defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
