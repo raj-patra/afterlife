@@ -8,7 +8,7 @@ from tkinter.constants import LEFT, RIGHT, TOP, BOTTOM, BOTH, DISABLED, NORMAL
 from tkinter.constants import E, W, NW
 
 from helpers import applications, constants, schemes
-from callbacks import universal_callback, about, destroy
+from callbacks import pc_stats_callback, universal_callback, about, destroy
 from functools import partial
 from collections import deque
 
@@ -198,9 +198,18 @@ class HUD:
                 button.pack(side=LEFT, fill=BOTH, expand=1)
 
     def start_widgets(self):
+
         self.welcome_text.insert(END, constants.WELCOME.lstrip())
         self.welcome_text.config(state=DISABLED)
-        self.left_status_label.config(text=constants.LEFT_STATUS_LABEL.format(THEME_CHOICE))
+
+        pc_stats = pc_stats_callback()
+        self.left_status_label.config(
+            text=constants.LEFT_STATUS_LABEL.format(
+                THEME_CHOICE,
+                pc_stats["cpu_usage"],
+                pc_stats["ram_usage"],
+            )
+        )
 
         self.iexe_query_entry.insert(END, "> ")
         self.clock_label.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
@@ -230,16 +239,16 @@ class HUD:
         battery = psutil.sensors_battery()
 
         if len(gpu) > 0:
-            self.system_text.insert(END, constants.SYSTEM.format(  
-                boot_time, 
-                cpu, ram, 
+            self.system_text.insert(END, constants.SYSTEM.format(
+                boot_time,
+                cpu, ram,
                 gpu[0].name, gpu[0].memoryUtil*100,
                 battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
             )
         else:
-            self.system_text.insert(END, constants.SYSTEM.format(  
-                boot_time, 
-                cpu, ram, 
+            self.system_text.insert(END, constants.SYSTEM.format(
+                boot_time,
+                cpu, ram,
                 'No GPU found', 0,
                 battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
             )
@@ -265,16 +274,16 @@ class HUD:
             gpu = GPUtil.getGPUs()
             battery = psutil.sensors_battery()
             if len(gpu) > 0:
-                self.system_text.insert(END, constants.SYSTEM.format(  
-                    boot_time, 
-                    cpu, ram, 
+                self.system_text.insert(END, constants.SYSTEM.format(
+                    boot_time,
+                    cpu, ram,
                     gpu[0].name, gpu[0].memoryUtil*100,
                     battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
                 )
             else:
-                self.system_text.insert(END, constants.SYSTEM.format(  
-                    boot_time, 
-                    cpu, ram, 
+                self.system_text.insert(END, constants.SYSTEM.format(
+                    boot_time,
+                    cpu, ram,
                     'No GPU found', 0,
                     battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
                 )
@@ -329,11 +338,11 @@ class HUD:
         self.prompt_text.config(state=DISABLED)
 
     def set_theme(self, theme=None, event=None):
-        if theme == None:
+        if not theme:
             theme = random.choice(list(schemes.THEMES.keys()))
 
         root.config(bg=schemes.THEMES[theme]['root'])
-        
+
         primary_bg_theme = dict(
             bg=schemes.THEMES[theme]['primary'],
             fg=schemes.THEMES[theme]['fg'],
@@ -346,11 +355,10 @@ class HUD:
         self.prompt_text.config(**primary_bg_theme)
         self.clock_label.config(**primary_bg_theme)
         self.welcome_text.config(**secondary_bg_theme)
-        self.left_status_label.config(**secondary_bg_theme)
 
         self.iexe_title_label.config(**secondary_bg_theme)
         self.iexe_query_entry.config(**primary_bg_theme)
-        
+
         self.iexe_search_button.config(
             **secondary_bg_theme,
             activebackground=schemes.THEMES[theme]['root']
@@ -377,13 +385,21 @@ class HUD:
 
         for button in self.action_items:
             button.config(
-                bg=colors[0], 
-                fg=schemes.THEMES[theme]['fg'], 
+                bg=colors[0],
+                fg=schemes.THEMES[theme]['fg'],
                 activebackground=schemes.THEMES[theme]['root']
             )
             colors.rotate(1)
-
-        self.left_status_label.config(text=constants.LEFT_STATUS_LABEL.format(theme))
+            
+        pc_stats = pc_stats_callback()
+        self.left_status_label.config(
+            **secondary_bg_theme,
+            text=constants.LEFT_STATUS_LABEL.format(
+                THEME_CHOICE,
+                pc_stats["cpu_usage"],
+                pc_stats["ram_usage"],
+            )
+        )
 
     def save_prompt_content(self, event=None):
         handle = filedialog.asksaveasfile(mode="w", defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])

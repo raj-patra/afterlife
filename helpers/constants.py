@@ -1,5 +1,4 @@
 import random, requests, getmac, socket
-from tkinter.constants import CURRENT
 import subprocess as sp
 
 
@@ -51,7 +50,7 @@ Have fun.
 
 """.format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]))
 
-LEFT_STATUS_LABEL = "☀ {}  "
+LEFT_STATUS_LABEL = "☀ {}  ⚡ {}   ⚛ {}   "
 
 # ----------------------------------------------------------------------------------
 
