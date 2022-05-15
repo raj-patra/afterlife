@@ -56,9 +56,9 @@ def universal_callback(command=None, web=None):
                 "summary": "Error Occured in fetching the article. Please try any other combination for the search query."
             }
 
-def fetch_stats_callback():
+def pc_stats_callback():
     stats = dict(
-        cpu_usage = psutil.cpu_percent,
+        cpu_usage = psutil.cpu_percent(),
         ram_usage = psutil.virtual_memory().percent,
         battery_usage = psutil.sensors_battery().percent,
         battery_plugged = psutil.sensors_battery().power_plugged,
