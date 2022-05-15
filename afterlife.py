@@ -223,17 +223,26 @@ class HUD:
 
         self.callback("subprocess systeminfo")
 
+        boot_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(psutil.boot_time()))
         cpu = psutil.cpu_percent()
         ram = psutil.virtual_memory()[2]
         gpu = GPUtil.getGPUs()
         battery = psutil.sensors_battery()
 
         if len(gpu) > 0:
-            self.system_text.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
-                                            battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)"))
+            self.system_text.insert(END, constants.SYSTEM.format(  
+                boot_time, 
+                cpu, ram, 
+                gpu[0].name, gpu[0].memoryUtil*100,
+                battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
+            )
         else:
-            self.system_text.insert(END, constants.SYSTEM.format(  cpu, ram, 'No GPU found', 0,
-                                            battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)"))
+            self.system_text.insert(END, constants.SYSTEM.format(  
+                boot_time, 
+                cpu, ram, 
+                'No GPU found', 0,
+                battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
+            )
         self.system_text.config(state=DISABLED)
 
         self.update_widgets()
@@ -250,16 +259,25 @@ class HUD:
 
             self.system_text.config(state=NORMAL)
             self.system_text.delete('1.0', END)
+            boot_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(psutil.boot_time()))
             cpu = psutil.cpu_percent()
             ram = psutil.virtual_memory()[2]
             gpu = GPUtil.getGPUs()
             battery = psutil.sensors_battery()
             if len(gpu) > 0:
-                self.system_text.insert(END, constants.SYSTEM.format(  cpu, ram, gpu[0].name, gpu[0].memoryUtil*100,
-                                                battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)"))
+                self.system_text.insert(END, constants.SYSTEM.format(  
+                    boot_time, 
+                    cpu, ram, 
+                    gpu[0].name, gpu[0].memoryUtil*100,
+                    battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
+                )
             else:
-                self.system_text.insert(END, constants.SYSTEM.format(  cpu, ram, 'No GPU found', 0,
-                                                battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)"))
+                self.system_text.insert(END, constants.SYSTEM.format(  
+                    boot_time, 
+                    cpu, ram, 
+                    'No GPU found', 0,
+                    battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
+                )
             self.system_text.config(state=DISABLED)
 
             self.system_text.after(5000, loop)
