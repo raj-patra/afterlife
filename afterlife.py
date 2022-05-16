@@ -395,7 +395,7 @@ class HUD:
         self.left_status_label.config(
             **secondary_bg_theme,
             text=constants.LEFT_STATUS_LABEL.format(
-                THEME_CHOICE,
+                theme,
                 pc_stats["cpu_usage"],
                 pc_stats["ram_usage"],
             )
@@ -408,11 +408,12 @@ class HUD:
             handle.close()
             messagebox.showinfo('Info', 'The contents of the Text Widget has been saved.')
 
+
 if __name__ == '__main__':
     gc.enable()
 
     root = Tk()
-    root.config(bg=schemes.THEMES[THEME_CHOICE]['root'], bd=5)
+    root.config(bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['root'], bd=5)
     root.resizable(1, 1)
     root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
     root.title("Afterlife")
