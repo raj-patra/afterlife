@@ -1,3 +1,5 @@
+DEFAULT_THEME_CHOICE = "gotham"
+
 THEMES = {
     "default_repocard": {
         "root": "#2f80ed",
