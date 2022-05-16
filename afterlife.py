@@ -21,6 +21,18 @@ class HUD:
 
     def __init__(self):
 
+        self.current_theme = dict(
+            theme=schemes.DEFAULT_THEME_CHOICE,
+            primary=dict(
+                bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
+                fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
+            ),
+            secondary=dict(
+                bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
+                fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
+            ),
+        )
+
         # Root Frames
         self.left_frame = Frame(root)
         self.left_top_frame = Frame(self.left_frame)
@@ -34,8 +46,7 @@ class HUD:
 
         # Widgets on root.left
         self.prompt_text = Text(self.left_frame,
-            bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-            font=(HUD.default_font, 11), wrap=WORD,
+            **self.current_theme["primary"], font=(HUD.default_font, 11), wrap=WORD,
             width=50, padx=20, pady=20,
         )
         self.left_status_label = Label(self.left_frame,
@@ -390,7 +401,7 @@ class HUD:
                 activebackground=schemes.THEMES[theme]['root']
             )
             colors.rotate(1)
-            
+
         pc_stats = pc_stats_callback()
         self.left_status_label.config(
             **secondary_bg_theme,
