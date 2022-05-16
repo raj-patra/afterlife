@@ -16,10 +16,10 @@ THEME_CHOICE = "gotham"
 
 
 class HUD:
-    def __init__(self):
+    timer_font = 'cursed timer ulil'
+    default_font = 'Noto Mono'
 
-        self.default_font = 'Noto Mono'
-        self.timer_font = 'cursed timer ulil'
+    def __init__(self):
 
         # Root Frames
         self.left_frame = Frame(root)
@@ -35,68 +35,68 @@ class HUD:
         # Widgets on root.left
         self.prompt_text = Text(self.left_frame,
             bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-            font=(self.default_font, 11), wrap=WORD,
+            font=(HUD.default_font, 11), wrap=WORD,
             width=50, padx=20, pady=20,
         )
         self.left_status_label = Label(self.left_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-            font=(self.default_font, 10), text="☀", anchor=W,
+            font=(HUD.default_font, 10), text="☀", anchor=W,
             relief=FLAT, height=1, padx=3, pady=2,
         )
 
         # Widgets on root.left.intro
         self.welcome_text = Text(self.left_top_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-            font=(self.default_font, 13), wrap=WORD,
+            font=(HUD.default_font, 13), wrap=WORD,
             width=25, height=2, padx=20, pady=20,
         )
 
         self.iexe_title_label = Label(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-            font=(self.default_font, 14), text="Integrated Search",
+            font=(HUD.default_font, 14), text="Integrated Search",
             relief=FLAT, height=2, width=28, padx=2, pady=2,
         )
         self.iexe_query_entry = Entry(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-            font=(self.default_font, 12, 'bold'),
+            font=(HUD.default_font, 12, 'bold'),
             bd=5, width=28, insertbackground="white",
         )
 
         self.iexe_search_button = Button(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
-            font=(self.default_font, 12), text="Duck Duck Go!",
+            font=(HUD.default_font, 12), text="Duck Duck Go!",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe search"),
         )
         self.iexe_execute_button = Button(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
-            font=(self.default_font, 12), text="Execute Command",
+            font=(HUD.default_font, 12), text="Execute Command",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe execute"),
         )
         self.iexe_wiki_button = Button(self.integrated_exe_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
             activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
-            font=(self.default_font, 12), text="Search Wikipedia",
+            font=(HUD.default_font, 12), text="Search Wikipedia",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe wiki"),
         )
 
         self.clock_label = Label(self.right_frame,
             bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-            font=(self.timer_font, 18, 'bold'),
+            font=(HUD.timer_font, 18, 'bold'),
             height=2, width=20, relief=GROOVE,
         )
         self.network_text = Text(self.info_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-            font=(self.default_font, 12),
+            font=(HUD.default_font, 12),
             height=5, width=25, padx=20,
         )
         self.system_text = Text(self.info_frame,
             bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-            font=(self.default_font, 12),
+            font=(HUD.default_font, 12),
             height=5, width=35, padx=20,
         )
 
@@ -189,7 +189,7 @@ class HUD:
                 button = Button(action_row,
                     bg=bg[0], fg=schemes.THEMES[THEME_CHOICE]['fg'],
                     activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
-                    font=(self.default_font, 12), text=action["label"],
+                    font=(HUD.default_font, 12), text=action["label"],
                     height=1, width=6, relief=FLAT, overrelief=RAISED,
                     command=partial(self.callback, command=action["command"]),
                 )
