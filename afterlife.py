@@ -89,18 +89,15 @@ class HUD:
         )
 
         self.clock_label = Label(self.right_frame,
-            bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-            font=(HUD.timer_font, 18, 'bold'),
+            **self.current_theme["primary"], font=(HUD.timer_font, 18, 'bold'),
             height=2, width=20, relief=GROOVE,
         )
         self.network_text = Text(self.info_frame,
-            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-            font=(HUD.default_font, 12),
+            **self.current_theme["secondary"], font=(HUD.default_font, 12),
             height=5, width=25, padx=20,
         )
         self.system_text = Text(self.info_frame,
-            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-            font=(HUD.default_font, 12),
+            **self.current_theme["secondary"], font=(HUD.default_font, 12),
             height=5, width=35, padx=20,
         )
 
