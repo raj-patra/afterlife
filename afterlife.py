@@ -50,26 +50,22 @@ class HUD:
             width=50, padx=20, pady=20,
         )
         self.left_status_label = Label(self.left_frame,
-            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-            font=(HUD.default_font, 10), text="☀", anchor=W,
+            **self.current_theme["secondary"], font=(HUD.default_font, 10), text="☀", anchor=W,
             relief=FLAT, height=1, padx=3, pady=2,
         )
 
         # Widgets on root.left.intro
         self.welcome_text = Text(self.left_top_frame,
-            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-            font=(HUD.default_font, 13), wrap=WORD,
+            **self.current_theme["secondary"], font=(HUD.default_font, 13), wrap=WORD,
             width=25, height=2, padx=20, pady=20,
         )
 
         self.iexe_title_label = Label(self.integrated_exe_frame,
-            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-            font=(HUD.default_font, 14), text="Integrated Search",
+            **self.current_theme["secondary"], font=(HUD.default_font, 14), text="Integrated Search",
             relief=FLAT, height=2, width=28, padx=2, pady=2,
         )
         self.iexe_query_entry = Entry(self.integrated_exe_frame,
-            bg=schemes.THEMES[THEME_CHOICE]['primary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-            font=(HUD.default_font, 12, 'bold'),
+            **self.current_theme["primary"], font=(HUD.default_font, 12, 'bold'),
             bd=5, width=28, insertbackground="white",
         )
 
