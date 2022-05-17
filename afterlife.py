@@ -70,23 +70,20 @@ class HUD:
         )
 
         self.iexe_search_button = Button(self.integrated_exe_frame,
-            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
+            **self.current_theme["secondary"], font=(HUD.default_font, 12), text="Duck Duck Go!",
             activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
-            font=(HUD.default_font, 12), text="Duck Duck Go!",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe search"),
         )
         self.iexe_execute_button = Button(self.integrated_exe_frame,
-            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
+            **self.current_theme["secondary"], font=(HUD.default_font, 12), text="Execute Command",
             activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
-            font=(HUD.default_font, 12), text="Execute Command",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe execute"),
         )
         self.iexe_wiki_button = Button(self.integrated_exe_frame,
-            bg=schemes.THEMES[THEME_CHOICE]['secondary'], fg=schemes.THEMES[THEME_CHOICE]['fg'],
+            **self.current_theme["secondary"], font=(HUD.default_font, 12), text="Search Wikipedia",
             activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
-            font=(HUD.default_font, 12), text="Search Wikipedia",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe wiki"),
         )
