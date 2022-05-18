@@ -370,19 +370,19 @@ class HUD:
         self.clock_label.config(**self.current_theme["primary"])
         self.welcome_text.config(**self.current_theme["secondary"])
 
-        self.iexe_title_label.config(**secondary_bg_theme)
-        self.iexe_query_entry.config(**primary_bg_theme)
+        self.iexe_title_label.config(**self.current_theme["secondary"])
+        self.iexe_query_entry.config(**self.current_theme["primary"])
 
         self.iexe_search_button.config(
-            **secondary_bg_theme,
+            **self.current_theme["secondary"],
             activebackground=schemes.THEMES[theme]['root']
         )
         self.iexe_execute_button.config(
-            **secondary_bg_theme,
+            **self.current_theme["secondary"],
             activebackground=schemes.THEMES[theme]['root']
         )
         self.iexe_wiki_button.config(
-            **secondary_bg_theme,
+            **self.current_theme["secondary"],
             activebackground=schemes.THEMES[theme]['root']
         )
 
