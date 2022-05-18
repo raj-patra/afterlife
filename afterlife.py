@@ -367,8 +367,8 @@ class HUD:
         )
 
         self.prompt_text.config(**self.current_theme["primary"])
-        self.clock_label.config(**primary_bg_theme)
-        self.welcome_text.config(**secondary_bg_theme)
+        self.clock_label.config(**self.current_theme["primary"])
+        self.welcome_text.config(**self.current_theme["secondary"])
 
         self.iexe_title_label.config(**secondary_bg_theme)
         self.iexe_query_entry.config(**primary_bg_theme)
