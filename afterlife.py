@@ -357,15 +357,6 @@ class HUD:
 
         root.config(bg=schemes.THEMES[theme]['root'])
 
-        primary_bg_theme = dict(
-            bg=schemes.THEMES[theme]['primary'],
-            fg=schemes.THEMES[theme]['fg'],
-        )
-        secondary_bg_theme = dict(
-            bg=schemes.THEMES[theme]['secondary'],
-            fg=schemes.THEMES[theme]['fg'],
-        )
-
         self.prompt_text.config(**self.current_theme["primary"])
         self.clock_label.config(**self.current_theme["primary"])
         self.welcome_text.config(**self.current_theme["secondary"])
@@ -386,8 +377,8 @@ class HUD:
             activebackground=schemes.THEMES[theme]['root']
         )
 
-        self.network_text.config(**secondary_bg_theme)
-        self.system_text.config(**secondary_bg_theme)
+        self.network_text.config(**self.current_theme["secondary"])
+        self.system_text.config(**self.current_theme["secondary"])
 
         self.action_centre_frame.config(
             bg=schemes.THEMES[theme]['root']
@@ -407,7 +398,7 @@ class HUD:
 
         pc_stats = pc_stats_callback()
         self.left_status_label.config(
-            **secondary_bg_theme,
+            **self.current_theme["secondary"],
             text=constants.LEFT_STATUS_LABEL.format(
                 theme,
                 pc_stats["cpu_usage"],
