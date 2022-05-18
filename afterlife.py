@@ -339,8 +339,21 @@ class HUD:
         self.prompt_text.config(state=DISABLED)
 
     def set_theme(self, theme=None, event=None):
+
         if not theme:
             theme = random.choice(list(schemes.THEMES.keys()))
+            
+        self.current_theme = dict(
+            theme=theme,
+            primary=dict(
+                bg=schemes.THEMES[theme]['primary'],
+                fg=schemes.THEMES[theme]['fg'],
+            ),
+            secondary=dict(
+                bg=schemes.THEMES[theme]['secondary'],
+                fg=schemes.THEMES[theme]['fg'],
+            ),
+        )
 
         root.config(bg=schemes.THEMES[theme]['root'])
 
@@ -353,7 +366,7 @@ class HUD:
             fg=schemes.THEMES[theme]['fg'],
         )
 
-        self.prompt_text.config(**primary_bg_theme)
+        self.prompt_text.config(**self.current_theme["primary"])
         self.clock_label.config(**primary_bg_theme)
         self.welcome_text.config(**secondary_bg_theme)
 
