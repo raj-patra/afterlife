@@ -116,14 +116,14 @@ class HUD:
         menu_item.add_separator()
 
         theme_choice = Menu(menu_bar, tearoff=0)
-        theme_choice.add_command(label="Random Theme", command=self.set_theme, accelerator='Ctrl+T')
+        theme_choice.add_command(label="Random Theme", command=self.update_widget_theme, accelerator='Ctrl+T')
         theme_choice.add_separator()
 
         for category, themes in schemes.THEME_TYPES.items():
             theme_category = Menu(theme_choice, tearoff=0)
 
             for theme in themes:
-                theme_category.add_command(label=theme, command=partial(self.set_theme, theme))
+                theme_category.add_command(label=theme, command=partial(self.update_widget_theme, theme))
             theme_choice.add_cascade(label=category, menu=theme_category)
 
         menu_item.add_cascade(label="Themes", menu=theme_choice)
@@ -224,8 +224,8 @@ class HUD:
 
         root.bind('<Control-s>', self.save_prompt_content)
         root.bind('<Control-S>', self.save_prompt_content)
-        root.bind('<Control-t>', partial(self.set_theme, None))
-        root.bind('<Control-T>', partial(self.set_theme, None))
+        root.bind('<Control-t>', partial(self.update_widget_theme, None))
+        root.bind('<Control-T>', partial(self.update_widget_theme, None))
         root.bind('<Control-f>', partial(self.callback, "start mailto:rajpatra.kishore@gmail.com"))
         root.bind('<Control-F>', partial(self.callback, "start mailto:rajpatra.kishore@gmail.com"))
         root.bind('<Control-Delete>', partial(self.callback, 'clear'))
@@ -255,9 +255,9 @@ class HUD:
             )
         self.system_text.config(state=DISABLED)
 
-        self.update_widgets()
+        self.update_widget_content()
 
-    def update_widgets(self):
+    def update_widget_content(self):
 
         def loop():
 
@@ -338,7 +338,7 @@ class HUD:
 
         self.prompt_text.config(state=DISABLED)
 
-    def set_theme(self, theme=None, event=None):
+    def update_widget_theme(self, theme=None, event=None):
 
         if not theme:
             theme = random.choice(list(schemes.THEMES.keys()))
