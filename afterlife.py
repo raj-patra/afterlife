@@ -206,7 +206,7 @@ class HUD:
         pc_stats = pc_stats_callback()
         self.left_status_label.config(
             text=constants.LEFT_STATUS_LABEL.format(
-                THEME_CHOICE,
+                self.current_theme["theme"],
                 pc_stats["cpu_usage"],
                 pc_stats["ram_usage"],
             )
