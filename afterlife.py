@@ -292,8 +292,18 @@ class HUD:
                     battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
                 )
             self.system_text.config(state=DISABLED)
+            
+            pc_stats = pc_stats_callback()
+            self.left_status_label.config(
+                text=constants.LEFT_STATUS_LABEL.format(
+                    self.current_theme["theme"],
+                    pc_stats["cpu_usage"],
+                    pc_stats["ram_usage"],
+                )
+            )
 
             self.system_text.after(5000, loop)
+            # self.left_status_label.after(5000, loop)
 
         loop()
 
@@ -346,16 +356,18 @@ class HUD:
         if not theme:
             theme = random.choice(list(schemes.THEMES.keys()))
 
-        self.current_theme = dict(
-            theme=theme,
-            primary=dict(
-                bg=schemes.THEMES[theme]['primary'],
-                fg=schemes.THEMES[theme]['fg'],
-            ),
-            secondary=dict(
-                bg=schemes.THEMES[theme]['secondary'],
-                fg=schemes.THEMES[theme]['fg'],
-            ),
+        self.current_theme.update(
+            dict(
+                theme=theme,
+                primary=dict(
+                    bg=schemes.THEMES[theme]['primary'],
+                    fg=schemes.THEMES[theme]['fg'],
+                ),
+                secondary=dict(
+                    bg=schemes.THEMES[theme]['secondary'],
+                    fg=schemes.THEMES[theme]['fg'],
+                ),
+            )
         )
 
         root.config(bg=schemes.THEMES[theme]['root'])
