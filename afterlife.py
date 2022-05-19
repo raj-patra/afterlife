@@ -12,8 +12,6 @@ from callbacks import pc_stats_callback, universal_callback, about, destroy
 from functools import partial
 from collections import deque
 
-THEME_CHOICE = "gotham"
-
 
 class HUD:
     timer_font = 'cursed timer ulil'
@@ -33,6 +31,8 @@ class HUD:
             ),
             root=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['root'],
             fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
+            primary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
+            secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
         )
 
         # Root Frames
@@ -179,19 +179,20 @@ class HUD:
 
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
-        bg = deque([schemes.THEMES[THEME_CHOICE]['primary'], schemes.THEMES[THEME_CHOICE]['secondary']])
+        bg = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
         self.action_items = []
         self.button_frames = []
 
         for row in applications.ACTIONS.keys():
-            action_row = Frame(self.action_centre_frame, bg=schemes.THEMES[THEME_CHOICE]['root'], pady=1)
+
+            action_row = Frame(self.action_centre_frame, bg=self.current_theme['root'], pady=1)
             action_row.pack(side=TOP, fill=BOTH, expand=1)
             self.button_frames.append(action_row)
 
             for action in applications.ACTIONS[row]:
                 button = Button(action_row,
-                    bg=bg[0], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-                    activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
+                    bg=bg[0], fg=self.current_theme['fg'],
+                    activebackground=self.current_theme['root'], activeforeground="white",
                     font=(HUD.default_font, 12), text=action["label"],
                     height=1, width=6, relief=FLAT, overrelief=RAISED,
                     command=partial(self.callback, command=action["command"]),
@@ -344,7 +345,7 @@ class HUD:
 
         if not theme:
             theme = random.choice(list(schemes.THEMES.keys()))
-            
+
         self.current_theme = dict(
             theme=theme,
             primary=dict(
