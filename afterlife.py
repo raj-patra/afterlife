@@ -31,6 +31,8 @@ class HUD:
                 bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
                 fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
             ),
+            root=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['root'],
+            fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
         )
 
         # Root Frames
@@ -42,7 +44,7 @@ class HUD:
         self.info_frame = Frame(self.right_frame, height=1)
         self.action_centre_frame = Frame(self.right_frame,
             width=80, height=50,
-            bg=schemes.THEMES[THEME_CHOICE]['root'], padx=2, pady=2)
+            bg=self.current_theme['root'], padx=2, pady=2)
 
         # Widgets on root.left
         self.prompt_text = Text(self.left_frame,
