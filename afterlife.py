@@ -270,30 +270,23 @@ class HUD:
                 update = time.time()
                 self.clock_label.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
+            pc_stats = pc_stats_callback()
+
             self.system_text.config(state=NORMAL)
             self.system_text.delete('1.0', END)
-            boot_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(psutil.boot_time()))
-            cpu = psutil.cpu_percent()
-            ram = psutil.virtual_memory()[2]
-            gpu = GPUtil.getGPUs()
-            battery = psutil.sensors_battery()
-            if len(gpu) > 0:
-                self.system_text.insert(END, constants.SYSTEM.format(
-                    boot_time,
-                    cpu, ram,
-                    gpu[0].name, gpu[0].memoryUtil*100,
-                    battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
+
+            self.system_text.insert(END,
+                constants.SYSTEM.format(
+                    time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(pc_stats["boot_time"])),
+                    pc_stats["cpu_usage"], pc_stats["ram_usage"],
+                    pc_stats["gpu_name"], pc_stats["gpu_usage"],
+                    pc_stats["battery_usage"],
+                    "(Plugged In)" if pc_stats["battery_plugged"] else "(Not Plugged In)"
                 )
-            else:
-                self.system_text.insert(END, constants.SYSTEM.format(
-                    boot_time,
-                    cpu, ram,
-                    'No GPU found', 0,
-                    battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
-                )
+            )
+
             self.system_text.config(state=DISABLED)
-            
-            pc_stats = pc_stats_callback()
+
             self.left_status_label.config(
                 text=constants.LEFT_STATUS_LABEL.format(
                     self.current_theme["theme"],
@@ -303,7 +296,6 @@ class HUD:
             )
 
             self.system_text.after(5000, loop)
-            # self.left_status_label.after(5000, loop)
 
         loop()
 
