@@ -12,8 +12,6 @@ from callbacks import pc_stats_callback, universal_callback, about, destroy
 from functools import partial
 from collections import deque
 
-THEME_CHOICE = "gotham"
-
 
 class HUD:
     timer_font = 'cursed timer ulil'
@@ -31,6 +29,10 @@ class HUD:
                 bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
                 fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
             ),
+            root=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['root'],
+            fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
+            primary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
+            secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
         )
 
         # Root Frames
@@ -42,7 +44,7 @@ class HUD:
         self.info_frame = Frame(self.right_frame, height=1)
         self.action_centre_frame = Frame(self.right_frame,
             width=80, height=50,
-            bg=schemes.THEMES[THEME_CHOICE]['root'], padx=2, pady=2)
+            bg=self.current_theme['root'], padx=2, pady=2)
 
         # Widgets on root.left
         self.prompt_text = Text(self.left_frame,
@@ -71,19 +73,19 @@ class HUD:
 
         self.iexe_search_button = Button(self.integrated_exe_frame,
             **self.current_theme["secondary"], font=(HUD.default_font, 12), text="Duck Duck Go!",
-            activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
+            activebackground=self.current_theme['root'], activeforeground="white",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe search"),
         )
         self.iexe_execute_button = Button(self.integrated_exe_frame,
             **self.current_theme["secondary"], font=(HUD.default_font, 12), text="Execute Command",
-            activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
+            activebackground=self.current_theme['root'], activeforeground="white",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe execute"),
         )
         self.iexe_wiki_button = Button(self.integrated_exe_frame,
             **self.current_theme["secondary"], font=(HUD.default_font, 12), text="Search Wikipedia",
-            activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
+            activebackground=self.current_theme['root'], activeforeground="white",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe wiki"),
         )
@@ -116,14 +118,14 @@ class HUD:
         menu_item.add_separator()
 
         theme_choice = Menu(menu_bar, tearoff=0)
-        theme_choice.add_command(label="Random Theme", command=self.set_theme, accelerator='Ctrl+T')
+        theme_choice.add_command(label="Random Theme", command=self.update_widget_theme, accelerator='Ctrl+T')
         theme_choice.add_separator()
 
         for category, themes in schemes.THEME_TYPES.items():
             theme_category = Menu(theme_choice, tearoff=0)
 
             for theme in themes:
-                theme_category.add_command(label=theme, command=partial(self.set_theme, theme))
+                theme_category.add_command(label=theme, command=partial(self.update_widget_theme, theme))
             theme_choice.add_cascade(label=category, menu=theme_category)
 
         menu_item.add_cascade(label="Themes", menu=theme_choice)
@@ -177,19 +179,20 @@ class HUD:
 
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
-        bg = deque([schemes.THEMES[THEME_CHOICE]['primary'], schemes.THEMES[THEME_CHOICE]['secondary']])
+        bg = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
         self.action_items = []
         self.button_frames = []
 
         for row in applications.ACTIONS.keys():
-            action_row = Frame(self.action_centre_frame, bg=schemes.THEMES[THEME_CHOICE]['root'], pady=1)
+
+            action_row = Frame(self.action_centre_frame, bg=self.current_theme['root'], pady=1)
             action_row.pack(side=TOP, fill=BOTH, expand=1)
             self.button_frames.append(action_row)
 
             for action in applications.ACTIONS[row]:
                 button = Button(action_row,
-                    bg=bg[0], fg=schemes.THEMES[THEME_CHOICE]['fg'],
-                    activebackground=schemes.THEMES[THEME_CHOICE]['root'], activeforeground="white",
+                    bg=bg[0], fg=self.current_theme['fg'],
+                    activebackground=self.current_theme['root'], activeforeground="white",
                     font=(HUD.default_font, 12), text=action["label"],
                     height=1, width=6, relief=FLAT, overrelief=RAISED,
                     command=partial(self.callback, command=action["command"]),
@@ -203,15 +206,6 @@ class HUD:
         self.welcome_text.insert(END, constants.WELCOME.lstrip())
         self.welcome_text.config(state=DISABLED)
 
-        pc_stats = pc_stats_callback()
-        self.left_status_label.config(
-            text=constants.LEFT_STATUS_LABEL.format(
-                THEME_CHOICE,
-                pc_stats["cpu_usage"],
-                pc_stats["ram_usage"],
-            )
-        )
-
         self.iexe_query_entry.insert(END, "> ")
         self.clock_label.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
@@ -224,8 +218,8 @@ class HUD:
 
         root.bind('<Control-s>', self.save_prompt_content)
         root.bind('<Control-S>', self.save_prompt_content)
-        root.bind('<Control-t>', partial(self.set_theme, None))
-        root.bind('<Control-T>', partial(self.set_theme, None))
+        root.bind('<Control-t>', partial(self.update_widget_theme, None))
+        root.bind('<Control-T>', partial(self.update_widget_theme, None))
         root.bind('<Control-f>', partial(self.callback, "start mailto:rajpatra.kishore@gmail.com"))
         root.bind('<Control-F>', partial(self.callback, "start mailto:rajpatra.kishore@gmail.com"))
         root.bind('<Control-Delete>', partial(self.callback, 'clear'))
@@ -233,62 +227,55 @@ class HUD:
 
         self.callback("subprocess systeminfo")
 
-        boot_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(psutil.boot_time()))
-        cpu = psutil.cpu_percent()
-        ram = psutil.virtual_memory()[2]
-        gpu = GPUtil.getGPUs()
-        battery = psutil.sensors_battery()
-
-        if len(gpu) > 0:
-            self.system_text.insert(END, constants.SYSTEM.format(
-                boot_time,
-                cpu, ram,
-                gpu[0].name, gpu[0].memoryUtil*100,
-                battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
+        pc_stats = pc_stats_callback()
+        self.left_status_label.config(
+            text=constants.LEFT_STATUS_LABEL.format(
+                self.current_theme["theme"],
+                pc_stats["cpu_usage"],
+                pc_stats["ram_usage"],
             )
-        else:
-            self.system_text.insert(END, constants.SYSTEM.format(
-                boot_time,
-                cpu, ram,
-                'No GPU found', 0,
-                battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
+        )
+        self.system_text.insert(END,
+            constants.SYSTEM.format(
+                time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(pc_stats["boot_time"])),
+                pc_stats["cpu_usage"], pc_stats["ram_usage"],
+                pc_stats["gpu_name"], pc_stats["gpu_usage"],
+                pc_stats["battery_usage"],
+                "(Plugged In)" if pc_stats["battery_plugged"] else "(Not Plugged In)"
             )
+        )
         self.system_text.config(state=DISABLED)
 
-        self.update_widgets()
+        self.update_widget_content()
 
-    def update_widgets(self):
+    def update_widget_content(self):
 
         def loop():
 
-            global update
+            pc_stats = pc_stats_callback()
 
-            if (time.time()-update) > 60:
-                update = time.time()
-                self.clock_label.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
-
+            self.clock_label.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
             self.system_text.config(state=NORMAL)
             self.system_text.delete('1.0', END)
-            boot_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(psutil.boot_time()))
-            cpu = psutil.cpu_percent()
-            ram = psutil.virtual_memory()[2]
-            gpu = GPUtil.getGPUs()
-            battery = psutil.sensors_battery()
-            if len(gpu) > 0:
-                self.system_text.insert(END, constants.SYSTEM.format(
-                    boot_time,
-                    cpu, ram,
-                    gpu[0].name, gpu[0].memoryUtil*100,
-                    battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
+
+            self.system_text.insert(END,
+                constants.SYSTEM.format(
+                    time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(pc_stats["boot_time"])),
+                    pc_stats["cpu_usage"], pc_stats["ram_usage"],
+                    pc_stats["gpu_name"], pc_stats["gpu_usage"],
+                    pc_stats["battery_usage"],
+                    "(Plugged In)" if pc_stats["battery_plugged"] else "(Not Plugged In)"
                 )
-            else:
-                self.system_text.insert(END, constants.SYSTEM.format(
-                    boot_time,
-                    cpu, ram,
-                    'No GPU found', 0,
-                    battery.percent, "(Plugged In)" if battery.power_plugged else "(Not Plugged In)")
-                )
+            )
             self.system_text.config(state=DISABLED)
+
+            self.left_status_label.config(
+                text=constants.LEFT_STATUS_LABEL.format(
+                    self.current_theme["theme"],
+                    pc_stats["cpu_usage"],
+                    pc_stats["ram_usage"],
+                )
+            )
 
             self.system_text.after(5000, loop)
 
@@ -338,43 +325,49 @@ class HUD:
 
         self.prompt_text.config(state=DISABLED)
 
-    def set_theme(self, theme=None, event=None):
+    def update_widget_theme(self, theme=None, event=None):
+
         if not theme:
             theme = random.choice(list(schemes.THEMES.keys()))
 
+        self.current_theme.update(
+            dict(
+                theme=theme,
+                primary=dict(
+                    bg=schemes.THEMES[theme]['primary'],
+                    fg=schemes.THEMES[theme]['fg'],
+                ),
+                secondary=dict(
+                    bg=schemes.THEMES[theme]['secondary'],
+                    fg=schemes.THEMES[theme]['fg'],
+                ),
+            )
+        )
+
         root.config(bg=schemes.THEMES[theme]['root'])
 
-        primary_bg_theme = dict(
-            bg=schemes.THEMES[theme]['primary'],
-            fg=schemes.THEMES[theme]['fg'],
-        )
-        secondary_bg_theme = dict(
-            bg=schemes.THEMES[theme]['secondary'],
-            fg=schemes.THEMES[theme]['fg'],
-        )
+        self.prompt_text.config(**self.current_theme["primary"])
+        self.clock_label.config(**self.current_theme["primary"])
+        self.welcome_text.config(**self.current_theme["secondary"])
 
-        self.prompt_text.config(**primary_bg_theme)
-        self.clock_label.config(**primary_bg_theme)
-        self.welcome_text.config(**secondary_bg_theme)
-
-        self.iexe_title_label.config(**secondary_bg_theme)
-        self.iexe_query_entry.config(**primary_bg_theme)
+        self.iexe_title_label.config(**self.current_theme["secondary"])
+        self.iexe_query_entry.config(**self.current_theme["primary"])
 
         self.iexe_search_button.config(
-            **secondary_bg_theme,
+            **self.current_theme["secondary"],
             activebackground=schemes.THEMES[theme]['root']
         )
         self.iexe_execute_button.config(
-            **secondary_bg_theme,
+            **self.current_theme["secondary"],
             activebackground=schemes.THEMES[theme]['root']
         )
         self.iexe_wiki_button.config(
-            **secondary_bg_theme,
+            **self.current_theme["secondary"],
             activebackground=schemes.THEMES[theme]['root']
         )
 
-        self.network_text.config(**secondary_bg_theme)
-        self.system_text.config(**secondary_bg_theme)
+        self.network_text.config(**self.current_theme["secondary"])
+        self.system_text.config(**self.current_theme["secondary"])
 
         self.action_centre_frame.config(
             bg=schemes.THEMES[theme]['root']
@@ -394,7 +387,7 @@ class HUD:
 
         pc_stats = pc_stats_callback()
         self.left_status_label.config(
-            **secondary_bg_theme,
+            **self.current_theme["secondary"],
             text=constants.LEFT_STATUS_LABEL.format(
                 theme,
                 pc_stats["cpu_usage"],
