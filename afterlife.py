@@ -264,14 +264,9 @@ class HUD:
 
         def loop():
 
-            global update
-
-            if (time.time()-update) > 60:
-                update = time.time()
-                self.clock_label.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
-
             pc_stats = pc_stats_callback()
 
+            self.clock_label.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
             self.system_text.config(state=NORMAL)
             self.system_text.delete('1.0', END)
 
@@ -284,7 +279,6 @@ class HUD:
                     "(Plugged In)" if pc_stats["battery_plugged"] else "(Not Plugged In)"
                 )
             )
-
             self.system_text.config(state=DISABLED)
 
             self.left_status_label.config(
