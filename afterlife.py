@@ -355,17 +355,17 @@ class HUD:
         self.system_text.config(**self.current_theme["secondary"])
 
         self.action_centre_frame.config(
-            bg=schemes.THEMES[theme]['root']
+            bg=self.current_theme['root']
         )
-        colors = deque([schemes.THEMES[theme]['primary'], schemes.THEMES[theme]['secondary']])
+        colors = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
 
         for frame in self.button_frames:
-            frame.config(bg=schemes.THEMES[theme]['root'])
+            frame.config(bg=self.current_theme['root'])
 
         for button in self.action_items:
             button.config(
                 bg=colors[0],
-                fg=schemes.THEMES[theme]['fg'],
+                fg=self.current_theme['fg'],
                 activebackground=schemes.THEMES[theme]['root']
             )
             colors.rotate(1)
