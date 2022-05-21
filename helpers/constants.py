@@ -51,7 +51,7 @@ Have fun.
 
 """.format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]))
 
-LEFT_STATUS_LABEL = "☀ {}  ⚡ {}   ⚛ {}   {} {}   🎮 {} - {}"
+LEFT_STATUS_LABEL = "☀ {}  ⚡ {}   🧠 {}   {} {}   🎮 {}: {}"
 
 # ----------------------------------------------------------------------------------
 
