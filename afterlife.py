@@ -322,6 +322,10 @@ class HUD:
                     bg=schemes.THEMES[theme]['secondary'],
                     fg=schemes.THEMES[theme]['fg'],
                 ),
+                root=schemes.THEMES[theme]['root'],
+                fg=schemes.THEMES[theme]['fg'],
+                primary_bg=schemes.THEMES[theme]['primary'],
+                secondary_bg=schemes.THEMES[theme]['secondary'],
             )
         )
 
