@@ -63,7 +63,7 @@ def pc_stats_callback():
         battery_usage = psutil.sensors_battery().percent,
         battery_plugged = psutil.sensors_battery().power_plugged,
         gpu_name = GPUtil.getGPUs()[0].name if GPUtil.getGPUs() else "No GPU found",
-        gpu_usage = GPUtil.getGPUs()[0].memoryUtil*100 if GPUtil.getGPUs() else 0.0,
+        gpu_usage = round(GPUtil.getGPUs()[0].memoryUtil*100, 1) if GPUtil.getGPUs() else 0.0,
         boot_time = psutil.boot_time()
     )
 

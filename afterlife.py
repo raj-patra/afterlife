@@ -15,7 +15,8 @@ from collections import deque
 
 class HUD:
     timer_font = 'cursed timer ulil'
-    default_font = 'Noto Mono'
+    default_font_old = 'Noto Mono'
+    default_font = 'Cascadia Mono'
 
     def __init__(self):
 
@@ -255,6 +256,10 @@ class HUD:
                     self.current_theme["theme"],
                     pc_stats["cpu_usage"],
                     pc_stats["ram_usage"],
+                    "🔌" if pc_stats["battery_plugged"] else "🔋",
+                    pc_stats["battery_usage"],
+                    pc_stats["gpu_name"],
+                    pc_stats["gpu_usage"]
                 )
             )
 
@@ -377,6 +382,10 @@ class HUD:
                 theme,
                 pc_stats["cpu_usage"],
                 pc_stats["ram_usage"],
+                "🔌" if pc_stats["battery_plugged"] else "🔋",
+                pc_stats["battery_usage"],
+                pc_stats["gpu_name"],
+                pc_stats["gpu_usage"]
             )
         )
 
