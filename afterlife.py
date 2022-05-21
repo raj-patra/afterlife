@@ -204,13 +204,9 @@ class HUD:
     def start_widgets(self):
 
         self.welcome_text.insert(END, constants.WELCOME.lstrip())
-        self.welcome_text.config(state=DISABLED)
-
         self.iexe_query_entry.insert(END, "> ")
         self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
-
         self.network_text.insert(END, constants.NETWORK)
-        self.network_text.config(state=DISABLED)
 
         self.iexe_query_entry.bind('<Return>', partial(self.callback, "iexe search"))
         self.iexe_query_entry.bind('<Control-Return>', partial(self.callback, "iexe execute"))
@@ -225,26 +221,11 @@ class HUD:
         root.bind('<Control-Delete>', partial(self.callback, 'clear'))
         root.bind('<F1>', about)
 
-        self.callback("subprocess systeminfo")
-
-        pc_stats = pc_stats_callback()
-        self.left_status_label.config(
-            text=constants.LEFT_STATUS_LABEL.format(
-                self.current_theme["theme"],
-                pc_stats["cpu_usage"],
-                pc_stats["ram_usage"],
-            )
-        )
-        self.system_text.insert(END,
-            constants.SYSTEM.format(
-                time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(pc_stats["boot_time"])),
-                pc_stats["cpu_usage"], pc_stats["ram_usage"],
-                pc_stats["gpu_name"], pc_stats["gpu_usage"],
-                pc_stats["battery_usage"],
-                "(Plugged In)" if pc_stats["battery_plugged"] else "(Not Plugged In)"
-            )
-        )
+        self.welcome_text.config(state=DISABLED)
+        self.network_text.config(state=DISABLED)
         self.system_text.config(state=DISABLED)
+
+        self.callback("subprocess systeminfo")
 
         self.update_widget_content()
 
