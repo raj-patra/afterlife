@@ -329,7 +329,7 @@ class HUD:
             )
         )
 
-        root.config(bg=schemes.THEMES[theme]['root'])
+        root.config(bg=self.current_theme['root'])
 
         self.prompt_text.config(**self.current_theme["primary"])
         self.clock_label.config(**self.current_theme["primary"])
@@ -340,15 +340,15 @@ class HUD:
 
         self.iexe_search_button.config(
             **self.current_theme["secondary"],
-            activebackground=schemes.THEMES[theme]['root']
+            activebackground=self.current_theme['root']
         )
         self.iexe_execute_button.config(
             **self.current_theme["secondary"],
-            activebackground=schemes.THEMES[theme]['root']
+            activebackground=self.current_theme['root']
         )
         self.iexe_wiki_button.config(
             **self.current_theme["secondary"],
-            activebackground=schemes.THEMES[theme]['root']
+            activebackground=self.current_theme['root']
         )
 
         self.network_text.config(**self.current_theme["secondary"])
