@@ -15,7 +15,8 @@ from collections import deque
 
 class HUD:
     timer_font = 'cursed timer ulil'
-    default_font = 'Noto Mono'
+    default_font_old = 'Noto Mono'
+    default_font = 'Cascadia Mono'
 
     def __init__(self):
 
