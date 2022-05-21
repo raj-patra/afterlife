@@ -255,7 +255,7 @@ class HUD:
                     self.current_theme["theme"],
                     pc_stats["cpu_usage"],
                     pc_stats["ram_usage"],
-                    "🔋" if pc_stats["battery_plugged"] else "🔌",
+                    "🔌" if pc_stats["battery_plugged"] else "🔋",
                     pc_stats["battery_usage"],
                     pc_stats["gpu_name"],
                     pc_stats["gpu_usage"]
@@ -381,7 +381,7 @@ class HUD:
                 theme,
                 pc_stats["cpu_usage"],
                 pc_stats["ram_usage"],
-                "🔋" if pc_stats["battery_plugged"] else "🔌",
+                "🔌" if pc_stats["battery_plugged"] else "🔋",
                 pc_stats["battery_usage"],
                 pc_stats["gpu_name"],
                 pc_stats["gpu_usage"]
