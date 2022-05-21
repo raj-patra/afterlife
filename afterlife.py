@@ -207,7 +207,7 @@ class HUD:
         self.welcome_text.config(state=DISABLED)
 
         self.iexe_query_entry.insert(END, "> ")
-        self.clock_label.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
+        self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
         self.network_text.insert(END, constants.NETWORK)
         self.network_text.config(state=DISABLED)
@@ -254,7 +254,7 @@ class HUD:
 
             pc_stats = pc_stats_callback()
 
-            self.clock_label.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
+            self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
             self.system_text.config(state=NORMAL)
             self.system_text.delete('1.0', END)
 
