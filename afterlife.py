@@ -204,13 +204,9 @@ class HUD:
     def start_widgets(self):
 
         self.welcome_text.insert(END, constants.WELCOME.lstrip())
-        self.welcome_text.config(state=DISABLED)
-
         self.iexe_query_entry.insert(END, "> ")
-        self.clock_label.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
-
+        self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         self.network_text.insert(END, constants.NETWORK)
-        self.network_text.config(state=DISABLED)
 
         self.iexe_query_entry.bind('<Return>', partial(self.callback, "iexe search"))
         self.iexe_query_entry.bind('<Control-Return>', partial(self.callback, "iexe execute"))
@@ -225,26 +221,11 @@ class HUD:
         root.bind('<Control-Delete>', partial(self.callback, 'clear'))
         root.bind('<F1>', about)
 
-        self.callback("subprocess systeminfo")
-
-        pc_stats = pc_stats_callback()
-        self.left_status_label.config(
-            text=constants.LEFT_STATUS_LABEL.format(
-                self.current_theme["theme"],
-                pc_stats["cpu_usage"],
-                pc_stats["ram_usage"],
-            )
-        )
-        self.system_text.insert(END,
-            constants.SYSTEM.format(
-                time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(pc_stats["boot_time"])),
-                pc_stats["cpu_usage"], pc_stats["ram_usage"],
-                pc_stats["gpu_name"], pc_stats["gpu_usage"],
-                pc_stats["battery_usage"],
-                "(Plugged In)" if pc_stats["battery_plugged"] else "(Not Plugged In)"
-            )
-        )
+        self.welcome_text.config(state=DISABLED)
+        self.network_text.config(state=DISABLED)
         self.system_text.config(state=DISABLED)
+
+        self.callback("subprocess systeminfo")
 
         self.update_widget_content()
 
@@ -254,7 +235,7 @@ class HUD:
 
             pc_stats = pc_stats_callback()
 
-            self.clock_label.config(text = time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
+            self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
             self.system_text.config(state=NORMAL)
             self.system_text.delete('1.0', END)
 
@@ -341,10 +322,14 @@ class HUD:
                     bg=schemes.THEMES[theme]['secondary'],
                     fg=schemes.THEMES[theme]['fg'],
                 ),
+                root=schemes.THEMES[theme]['root'],
+                fg=schemes.THEMES[theme]['fg'],
+                primary_bg=schemes.THEMES[theme]['primary'],
+                secondary_bg=schemes.THEMES[theme]['secondary'],
             )
         )
 
-        root.config(bg=schemes.THEMES[theme]['root'])
+        root.config(bg=self.current_theme['root'])
 
         self.prompt_text.config(**self.current_theme["primary"])
         self.clock_label.config(**self.current_theme["primary"])
@@ -355,32 +340,32 @@ class HUD:
 
         self.iexe_search_button.config(
             **self.current_theme["secondary"],
-            activebackground=schemes.THEMES[theme]['root']
+            activebackground=self.current_theme['root']
         )
         self.iexe_execute_button.config(
             **self.current_theme["secondary"],
-            activebackground=schemes.THEMES[theme]['root']
+            activebackground=self.current_theme['root']
         )
         self.iexe_wiki_button.config(
             **self.current_theme["secondary"],
-            activebackground=schemes.THEMES[theme]['root']
+            activebackground=self.current_theme['root']
         )
 
         self.network_text.config(**self.current_theme["secondary"])
         self.system_text.config(**self.current_theme["secondary"])
 
         self.action_centre_frame.config(
-            bg=schemes.THEMES[theme]['root']
+            bg=self.current_theme['root']
         )
-        colors = deque([schemes.THEMES[theme]['primary'], schemes.THEMES[theme]['secondary']])
+        colors = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
 
         for frame in self.button_frames:
-            frame.config(bg=schemes.THEMES[theme]['root'])
+            frame.config(bg=self.current_theme['root'])
 
         for button in self.action_items:
             button.config(
                 bg=colors[0],
-                fg=schemes.THEMES[theme]['fg'],
+                fg=self.current_theme['fg'],
                 activebackground=schemes.THEMES[theme]['root']
             )
             colors.rotate(1)
