@@ -328,10 +328,10 @@ class HUD:
         root.config(bg=self.current_theme['root'])
 
         self.prompt_text.config(**self.current_theme["primary"])
-        self.clock_label.config(**self.current_theme["primary"])
+        self.clock_label.config(**self.current_theme["secondary"])
         self.welcome_label.config(**self.current_theme["secondary"])
 
-        self.iexe_query_entry.config(**self.current_theme["primary"])
+        self.iexe_query_entry.config(**self.current_theme["secondary"])
         self.iexe_search_button.config(
             **self.current_theme["secondary"],
             activebackground=self.current_theme['root']
