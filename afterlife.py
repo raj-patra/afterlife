@@ -166,11 +166,10 @@ class HUD:
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
         self.left_status_label.pack(side=TOP, fill=BOTH, expand=0)
 
-
         self.iexe_title_label.pack(side=TOP, fill=BOTH, expand=0)
         self.iexe_query_entry.pack(side=TOP, fill=BOTH, expand=1)
-        self.iexe_search_button.pack(side=TOP, fill=BOTH, expand=0)
         self.iexe_execute_button.pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_search_button.pack(side=LEFT, fill=BOTH, expand=1)
         self.iexe_wiki_button.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.clock_label.pack(side=TOP, fill=BOTH, expand=0)
