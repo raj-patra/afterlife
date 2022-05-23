@@ -52,20 +52,15 @@ class HUD:
             **self.current_theme["primary"], font=(HUD.default_font, 11), wrap=WORD,
             width=50, padx=20, pady=20,
         )
-        self.left_status_label = Label(self.left_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 10), text="☀", anchor=W,
-            relief=FLAT, height=1, padx=3, pady=2,
-        )
-
         self.welcome_label = Label(self.left_frame,
             **self.current_theme["primary"], font=(HUD.default_font, 14), text="", anchor=W,
             relief=FLAT, height=2, width=20, padx=20, pady=2,
         )
+
         self.iexe_query_entry = Entry(self.integrated_exe_frame,
-            **self.current_theme["primary"], font=(HUD.default_font, 12, 'bold'),
+            **self.current_theme["secondary"], font=(HUD.default_font, 12, 'bold'),
             bd=5, width=28, insertbackground="white",
         )
-
         self.iexe_search_button = Button(self.integrated_exe_frame,
             **self.current_theme["secondary"], font=(HUD.default_font, 12), text="Duck Duck Go!",
             activebackground=self.current_theme['root'], activeforeground="white",
@@ -83,6 +78,11 @@ class HUD:
             activebackground=self.current_theme['root'], activeforeground="white",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe wiki"),
+        )
+
+        self.left_status_label = Label(self.left_frame,
+            **self.current_theme["secondary"], font=(HUD.default_font, 10), text="☀", anchor=W,
+            relief=FLAT, height=1, padx=3, pady=2,
         )
 
         # Widgets on root.right
@@ -331,9 +331,7 @@ class HUD:
         self.clock_label.config(**self.current_theme["primary"])
         self.welcome_label.config(**self.current_theme["secondary"])
 
-        self.iexe_title_label.config(**self.current_theme["secondary"])
         self.iexe_query_entry.config(**self.current_theme["primary"])
-
         self.iexe_search_button.config(
             **self.current_theme["secondary"],
             activebackground=self.current_theme['root']
