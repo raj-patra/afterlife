@@ -36,11 +36,12 @@ class HUD:
             secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
         )
 
-        # Root Frames
+        # Root Frames - Left
         self.left_frame = Frame(root)
         self.left_top_frame = Frame(self.left_frame)
-        self.integrated_exe_frame = Frame(self.left_top_frame)
+        self.integrated_exe_frame = Frame(self.left_frame)
 
+        # Root Frames - Right
         self.right_frame = Frame(root)
         self.info_frame = Frame(self.right_frame, height=1)
         self.action_centre_frame = Frame(self.right_frame,
@@ -57,8 +58,7 @@ class HUD:
             relief=FLAT, height=1, padx=3, pady=2,
         )
 
-        # Widgets on root.left.intro
-        self.welcome_text = Text(self.left_top_frame,
+        self.welcome_text = Text(self.left_frame,
             **self.current_theme["secondary"], font=(HUD.default_font, 13), wrap=WORD,
             width=25, height=2, padx=20, pady=20,
         )
@@ -91,6 +91,7 @@ class HUD:
             command=partial(self.callback, command="iexe wiki"),
         )
 
+        # Widgets on root.right
         self.clock_label = Label(self.right_frame,
             **self.current_theme["primary"], font=(HUD.timer_font, 18, 'bold'),
             height=2, width=20, relief=GROOVE,
@@ -159,12 +160,12 @@ class HUD:
         self.left_frame.pack(side=LEFT, fill=BOTH, expand=1)
         self.right_frame.pack(side=RIGHT, fill=BOTH, expand=1)
 
-        self.left_top_frame.pack(side=TOP, fill=BOTH, expand=1)
+        # self.left_top_frame.pack(side=TOP, fill=BOTH, expand=1)
+        self.welcome_text.pack(side=TOP, fill=BOTH, expand=1)
+        self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
         self.left_status_label.pack(side=TOP, fill=BOTH, expand=0)
 
-        self.welcome_text.pack(side=LEFT, fill=BOTH, expand=1)
-        self.integrated_exe_frame.pack(side=RIGHT, fill=BOTH, expand=1)
 
         self.iexe_title_label.pack(side=TOP, fill=BOTH, expand=0)
         self.iexe_query_entry.pack(side=TOP, fill=BOTH, expand=1)
