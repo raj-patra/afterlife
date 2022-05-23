@@ -58,11 +58,15 @@ class HUD:
             relief=FLAT, height=1, padx=3, pady=2,
         )
 
-        self.welcome_text = Text(self.left_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 13), wrap=WORD,
-            width=25, height=2, padx=20, pady=20,
-        )
+        # self.welcome_text = Text(self.left_frame,
+        #     **self.current_theme["secondary"], font=(HUD.default_font, 13), wrap=WORD,
+        #     width=25, height=2, padx=20, pady=20,
+        # )
 
+        self.welcome_text = Label(self.left_frame,
+            **self.current_theme["primary"], font=(HUD.default_font, 14), text="", anchor=W,
+            relief=FLAT, height=2, width=20, padx=2, pady=2,
+        )
         self.iexe_title_label = Label(self.integrated_exe_frame,
             **self.current_theme["secondary"], font=(HUD.default_font, 14), text="Integrated Search",
             relief=FLAT, height=2, width=28, padx=2, pady=2,
@@ -161,7 +165,7 @@ class HUD:
         self.right_frame.pack(side=RIGHT, fill=BOTH, expand=1)
 
         # self.left_top_frame.pack(side=TOP, fill=BOTH, expand=1)
-        self.welcome_text.pack(side=TOP, fill=BOTH, expand=1)
+        self.welcome_text.pack(side=TOP, fill=BOTH, expand=0)
         self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
         self.left_status_label.pack(side=TOP, fill=BOTH, expand=0)
@@ -204,7 +208,8 @@ class HUD:
 
     def start_widgets(self):
 
-        self.welcome_text.insert(END, constants.WELCOME.lstrip())
+        # self.welcome_text.insert(END, constants.WELCOME.lstrip())
+        self.welcome_text.config(text=constants.WELCOME)
         self.iexe_query_entry.insert(END, "> ")
         self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         self.network_text.insert(END, constants.NETWORK)
@@ -222,7 +227,7 @@ class HUD:
         root.bind('<Control-Delete>', partial(self.callback, 'clear'))
         root.bind('<F1>', about)
 
-        self.welcome_text.config(state=DISABLED)
+        # self.welcome_text.config(state=DISABLED)
         self.network_text.config(state=DISABLED)
         self.system_text.config(state=DISABLED)
 
