@@ -38,7 +38,6 @@ class HUD:
 
         # Root Frames - Left
         self.left_frame = Frame(root)
-        self.left_top_frame = Frame(self.left_frame)
         self.integrated_exe_frame = Frame(self.left_frame)
 
         # Root Frames - Right
@@ -58,14 +57,9 @@ class HUD:
             relief=FLAT, height=1, padx=3, pady=2,
         )
 
-        # self.welcome_text = Text(self.left_frame,
-        #     **self.current_theme["secondary"], font=(HUD.default_font, 13), wrap=WORD,
-        #     width=25, height=2, padx=20, pady=20,
-        # )
-
-        self.welcome_text = Label(self.left_frame,
+        self.welcome_label = Label(self.left_frame,
             **self.current_theme["primary"], font=(HUD.default_font, 14), text="", anchor=W,
-            relief=FLAT, height=2, width=20, padx=2, pady=2,
+            relief=FLAT, height=2, width=20, padx=20, pady=2,
         )
         self.iexe_title_label = Label(self.integrated_exe_frame,
             **self.current_theme["secondary"], font=(HUD.default_font, 14), text="Integrated Search",
@@ -97,8 +91,8 @@ class HUD:
 
         # Widgets on root.right
         self.clock_label = Label(self.right_frame,
-            **self.current_theme["primary"], font=(HUD.timer_font, 18, 'bold'),
-            height=2, width=20, relief=GROOVE,
+            **self.current_theme["primary"], font=(HUD.timer_font, 19), text="", anchor=E,
+            relief=FLAT, height=2, width=20, padx=20, pady=2,
         )
         self.network_text = Text(self.info_frame,
             **self.current_theme["secondary"], font=(HUD.default_font, 12),
@@ -164,8 +158,7 @@ class HUD:
         self.left_frame.pack(side=LEFT, fill=BOTH, expand=1)
         self.right_frame.pack(side=RIGHT, fill=BOTH, expand=1)
 
-        # self.left_top_frame.pack(side=TOP, fill=BOTH, expand=1)
-        self.welcome_text.pack(side=TOP, fill=BOTH, expand=0)
+        self.welcome_label.pack(side=TOP, fill=BOTH, expand=0)
         self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
         self.left_status_label.pack(side=TOP, fill=BOTH, expand=0)
@@ -208,8 +201,7 @@ class HUD:
 
     def start_widgets(self):
 
-        # self.welcome_text.insert(END, constants.WELCOME.lstrip())
-        self.welcome_text.config(text=constants.WELCOME)
+        self.welcome_label.config(text=constants.WELCOME)
         self.iexe_query_entry.insert(END, "> ")
         self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         self.network_text.insert(END, constants.NETWORK)
@@ -227,7 +219,6 @@ class HUD:
         root.bind('<Control-Delete>', partial(self.callback, 'clear'))
         root.bind('<F1>', about)
 
-        # self.welcome_text.config(state=DISABLED)
         self.network_text.config(state=DISABLED)
         self.system_text.config(state=DISABLED)
 
@@ -343,7 +334,7 @@ class HUD:
 
         self.prompt_text.config(**self.current_theme["primary"])
         self.clock_label.config(**self.current_theme["primary"])
-        self.welcome_text.config(**self.current_theme["secondary"])
+        self.welcome_label.config(**self.current_theme["secondary"])
 
         self.iexe_title_label.config(**self.current_theme["secondary"])
         self.iexe_query_entry.config(**self.current_theme["primary"])
