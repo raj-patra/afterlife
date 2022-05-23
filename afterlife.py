@@ -61,10 +61,6 @@ class HUD:
             **self.current_theme["primary"], font=(HUD.default_font, 14), text="", anchor=W,
             relief=FLAT, height=2, width=20, padx=20, pady=2,
         )
-        self.iexe_title_label = Label(self.integrated_exe_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 14), text="Integrated Search",
-            relief=FLAT, height=2, width=28, padx=2, pady=2,
-        )
         self.iexe_query_entry = Entry(self.integrated_exe_frame,
             **self.current_theme["primary"], font=(HUD.default_font, 12, 'bold'),
             bd=5, width=28, insertbackground="white",
@@ -163,7 +159,6 @@ class HUD:
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
         self.left_status_label.pack(side=TOP, fill=BOTH, expand=0)
 
-        self.iexe_title_label.pack(side=TOP, fill=BOTH, expand=0)
         self.iexe_query_entry.pack(side=TOP, fill=BOTH, expand=1)
         self.iexe_execute_button.pack(side=LEFT, fill=BOTH, expand=1)
         self.iexe_search_button.pack(side=LEFT, fill=BOTH, expand=1)
