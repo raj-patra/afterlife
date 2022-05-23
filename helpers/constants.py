@@ -43,13 +43,8 @@ DISK = sp.getoutput("wmic logicaldisk get size,freespace,caption").replace("\n\n
 
 # ----------------------------------------------------------------------------------
 
-WELCOME = """
-Hey there, {}
-
-I hope you are having a good day.
-Have fun.
-
-""".format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]))
+WELCOME = "Hey there, {}!"\
+    .format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]))
 
 LEFT_STATUS_LABEL = "☀ {}  ⚡ {}   🧠 {}   {} {}   🎮 {}: {}"
 
