@@ -270,7 +270,7 @@ class HUD:
         elif command.startswith('subprocess'):
             self.prompt_text.delete('1.0', END)
             response = universal_callback(command=command)
-            self.prompt_text.insert(END, response)
+            self.prompt_text.insert(END, response.strip())
 
         elif command.startswith('request'):
             self.prompt_text.delete('1.0', END)
