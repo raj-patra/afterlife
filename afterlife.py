@@ -58,7 +58,7 @@ class HUD:
         )
 
         self.iexe_query_entry = Entry(self.integrated_exe_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 12, 'bold'),
+            **self.current_theme["secondary"], font=(HUD.default_font, 12),
             bd=5, width=28, insertbackground="white",
         )
         self.iexe_search_button = Button(self.integrated_exe_frame,
