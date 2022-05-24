@@ -5,7 +5,7 @@ from tkinter import Tk, Text, Label, Entry, Button, Frame, Menu
 from tkinter import filedialog, messagebox
 from tkinter.constants import WORD, GROOVE, RAISED, FLAT, END
 from tkinter.constants import LEFT, RIGHT, TOP, BOTTOM, BOTH, DISABLED, NORMAL
-from tkinter.constants import E, W, NW
+from tkinter.constants import E, W, NW, X, Y
 
 from helpers import applications, constants, schemes
 from callbacks import pc_stats_callback, universal_callback, about, destroy
@@ -35,24 +35,26 @@ class HUD:
             primary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
             secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
         )
+        # Root Frame - Bottom
+        self.status_bar_frame = Frame(root)
 
         # Root Frames - Left
-        self.left_frame = Frame(root)
-        self.integrated_exe_frame = Frame(self.left_frame)
+        self.left_section_frame = Frame(root)
+        self.integrated_exe_frame = Frame(self.left_section_frame)
 
         # Root Frames - Right
-        self.right_frame = Frame(root)
-        self.info_frame = Frame(self.right_frame, height=1)
-        self.action_centre_frame = Frame(self.right_frame,
+        self.right_section_frame = Frame(root)
+        self.info_frame = Frame(self.right_section_frame, height=1)
+        self.action_centre_frame = Frame(self.right_section_frame,
             width=80, height=50,
             bg=self.current_theme['root'], padx=2, pady=2)
 
         # Widgets on root.left
-        self.prompt_text = Text(self.left_frame,
+        self.prompt_text = Text(self.left_section_frame,
             **self.current_theme["primary"], font=(HUD.default_font, 12), wrap=WORD,
             width=50, padx=20, pady=20,
         )
-        self.welcome_label = Label(self.left_frame,
+        self.welcome_label = Label(self.left_section_frame,
             **self.current_theme["primary"], font=(HUD.default_font, 12), text="", anchor=W,
             relief=FLAT, height=2, width=20, padx=20, pady=2,
         )
@@ -80,13 +82,13 @@ class HUD:
             command=partial(self.callback, command="iexe wiki"),
         )
 
-        self.left_status_label = Label(self.left_frame,
+        self.left_status_label = Label(self.status_bar_frame,
             **self.current_theme["secondary"], font=(HUD.default_font, 10), text="☀", anchor=W,
             relief=FLAT, height=1, padx=3, pady=2,
         )
 
         # Widgets on root.right
-        self.clock_label = Label(self.right_frame,
+        self.clock_label = Label(self.right_section_frame,
             **self.current_theme["primary"], font=(HUD.default_font, 12), text="", anchor=E,
             relief=FLAT, height=2, width=20, padx=20, pady=2,
         )
@@ -151,13 +153,14 @@ class HUD:
         root.config(menu=menu_bar)
 
     def render_widgets(self):
-        self.left_frame.pack(side=LEFT, fill=BOTH, expand=1)
-        self.right_frame.pack(side=RIGHT, fill=BOTH, expand=1)
+        self.status_bar_frame.pack(side=BOTTOM, fill=X, expand=0)
+        self.left_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
+        self.right_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.welcome_label.pack(side=TOP, fill=BOTH, expand=0)
         self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
-        self.left_status_label.pack(side=TOP, fill=BOTH, expand=0)
+        self.left_status_label.pack(side=TOP, fill=BOTH, expand=1)
 
         self.iexe_query_entry.pack(side=TOP, fill=BOTH, expand=1)
         self.iexe_execute_button.pack(side=LEFT, fill=BOTH, expand=1)
