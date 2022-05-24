@@ -25,10 +25,12 @@ class HUD:
             primary=dict(
                 bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
                 fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
+                font=(HUD.default_font, 12),
             ),
             secondary=dict(
                 bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
                 fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
+                font=(HUD.default_font, 12),
             ),
             root=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['root'],
             fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
@@ -51,54 +53,53 @@ class HUD:
 
         # Widgets on root.left
         self.prompt_text = Text(self.left_section_frame,
-            **self.current_theme["primary"], font=(HUD.default_font, 12), wrap=WORD,
+            **self.current_theme["primary"], wrap=WORD,
             width=50, padx=20, pady=20,
         )
         self.welcome_label = Label(self.left_section_frame,
-            **self.current_theme["primary"], font=(HUD.default_font, 12), text="", anchor=W,
+            **self.current_theme["primary"], text="", anchor=W,
             relief=FLAT, height=2, width=20, padx=20, pady=2,
         )
 
         self.iexe_query_entry = Entry(self.integrated_exe_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 12),
+            **self.current_theme["secondary"],
             bd=5, width=28, insertbackground="white",
         )
         self.iexe_search_button = Button(self.integrated_exe_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 12), text="Duck Duck Go!",
+            **self.current_theme["secondary"], text="Duck Duck Go!",
             activebackground=self.current_theme['root'], activeforeground="white",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe search"),
         )
         self.iexe_execute_button = Button(self.integrated_exe_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 12), text="Execute Command",
+            **self.current_theme["secondary"], text="Execute Command",
             activebackground=self.current_theme['root'], activeforeground="white",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe execute"),
         )
         self.iexe_wiki_button = Button(self.integrated_exe_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 12), text="Search Wikipedia",
+            **self.current_theme["secondary"], text="Search Wikipedia",
             activebackground=self.current_theme['root'], activeforeground="white",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe wiki"),
         )
 
         self.left_status_label = Label(self.status_bar_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 10), text="☀", anchor=W,
+            **self.current_theme["secondary"], text="☀", anchor=W,
             relief=FLAT, height=1, padx=3, pady=2,
         )
+        self.left_status_label.config(font=(HUD.default_font, 10))
 
         # Widgets on root.right
         self.clock_label = Label(self.right_section_frame,
-            **self.current_theme["primary"], font=(HUD.default_font, 12), text="", anchor=E,
+            **self.current_theme["primary"], text="", anchor=E,
             relief=FLAT, height=2, width=20, padx=20, pady=2,
         )
         self.network_text = Text(self.info_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 12),
-            height=5, width=25, padx=20,
+            **self.current_theme["secondary"], height=5, width=25, padx=20,
         )
         self.system_text = Text(self.info_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 12),
-            height=5, width=35, padx=20,
+            **self.current_theme["secondary"], height=5, width=35, padx=20,
         )
 
         self.render_menu()
