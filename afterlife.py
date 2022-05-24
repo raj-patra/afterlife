@@ -85,7 +85,7 @@ class HUD:
         )
 
         self.left_status_label = Label(self.status_bar_frame,
-            **self.current_theme["secondary"], text="☀", anchor=W,
+            **self.current_theme["secondary"], text="", anchor=W,
             relief=FLAT, height=1, padx=3, pady=2,
         )
         self.left_status_label.config(font=(HUD.default_font, 10))
@@ -331,8 +331,8 @@ class HUD:
         root.config(bg=self.current_theme['root'])
 
         self.prompt_text.config(**self.current_theme["primary"])
-        self.clock_label.config(**self.current_theme["secondary"])
-        self.welcome_label.config(**self.current_theme["secondary"])
+        self.clock_label.config(**self.current_theme["primary"])
+        self.welcome_label.config(**self.current_theme["primary"])
 
         self.iexe_query_entry.config(**self.current_theme["secondary"])
         self.iexe_search_button.config(
