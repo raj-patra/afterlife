@@ -165,12 +165,11 @@ class HUD:
         self.iexe_wiki_button.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.clock_label.pack(side=TOP, fill=BOTH, expand=0)
+        self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.info_frame.pack(side=TOP, fill=BOTH, expand=1)
 
         self.network_text.pack(side=RIGHT, fill=BOTH, expand=1)
         self.system_text.pack(side=LEFT, fill=BOTH, expand=1)
-
-        self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
         bg = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
         self.action_items = []
