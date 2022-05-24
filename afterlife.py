@@ -49,11 +49,11 @@ class HUD:
 
         # Widgets on root.left
         self.prompt_text = Text(self.left_frame,
-            **self.current_theme["primary"], font=(HUD.default_font, 11), wrap=WORD,
+            **self.current_theme["primary"], font=(HUD.default_font, 12), wrap=WORD,
             width=50, padx=20, pady=20,
         )
         self.welcome_label = Label(self.left_frame,
-            **self.current_theme["primary"], font=(HUD.default_font, 14), text="", anchor=W,
+            **self.current_theme["primary"], font=(HUD.default_font, 12), text="", anchor=W,
             relief=FLAT, height=2, width=20, padx=20, pady=2,
         )
 
@@ -87,7 +87,7 @@ class HUD:
 
         # Widgets on root.right
         self.clock_label = Label(self.right_frame,
-            **self.current_theme["primary"], font=(HUD.timer_font, 19), text="", anchor=E,
+            **self.current_theme["primary"], font=(HUD.default_font, 12), text="", anchor=E,
             relief=FLAT, height=2, width=20, padx=20, pady=2,
         )
         self.network_text = Text(self.info_frame,
