@@ -5,7 +5,7 @@ from tkinter import Tk, Text, Label, Entry, Button, Frame, Menu
 from tkinter import filedialog, messagebox
 from tkinter.constants import WORD, GROOVE, RAISED, FLAT, END
 from tkinter.constants import LEFT, RIGHT, TOP, BOTTOM, BOTH, DISABLED, NORMAL
-from tkinter.constants import E, W, NW
+from tkinter.constants import E, W, NW, X, Y
 
 from helpers import applications, constants, schemes
 from callbacks import pc_stats_callback, universal_callback, about, destroy
@@ -25,78 +25,81 @@ class HUD:
             primary=dict(
                 bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
                 fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
+                font=(HUD.default_font, 12),
             ),
             secondary=dict(
                 bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
                 fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
+                font=(HUD.default_font, 12),
             ),
             root=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['root'],
             fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
             primary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
             secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
         )
+        # Root Frame - Bottom
+        self.status_bar_frame = Frame(root)
 
         # Root Frames - Left
-        self.left_frame = Frame(root)
-        self.integrated_exe_frame = Frame(self.left_frame)
+        self.left_section_frame = Frame(root)
+        self.integrated_exe_frame = Frame(self.left_section_frame)
 
         # Root Frames - Right
-        self.right_frame = Frame(root)
-        self.info_frame = Frame(self.right_frame, height=1)
-        self.action_centre_frame = Frame(self.right_frame,
+        self.right_section_frame = Frame(root)
+        self.info_frame = Frame(self.right_section_frame, height=1)
+        self.action_centre_frame = Frame(self.right_section_frame,
             width=80, height=50,
             bg=self.current_theme['root'], padx=2, pady=2)
 
         # Widgets on root.left
-        self.prompt_text = Text(self.left_frame,
-            **self.current_theme["primary"], font=(HUD.default_font, 11), wrap=WORD,
+        self.prompt_text = Text(self.left_section_frame,
+            **self.current_theme["primary"], wrap=WORD,
             width=50, padx=20, pady=20,
         )
-        self.welcome_label = Label(self.left_frame,
-            **self.current_theme["primary"], font=(HUD.default_font, 14), text="", anchor=W,
+        self.welcome_label = Label(self.left_section_frame,
+            **self.current_theme["primary"], text="", anchor=W,
             relief=FLAT, height=2, width=20, padx=20, pady=2,
         )
 
         self.iexe_query_entry = Entry(self.integrated_exe_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 12, 'bold'),
+            **self.current_theme["secondary"],
             bd=5, width=28, insertbackground="white",
         )
         self.iexe_search_button = Button(self.integrated_exe_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 12), text="Duck Duck Go!",
+            **self.current_theme["secondary"], text="Duck Duck Go!",
             activebackground=self.current_theme['root'], activeforeground="white",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe search"),
         )
         self.iexe_execute_button = Button(self.integrated_exe_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 12), text="Execute Command",
+            **self.current_theme["secondary"], text="Execute Command",
             activebackground=self.current_theme['root'], activeforeground="white",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe execute"),
         )
         self.iexe_wiki_button = Button(self.integrated_exe_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 12), text="Search Wikipedia",
+            **self.current_theme["secondary"], text="Search Wikipedia",
             activebackground=self.current_theme['root'], activeforeground="white",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
             command=partial(self.callback, command="iexe wiki"),
         )
 
-        self.left_status_label = Label(self.left_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 10), text="☀", anchor=W,
+        self.left_status_label = Label(self.status_bar_frame,
+            **self.current_theme["secondary"], text="", anchor=W,
             relief=FLAT, height=1, padx=3, pady=2,
         )
+        self.left_status_label.config(font=(HUD.default_font, 10))
 
         # Widgets on root.right
-        self.clock_label = Label(self.right_frame,
-            **self.current_theme["primary"], font=(HUD.timer_font, 19), text="", anchor=E,
+        self.clock_label = Label(self.right_section_frame,
+            **self.current_theme["primary"], text="", anchor=E,
             relief=FLAT, height=2, width=20, padx=20, pady=2,
         )
         self.network_text = Text(self.info_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 12),
-            height=5, width=25, padx=20,
+            **self.current_theme["secondary"], height=5, width=25, padx=20,
         )
         self.system_text = Text(self.info_frame,
-            **self.current_theme["secondary"], font=(HUD.default_font, 12),
-            height=5, width=35, padx=20,
+            **self.current_theme["secondary"], height=5, width=35, padx=20,
         )
 
         self.render_menu()
@@ -126,7 +129,7 @@ class HUD:
 
         menu_item.add_cascade(label="Themes", menu=theme_choice)
         menu_item.add_separator()
-        menu_item.add_command(label='Send Feedback', command=partial(self.callback, "start mailto:rajpatra.kishore@gmail.com"), accelerator='Ctrl+F')
+        menu_item.add_command(label='Send Feedback', command=partial(self.callback, "url https://github.com/raj-patra/afterlife/issues/new"), accelerator='Ctrl+F')
         menu_item.add_command(label='Exit', command=partial(destroy, root), accelerator='Alt+F4')
         menu_bar.add_cascade(label='Application', menu=menu_item)
 
@@ -151,13 +154,14 @@ class HUD:
         root.config(menu=menu_bar)
 
     def render_widgets(self):
-        self.left_frame.pack(side=LEFT, fill=BOTH, expand=1)
-        self.right_frame.pack(side=RIGHT, fill=BOTH, expand=1)
+        self.status_bar_frame.pack(side=BOTTOM, fill=X, expand=0)
+        self.left_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
+        self.right_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.welcome_label.pack(side=TOP, fill=BOTH, expand=0)
         self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
-        self.left_status_label.pack(side=TOP, fill=BOTH, expand=0)
+        self.left_status_label.pack(side=TOP, fill=BOTH, expand=1)
 
         self.iexe_query_entry.pack(side=TOP, fill=BOTH, expand=1)
         self.iexe_execute_button.pack(side=LEFT, fill=BOTH, expand=1)
@@ -165,12 +169,11 @@ class HUD:
         self.iexe_wiki_button.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.clock_label.pack(side=TOP, fill=BOTH, expand=0)
+        self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.info_frame.pack(side=TOP, fill=BOTH, expand=1)
 
         self.network_text.pack(side=RIGHT, fill=BOTH, expand=1)
         self.system_text.pack(side=LEFT, fill=BOTH, expand=1)
-
-        self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
         bg = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
         self.action_items = []
@@ -209,8 +212,8 @@ class HUD:
         root.bind('<Control-S>', self.save_prompt_content)
         root.bind('<Control-t>', partial(self.update_widget_theme, None))
         root.bind('<Control-T>', partial(self.update_widget_theme, None))
-        root.bind('<Control-f>', partial(self.callback, "start mailto:rajpatra.kishore@gmail.com"))
-        root.bind('<Control-F>', partial(self.callback, "start mailto:rajpatra.kishore@gmail.com"))
+        root.bind('<Control-f>', partial(self.callback, "url https://github.com/raj-patra/afterlife/issues/new"))
+        root.bind('<Control-F>', partial(self.callback, "url https://github.com/raj-patra/afterlife/issues/new"))
         root.bind('<Control-Delete>', partial(self.callback, 'clear'))
         root.bind('<F1>', about)
 
@@ -267,7 +270,7 @@ class HUD:
         elif command.startswith('subprocess'):
             self.prompt_text.delete('1.0', END)
             response = universal_callback(command=command)
-            self.prompt_text.insert(END, response)
+            self.prompt_text.insert(END, response.strip())
 
         elif command.startswith('request'):
             self.prompt_text.delete('1.0', END)
@@ -328,8 +331,8 @@ class HUD:
         root.config(bg=self.current_theme['root'])
 
         self.prompt_text.config(**self.current_theme["primary"])
-        self.clock_label.config(**self.current_theme["secondary"])
-        self.welcome_label.config(**self.current_theme["secondary"])
+        self.clock_label.config(**self.current_theme["primary"])
+        self.welcome_label.config(**self.current_theme["primary"])
 
         self.iexe_query_entry.config(**self.current_theme["secondary"])
         self.iexe_search_button.config(
