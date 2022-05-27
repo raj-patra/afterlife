@@ -1,4 +1,4 @@
-from afterlife import init_app
+from application import init_app
 
 if __name__ == '__main__':
     init_app()

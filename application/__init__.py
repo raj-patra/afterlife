@@ -1,8 +1,9 @@
-import time
 import gc
 from tkinter import Tk
-from afterlife.helpers import commands, constants, schemes
-from afterlife.hud import HUD
+
+from application.helpers import schemes
+from application.hud import HUD
+
 
 def init_app():
     gc.enable()

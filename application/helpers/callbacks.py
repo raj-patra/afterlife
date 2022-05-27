@@ -1,15 +1,13 @@
-import GPUtil
 import locale
 import os
-import psutil
 import subprocess as sp
 import webbrowser
 from tkinter import messagebox
 
+import GPUtil
+import psutil
 import wikipedia
-
-# import afterlife.helpers.constants as constants
-from afterlife.helpers import constants
+from application.helpers import constants
 
 chrome_path="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))

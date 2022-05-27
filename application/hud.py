@@ -1,16 +1,17 @@
 #!/usr/bin/python
-import time, psutil, GPUtil, gc, random
-
-from tkinter import Tk, Text, Label, Entry, Button, Frame, Menu
-from tkinter import filedialog, messagebox
-from tkinter.constants import WORD, GROOVE, RAISED, FLAT, END
-from tkinter.constants import LEFT, RIGHT, TOP, BOTTOM, BOTH, DISABLED, NORMAL
-from tkinter.constants import E, W, NW, X, Y
-
-from afterlife.helpers import commands, constants, schemes
-from afterlife.helpers.callbacks import pc_stats_callback, universal_callback, about, destroy
-from functools import partial
+import random
+import time
 from collections import deque
+from functools import partial
+from tkinter import (Button, Entry, Frame, Label, Menu, Text, filedialog,
+                     messagebox)
+from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
+                               NORMAL, NW, RAISED, RIGHT, TOP, WORD, E, W, X,
+                               Y)
+
+from application.helpers import commands, constants, schemes
+from application.helpers.callbacks import (about, destroy, pc_stats_callback,
+                                         universal_callback)
 
 
 class HUD:
