@@ -103,10 +103,6 @@ class HUD:
             **self.current_theme["secondary"], height=5, width=35, padx=20,
         )
 
-        # self.render_menu()
-        # self.render_widgets()
-        # self.start_widgets()
-
     def render_menu(self):
         menu_bar = Menu(self.root, tearoff=0)
 
@@ -388,23 +384,3 @@ class HUD:
             handle.write(self.prompt_text.get('1.0', 'end'))
             handle.close()
             messagebox.showinfo('Info', 'The contents of the Text Widget has been saved.')
-
-
-# if __name__ == '__main__':
-#     gc.enable()
-
-#     root = Tk()
-#     root.config(bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['root'], bd=5)
-#     root.resizable(1, 1)
-#     root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
-#     root.title("Afterlife")
-#     root.iconbitmap('static/hud.ico')
-
-#     update = time.time()
-
-#     hud = HUD()
-
-#     root.protocol("WM_DELETE_WINDOW", quit)
-#     root.mainloop()
-
-    # gc.collect()
