@@ -8,7 +8,8 @@ from tkinter import messagebox
 
 import wikipedia
 
-import helpers.constants as constants
+# import afterlife.helpers.constants as constants
+from afterlife.helpers import constants
 
 chrome_path="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
