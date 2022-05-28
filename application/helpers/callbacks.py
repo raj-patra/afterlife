@@ -1,14 +1,13 @@
-import GPUtil
 import locale
 import os
-import psutil
 import subprocess as sp
 import webbrowser
 from tkinter import messagebox
 
+import GPUtil
+import psutil
 import wikipedia
-
-import helpers.constants as constants
+from application.helpers import constants
 
 chrome_path="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
@@ -69,9 +68,9 @@ def pc_stats_callback():
 
     return stats
 
-def about(event=None):
+def about_dialog_callback():
     messagebox.showinfo('About', constants.ABOUT)
 
-def destroy(root):
+def destroy_root_callback(root):
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         root.destroy()

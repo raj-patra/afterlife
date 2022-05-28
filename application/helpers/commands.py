@@ -1,4 +1,4 @@
-"""Applications used in afterlife"""
+"""Applications & Commands used in afterlife"""
 
 NATIVE_APPS = {
     "System Settings": [
