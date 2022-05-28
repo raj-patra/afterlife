@@ -108,7 +108,7 @@ class HUD:
         menu_bar = Menu(self.root, tearoff=0)
 
         menu_item = Menu(menu_bar, tearoff=0)
-        menu_item.add_command(label='About', command=about, accelerator='F1')
+        menu_item.add_command(label='About', command=about)
         menu_item.add_separator()
         menu_item.add_command(label='Save Prompt', command=self.save_prompt_content, accelerator='Ctrl+S')
         menu_item.add_command(label='Clear Prompt', command=partial(self.callback, "clear"), accelerator='Ctrl+Del')
@@ -213,7 +213,6 @@ class HUD:
         self.root.bind('<Control-f>', partial(self.callback, "url https://github.com/raj-patra/afterlife/issues/new"))
         self.root.bind('<Control-F>', partial(self.callback, "url https://github.com/raj-patra/afterlife/issues/new"))
         self.root.bind('<Control-Delete>', partial(self.callback, 'clear'))
-        self.root.bind('<F1>', about)
 
         self.network_text.config(state=DISABLED)
         self.system_text.config(state=DISABLED)

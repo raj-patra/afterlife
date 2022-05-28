@@ -68,7 +68,7 @@ def pc_stats_callback():
 
     return stats
 
-def about(event=None):
+def about():
     messagebox.showinfo('About', constants.ABOUT)
 
 def destroy(root):
