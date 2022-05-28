@@ -10,7 +10,7 @@ from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
                                Y)
 
 from application.helpers import commands, constants, schemes
-from application.helpers.callbacks import (about, destroy, pc_stats_callback,
+from application.helpers.callbacks import (about_dialog_callback, destroy_root_callback, pc_stats_callback,
                                          universal_callback)
 
 
@@ -108,7 +108,7 @@ class HUD:
         menu_bar = Menu(self.root, tearoff=0)
 
         menu_item = Menu(menu_bar, tearoff=0)
-        menu_item.add_command(label='About', command=about)
+        menu_item.add_command(label='About', command=about_dialog_callback)
         menu_item.add_separator()
         menu_item.add_command(label='Save Prompt', command=self.save_prompt_content, accelerator='Ctrl+S')
         menu_item.add_command(label='Clear Prompt', command=partial(self.callback, "clear"), accelerator='Ctrl+Del')
@@ -128,7 +128,7 @@ class HUD:
         menu_item.add_cascade(label="Themes", menu=theme_choice)
         menu_item.add_separator()
         menu_item.add_command(label='Send Feedback', command=partial(self.callback, "url https://github.com/raj-patra/afterlife/issues/new"), accelerator='Ctrl+F')
-        menu_item.add_command(label='Exit', command=partial(destroy, self.root), accelerator='Alt+F4')
+        menu_item.add_command(label='Exit', command=partial(destroy_root_callback, self.root), accelerator='Alt+F4')
         menu_bar.add_cascade(label='Application', menu=menu_item)
 
         app_choice = Menu(menu_bar, tearoff=0)

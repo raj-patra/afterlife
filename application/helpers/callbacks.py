@@ -68,9 +68,9 @@ def pc_stats_callback():
 
     return stats
 
-def about():
+def about_dialog_callback():
     messagebox.showinfo('About', constants.ABOUT)
 
-def destroy(root):
+def destroy_root_callback(root):
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         root.destroy()
