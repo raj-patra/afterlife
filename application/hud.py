@@ -269,11 +269,6 @@ class HUD:
             response = universal_callback(command=command)
             self.prompt_text.insert(END, response.strip())
 
-        elif command.startswith('request'):
-            self.prompt_text.delete('1.0', END)
-            response = universal_callback(web=command)
-            self.prompt_text.insert(END, response)
-
         elif command.startswith('url'):
             universal_callback(web=command)
 
