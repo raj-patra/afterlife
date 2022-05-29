@@ -18,6 +18,42 @@ webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edge_path))
 # Get local language code for wikipedia articles
 lang_code = locale.getdefaultlocale()[0].split('_')[0]
 
+def event_handler_callback(event: str=None, query: str=None):
+
+    if event == "start":
+        os.system(query)
+    
+    elif event == "subprocess":
+        response = sp.getoutput(query)
+        return response
+    
+    elif event == "open_url":
+        webbrowser.get('edge').open(query)
+
+    elif event == "search":
+        url = "https://duckduckgo.com/?q={}".format(query.strip())
+        webbrowser.get('edge').open(url)
+
+    elif event == "wiki":
+        query = query.strip()
+        try:
+            wikipedia.set_lang(lang_code)
+            page = wikipedia.page(query)
+            return {
+                "title": page.title,
+                "url": page.url,
+                "summary": page.summary,
+                "error": False
+            }
+        except Exception:
+            return {
+                "title": "Error Occured",
+                "url": "https://{lang_code}.wikipedia.org/wiki/{query}".format(lang_code=lang_code, query=query),
+                "summary": "Error Occured in fetching the article. Seaching externally...",
+                "error": True
+            }
+    
+
 def universal_callback(command=None, web=None):
     if command:
         if command.startswith('start'):

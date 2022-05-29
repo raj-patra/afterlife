@@ -10,7 +10,7 @@ from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
                                Y)
 
 from application.helpers import commands, constants, schemes
-from application.helpers.callbacks import (about_dialog_callback, destroy_root_callback, pc_stats_callback,
+from application.helpers.callbacks import (about_dialog_callback, destroy_root_callback, event_handler_callback, pc_stats_callback,
                                          universal_callback)
 
 
@@ -296,6 +296,29 @@ class HUD:
             self.prompt_text.delete('1.0', END)
 
         self.prompt_text.config(state=DISABLED)
+
+    def event_handler(self, event: str=None, query: str=None):
+
+        if event == "start":
+            response = event_handler_callback(event=event, query=query)
+
+        elif event == "subprocess":
+            self.prompt_text.delete('1.0', END)
+            response = event_handler_callback(event=event, query=query)
+            self.prompt_text.insert(END, response.strip())
+        
+        elif event == "open_url":
+            response = event_handler_callback(event=event, query=query)
+
+        elif event in ["search", "execute", "wiki"]:
+            query = self.iexe_query_entry.get()
+            if ">" in query:
+                query = query.split('>')[-1]
+
+            if event == "execute":
+                response = event_handler_callback(event="start", query="start cmd /k "+query)
+            else:
+                response = event_handler_callback(event=event, query=query)
 
     def update_widget_theme(self, theme=None, event=None):
 
