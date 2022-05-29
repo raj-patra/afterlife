@@ -189,7 +189,7 @@ class HUD:
                     activebackground=self.current_theme['root'], activeforeground="white",
                     font=(HUD.default_font, 12), text=action["label"],
                     height=1, width=6, relief=FLAT, overrelief=RAISED,
-                    command=partial(self.callback, command=action["command"]),
+                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
                 )
                 self.action_items.append(button)
                 bg.rotate(1)
