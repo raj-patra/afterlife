@@ -22,6 +22,7 @@ def event_handler_callback(event: str=None, query: str=None):
 
     if event == "start":
         os.system(query)
+        return None
     
     elif event == "subprocess":
         response = sp.getoutput(query)
@@ -29,10 +30,12 @@ def event_handler_callback(event: str=None, query: str=None):
     
     elif event == "open_url":
         webbrowser.get('edge').open(query)
+        return None
 
     elif event == "search":
         url = "https://duckduckgo.com/?q={}".format(query.strip())
         webbrowser.get('edge').open(url)
+        return None
 
     elif event == "wiki":
         query = query.strip()

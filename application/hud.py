@@ -135,7 +135,7 @@ class HUD:
         for app_type, apps in commands.NATIVE_APPS.items():
             app_category = Menu(app_choice, tearoff=0)
             for app in apps:
-                app_category.add_command(label=app["label"], command=partial(self.callback, app["command"]))
+                app_category.add_command(label=app["label"], command=partial(self.event_handler, app["event"], app["query"]))
             app_choice.add_cascade(label=app_type, menu=app_category)
 
         menu_bar.add_cascade(label="Native Apps", menu=app_choice)
