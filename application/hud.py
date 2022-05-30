@@ -312,13 +312,13 @@ class HUD:
         elif event == "open_url":
             response = event_handler_callback(event=event, query=query)
 
-        elif event in ["search", "execute", "wiki"]:
+        elif event in ["search_query", "execute_cmd", "fetch_wiki"]:
             query = self.iexe_query_entry.get()
             if ">" in query:
                 query = query.split('>')[-1]
 
-            if event == "execute":
-                response = event_handler_callback(event="start", query="start cmd /k "+query)
+            if event == "execute_cmd":
+                response = event_handler_callback(event="start_app", query="start cmd /k "+query)
             else:
                 response = event_handler_callback(event=event, query=query)
 

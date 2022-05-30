@@ -32,12 +32,12 @@ def event_handler_callback(event: str=None, query: str=None):
         webbrowser.get('edge').open(query)
         return None
 
-    elif event == "search":
+    elif event == "search_query":
         url = "https://duckduckgo.com/?q={}".format(query.strip())
         webbrowser.get('edge').open(url)
         return None
 
-    elif event == "wiki":
+    elif event == "fetch_wiki":
         query = query.strip()
         try:
             wikipedia.set_lang(lang_code)
