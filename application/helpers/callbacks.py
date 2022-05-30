@@ -20,7 +20,7 @@ lang_code = locale.getdefaultlocale()[0].split('_')[0]
 
 def event_handler_callback(event: str=None, query: str=None):
 
-    if event == "start":
+    if event == "start_app":
         os.system(query)
         return None
     

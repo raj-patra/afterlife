@@ -299,7 +299,7 @@ class HUD:
 
     def event_handler(self, event: str=None, query: str=None):
 
-        if event == "start":
+        if event == "start_app":
             response = event_handler_callback(event=event, query=query)
 
         elif event == "subprocess":
