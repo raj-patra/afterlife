@@ -144,7 +144,7 @@ class HUD:
             item = Menu(menu_bar, tearoff=0)
             for action in actions:
                 if type(action) == dict:
-                    item.add_command(label=action["label"], command=partial(self.callback, action["command"]))
+                    item.add_command(label=action["label"], command=partial(self.event_handler, action["event"], action["query"]))
                 else:
                     item.add_separator()
             menu_bar.add_cascade(label=label, menu=item)
@@ -303,9 +303,11 @@ class HUD:
             response = event_handler_callback(event=event, query=query)
 
         elif event == "subprocess":
+            self.prompt_text.config(state=NORMAL)
             self.prompt_text.delete('1.0', END)
             response = event_handler_callback(event=event, query=query)
             self.prompt_text.insert(END, response.strip())
+            self.prompt_text.config(state=DISABLED)
         
         elif event == "open_url":
             response = event_handler_callback(event=event, query=query)
