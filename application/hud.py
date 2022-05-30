@@ -302,7 +302,7 @@ class HUD:
         if event == "start_app":
             response = event_handler_callback(event=event, query=query)
 
-        elif event == "subprocess":
+        elif event == "execute_subprocess":
             self.prompt_text.config(state=NORMAL)
             self.prompt_text.delete('1.0', END)
             response = event_handler_callback(event=event, query=query)

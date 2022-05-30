@@ -24,7 +24,7 @@ def event_handler_callback(event: str=None, query: str=None):
         os.system(query)
         return None
     
-    elif event == "subprocess":
+    elif event == "execute_subprocess":
         response = sp.getoutput(query)
         return response
     
