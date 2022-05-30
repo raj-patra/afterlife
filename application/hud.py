@@ -10,7 +10,7 @@ from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
                                Y)
 
 from application.helpers import commands, constants, schemes
-from application.helpers.callbacks import (about_dialog_callback, destroy_root_callback, pc_stats_callback,
+from application.helpers.callbacks import (about_dialog_callback, destroy_root_callback, event_handler_callback, pc_stats_callback,
                                          universal_callback)
 
 
@@ -135,7 +135,7 @@ class HUD:
         for app_type, apps in commands.NATIVE_APPS.items():
             app_category = Menu(app_choice, tearoff=0)
             for app in apps:
-                app_category.add_command(label=app["label"], command=partial(self.callback, app["command"]))
+                app_category.add_command(label=app["label"], command=partial(self.event_handler, app["event"], app["query"]))
             app_choice.add_cascade(label=app_type, menu=app_category)
 
         menu_bar.add_cascade(label="Native Apps", menu=app_choice)
@@ -144,7 +144,7 @@ class HUD:
             item = Menu(menu_bar, tearoff=0)
             for action in actions:
                 if type(action) == dict:
-                    item.add_command(label=action["label"], command=partial(self.callback, action["command"]))
+                    item.add_command(label=action["label"], command=partial(self.event_handler, action["event"], action["query"]))
                 else:
                     item.add_separator()
             menu_bar.add_cascade(label=label, menu=item)
@@ -189,7 +189,7 @@ class HUD:
                     activebackground=self.current_theme['root'], activeforeground="white",
                     font=(HUD.default_font, 12), text=action["label"],
                     height=1, width=6, relief=FLAT, overrelief=RAISED,
-                    command=partial(self.callback, command=action["command"]),
+                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
                 )
                 self.action_items.append(button)
                 bg.rotate(1)
@@ -269,11 +269,6 @@ class HUD:
             response = universal_callback(command=command)
             self.prompt_text.insert(END, response.strip())
 
-        elif command.startswith('request'):
-            self.prompt_text.delete('1.0', END)
-            response = universal_callback(web=command)
-            self.prompt_text.insert(END, response)
-
         elif command.startswith('url'):
             universal_callback(web=command)
 
@@ -301,6 +296,31 @@ class HUD:
             self.prompt_text.delete('1.0', END)
 
         self.prompt_text.config(state=DISABLED)
+
+    def event_handler(self, event: str=None, query: str=None):
+
+        if event == "start_app":
+            response = event_handler_callback(event=event, query=query)
+
+        elif event == "execute_subprocess":
+            self.prompt_text.config(state=NORMAL)
+            self.prompt_text.delete('1.0', END)
+            response = event_handler_callback(event=event, query=query)
+            self.prompt_text.insert(END, response.strip())
+            self.prompt_text.config(state=DISABLED)
+        
+        elif event == "open_url":
+            response = event_handler_callback(event=event, query=query)
+
+        elif event in ["search_query", "execute_cmd", "fetch_wiki"]:
+            query = self.iexe_query_entry.get()
+            if ">" in query:
+                query = query.split('>')[-1]
+
+            if event == "execute_cmd":
+                response = event_handler_callback(event="start_app", query="start cmd /k "+query)
+            else:
+                response = event_handler_callback(event=event, query=query)
 
     def update_widget_theme(self, theme=None, event=None):
 
