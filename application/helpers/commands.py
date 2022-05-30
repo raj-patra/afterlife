@@ -81,22 +81,22 @@ ACTIONS = {
 
 MENUS = {
     "CLIs": [
-        dict(label="Command Prompt", command="start cmd /k cd /d %USERPROFILE%\Desktop"),
-        dict(label="Command Prompt - Admin", command='start powershell "start cmd -v runAs"'),
-        dict(label="Powershell", command="start powershell"),
-        dict(label="WSL Bash", command="start bash"),
+        dict(event="start", label="Command Prompt", query="start cmd /k cd /d %USERPROFILE%\Desktop"),
+        dict(event="start", label="query Prompt - Admin", query='start powershell "start cmd -v runAs"'),
+        dict(event="start", label="Powershell", query="start powershell"),
+        dict(event="start", label="WSL Bash", query="start bash"),
         "---",
-        dict(label="Python", command="start python"),
-        dict(label="Node", command="start node"),
+        dict(event="start", label="Python", query="start python"),
+        dict(event="start", label="Node", query="start node"),
     ],
     "Network": [
-        dict(label="Ping", command="subprocess ping www.google.com"),
+        dict(event="subprocess", label="Ping", query="ping www.google.com"),
         "---",
-        dict(label="List DNS Servers", command="subprocess ipconfig /displaydns"),
-        dict(label="Initiate DNS Flush", command="subprocess ipconfig /flushdns"),
+        dict(event="subprocess", label="List DNS Servers", query="ipconfig /displaydns"),
+        dict(event="subprocess", label="Initiate DNS Flush", query="ipconfig /flushdns"),
         "---",
-        dict(label="Network Connections", command="subprocess netstat -an"),
-        dict(label="IP Configurations", command="subprocess ipconfig /allcompartments /all"),
+        dict(event="subprocess", label="Network Connections", query="netstat -an"),
+        dict(event="subprocess", label="IP Configurations", query="ipconfig /allcompartments /all"),
     ],
     "Advanced": [
         dict(label="System Info", command="subprocess systeminfo"),
