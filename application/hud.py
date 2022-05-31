@@ -71,19 +71,19 @@ class HUD:
             **self.current_theme["secondary"], text="Duck Duck Go!",
             activebackground=self.current_theme['root'], activeforeground="white",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
-            command=partial(self.callback, command="iexe search"),
+            command=partial(self.event_handler, event="search_query", query=None),
         )
         self.iexe_execute_button = Button(self.integrated_exe_frame,
             **self.current_theme["secondary"], text="Execute Command",
             activebackground=self.current_theme['root'], activeforeground="white",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
-            command=partial(self.callback, command="iexe execute"),
+            command=partial(self.event_handler, event="execute_cmd", query=None),
         )
         self.iexe_wiki_button = Button(self.integrated_exe_frame,
             **self.current_theme["secondary"], text="Search Wikipedia",
             activebackground=self.current_theme['root'], activeforeground="white",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
-            command=partial(self.callback, command="iexe wiki"),
+            command=partial(self.event_handler, event="fetch_wiki", query=None),
         )
 
         self.left_status_label = Label(self.status_bar_frame,
@@ -322,11 +322,12 @@ class HUD:
 
             elif event == "fetch_wiki":
                 self.prompt_text.config(state=NORMAL)
+                self.prompt_text.delete('1.0', END)
                 response = event_handler_callback(event=event, query=query)
                 if response["error"]:
+                    self.prompt_text.insert(END, constants.WIKI.format(*response.values()))
                     self.event_handler(event="open_url", query=response['url'])
                 else:
-                    self.prompt_text.delete('1.0', END)
                     self.prompt_text.insert(END, constants.WIKI.format(*response.values()))
                 self.prompt_text.config(state=DISABLED)
 
