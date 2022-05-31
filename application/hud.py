@@ -202,9 +202,9 @@ class HUD:
         self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         self.network_text.insert(END, constants.NETWORK)
 
-        self.iexe_query_entry.bind('<Return>', partial(self.callback, "iexe search"))
-        self.iexe_query_entry.bind('<Control-Return>', partial(self.callback, "iexe execute"))
-        self.iexe_query_entry.bind('<Shift-Return>', partial(self.callback, "iexe wiki"))
+        self.iexe_query_entry.bind('<Return>', partial(self.event_handler, "search_query"))
+        self.iexe_query_entry.bind('<Control-Return>', partial(self.event_handler, "execute_cmd"))
+        self.iexe_query_entry.bind('<Shift-Return>', partial(self.event_handler, "fetch_wiki"))
 
         self.root.bind('<Control-s>', self.save_prompt_content)
         self.root.bind('<Control-S>', self.save_prompt_content)
