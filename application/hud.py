@@ -20,7 +20,7 @@ class HUD:
     default_font = 'Cascadia Mono'
 
     def __init__(self, root=None):
-        
+
         self.root = root
         self.current_theme = dict(
             theme=schemes.DEFAULT_THEME_CHOICE,
@@ -308,7 +308,7 @@ class HUD:
             response = event_handler_callback(event=event, query=query)
             self.prompt_text.insert(END, response.strip())
             self.prompt_text.config(state=DISABLED)
-        
+
         elif event == "open_url":
             response = event_handler_callback(event=event, query=query)
 
@@ -319,6 +319,17 @@ class HUD:
 
             if event == "execute_cmd":
                 response = event_handler_callback(event="start_app", query="start cmd /k "+query)
+
+            elif event == "fetch_wiki":
+                self.prompt_text.config(state=NORMAL)
+                response = event_handler_callback(event=event, query=query)
+                if response["error"]:
+                    self.event_handler(event="open_url", query=response['url'])
+                else:
+                    self.prompt_text.delete('1.0', END)
+                    self.prompt_text.insert(END, constants.WIKI.format(*response.values()))
+                self.prompt_text.config(state=DISABLED)
+
             else:
                 response = event_handler_callback(event=event, query=query)
 
