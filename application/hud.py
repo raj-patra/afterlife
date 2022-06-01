@@ -127,7 +127,7 @@ class HUD:
 
         menu_item.add_cascade(label="Themes", menu=theme_choice)
         menu_item.add_separator()
-        menu_item.add_command(label='Send Feedback', command=partial(self.callback, "url https://github.com/raj-patra/afterlife/issues/new"), accelerator='Ctrl+F')
+        menu_item.add_command(label='Send Feedback', command=partial(self.event_handler, "open_url", "https://github.com/raj-patra/afterlife/issues/new"))
         menu_item.add_command(label='Exit', command=partial(destroy_root_callback, self.root), accelerator='Alt+F4')
         menu_bar.add_cascade(label='Application', menu=menu_item)
 
@@ -210,8 +210,6 @@ class HUD:
         self.root.bind('<Control-S>', self.save_prompt_content)
         self.root.bind('<Control-t>', partial(self.update_widget_theme, None))
         self.root.bind('<Control-T>', partial(self.update_widget_theme, None))
-        self.root.bind('<Control-f>', partial(self.callback, "url https://github.com/raj-patra/afterlife/issues/new"))
-        self.root.bind('<Control-F>', partial(self.callback, "url https://github.com/raj-patra/afterlife/issues/new"))
         self.root.bind('<Control-Delete>', partial(self.callback, 'clear'))
 
         self.network_text.config(state=DISABLED)
