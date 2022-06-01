@@ -20,7 +20,7 @@ class HUD:
     default_font = 'Cascadia Mono'
 
     def __init__(self, root=None):
-        
+
         self.root = root
         self.current_theme = dict(
             theme=schemes.DEFAULT_THEME_CHOICE,
@@ -71,19 +71,19 @@ class HUD:
             **self.current_theme["secondary"], text="Duck Duck Go!",
             activebackground=self.current_theme['root'], activeforeground="white",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
-            command=partial(self.callback, command="iexe search"),
+            command=partial(self.event_handler, event="search_query", query=None),
         )
         self.iexe_execute_button = Button(self.integrated_exe_frame,
             **self.current_theme["secondary"], text="Execute Command",
             activebackground=self.current_theme['root'], activeforeground="white",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
-            command=partial(self.callback, command="iexe execute"),
+            command=partial(self.event_handler, event="execute_cmd", query=None),
         )
         self.iexe_wiki_button = Button(self.integrated_exe_frame,
             **self.current_theme["secondary"], text="Search Wikipedia",
             activebackground=self.current_theme['root'], activeforeground="white",
             height=1, width=6, relief=RAISED, overrelief=RAISED,
-            command=partial(self.callback, command="iexe wiki"),
+            command=partial(self.event_handler, event="fetch_wiki", query=None),
         )
 
         self.left_status_label = Label(self.status_bar_frame,
@@ -127,7 +127,7 @@ class HUD:
 
         menu_item.add_cascade(label="Themes", menu=theme_choice)
         menu_item.add_separator()
-        menu_item.add_command(label='Send Feedback', command=partial(self.callback, "url https://github.com/raj-patra/afterlife/issues/new"), accelerator='Ctrl+F')
+        menu_item.add_command(label='Send Feedback', command=partial(self.event_handler, "open_url", "https://github.com/raj-patra/afterlife/issues/new"))
         menu_item.add_command(label='Exit', command=partial(destroy_root_callback, self.root), accelerator='Alt+F4')
         menu_bar.add_cascade(label='Application', menu=menu_item)
 
@@ -202,16 +202,14 @@ class HUD:
         self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         self.network_text.insert(END, constants.NETWORK)
 
-        self.iexe_query_entry.bind('<Return>', partial(self.callback, "iexe search"))
-        self.iexe_query_entry.bind('<Control-Return>', partial(self.callback, "iexe execute"))
-        self.iexe_query_entry.bind('<Shift-Return>', partial(self.callback, "iexe wiki"))
+        self.iexe_query_entry.bind('<Return>', partial(self.event_handler, "search_query"))
+        self.iexe_query_entry.bind('<Control-Return>', partial(self.event_handler, "execute_cmd"))
+        self.iexe_query_entry.bind('<Shift-Return>', partial(self.event_handler, "fetch_wiki"))
 
         self.root.bind('<Control-s>', self.save_prompt_content)
         self.root.bind('<Control-S>', self.save_prompt_content)
         self.root.bind('<Control-t>', partial(self.update_widget_theme, None))
         self.root.bind('<Control-T>', partial(self.update_widget_theme, None))
-        self.root.bind('<Control-f>', partial(self.callback, "url https://github.com/raj-patra/afterlife/issues/new"))
-        self.root.bind('<Control-F>', partial(self.callback, "url https://github.com/raj-patra/afterlife/issues/new"))
         self.root.bind('<Control-Delete>', partial(self.callback, 'clear'))
 
         self.network_text.config(state=DISABLED)
@@ -308,7 +306,7 @@ class HUD:
             response = event_handler_callback(event=event, query=query)
             self.prompt_text.insert(END, response.strip())
             self.prompt_text.config(state=DISABLED)
-        
+
         elif event == "open_url":
             response = event_handler_callback(event=event, query=query)
 
@@ -319,6 +317,18 @@ class HUD:
 
             if event == "execute_cmd":
                 response = event_handler_callback(event="start_app", query="start cmd /k "+query)
+
+            elif event == "fetch_wiki":
+                self.prompt_text.config(state=NORMAL)
+                self.prompt_text.delete('1.0', END)
+                response = event_handler_callback(event=event, query=query)
+                if response["error"]:
+                    self.prompt_text.insert(END, constants.WIKI.format(*response.values()))
+                    self.event_handler(event="open_url", query=response['url'])
+                else:
+                    self.prompt_text.insert(END, constants.WIKI.format(*response.values()))
+                self.prompt_text.config(state=DISABLED)
+
             else:
                 response = event_handler_callback(event=event, query=query)
 
