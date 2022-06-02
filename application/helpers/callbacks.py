@@ -18,6 +18,7 @@ webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edge_path))
 # Get local language code for wikipedia articles
 lang_code = locale.getdefaultlocale()[0].split('_')[0]
 
+
 def event_handler_callback(event: str=None, query: str=None):
 
     if event == "start_app":
@@ -56,7 +57,6 @@ def event_handler_callback(event: str=None, query: str=None):
                 "error": True
             }
     
-
 def universal_callback(command=None, web=None):
     if command:
         if command.startswith('start'):
@@ -113,3 +113,6 @@ def about_dialog_callback():
 def destroy_root_callback(root):
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         root.destroy()
+
+def random_article_callback():
+    return wikipedia.random(1)
