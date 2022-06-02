@@ -210,7 +210,7 @@ class HUD:
         self.root.bind('<Control-S>', self.save_prompt_content)
         self.root.bind('<Control-t>', partial(self.update_widget_theme, None))
         self.root.bind('<Control-T>', partial(self.update_widget_theme, None))
-        self.root.bind('<Control-Delete>', partial(self.callback, 'clear'))
+        self.root.bind('<Control-Delete>', partial(self.event_handler, "clear_prompt"))
 
         self.network_text.config(state=DISABLED)
         self.system_text.config(state=DISABLED)
