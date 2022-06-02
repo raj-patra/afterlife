@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from gc import callbacks
 import random
 import time
 from collections import deque
@@ -11,7 +12,7 @@ from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
 
 from application.helpers import commands, constants, schemes
 from application.helpers.callbacks import (about_dialog_callback, destroy_root_callback, event_handler_callback, pc_stats_callback,
-                                         universal_callback)
+                                         universal_callback, random_article_callback)
 
 
 class HUD:
@@ -111,7 +112,7 @@ class HUD:
         menu_item.add_command(label='About', command=about_dialog_callback)
         menu_item.add_separator()
         menu_item.add_command(label='Save Prompt', command=self.save_prompt_content, accelerator='Ctrl+S')
-        menu_item.add_command(label='Clear Prompt', command=partial(self.callback, "clear"), accelerator='Ctrl+Del')
+        menu_item.add_command(label='Clear Prompt', command=partial(self.event_handler, event="clear_prompt"), accelerator='Ctrl+Del')
         menu_item.add_separator()
 
         theme_choice = Menu(menu_bar, tearoff=0)
@@ -198,7 +199,7 @@ class HUD:
     def start_widgets(self):
 
         self.welcome_label.config(text=constants.WELCOME)
-        self.iexe_query_entry.insert(END, "> ")
+        self.iexe_query_entry.insert(END, "> "+random_article_callback())
         self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         self.network_text.insert(END, constants.NETWORK)
 
@@ -210,13 +211,12 @@ class HUD:
         self.root.bind('<Control-S>', self.save_prompt_content)
         self.root.bind('<Control-t>', partial(self.update_widget_theme, None))
         self.root.bind('<Control-T>', partial(self.update_widget_theme, None))
-        self.root.bind('<Control-Delete>', partial(self.callback, 'clear'))
+        self.root.bind('<Control-Delete>', partial(self.event_handler, "clear_prompt"))
 
         self.network_text.config(state=DISABLED)
         self.system_text.config(state=DISABLED)
 
-        self.callback("subprocess systeminfo")
-
+        self.event_handler(event="fetch_wiki")
         self.update_widget_content()
 
     def update_widget_content(self):
@@ -297,8 +297,13 @@ class HUD:
 
     def event_handler(self, event: str=None, query: str=None):
 
-        if event == "start_app":
-            response = event_handler_callback(event=event, query=query)
+        if event in ["start_app", "open_url"]:
+            event_handler_callback(event=event, query=query)
+            
+        elif event == "clear_prompt":
+            self.prompt_text.config(state=NORMAL)
+            self.prompt_text.delete('1.0', END)
+            self.prompt_text.config(state=DISABLED)
 
         elif event == "execute_subprocess":
             self.prompt_text.config(state=NORMAL)
@@ -307,16 +312,13 @@ class HUD:
             self.prompt_text.insert(END, response.strip())
             self.prompt_text.config(state=DISABLED)
 
-        elif event == "open_url":
-            response = event_handler_callback(event=event, query=query)
-
         elif event in ["search_query", "execute_cmd", "fetch_wiki"]:
             query = self.iexe_query_entry.get()
             if ">" in query:
                 query = query.split('>')[-1]
 
             if event == "execute_cmd":
-                response = event_handler_callback(event="start_app", query="start cmd /k "+query)
+                event_handler_callback(event="start_app", query="start cmd /k "+query)
 
             elif event == "fetch_wiki":
                 self.prompt_text.config(state=NORMAL)
@@ -330,7 +332,10 @@ class HUD:
                 self.prompt_text.config(state=DISABLED)
 
             else:
-                response = event_handler_callback(event=event, query=query)
+                event_handler_callback(event=event, query=query)
+                
+            self.iexe_query_entry.delete(0, END)
+            self.iexe_query_entry.insert(END, "> ")
 
     def update_widget_theme(self, theme=None, event=None):
 
