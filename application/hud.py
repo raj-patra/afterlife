@@ -318,7 +318,7 @@ class HUD:
                 query = query.split('>')[-1]
 
             if event == "execute_cmd":
-                response = event_handler_callback(event="start_app", query="start cmd /k "+query)
+                event_handler_callback(event="start_app", query="start cmd /k "+query)
 
             elif event == "fetch_wiki":
                 self.prompt_text.config(state=NORMAL)
@@ -332,7 +332,7 @@ class HUD:
                 self.prompt_text.config(state=DISABLED)
 
             else:
-                response = event_handler_callback(event=event, query=query)
+                event_handler_callback(event=event, query=query)
                 
             self.iexe_query_entry.delete(0, END)
             self.iexe_query_entry.insert(END, "> ")
