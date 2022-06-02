@@ -111,7 +111,7 @@ class HUD:
         menu_item.add_command(label='About', command=about_dialog_callback)
         menu_item.add_separator()
         menu_item.add_command(label='Save Prompt', command=self.save_prompt_content, accelerator='Ctrl+S')
-        menu_item.add_command(label='Clear Prompt', command=partial(self.callback, "clear"), accelerator='Ctrl+Del')
+        menu_item.add_command(label='Clear Prompt', command=partial(self.event_handler, event="clear_prompt"), accelerator='Ctrl+Del')
         menu_item.add_separator()
 
         theme_choice = Menu(menu_bar, tearoff=0)
@@ -300,15 +300,20 @@ class HUD:
         if event == "start_app":
             response = event_handler_callback(event=event, query=query)
 
+        elif event == "open_url":
+            response = event_handler_callback(event=event, query=query)
+            
+        elif event == "clear_prompt":
+            self.prompt_text.config(state=NORMAL)
+            self.prompt_text.delete('1.0', END)
+            self.prompt_text.config(state=DISABLED)
+
         elif event == "execute_subprocess":
             self.prompt_text.config(state=NORMAL)
             self.prompt_text.delete('1.0', END)
             response = event_handler_callback(event=event, query=query)
             self.prompt_text.insert(END, response.strip())
             self.prompt_text.config(state=DISABLED)
-
-        elif event == "open_url":
-            response = event_handler_callback(event=event, query=query)
 
         elif event in ["search_query", "execute_cmd", "fetch_wiki"]:
             query = self.iexe_query_entry.get()
