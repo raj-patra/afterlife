@@ -297,11 +297,8 @@ class HUD:
 
     def event_handler(self, event: str=None, query: str=None):
 
-        if event == "start_app":
-            response = event_handler_callback(event=event, query=query)
-
-        elif event == "open_url":
-            response = event_handler_callback(event=event, query=query)
+        if event in ["start_app", "open_url"]:
+            event_handler_callback(event=event, query=query)
             
         elif event == "clear_prompt":
             self.prompt_text.config(state=NORMAL)
