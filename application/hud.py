@@ -1,5 +1,4 @@
 #!/usr/bin/python
-from gc import callbacks
 import random
 import time
 from collections import deque
@@ -11,8 +10,11 @@ from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
                                Y)
 
 from application.helpers import commands, constants, schemes
-from application.helpers.callbacks import (about_dialog_callback, destroy_root_callback, event_handler_callback, pc_stats_callback,
-                                         universal_callback, random_article_callback)
+from application.helpers.callbacks import (about_dialog_callback,
+                                           destroy_root_callback,
+                                           event_handler_callback,
+                                           pc_stats_callback,
+                                           random_article_callback)
 
 
 class HUD:
@@ -255,45 +257,6 @@ class HUD:
             self.system_text.after(5000, loop)
 
         loop()
-
-    def callback(self, command, event=None):
-        self.prompt_text.config(state=NORMAL)
-
-        if command.startswith('start'):
-            universal_callback(command=command)
-
-        elif command.startswith('subprocess'):
-            self.prompt_text.delete('1.0', END)
-            response = universal_callback(command=command)
-            self.prompt_text.insert(END, response.strip())
-
-        elif command.startswith('url'):
-            universal_callback(web=command)
-
-        elif command.startswith('iexe'):
-            query = self.iexe_query_entry.get()
-            if ">" in query:
-                query = query.split('>')[-1]
-
-            if command == "iexe search":
-                universal_callback(web='search '+query)
-
-            if command == 'iexe execute':
-                universal_callback(command="start cmd /k "+query)
-
-            elif command == 'iexe wiki':
-                response = universal_callback(web="wiki "+query)
-                self.prompt_text.delete('1.0', END)
-                self.prompt_text.insert(END, constants.WIKI.format(*response.values()))
-                universal_callback(web='url '+response['url'])
-
-            self.iexe_query_entry.delete(0, END)
-            self.iexe_query_entry.insert(END, "> ")
-
-        else:
-            self.prompt_text.delete('1.0', END)
-
-        self.prompt_text.config(state=DISABLED)
 
     def event_handler(self, event: str=None, query: str=None):
 

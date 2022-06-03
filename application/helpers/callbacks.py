@@ -57,42 +57,42 @@ def event_handler_callback(event: str=None, query: str=None):
                 "error": True
             }
     
-def universal_callback(command=None, web=None):
-    if command:
-        if command.startswith('start'):
-            os.system("{}".format(command))
+# def universal_callback(command=None, web=None):
+#     if command:
+#         if command.startswith('start'):
+#             os.system("{}".format(command))
 
-        if command.startswith('subprocess'):
-            process = command.split(' ', 1)[-1]
-            response = sp.getoutput(process)
-            return response
+#         if command.startswith('subprocess'):
+#             process = command.split(' ', 1)[-1]
+#             response = sp.getoutput(process)
+#             return response
     
-    if web:
-        if web.startswith('search'):
-            url = "https://duckduckgo.com/?q={}".format(web.split(' ', 1)[-1].strip())
-            webbrowser.get('edge').open(url)
+#     if web:
+#         if web.startswith('search'):
+#             url = "https://duckduckgo.com/?q={}".format(web.split(' ', 1)[-1].strip())
+#             webbrowser.get('edge').open(url)
 
-        elif web.startswith('url'):
-            web = web.split(' ', 1)[-1]
-            webbrowser.get('edge').open(web)
+#         elif web.startswith('url'):
+#             web = web.split(' ', 1)[-1]
+#             webbrowser.get('edge').open(web)
 
-        elif web.startswith('wiki'):
-            web = web.split(' ', 1)[-1]
-            query = ''.join(web.split(' '))
-            try:
-                wikipedia.set_lang(lang_code)
-                page = wikipedia.page(query)
-                return {
-                    "title": page.title,
-                    "url": page.url,
-                    "summary": page.summary
-            }
-            except Exception:
-                return {
-                "title": "Error Occured",
-                "url": "https://{lang_code}.wikipedia.org/wiki/{query}".format(lang_code=lang_code, query=query),
-                "summary": "Error Occured in fetching the article. Please try any other combination for the search query."
-            }
+#         elif web.startswith('wiki'):
+#             web = web.split(' ', 1)[-1]
+#             query = ''.join(web.split(' '))
+#             try:
+#                 wikipedia.set_lang(lang_code)
+#                 page = wikipedia.page(query)
+#                 return {
+#                     "title": page.title,
+#                     "url": page.url,
+#                     "summary": page.summary
+#             }
+#             except Exception:
+#                 return {
+#                 "title": "Error Occured",
+#                 "url": "https://{lang_code}.wikipedia.org/wiki/{query}".format(lang_code=lang_code, query=query),
+#                 "summary": "Error Occured in fetching the article. Please try any other combination for the search query."
+#             }
 
 def pc_stats_callback():
     stats = dict(
