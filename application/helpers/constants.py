@@ -87,5 +87,6 @@ Title - {}
 Article URL - {}
 
 Summary - {}
+
 Error - {}
 """
