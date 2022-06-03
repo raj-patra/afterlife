@@ -78,4 +78,7 @@ def destroy_root_callback(root):
         root.destroy()
 
 def random_article_callback():
-    return wikipedia.random(1)
+    try:
+        return wikipedia.random(1)
+    except Exception:
+        return None

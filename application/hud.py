@@ -200,8 +200,15 @@ class HUD:
 
     def start_widgets(self):
 
+        random_wiki_article = random_article_callback()
+        if random_wiki_article:
+            self.iexe_query_entry.insert(END, "> "+random_wiki_article)
+            self.event_handler(event="fetch_wiki")
+        else:
+            self.iexe_query_entry.insert(END, "> ")
+            self.event_handler(event="execute_subprocess", query="systeminfo")
+     
         self.welcome_label.config(text=constants.WELCOME)
-        self.iexe_query_entry.insert(END, "> "+random_article_callback())
         self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         self.network_text.insert(END, constants.NETWORK)
 
@@ -218,7 +225,6 @@ class HUD:
         self.network_text.config(state=DISABLED)
         self.system_text.config(state=DISABLED)
 
-        self.event_handler(event="fetch_wiki")
         self.update_widget_content()
 
     def update_widget_content(self):
