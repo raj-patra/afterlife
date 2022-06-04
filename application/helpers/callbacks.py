@@ -58,11 +58,15 @@ def event_handler_callback(event: str=None, query: str=None):
             }
 
 def pc_stats_callback():
+    cpu = psutil.cpu_percent()
+    virtual_memory = psutil.virtual_memory()
+    battery = psutil.sensors_battery()
+    
     stats = dict(
-        cpu_usage = psutil.cpu_percent(),
-        ram_usage = psutil.virtual_memory().percent,
-        battery_usage = psutil.sensors_battery().percent,
-        battery_plugged = psutil.sensors_battery().power_plugged,
+        cpu_usage = cpu,
+        ram_usage = virtual_memory.percent,
+        battery_usage = battery.percent,
+        battery_plugged = battery.power_plugged,
         gpu_name = GPUtil.getGPUs()[0].name if GPUtil.getGPUs() else "No GPU found",
         gpu_usage = round(GPUtil.getGPUs()[0].memoryUtil*100, 1) if GPUtil.getGPUs() else 0.0,
         boot_time = psutil.boot_time()
