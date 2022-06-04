@@ -207,7 +207,7 @@ class HUD:
         else:
             self.iexe_query_entry.insert(END, "> ")
             self.event_handler(event="execute_subprocess", query="systeminfo")
-     
+
         self.welcome_label.config(text=constants.WELCOME)
         self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         self.network_text.insert(END, constants.NETWORK)
@@ -252,11 +252,14 @@ class HUD:
                 text=constants.LEFT_STATUS_LABEL.format(
                     self.current_theme["theme"],
                     pc_stats["cpu_usage"],
+
                     pc_stats["virtual_memory_used"],
                     pc_stats["virtual_memory_total"],
                     pc_stats["ram_usage"],
+
                     "🔌" if pc_stats["battery_plugged"] else "🔋",
                     pc_stats["battery_usage"],
+
                     pc_stats["gpu_name"],
                     pc_stats["gpu_usage"]
                 )
@@ -270,7 +273,7 @@ class HUD:
 
         if event in ["start_app", "open_url"]:
             event_handler_callback(event=event, query=query)
-            
+
         elif event == "clear_prompt":
             self.prompt_text.config(state=NORMAL)
             self.prompt_text.delete('1.0', END)
@@ -304,7 +307,7 @@ class HUD:
 
             else:
                 event_handler_callback(event=event, query=query)
-                
+
             self.iexe_query_entry.delete(0, END)
             self.iexe_query_entry.insert(END, "> ")
 
@@ -376,11 +379,14 @@ class HUD:
             text=constants.LEFT_STATUS_LABEL.format(
                 theme,
                 pc_stats["cpu_usage"],
+
                 pc_stats["virtual_memory_used"],
                 pc_stats["virtual_memory_total"],
                 pc_stats["ram_usage"],
+
                 "🔌" if pc_stats["battery_plugged"] else "🔋",
                 pc_stats["battery_usage"],
+
                 pc_stats["gpu_name"],
                 pc_stats["gpu_usage"]
             )
