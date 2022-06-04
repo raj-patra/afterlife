@@ -65,8 +65,8 @@ def pc_stats_callback():
     stats = dict(
         cpu_usage = cpu,
 
-        virtual_memory_total = virtual_memory.total/1e9,
-        virtual_memory_used = virtual_memory.used/1e9,
+        virtual_memory_total = round(virtual_memory.total/1e9, 2),
+        virtual_memory_used = round(virtual_memory.used/1e9, 2),
         ram_usage = virtual_memory.percent,
 
         battery_usage = battery.percent,

@@ -252,6 +252,8 @@ class HUD:
                 text=constants.LEFT_STATUS_LABEL.format(
                     self.current_theme["theme"],
                     pc_stats["cpu_usage"],
+                    pc_stats["virtual_memory_used"],
+                    pc_stats["virtual_memory_total"],
                     pc_stats["ram_usage"],
                     "🔌" if pc_stats["battery_plugged"] else "🔋",
                     pc_stats["battery_usage"],
@@ -374,6 +376,8 @@ class HUD:
             text=constants.LEFT_STATUS_LABEL.format(
                 theme,
                 pc_stats["cpu_usage"],
+                pc_stats["virtual_memory_used"],
+                pc_stats["virtual_memory_total"],
                 pc_stats["ram_usage"],
                 "🔌" if pc_stats["battery_plugged"] else "🔋",
                 pc_stats["battery_usage"],
