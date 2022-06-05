@@ -36,23 +36,16 @@ USER = sp.getoutput("whoami")
 
 DISK = sp.getoutput("wmic logicaldisk get size,freespace,caption").replace("\n\n", "\n")
 
-"""Deprecated"""
-
-# boot = sp.getoutput("wmic path Win32_OperatingSystem get LastBootUpTime").split('\n')[2].split('.')[0]
-# LAST_BOOT = "Last Bootup Time: {}{}/{}/{} {}:{}:{}".format(*[boot[i:i+2] for i in range(0, len(boot), 2)])
-
 # ----------------------------------------------------------------------------------
 
 WELCOME = "Hey there, {}!"\
     .format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]))
 
-LEFT_STATUS_LABEL = "☀ {}  ⚡ {}%   🧠 {}%   {} {}%   🎮 {}: {}%"
+LEFT_STATUS_LABEL = "☀ {}  ⚡ {}%   🧠 {}GB/{}GB ({}%)   {} {}%"
 
 # ----------------------------------------------------------------------------------
 
 SYSTEM = '\n'+'Last Bootup Time: {}'+'\n\n'+DISK+"""CPU Usage: {}%   |   RAM Usage: {}%
-
-{}: {:.1f} %
 
 Battery: {}% {}"""
 

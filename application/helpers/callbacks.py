@@ -24,11 +24,11 @@ def event_handler_callback(event: str=None, query: str=None):
     if event == "start_app":
         os.system(query)
         return None
-    
+
     elif event == "execute_subprocess":
         response = sp.getoutput(query)
         return response
-    
+
     elif event == "open_url":
         webbrowser.get('edge').open(query)
         return None
@@ -58,13 +58,20 @@ def event_handler_callback(event: str=None, query: str=None):
             }
 
 def pc_stats_callback():
+    cpu = psutil.cpu_percent()
+    virtual_memory = psutil.virtual_memory()
+    battery = psutil.sensors_battery()
+
     stats = dict(
-        cpu_usage = psutil.cpu_percent(),
-        ram_usage = psutil.virtual_memory().percent,
-        battery_usage = psutil.sensors_battery().percent,
-        battery_plugged = psutil.sensors_battery().power_plugged,
-        gpu_name = GPUtil.getGPUs()[0].name if GPUtil.getGPUs() else "No GPU found",
-        gpu_usage = round(GPUtil.getGPUs()[0].memoryUtil*100, 1) if GPUtil.getGPUs() else 0.0,
+        cpu_usage = cpu,
+
+        virtual_memory_total = round(virtual_memory.total/1e9, 2),
+        virtual_memory_used = round(virtual_memory.used/1e9, 2),
+        virtual_memory_percent = virtual_memory.percent,
+
+        battery_usage = battery.percent,
+        battery_plugged = battery.power_plugged,
+
         boot_time = psutil.boot_time()
     )
 
