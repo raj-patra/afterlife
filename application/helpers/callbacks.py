@@ -67,7 +67,7 @@ def pc_stats_callback():
 
         virtual_memory_total = round(virtual_memory.total/1e9, 2),
         virtual_memory_used = round(virtual_memory.used/1e9, 2),
-        ram_usage = virtual_memory.percent,
+        virtual_memory_percent = virtual_memory.percent,
 
         battery_usage = battery.percent,
         battery_plugged = battery.power_plugged,
