@@ -41,13 +41,11 @@ DISK = sp.getoutput("wmic logicaldisk get size,freespace,caption").replace("\n\n
 WELCOME = "Hey there, {}!"\
     .format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]))
 
-LEFT_STATUS_LABEL = "☀ {}  ⚡ {}%   🧠 {}GB/{}GB ({}%)   {} {}%   🎮 {}: {}%"
+LEFT_STATUS_LABEL = "☀ {}  ⚡ {}%   🧠 {}GB/{}GB ({}%)   {} {}%"
 
 # ----------------------------------------------------------------------------------
 
 SYSTEM = '\n'+'Last Bootup Time: {}'+'\n\n'+DISK+"""CPU Usage: {}%   |   RAM Usage: {}%
-
-{}: {:.1f} %
 
 Battery: {}% {}"""
 

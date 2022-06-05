@@ -241,7 +241,6 @@ class HUD:
                 constants.SYSTEM.format(
                     time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(pc_stats["boot_time"])),
                     pc_stats["cpu_usage"], pc_stats["virtual_memory_percent"],
-                    pc_stats["gpu_name"], pc_stats["gpu_usage"],
                     pc_stats["battery_usage"],
                     "(Plugged In)" if pc_stats["battery_plugged"] else "(Not Plugged In)"
                 )
@@ -259,9 +258,6 @@ class HUD:
 
                     "🔌" if pc_stats["battery_plugged"] else "🔋",
                     pc_stats["battery_usage"],
-
-                    pc_stats["gpu_name"],
-                    pc_stats["gpu_usage"]
                 )
             )
 
@@ -386,9 +382,6 @@ class HUD:
 
                 "🔌" if pc_stats["battery_plugged"] else "🔋",
                 pc_stats["battery_usage"],
-
-                pc_stats["gpu_name"],
-                pc_stats["gpu_usage"]
             )
         )
 
