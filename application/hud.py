@@ -256,6 +256,10 @@ class HUD:
                     pc_stats["virtual_memory_total"],
                     pc_stats["virtual_memory_percent"],
 
+                    pc_stats["disk_used"],
+                    pc_stats["disk_total"],
+                    pc_stats["disk_percent"],
+
                     "🔌" if pc_stats["battery_plugged"] else "🔋",
                     pc_stats["battery_usage"],
                 )
@@ -379,6 +383,10 @@ class HUD:
                 pc_stats["virtual_memory_used"],
                 pc_stats["virtual_memory_total"],
                 pc_stats["virtual_memory_percent"],
+
+                pc_stats["disk_used"],
+                pc_stats["disk_total"],
+                pc_stats["disk_percent"],
 
                 "🔌" if pc_stats["battery_plugged"] else "🔋",
                 pc_stats["battery_usage"],
