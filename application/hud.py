@@ -90,6 +90,7 @@ class HUD:
             command=partial(self.event_handler, event="fetch_wiki", query=None),
         )
 
+        # Widgets on root.status_bar
         self.left_status_label = Label(self.status_bar_frame,
             **self.current_theme["secondary"], text="", anchor=W,
             relief=FLAT, height=1, padx=3, pady=2,
