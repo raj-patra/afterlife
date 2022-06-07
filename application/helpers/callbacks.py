@@ -60,14 +60,19 @@ def event_handler_callback(event: str=None, query: str=None):
 def pc_stats_callback():
     cpu = psutil.cpu_percent()
     virtual_memory = psutil.virtual_memory()
+    disk = psutil.disk_usage('/')
     battery = psutil.sensors_battery()
 
     stats = dict(
         cpu_usage = cpu,
 
-        virtual_memory_total = round(virtual_memory.total/1e9, 2),
         virtual_memory_used = round(virtual_memory.used/1e9, 2),
+        virtual_memory_total = round(virtual_memory.total/1e9, 2),
         virtual_memory_percent = virtual_memory.percent,
+
+        disk_used = round(disk.used/1e12, 2),
+        disk_total = round(disk.total/1e12, 2),
+        disk_percent = disk.percent,
 
         battery_usage = battery.percent,
         battery_plugged = battery.power_plugged,
