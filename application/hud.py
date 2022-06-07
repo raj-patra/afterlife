@@ -42,6 +42,7 @@ class HUD:
             primary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
             secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
         )
+        
         # Root Frame - Bottom
         self.status_bar_frame = Frame(root)
 
@@ -162,7 +163,7 @@ class HUD:
         self.welcome_label.pack(side=TOP, fill=BOTH, expand=0)
         self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
-        self.left_status_label.pack(side=TOP, fill=BOTH, expand=1)
+        self.left_status_label.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.iexe_query_entry.pack(side=TOP, fill=BOTH, expand=1)
         self.iexe_execute_button.pack(side=LEFT, fill=BOTH, expand=1)
