@@ -96,6 +96,7 @@ class HUD:
             relief=FLAT, height=1, padx=3, pady=2,
         )
         self.left_status_label.config(font=(HUD.default_font, 10))
+        
 
         # Widgets on root.right
         self.clock_label = Label(self.right_section_frame,
