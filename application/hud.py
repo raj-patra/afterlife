@@ -103,7 +103,7 @@ class HUD:
                 Button(self.status_bar_frame,
                     **self.current_theme["secondary"], text=action["label"],
                     activebackground=self.current_theme['root'], activeforeground="white",
-                    height=1, width=2, relief=FLAT, overrelief=RAISED,
+                    height=1, width=3, relief=FLAT, overrelief=GROOVE,
                     command=partial(self.event_handler, event=action["event"], query=action["query"]),
                 )
             )
