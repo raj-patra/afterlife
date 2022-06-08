@@ -96,7 +96,17 @@ class HUD:
             relief=FLAT, height=1, padx=3, pady=2,
         )
         self.left_status_label.config(font=(HUD.default_font, 10))
-        
+
+        self.status_bar_buttons = []
+        for action in commands.STATUS_BAR_ACTIONS:
+            self.status_bar_buttons.append(
+                Button(self.status_bar_frame,
+                    **self.current_theme["secondary"], text=action["label"],
+                    activebackground=self.current_theme['root'], activeforeground="white",
+                    height=1, width=2, relief=FLAT, overrelief=RAISED,
+                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
+                )
+            )
 
         # Widgets on root.right
         self.clock_label = Label(self.right_section_frame,
@@ -187,6 +197,9 @@ class HUD:
         self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
         self.left_status_label.pack(side=LEFT, fill=BOTH, expand=1)
+        
+        for action in self.status_bar_buttons:
+            action.pack(side=RIGHT, fill=BOTH, expand=0)
 
         self.iexe_query_entry.pack(side=TOP, fill=BOTH, expand=1)
         self.iexe_execute_button.pack(side=LEFT, fill=BOTH, expand=1)
@@ -200,8 +213,8 @@ class HUD:
         self.network_text.pack(side=RIGHT, fill=BOTH, expand=1)
         self.system_text.pack(side=LEFT, fill=BOTH, expand=1)
 
-        for button in self.action_items:
-            button.pack(side=LEFT, fill=BOTH, expand=1)
+        for action in self.action_items:
+            action.pack(side=LEFT, fill=BOTH, expand=1)
 
     def start_widgets(self):
 
