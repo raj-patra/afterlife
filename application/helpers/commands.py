@@ -41,6 +41,13 @@ NATIVE_APPS = {
     ]
 }
 
+STATUS_BAR_ACTIONS = [
+    dict(event="start_app", label="⚙", query="start ms-settings:"),
+    dict(event="start_app", label="🗨", query="start ms-actioncenter:"),
+    dict(event="start_app", label="📶", query="start ms-availablenetworks:"),
+    dict(event="start_app", label="🖥", query="start ms-settings-connectabledevices:devicediscovery"),
+]
+
 ACTIONS = {
     0: [
         dict(event="start_app", label="Installed\nApps", query="start explorer.exe Shell:::AppsFolder"),

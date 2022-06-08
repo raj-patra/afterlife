@@ -42,7 +42,7 @@ class HUD:
             primary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
             secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
         )
-        
+
         # Root Frame - Bottom
         self.status_bar_frame = Frame(root)
 
@@ -97,6 +97,17 @@ class HUD:
         )
         self.left_status_label.config(font=(HUD.default_font, 10))
 
+        self.status_bar_buttons = []
+        for action in commands.STATUS_BAR_ACTIONS:
+            self.status_bar_buttons.append(
+                Button(self.status_bar_frame,
+                    **self.current_theme["secondary"], text=action["label"],
+                    activebackground=self.current_theme['root'], activeforeground="white",
+                    height=1, width=3, relief=FLAT, overrelief=GROOVE,
+                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
+                )
+            )
+
         # Widgets on root.right
         self.clock_label = Label(self.right_section_frame,
             **self.current_theme["primary"], text="", anchor=E,
@@ -108,6 +119,27 @@ class HUD:
         self.system_text = Text(self.info_frame,
             **self.current_theme["secondary"], height=5, width=35, padx=20,
         )
+
+        bg = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
+        self.action_items = []
+        self.button_frames = []
+
+        for row in commands.ACTIONS.keys():
+
+            action_row = Frame(self.action_centre_frame, bg=self.current_theme['root'], pady=1)
+            action_row.pack(side=TOP, fill=BOTH, expand=1)
+            self.button_frames.append(action_row)
+
+            for action in commands.ACTIONS[row]:
+                button = Button(action_row,
+                    bg=bg[0], fg=self.current_theme['fg'],
+                    activebackground=self.current_theme['root'], activeforeground="white",
+                    font=(HUD.default_font, 12), text=action["label"],
+                    height=1, width=6, relief=FLAT, overrelief=RAISED,
+                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
+                )
+                self.action_items.append(button)
+                bg.rotate(1)
 
     def render_menu(self):
         menu_bar = Menu(self.root, tearoff=0)
@@ -165,6 +197,9 @@ class HUD:
         self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
         self.left_status_label.pack(side=LEFT, fill=BOTH, expand=1)
+        
+        for action in self.status_bar_buttons:
+            action.pack(side=RIGHT, fill=BOTH, expand=0)
 
         self.iexe_query_entry.pack(side=TOP, fill=BOTH, expand=1)
         self.iexe_execute_button.pack(side=LEFT, fill=BOTH, expand=1)
@@ -178,27 +213,8 @@ class HUD:
         self.network_text.pack(side=RIGHT, fill=BOTH, expand=1)
         self.system_text.pack(side=LEFT, fill=BOTH, expand=1)
 
-        bg = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
-        self.action_items = []
-        self.button_frames = []
-
-        for row in commands.ACTIONS.keys():
-
-            action_row = Frame(self.action_centre_frame, bg=self.current_theme['root'], pady=1)
-            action_row.pack(side=TOP, fill=BOTH, expand=1)
-            self.button_frames.append(action_row)
-
-            for action in commands.ACTIONS[row]:
-                button = Button(action_row,
-                    bg=bg[0], fg=self.current_theme['fg'],
-                    activebackground=self.current_theme['root'], activeforeground="white",
-                    font=(HUD.default_font, 12), text=action["label"],
-                    height=1, width=6, relief=FLAT, overrelief=RAISED,
-                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
-                )
-                self.action_items.append(button)
-                bg.rotate(1)
-                button.pack(side=LEFT, fill=BOTH, expand=1)
+        for action in self.action_items:
+            action.pack(side=LEFT, fill=BOTH, expand=1)
 
     def start_widgets(self):
 
