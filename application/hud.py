@@ -102,7 +102,8 @@ class HUD:
             self.status_bar_buttons.append(
                 Button(self.status_bar_frame,
                     **self.current_theme["secondary"], text=action["label"],
-                    activebackground=self.current_theme['root'], activeforeground="white",
+                    activebackground=self.current_theme["secondary_bg"],
+                    activeforeground=self.current_theme["fg"],
                     height=1, width=3, relief=FLAT, overrelief=GROOVE,
                     command=partial(self.event_handler, event=action["event"], query=action["query"]),
                 )
