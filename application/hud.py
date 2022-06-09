@@ -97,9 +97,9 @@ class HUD:
         )
         self.left_status_label.config(font=(HUD.default_font, 10))
 
-        self.status_bar_buttons = []
+        self.status_bar_actions = []
         for action in commands.STATUS_BAR_ACTIONS:
-            self.status_bar_buttons.append(
+            self.status_bar_actions.append(
                 Button(self.status_bar_frame,
                     **self.current_theme["secondary"], text=action["label"],
                     activebackground=self.current_theme["secondary_bg"],
@@ -199,7 +199,7 @@ class HUD:
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
         self.left_status_label.pack(side=LEFT, fill=BOTH, expand=1)
         
-        for action in self.status_bar_buttons:
+        for action in self.status_bar_actions:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
 
         self.iexe_query_entry.pack(side=TOP, fill=BOTH, expand=1)
@@ -391,6 +391,9 @@ class HUD:
                 activebackground=schemes.THEMES[theme]['root']
             )
             colors.rotate(1)
+        
+        for action in self.status_bar_actions:
+            action.config(**self.current_theme["secondary"])
 
         pc_stats = pc_stats_callback()
         self.left_status_label.config(
