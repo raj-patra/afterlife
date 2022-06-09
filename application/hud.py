@@ -30,12 +30,12 @@ class HUD:
             primary=dict(
                 bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
                 fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
-                font=(HUD.default_font, 12),
+                font=(HUD.default_font, 10),
             ),
             secondary=dict(
                 bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
                 fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
-                font=(HUD.default_font, 12),
+                font=(HUD.default_font, 10),
             ),
             root=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['root'],
             fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
@@ -95,7 +95,6 @@ class HUD:
             **self.current_theme["secondary"], text="", anchor=W,
             relief=FLAT, height=1, padx=3, pady=2,
         )
-        self.left_status_label.config(font=(HUD.default_font, 10))
 
         self.status_bar_actions = []
         for action in commands.STATUS_BAR_ACTIONS:
