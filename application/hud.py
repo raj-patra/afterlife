@@ -30,12 +30,12 @@ class HUD:
             primary=dict(
                 bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
                 fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
-                font=(HUD.default_font, 12),
+                font=(HUD.default_font, 10),
             ),
             secondary=dict(
                 bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
                 fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
-                font=(HUD.default_font, 12),
+                font=(HUD.default_font, 10),
             ),
             root=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['root'],
             fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
@@ -95,14 +95,14 @@ class HUD:
             **self.current_theme["secondary"], text="", anchor=W,
             relief=FLAT, height=1, padx=3, pady=2,
         )
-        self.left_status_label.config(font=(HUD.default_font, 10))
 
-        self.status_bar_buttons = []
+        self.status_bar_actions = []
         for action in commands.STATUS_BAR_ACTIONS:
-            self.status_bar_buttons.append(
+            self.status_bar_actions.append(
                 Button(self.status_bar_frame,
                     **self.current_theme["secondary"], text=action["label"],
-                    activebackground=self.current_theme['root'], activeforeground="white",
+                    activebackground=self.current_theme["secondary_bg"],
+                    activeforeground=self.current_theme["fg"],
                     height=1, width=3, relief=FLAT, overrelief=GROOVE,
                     command=partial(self.event_handler, event=action["event"], query=action["query"]),
                 )
@@ -134,8 +134,8 @@ class HUD:
                 button = Button(action_row,
                     bg=bg[0], fg=self.current_theme['fg'],
                     activebackground=self.current_theme['root'], activeforeground="white",
-                    font=(HUD.default_font, 12), text=action["label"],
-                    height=1, width=6, relief=FLAT, overrelief=RAISED,
+                    font=(HUD.default_font, 10), text=action["label"],
+                    height=1, width=6, relief=FLAT, overrelief=GROOVE,
                     command=partial(self.event_handler, event=action["event"], query=action["query"]),
                 )
                 self.action_items.append(button)
@@ -198,7 +198,7 @@ class HUD:
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
         self.left_status_label.pack(side=LEFT, fill=BOTH, expand=1)
         
-        for action in self.status_bar_buttons:
+        for action in self.status_bar_actions:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
 
         self.iexe_query_entry.pack(side=TOP, fill=BOTH, expand=1)
@@ -390,6 +390,9 @@ class HUD:
                 activebackground=schemes.THEMES[theme]['root']
             )
             colors.rotate(1)
+        
+        for action in self.status_bar_actions:
+            action.config(**self.current_theme["secondary"])
 
         pc_stats = pc_stats_callback()
         self.left_status_label.config(
