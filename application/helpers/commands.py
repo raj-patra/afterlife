@@ -1,12 +1,6 @@
 """Applications & Commands used in afterlife"""
 
 NATIVE_APPS = {
-    "System Settings": [
-        dict(event="start_app", label="Settings", query="start ms-settings:"),
-        dict(event="start_app", label="Action Center", query="start ms-actioncenter:"),
-        dict(event="start_app", label="Available Networks", query="start ms-availablenetworks:"),
-        dict(event="start_app", label="Device Discovery", query="start ms-settings-connectabledevices:devicediscovery"),
-    ],
     "Most Used": [
         dict(event="start_app", label="Alarms & Clock", query="start ms-clock:"),
         dict(event="start_app", label="Calculator", query="start calculator:"),
