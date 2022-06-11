@@ -41,7 +41,7 @@ DISK = sp.getoutput("wmic logicaldisk get size,freespace,caption").replace("\n\n
 WELCOME = "Hey there, {}!"\
     .format('-'.join([random.choice(ADJECTIVES), random.choice(NOUNS)]))
     
-WELCOME_MSG = "Hey there, {}!".format(USER.split('\\')[1].title())
+WELCOME_MSG = "Welcome, {}!".format(USER.split('\\')[1].title())
 
 LEFT_STATUS_LABEL = "☀ {}  ⚡ {}%   🧠 {}/{}GB ({}%)   💾 {}/{}TB ({}%)   {} {}%"
 

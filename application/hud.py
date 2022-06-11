@@ -226,7 +226,7 @@ class HUD:
             self.iexe_query_entry.insert(END, "> ")
             self.event_handler(event="execute_subprocess", query="systeminfo")
 
-        self.welcome_label.config(text=constants.WELCOME)
+        self.welcome_label.config(text=constants.WELCOME_MSG)
         self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         self.network_text.insert(END, constants.NETWORK)
 
