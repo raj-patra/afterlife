@@ -55,7 +55,7 @@ class HUD:
         self.info_frame = Frame(self.right_section_frame, height=1)
         self.action_centre_frame = Frame(self.right_section_frame,
             width=80, height=50,
-            bg=self.current_theme['root'], padx=2, pady=2)
+            bg=self.current_theme['root'], padx=0, pady=0)
 
         # Widgets on root.left
         self.prompt_text = Text(self.left_section_frame,
