@@ -55,7 +55,7 @@ class HUD:
         self.info_frame = Frame(self.right_section_frame, height=1)
         self.action_centre_frame = Frame(self.right_section_frame,
             width=80, height=50,
-            bg=self.current_theme['root'], padx=2, pady=2)
+            bg=self.current_theme['root'], padx=0, pady=0)
 
         # Widgets on root.left
         self.prompt_text = Text(self.left_section_frame,
@@ -207,8 +207,8 @@ class HUD:
         self.iexe_wiki_button.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.clock_label.pack(side=TOP, fill=BOTH, expand=0)
-        self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.info_frame.pack(side=TOP, fill=BOTH, expand=1)
+        self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
         self.network_text.pack(side=RIGHT, fill=BOTH, expand=1)
         self.system_text.pack(side=LEFT, fill=BOTH, expand=1)
@@ -226,7 +226,7 @@ class HUD:
             self.iexe_query_entry.insert(END, "> ")
             self.event_handler(event="execute_subprocess", query="systeminfo")
 
-        self.welcome_label.config(text=constants.WELCOME)
+        self.welcome_label.config(text=constants.WELCOME_MSG)
         self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         self.network_text.insert(END, constants.NETWORK)
 
