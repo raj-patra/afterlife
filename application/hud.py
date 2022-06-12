@@ -133,7 +133,7 @@ class HUD:
             for action in commands.ACTIONS[row]:
                 button = Button(action_row,
                     bg=bg[0], fg=self.current_theme['fg'],
-                    activebackground=self.current_theme['root'], activeforeground="white",
+                    activebackground=bg[0], activeforeground=self.current_theme['fg'],
                     font=(HUD.default_font, 10), text=action["label"],
                     height=1, width=6, relief=FLAT, overrelief=GROOVE,
                     command=partial(self.event_handler, event=action["event"], query=action["query"]),
