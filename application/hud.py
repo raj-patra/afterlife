@@ -287,7 +287,12 @@ class HUD:
                     pc_stats["battery_usage"],
                 )
             )
-            self.right_status_label.config(text="hello")
+            self.right_status_label.config(
+                text=constants.RIGHT_STATUS_LABEL.format(
+                    "🔌" if pc_stats["battery_plugged"] else "🔋",
+                    pc_stats["battery_usage"],
+                )
+            )
 
             self.system_text.after(5000, loop)
 
