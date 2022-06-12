@@ -91,10 +91,16 @@ class HUD:
         )
 
         # Widgets on root.status_bar
-        self.left_status_label = Label(self.status_bar_frame,
-            **self.current_theme["secondary"], text="", anchor=W,
-            relief=FLAT, height=1, padx=3, pady=2,
-        )
+        self.status_bar_labels = {
+            "left": Label(self.status_bar_frame,
+                **self.current_theme["secondary"], text="", anchor=W,
+                relief=FLAT, height=1, padx=3, pady=2,
+            ),
+            "right": Label(self.status_bar_frame,
+                **self.current_theme["secondary"], text="", anchor=E,
+                relief=FLAT, height=1, padx=3, pady=2,
+            )
+        }
 
         self.status_bar_actions = []
         for action in commands.STATUS_BAR_ACTIONS:
@@ -133,7 +139,7 @@ class HUD:
             for action in commands.ACTIONS[row]:
                 button = Button(action_row,
                     bg=bg[0], fg=self.current_theme['fg'],
-                    activebackground=self.current_theme['root'], activeforeground="white",
+                    activebackground=bg[0], activeforeground=self.current_theme['fg'],
                     font=(HUD.default_font, 10), text=action["label"],
                     height=1, width=6, relief=FLAT, overrelief=GROOVE,
                     command=partial(self.event_handler, event=action["event"], query=action["query"]),
@@ -196,7 +202,8 @@ class HUD:
         self.welcome_label.pack(side=TOP, fill=BOTH, expand=0)
         self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
-        self.left_status_label.pack(side=LEFT, fill=BOTH, expand=1)
+        self.status_bar_labels["left"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.status_bar_labels["right"].pack(side=LEFT, fill=BOTH, expand=1)
         
         for action in self.status_bar_actions:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
@@ -265,7 +272,7 @@ class HUD:
             )
             self.system_text.config(state=DISABLED)
 
-            self.left_status_label.config(
+            self.status_bar_labels["left"].config(
                 text=constants.LEFT_STATUS_LABEL.format(
                     self.current_theme["theme"],
                     pc_stats["cpu_usage"],
@@ -277,7 +284,10 @@ class HUD:
                     pc_stats["disk_used"],
                     pc_stats["disk_total"],
                     pc_stats["disk_percent"],
-
+                )
+            )
+            self.status_bar_labels["right"].config(
+                text=constants.RIGHT_STATUS_LABEL.format(
                     "🔌" if pc_stats["battery_plugged"] else "🔋",
                     pc_stats["battery_usage"],
                 )
@@ -395,7 +405,7 @@ class HUD:
             action.config(**self.current_theme["secondary"])
 
         pc_stats = pc_stats_callback()
-        self.left_status_label.config(
+        self.status_bar_labels["left"].config(
             **self.current_theme["secondary"],
             text=constants.LEFT_STATUS_LABEL.format(
                 theme,
@@ -408,7 +418,11 @@ class HUD:
                 pc_stats["disk_used"],
                 pc_stats["disk_total"],
                 pc_stats["disk_percent"],
-
+            )
+        )
+        self.status_bar_labels["right"].config(
+            **self.current_theme["secondary"],
+            text=constants.RIGHT_STATUS_LABEL.format(
                 "🔌" if pc_stats["battery_plugged"] else "🔋",
                 pc_stats["battery_usage"],
             )
