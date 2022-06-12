@@ -282,9 +282,6 @@ class HUD:
                     pc_stats["disk_used"],
                     pc_stats["disk_total"],
                     pc_stats["disk_percent"],
-
-                    "🔌" if pc_stats["battery_plugged"] else "🔋",
-                    pc_stats["battery_usage"],
                 )
             )
             self.right_status_label.config(
@@ -419,9 +416,6 @@ class HUD:
                 pc_stats["disk_used"],
                 pc_stats["disk_total"],
                 pc_stats["disk_percent"],
-
-                "🔌" if pc_stats["battery_plugged"] else "🔋",
-                pc_stats["battery_usage"],
             )
         )
 
