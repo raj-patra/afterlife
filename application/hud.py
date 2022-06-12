@@ -418,6 +418,13 @@ class HUD:
                 pc_stats["disk_percent"],
             )
         )
+        self.right_status_label.config(
+            **self.current_theme["secondary"],
+            text=constants.RIGHT_STATUS_LABEL.format(
+                "🔌" if pc_stats["battery_plugged"] else "🔋",
+                pc_stats["battery_usage"],
+            )
+        )
 
     def save_prompt_content(self, event=None):
         handle = filedialog.asksaveasfile(mode="w", defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
