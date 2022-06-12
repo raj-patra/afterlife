@@ -95,6 +95,10 @@ class HUD:
             **self.current_theme["secondary"], text="", anchor=W,
             relief=FLAT, height=1, padx=3, pady=2,
         )
+        self.right_status_label = Label(self.status_bar_frame,
+            **self.current_theme["secondary"], text="", anchor=E,
+            relief=FLAT, height=1, padx=3, pady=2,
+        )
 
         self.status_bar_actions = []
         for action in commands.STATUS_BAR_ACTIONS:
@@ -197,6 +201,7 @@ class HUD:
         self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
         self.left_status_label.pack(side=LEFT, fill=BOTH, expand=1)
+        self.right_status_label.pack(side=LEFT, fill=BOTH, expand=1)
         
         for action in self.status_bar_actions:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
@@ -282,6 +287,7 @@ class HUD:
                     pc_stats["battery_usage"],
                 )
             )
+            self.right_status_label.config(text="hello")
 
             self.system_text.after(5000, loop)
 
