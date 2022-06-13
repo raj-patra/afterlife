@@ -43,9 +43,6 @@ class HUD:
             secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
         )
 
-        # Root Frame - Bottom
-        self.status_bar_frame = Frame(root)
-
         # Root Frames - Left
         self.left_section_frame = Frame(root)
         self.integrated_exe_frame = Frame(self.left_section_frame)
@@ -104,16 +101,6 @@ class HUD:
                 relief=FLAT, height=1, padx=3, pady=2,
             )
         )
-        # self.status_bar_labels = {
-        #     "left": Label(self.status_bar_frame,
-        #         **self.current_theme["secondary"], text="", anchor=W,
-        #         relief=FLAT, height=1, padx=3, pady=2,
-        #     ),
-        #     "right": Label(self.status_bar_frame,
-        #         **self.current_theme["secondary"], text="", anchor=E,
-        #         relief=FLAT, height=1, padx=3, pady=2,
-        #     )
-        # }
 
         self.status_bar_actions = []
         for action in commands.STATUS_BAR_ACTIONS:
@@ -216,9 +203,6 @@ class HUD:
         self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
         
-        self.status_bar["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.status_bar["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
-        
         for action in self.status_bar_actions:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
 
@@ -236,6 +220,9 @@ class HUD:
 
         for action in self.action_items:
             action.pack(side=LEFT, fill=BOTH, expand=1)
+        
+        self.status_bar["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.status_bar["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
 
     def start_widgets(self):
 
