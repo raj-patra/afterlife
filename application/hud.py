@@ -92,29 +92,6 @@ class HUD:
             )
         )
 
-        # self.iexe_query_entry = Entry(self.integrated_exe_frame,
-        #     **self.current_theme["secondary"],
-        #     bd=5, width=28, insertbackground="white",
-        # )
-        # self.iexe_search_button = Button(self.integrated_exe_frame,
-        #     **self.current_theme["secondary"], text="Duck Duck Go!",
-        #     activebackground=self.current_theme['root'], activeforeground="white",
-        #     height=1, width=6, relief=RAISED, overrelief=RAISED,
-        #     command=partial(self.event_handler, event="search_query", query=None),
-        # )
-        # self.iexe_execute_button = Button(self.integrated_exe_frame,
-        #     **self.current_theme["secondary"], text="Execute Command",
-        #     activebackground=self.current_theme['root'], activeforeground="white",
-        #     height=1, width=6, relief=RAISED, overrelief=RAISED,
-        #     command=partial(self.event_handler, event="execute_cmd", query=None),
-        # )
-        # self.iexe_wiki_button = Button(self.integrated_exe_frame,
-        #     **self.current_theme["secondary"], text="Search Wikipedia",
-        #     activebackground=self.current_theme['root'], activeforeground="white",
-        #     height=1, width=6, relief=RAISED, overrelief=RAISED,
-        #     command=partial(self.event_handler, event="fetch_wiki", query=None),
-        # )
-
         # Widgets on root.status_bar
         self.status_bar_labels = {
             "left": Label(self.status_bar_frame,
