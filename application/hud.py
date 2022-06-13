@@ -67,28 +67,53 @@ class HUD:
             relief=FLAT, height=2, width=20, padx=20, pady=2,
         )
 
-        self.iexe_query_entry = Entry(self.integrated_exe_frame,
-            **self.current_theme["secondary"],
-            bd=5, width=28, insertbackground="white",
+        self.iexe_widgets = dict(
+            query_entry = Entry(self.integrated_exe_frame,
+                **self.current_theme["secondary"],
+                bd=5, width=28, insertbackground="white",
+            ),
+            search_button = Button(self.integrated_exe_frame,
+                **self.current_theme["secondary"], text="Duck Duck Go!",
+                activebackground=self.current_theme['root'], activeforeground="white",
+                height=1, width=6, relief=RAISED, overrelief=RAISED,
+                command=partial(self.event_handler, event="search_query", query=None),
+            ),
+            execute_button = Button(self.integrated_exe_frame,
+                **self.current_theme["secondary"], text="Execute Command",
+                activebackground=self.current_theme['root'], activeforeground="white",
+                height=1, width=6, relief=RAISED, overrelief=RAISED,
+                command=partial(self.event_handler, event="execute_cmd", query=None),
+            ),
+            wiki_button = Button(self.integrated_exe_frame,
+                **self.current_theme["secondary"], text="Search Wikipedia",
+                activebackground=self.current_theme['root'], activeforeground="white",
+                height=1, width=6, relief=RAISED, overrelief=RAISED,
+                command=partial(self.event_handler, event="fetch_wiki", query=None),
+            )
         )
-        self.iexe_search_button = Button(self.integrated_exe_frame,
-            **self.current_theme["secondary"], text="Duck Duck Go!",
-            activebackground=self.current_theme['root'], activeforeground="white",
-            height=1, width=6, relief=RAISED, overrelief=RAISED,
-            command=partial(self.event_handler, event="search_query", query=None),
-        )
-        self.iexe_execute_button = Button(self.integrated_exe_frame,
-            **self.current_theme["secondary"], text="Execute Command",
-            activebackground=self.current_theme['root'], activeforeground="white",
-            height=1, width=6, relief=RAISED, overrelief=RAISED,
-            command=partial(self.event_handler, event="execute_cmd", query=None),
-        )
-        self.iexe_wiki_button = Button(self.integrated_exe_frame,
-            **self.current_theme["secondary"], text="Search Wikipedia",
-            activebackground=self.current_theme['root'], activeforeground="white",
-            height=1, width=6, relief=RAISED, overrelief=RAISED,
-            command=partial(self.event_handler, event="fetch_wiki", query=None),
-        )
+
+        # self.iexe_query_entry = Entry(self.integrated_exe_frame,
+        #     **self.current_theme["secondary"],
+        #     bd=5, width=28, insertbackground="white",
+        # )
+        # self.iexe_search_button = Button(self.integrated_exe_frame,
+        #     **self.current_theme["secondary"], text="Duck Duck Go!",
+        #     activebackground=self.current_theme['root'], activeforeground="white",
+        #     height=1, width=6, relief=RAISED, overrelief=RAISED,
+        #     command=partial(self.event_handler, event="search_query", query=None),
+        # )
+        # self.iexe_execute_button = Button(self.integrated_exe_frame,
+        #     **self.current_theme["secondary"], text="Execute Command",
+        #     activebackground=self.current_theme['root'], activeforeground="white",
+        #     height=1, width=6, relief=RAISED, overrelief=RAISED,
+        #     command=partial(self.event_handler, event="execute_cmd", query=None),
+        # )
+        # self.iexe_wiki_button = Button(self.integrated_exe_frame,
+        #     **self.current_theme["secondary"], text="Search Wikipedia",
+        #     activebackground=self.current_theme['root'], activeforeground="white",
+        #     height=1, width=6, relief=RAISED, overrelief=RAISED,
+        #     command=partial(self.event_handler, event="fetch_wiki", query=None),
+        # )
 
         # Widgets on root.status_bar
         self.status_bar_labels = {
@@ -208,10 +233,10 @@ class HUD:
         for action in self.status_bar_actions:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
 
-        self.iexe_query_entry.pack(side=TOP, fill=BOTH, expand=1)
-        self.iexe_execute_button.pack(side=LEFT, fill=BOTH, expand=1)
-        self.iexe_search_button.pack(side=LEFT, fill=BOTH, expand=1)
-        self.iexe_wiki_button.pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_widgets["query_entry"].pack(side=TOP, fill=BOTH, expand=1)
+        self.iexe_widgets["execute_button"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_widgets["search_button"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_widgets["wiki_button"].pack(side=LEFT, fill=BOTH, expand=1)
 
         self.clock_label.pack(side=TOP, fill=BOTH, expand=0)
         self.info_frame.pack(side=TOP, fill=BOTH, expand=1)
@@ -227,19 +252,19 @@ class HUD:
 
         random_wiki_article = random_article_callback()
         if random_wiki_article:
-            self.iexe_query_entry.insert(END, "> "+random_wiki_article)
+            self.iexe_widgets["query_entry"].insert(END, "> "+random_wiki_article)
             self.event_handler(event="fetch_wiki")
         else:
-            self.iexe_query_entry.insert(END, "> ")
+            self.iexe_widgets["query_entry"].insert(END, "> ")
             self.event_handler(event="execute_subprocess", query="systeminfo")
 
         self.welcome_label.config(text=constants.WELCOME_MSG)
         self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         self.network_text.insert(END, constants.NETWORK)
 
-        self.iexe_query_entry.bind('<Return>', partial(self.event_handler, "search_query"))
-        self.iexe_query_entry.bind('<Control-Return>', partial(self.event_handler, "execute_cmd"))
-        self.iexe_query_entry.bind('<Shift-Return>', partial(self.event_handler, "fetch_wiki"))
+        self.iexe_widgets["query_entry"].bind('<Return>', partial(self.event_handler, "search_query"))
+        self.iexe_widgets["query_entry"].bind('<Control-Return>', partial(self.event_handler, "execute_cmd"))
+        self.iexe_widgets["query_entry"].bind('<Shift-Return>', partial(self.event_handler, "fetch_wiki"))
 
         self.root.bind('<Control-s>', self.save_prompt_content)
         self.root.bind('<Control-S>', self.save_prompt_content)
@@ -315,7 +340,7 @@ class HUD:
             self.prompt_text.config(state=DISABLED)
 
         elif event in ["search_query", "execute_cmd", "fetch_wiki"]:
-            query = self.iexe_query_entry.get()
+            query = self.iexe_widgets["query_entry"].get()
             if ">" in query:
                 query = query.split('>')[-1]
 
@@ -336,8 +361,8 @@ class HUD:
             else:
                 event_handler_callback(event=event, query=query)
 
-            self.iexe_query_entry.delete(0, END)
-            self.iexe_query_entry.insert(END, "> ")
+            self.iexe_widgets["query_entry"].delete(0, END)
+            self.iexe_widgets["query_entry"].insert(END, "> ")
 
     def update_widget_theme(self, theme=None, event=None):
 
@@ -368,16 +393,16 @@ class HUD:
         self.clock_label.config(**self.current_theme["primary"])
         self.welcome_label.config(**self.current_theme["primary"])
 
-        self.iexe_query_entry.config(**self.current_theme["secondary"])
-        self.iexe_search_button.config(
+        self.iexe_widgets["query_entry"].config(**self.current_theme["secondary"])
+        self.iexe_widgets["search_button"].config(
             **self.current_theme["secondary"],
             activebackground=self.current_theme['root']
         )
-        self.iexe_execute_button.config(
+        self.iexe_widgets["execute_button"].config(
             **self.current_theme["secondary"],
             activebackground=self.current_theme['root']
         )
-        self.iexe_wiki_button.config(
+        self.iexe_widgets["wiki_button"].config(
             **self.current_theme["secondary"],
             activebackground=self.current_theme['root']
         )
