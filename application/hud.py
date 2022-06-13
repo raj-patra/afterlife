@@ -93,21 +93,32 @@ class HUD:
         )
 
         # Widgets on root.status_bar
-        self.status_bar_labels = {
-            "left": Label(self.status_bar_frame,
+        self.status_bar = dict(frame = Frame(root))
+        self.status_bar.update(
+            left_label = Label(self.status_bar["frame"],
                 **self.current_theme["secondary"], text="", anchor=W,
                 relief=FLAT, height=1, padx=3, pady=2,
             ),
-            "right": Label(self.status_bar_frame,
+            right_label = Label(self.status_bar["frame"],
                 **self.current_theme["secondary"], text="", anchor=E,
                 relief=FLAT, height=1, padx=3, pady=2,
             )
-        }
+        )
+        # self.status_bar_labels = {
+        #     "left": Label(self.status_bar_frame,
+        #         **self.current_theme["secondary"], text="", anchor=W,
+        #         relief=FLAT, height=1, padx=3, pady=2,
+        #     ),
+        #     "right": Label(self.status_bar_frame,
+        #         **self.current_theme["secondary"], text="", anchor=E,
+        #         relief=FLAT, height=1, padx=3, pady=2,
+        #     )
+        # }
 
         self.status_bar_actions = []
         for action in commands.STATUS_BAR_ACTIONS:
             self.status_bar_actions.append(
-                Button(self.status_bar_frame,
+                Button(self.status_bar["frame"],
                     **self.current_theme["secondary"], text=action["label"],
                     activebackground=self.current_theme["secondary_bg"],
                     activeforeground=self.current_theme["fg"],
@@ -197,15 +208,16 @@ class HUD:
         self.root.config(menu=menu_bar)
 
     def render_widgets(self):
-        self.status_bar_frame.pack(side=BOTTOM, fill=X, expand=0)
+        self.status_bar["frame"].pack(side=BOTTOM, fill=X, expand=0)
         self.left_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
         self.right_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.welcome_label.pack(side=TOP, fill=BOTH, expand=0)
         self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
-        self.status_bar_labels["left"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.status_bar_labels["right"].pack(side=LEFT, fill=BOTH, expand=1)
+        
+        self.status_bar["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.status_bar["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
         
         for action in self.status_bar_actions:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
@@ -274,7 +286,7 @@ class HUD:
             )
             self.system_text.config(state=DISABLED)
 
-            self.status_bar_labels["left"].config(
+            self.status_bar["left_label"].config(
                 text=constants.LEFT_STATUS_LABEL.format(
                     self.current_theme["theme"],
                     pc_stats["cpu_usage"],
@@ -288,7 +300,7 @@ class HUD:
                     pc_stats["disk_percent"],
                 )
             )
-            self.status_bar_labels["right"].config(
+            self.status_bar["right_label"].config(
                 text=constants.RIGHT_STATUS_LABEL.format(
                     "🔌" if pc_stats["battery_plugged"] else "🔋",
                     pc_stats["battery_usage"],
@@ -407,7 +419,7 @@ class HUD:
             action.config(**self.current_theme["secondary"])
 
         pc_stats = pc_stats_callback()
-        self.status_bar_labels["left"].config(
+        self.status_bar["left_label"].config(
             **self.current_theme["secondary"],
             text=constants.LEFT_STATUS_LABEL.format(
                 theme,
@@ -422,7 +434,7 @@ class HUD:
                 pc_stats["disk_percent"],
             )
         )
-        self.status_bar_labels["right"].config(
+        self.status_bar["right_label"].config(
             **self.current_theme["secondary"],
             text=constants.RIGHT_STATUS_LABEL.format(
                 "🔌" if pc_stats["battery_plugged"] else "🔋",
