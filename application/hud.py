@@ -202,7 +202,7 @@ class HUD:
         self.welcome_label.pack(side=TOP, fill=BOTH, expand=0)
         self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
-        
+
         for action in self.status_bar_actions:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
 
@@ -220,7 +220,7 @@ class HUD:
 
         for action in self.action_items:
             action.pack(side=LEFT, fill=BOTH, expand=1)
-        
+
         self.status_bar["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
         self.status_bar["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
 
@@ -401,7 +401,7 @@ class HUD:
                 activebackground=schemes.THEMES[theme]['root']
             )
             colors.rotate(1)
-        
+
         for action in self.status_bar_actions:
             action.config(**self.current_theme["secondary"])
 
