@@ -43,6 +43,19 @@ class HUD:
             secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
         )
 
+        # Root - Header
+        self.header = dict(frame=Frame(root))
+        self.header.update(
+            left_label = Label(self.header["frame"],
+                **self.current_theme["primary"], text="hello world", anchor=W,
+                relief=FLAT, height=2, width=20, padx=20, pady=2,
+            ),
+            right_label = Label(self.header["frame"],
+                **self.current_theme["primary"], text="clock", anchor=E,
+                relief=FLAT, height=2, width=20, padx=20, pady=2,
+            )
+        )
+
         # Root Frames - Left
         self.left_section_frame = Frame(root)
         self.integrated_exe_frame = Frame(self.left_section_frame)
@@ -92,31 +105,6 @@ class HUD:
             )
         )
 
-        # Widgets on root.status_bar
-        self.status_bar = dict(frame = Frame(root))
-        self.status_bar.update(
-            left_label = Label(self.status_bar["frame"],
-                **self.current_theme["secondary"], text="", anchor=W,
-                relief=FLAT, height=1, padx=3, pady=2,
-            ),
-            right_label = Label(self.status_bar["frame"],
-                **self.current_theme["secondary"], text="", anchor=E,
-                relief=FLAT, height=1, padx=3, pady=2,
-            ),
-            actions = []
-        )
-
-        for action in commands.STATUS_BAR_ACTIONS:
-            self.status_bar["actions"].append(
-                Button(self.status_bar["frame"],
-                    **self.current_theme["secondary"], text=action["label"],
-                    activebackground=self.current_theme["secondary_bg"],
-                    activeforeground=self.current_theme["fg"],
-                    height=1, width=3, relief=FLAT, overrelief=GROOVE,
-                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
-                )
-            )
-
         # Widgets on root.right
         self.clock_label = Label(self.right_section_frame,
             **self.current_theme["primary"], text="", anchor=E,
@@ -149,6 +137,31 @@ class HUD:
                 )
                 self.action_items.append(button)
                 bg.rotate(1)
+
+        # Root - Status Bar
+        self.status_bar = dict(frame = Frame(root))
+        self.status_bar.update(
+            left_label = Label(self.status_bar["frame"],
+                **self.current_theme["secondary"], text="", anchor=W,
+                relief=FLAT, height=1, padx=3, pady=2,
+            ),
+            right_label = Label(self.status_bar["frame"],
+                **self.current_theme["secondary"], text="", anchor=E,
+                relief=FLAT, height=1, padx=3, pady=2,
+            ),
+            actions = []
+        )
+
+        for action in commands.STATUS_BAR_ACTIONS:
+            self.status_bar["actions"].append(
+                Button(self.status_bar["frame"],
+                    **self.current_theme["secondary"], text=action["label"],
+                    activebackground=self.current_theme["secondary_bg"],
+                    activeforeground=self.current_theme["fg"],
+                    height=1, width=3, relief=FLAT, overrelief=GROOVE,
+                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
+                )
+            )
 
     def render_menu(self):
         menu_bar = Menu(self.root, tearoff=0)
@@ -198,7 +211,12 @@ class HUD:
         self.root.config(menu=menu_bar)
 
     def render_widgets(self):
+        self.header["frame"].pack(side=TOP, fill=X, expand=0)
         self.status_bar["frame"].pack(side=BOTTOM, fill=X, expand=0)
+
+        self.header["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.header["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
+
         self.left_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
         self.right_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
 
