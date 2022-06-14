@@ -72,10 +72,6 @@ class HUD:
             **self.current_theme["primary"], wrap=WORD,
             width=50, padx=20, pady=20,
         )
-        self.welcome_label = Label(self.left_section_frame,
-            **self.current_theme["primary"], text="", anchor=W,
-            relief=FLAT, height=2, width=20, padx=20, pady=2,
-        )
 
         self.iexe_widgets = dict(
             query_entry = Entry(self.integrated_exe_frame,
@@ -106,10 +102,6 @@ class HUD:
         )
 
         # Widgets on root.right
-        self.clock_label = Label(self.right_section_frame,
-            **self.current_theme["primary"], text="", anchor=E,
-            relief=FLAT, height=2, width=20, padx=20, pady=2,
-        )
         self.network_text = Text(self.info_frame,
             **self.current_theme["secondary"], height=5, width=25, padx=20,
         )
@@ -220,7 +212,6 @@ class HUD:
         self.left_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
         self.right_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.welcome_label.pack(side=TOP, fill=BOTH, expand=0)
         self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
 
@@ -232,7 +223,6 @@ class HUD:
         self.iexe_widgets["search_button"].pack(side=LEFT, fill=BOTH, expand=1)
         self.iexe_widgets["wiki_button"].pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.clock_label.pack(side=TOP, fill=BOTH, expand=0)
         self.info_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
@@ -257,8 +247,6 @@ class HUD:
 
         self.header["left_label"].config(text=constants.WELCOME_MSG)
         self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
-        self.welcome_label.config(text=constants.WELCOME_MSG)
-        self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         self.network_text.insert(END, constants.NETWORK)
 
         self.iexe_widgets["query_entry"].bind('<Return>', partial(self.event_handler, "search_query"))
@@ -283,7 +271,6 @@ class HUD:
             pc_stats = pc_stats_callback()
 
             self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
-            self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
             self.system_text.config(state=NORMAL)
             self.system_text.delete('1.0', END)
 
@@ -390,8 +377,6 @@ class HUD:
         self.root.config(bg=self.current_theme['root'])
 
         self.prompt_text.config(**self.current_theme["primary"])
-        self.clock_label.config(**self.current_theme["primary"])
-        self.welcome_label.config(**self.current_theme["primary"])
 
         self.iexe_widgets["query_entry"].config(**self.current_theme["secondary"])
         self.iexe_widgets["search_button"].config(
