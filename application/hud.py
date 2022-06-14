@@ -255,6 +255,8 @@ class HUD:
             self.iexe_widgets["query_entry"].insert(END, "> ")
             self.event_handler(event="execute_subprocess", query="systeminfo")
 
+        self.header["left_label"].config(text=constants.WELCOME_MSG)
+        self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         self.welcome_label.config(text=constants.WELCOME_MSG)
         self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         self.network_text.insert(END, constants.NETWORK)
@@ -280,6 +282,7 @@ class HUD:
 
             pc_stats = pc_stats_callback()
 
+            self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
             self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
             self.system_text.config(state=NORMAL)
             self.system_text.delete('1.0', END)
