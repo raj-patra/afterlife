@@ -376,20 +376,26 @@ class HUD:
 
         self.root.config(bg=self.current_theme['root'])
 
+        self.header["left_label"].config(**self.current_theme["primary"])
+        self.header["right_label"].config(**self.current_theme["primary"])
+
         self.prompt_text.config(**self.current_theme["primary"])
 
         self.iexe_widgets["query_entry"].config(**self.current_theme["secondary"])
         self.iexe_widgets["search_button"].config(
             **self.current_theme["secondary"],
-            activebackground=self.current_theme['root']
+            activebackground=self.current_theme["secondary_bg"],
+            activeforeground=self.current_theme["fg"],
         )
         self.iexe_widgets["execute_button"].config(
             **self.current_theme["secondary"],
-            activebackground=self.current_theme['root']
+            activebackground=self.current_theme["secondary_bg"],
+            activeforeground=self.current_theme["fg"],
         )
         self.iexe_widgets["wiki_button"].config(
             **self.current_theme["secondary"],
-            activebackground=self.current_theme['root']
+            activebackground=self.current_theme["secondary_bg"],
+            activeforeground=self.current_theme["fg"],
         )
 
         self.network_text.config(**self.current_theme["secondary"])
@@ -407,12 +413,17 @@ class HUD:
             button.config(
                 bg=colors[0],
                 fg=self.current_theme['fg'],
-                activebackground=schemes.THEMES[theme]['root']
+                activebackground=colors[0],
+                activeforeground=self.current_theme['fg'],
             )
             colors.rotate(1)
 
         for action in self.status_bar["actions"]:
-            action.config(**self.current_theme["secondary"])
+            action.config(
+                **self.current_theme["secondary"],
+                activebackground=self.current_theme["secondary_bg"],
+                activeforeground=self.current_theme["fg"],
+            )
 
         pc_stats = pc_stats_callback()
         self.status_bar["left_label"].config(
