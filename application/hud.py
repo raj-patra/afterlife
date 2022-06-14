@@ -43,8 +43,18 @@ class HUD:
             secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
         )
 
-        # Root Frame - Bottom
-        self.status_bar_frame = Frame(root)
+        # Root - Header
+        self.header = dict(frame=Frame(root))
+        self.header.update(
+            left_label = Label(self.header["frame"],
+                **self.current_theme["primary"], text="hello world", anchor=W,
+                relief=FLAT, height=2, width=20, padx=20, pady=2,
+            ),
+            right_label = Label(self.header["frame"],
+                **self.current_theme["primary"], text="clock", anchor=E,
+                relief=FLAT, height=2, width=20, padx=20, pady=2,
+            )
+        )
 
         # Root Frames - Left
         self.left_section_frame = Frame(root)
@@ -62,63 +72,36 @@ class HUD:
             **self.current_theme["primary"], wrap=WORD,
             width=50, padx=20, pady=20,
         )
-        self.welcome_label = Label(self.left_section_frame,
-            **self.current_theme["primary"], text="", anchor=W,
-            relief=FLAT, height=2, width=20, padx=20, pady=2,
-        )
 
-        self.iexe_query_entry = Entry(self.integrated_exe_frame,
-            **self.current_theme["secondary"],
-            bd=5, width=28, insertbackground="white",
-        )
-        self.iexe_search_button = Button(self.integrated_exe_frame,
-            **self.current_theme["secondary"], text="Duck Duck Go!",
-            activebackground=self.current_theme['root'], activeforeground="white",
-            height=1, width=6, relief=RAISED, overrelief=RAISED,
-            command=partial(self.event_handler, event="search_query", query=None),
-        )
-        self.iexe_execute_button = Button(self.integrated_exe_frame,
-            **self.current_theme["secondary"], text="Execute Command",
-            activebackground=self.current_theme['root'], activeforeground="white",
-            height=1, width=6, relief=RAISED, overrelief=RAISED,
-            command=partial(self.event_handler, event="execute_cmd", query=None),
-        )
-        self.iexe_wiki_button = Button(self.integrated_exe_frame,
-            **self.current_theme["secondary"], text="Search Wikipedia",
-            activebackground=self.current_theme['root'], activeforeground="white",
-            height=1, width=6, relief=RAISED, overrelief=RAISED,
-            command=partial(self.event_handler, event="fetch_wiki", query=None),
-        )
-
-        # Widgets on root.status_bar
-        self.status_bar_labels = {
-            "left": Label(self.status_bar_frame,
-                **self.current_theme["secondary"], text="", anchor=W,
-                relief=FLAT, height=1, padx=3, pady=2,
+        self.iexe_widgets = dict(
+            query_entry = Entry(self.integrated_exe_frame,
+                **self.current_theme["secondary"],
+                bd=5, width=28, insertbackground="white",
             ),
-            "right": Label(self.status_bar_frame,
-                **self.current_theme["secondary"], text="", anchor=E,
-                relief=FLAT, height=1, padx=3, pady=2,
+            search_button = Button(self.integrated_exe_frame,
+                **self.current_theme["secondary"], text="Duck Duck Go!",
+                activebackground=self.current_theme["secondary_bg"],
+                activeforeground=self.current_theme["fg"],
+                height=1, width=6, relief=RAISED, overrelief=RAISED,
+                command=partial(self.event_handler, event="search_query", query=None),
+            ),
+            execute_button = Button(self.integrated_exe_frame,
+                **self.current_theme["secondary"], text="Execute Command",
+                activebackground=self.current_theme["secondary_bg"],
+                activeforeground=self.current_theme["fg"],
+                height=1, width=6, relief=RAISED, overrelief=RAISED,
+                command=partial(self.event_handler, event="execute_cmd", query=None),
+            ),
+            wiki_button = Button(self.integrated_exe_frame,
+                **self.current_theme["secondary"], text="Search Wikipedia",
+                activebackground=self.current_theme["secondary_bg"],
+                activeforeground=self.current_theme["fg"],
+                height=1, width=6, relief=RAISED, overrelief=RAISED,
+                command=partial(self.event_handler, event="fetch_wiki", query=None),
             )
-        }
-
-        self.status_bar_actions = []
-        for action in commands.STATUS_BAR_ACTIONS:
-            self.status_bar_actions.append(
-                Button(self.status_bar_frame,
-                    **self.current_theme["secondary"], text=action["label"],
-                    activebackground=self.current_theme["secondary_bg"],
-                    activeforeground=self.current_theme["fg"],
-                    height=1, width=3, relief=FLAT, overrelief=GROOVE,
-                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
-                )
-            )
+        )
 
         # Widgets on root.right
-        self.clock_label = Label(self.right_section_frame,
-            **self.current_theme["primary"], text="", anchor=E,
-            relief=FLAT, height=2, width=20, padx=20, pady=2,
-        )
         self.network_text = Text(self.info_frame,
             **self.current_theme["secondary"], height=5, width=25, padx=20,
         )
@@ -146,6 +129,31 @@ class HUD:
                 )
                 self.action_items.append(button)
                 bg.rotate(1)
+
+        # Root - Status Bar
+        self.status_bar = dict(frame = Frame(root))
+        self.status_bar.update(
+            left_label = Label(self.status_bar["frame"],
+                **self.current_theme["secondary"], text="", anchor=W,
+                relief=FLAT, height=1, padx=3, pady=2,
+            ),
+            right_label = Label(self.status_bar["frame"],
+                **self.current_theme["secondary"], text="", anchor=E,
+                relief=FLAT, height=1, padx=3, pady=2,
+            ),
+            actions = []
+        )
+
+        for action in commands.STATUS_BAR_ACTIONS:
+            self.status_bar["actions"].append(
+                Button(self.status_bar["frame"],
+                    **self.current_theme["secondary"], text=action["label"],
+                    activebackground=self.current_theme["secondary_bg"],
+                    activeforeground=self.current_theme["fg"],
+                    height=1, width=3, relief=FLAT, overrelief=GROOVE,
+                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
+                )
+            )
 
     def render_menu(self):
         menu_bar = Menu(self.root, tearoff=0)
@@ -195,25 +203,26 @@ class HUD:
         self.root.config(menu=menu_bar)
 
     def render_widgets(self):
-        self.status_bar_frame.pack(side=BOTTOM, fill=X, expand=0)
+        self.header["frame"].pack(side=TOP, fill=X, expand=0)
+        self.status_bar["frame"].pack(side=BOTTOM, fill=X, expand=0)
+
+        self.header["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.header["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
+
         self.left_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
         self.right_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.welcome_label.pack(side=TOP, fill=BOTH, expand=0)
         self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
-        self.status_bar_labels["left"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.status_bar_labels["right"].pack(side=LEFT, fill=BOTH, expand=1)
-        
-        for action in self.status_bar_actions:
+
+        for action in self.status_bar["actions"]:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
 
-        self.iexe_query_entry.pack(side=TOP, fill=BOTH, expand=1)
-        self.iexe_execute_button.pack(side=LEFT, fill=BOTH, expand=1)
-        self.iexe_search_button.pack(side=LEFT, fill=BOTH, expand=1)
-        self.iexe_wiki_button.pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_widgets["query_entry"].pack(side=TOP, fill=BOTH, expand=1)
+        self.iexe_widgets["execute_button"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_widgets["search_button"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_widgets["wiki_button"].pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.clock_label.pack(side=TOP, fill=BOTH, expand=0)
         self.info_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
@@ -223,23 +232,26 @@ class HUD:
         for action in self.action_items:
             action.pack(side=LEFT, fill=BOTH, expand=1)
 
+        self.status_bar["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.status_bar["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
+
     def start_widgets(self):
 
         random_wiki_article = random_article_callback()
         if random_wiki_article:
-            self.iexe_query_entry.insert(END, "> "+random_wiki_article)
+            self.iexe_widgets["query_entry"].insert(END, "> "+random_wiki_article)
             self.event_handler(event="fetch_wiki")
         else:
-            self.iexe_query_entry.insert(END, "> ")
+            self.iexe_widgets["query_entry"].insert(END, "> ")
             self.event_handler(event="execute_subprocess", query="systeminfo")
 
-        self.welcome_label.config(text=constants.WELCOME_MSG)
-        self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
+        self.header["left_label"].config(text=constants.WELCOME_MSG)
+        self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
         self.network_text.insert(END, constants.NETWORK)
 
-        self.iexe_query_entry.bind('<Return>', partial(self.event_handler, "search_query"))
-        self.iexe_query_entry.bind('<Control-Return>', partial(self.event_handler, "execute_cmd"))
-        self.iexe_query_entry.bind('<Shift-Return>', partial(self.event_handler, "fetch_wiki"))
+        self.iexe_widgets["query_entry"].bind('<Return>', partial(self.event_handler, "search_query"))
+        self.iexe_widgets["query_entry"].bind('<Control-Return>', partial(self.event_handler, "execute_cmd"))
+        self.iexe_widgets["query_entry"].bind('<Shift-Return>', partial(self.event_handler, "fetch_wiki"))
 
         self.root.bind('<Control-s>', self.save_prompt_content)
         self.root.bind('<Control-S>', self.save_prompt_content)
@@ -258,7 +270,7 @@ class HUD:
 
             pc_stats = pc_stats_callback()
 
-            self.clock_label.config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
+            self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
             self.system_text.config(state=NORMAL)
             self.system_text.delete('1.0', END)
 
@@ -272,7 +284,7 @@ class HUD:
             )
             self.system_text.config(state=DISABLED)
 
-            self.status_bar_labels["left"].config(
+            self.status_bar["left_label"].config(
                 text=constants.LEFT_STATUS_LABEL.format(
                     self.current_theme["theme"],
                     pc_stats["cpu_usage"],
@@ -286,7 +298,7 @@ class HUD:
                     pc_stats["disk_percent"],
                 )
             )
-            self.status_bar_labels["right"].config(
+            self.status_bar["right_label"].config(
                 text=constants.RIGHT_STATUS_LABEL.format(
                     "🔌" if pc_stats["battery_plugged"] else "🔋",
                     pc_stats["battery_usage"],
@@ -315,7 +327,7 @@ class HUD:
             self.prompt_text.config(state=DISABLED)
 
         elif event in ["search_query", "execute_cmd", "fetch_wiki"]:
-            query = self.iexe_query_entry.get()
+            query = self.iexe_widgets["query_entry"].get()
             if ">" in query:
                 query = query.split('>')[-1]
 
@@ -336,8 +348,8 @@ class HUD:
             else:
                 event_handler_callback(event=event, query=query)
 
-            self.iexe_query_entry.delete(0, END)
-            self.iexe_query_entry.insert(END, "> ")
+            self.iexe_widgets["query_entry"].delete(0, END)
+            self.iexe_widgets["query_entry"].insert(END, "> ")
 
     def update_widget_theme(self, theme=None, event=None):
 
@@ -364,22 +376,26 @@ class HUD:
 
         self.root.config(bg=self.current_theme['root'])
 
-        self.prompt_text.config(**self.current_theme["primary"])
-        self.clock_label.config(**self.current_theme["primary"])
-        self.welcome_label.config(**self.current_theme["primary"])
+        self.header["left_label"].config(**self.current_theme["primary"])
+        self.header["right_label"].config(**self.current_theme["primary"])
 
-        self.iexe_query_entry.config(**self.current_theme["secondary"])
-        self.iexe_search_button.config(
+        self.prompt_text.config(**self.current_theme["primary"])
+
+        self.iexe_widgets["query_entry"].config(**self.current_theme["secondary"])
+        self.iexe_widgets["search_button"].config(
             **self.current_theme["secondary"],
-            activebackground=self.current_theme['root']
+            activebackground=self.current_theme["secondary_bg"],
+            activeforeground=self.current_theme["fg"],
         )
-        self.iexe_execute_button.config(
+        self.iexe_widgets["execute_button"].config(
             **self.current_theme["secondary"],
-            activebackground=self.current_theme['root']
+            activebackground=self.current_theme["secondary_bg"],
+            activeforeground=self.current_theme["fg"],
         )
-        self.iexe_wiki_button.config(
+        self.iexe_widgets["wiki_button"].config(
             **self.current_theme["secondary"],
-            activebackground=self.current_theme['root']
+            activebackground=self.current_theme["secondary_bg"],
+            activeforeground=self.current_theme["fg"],
         )
 
         self.network_text.config(**self.current_theme["secondary"])
@@ -397,15 +413,20 @@ class HUD:
             button.config(
                 bg=colors[0],
                 fg=self.current_theme['fg'],
-                activebackground=schemes.THEMES[theme]['root']
+                activebackground=colors[0],
+                activeforeground=self.current_theme['fg'],
             )
             colors.rotate(1)
-        
-        for action in self.status_bar_actions:
-            action.config(**self.current_theme["secondary"])
+
+        for action in self.status_bar["actions"]:
+            action.config(
+                **self.current_theme["secondary"],
+                activebackground=self.current_theme["secondary_bg"],
+                activeforeground=self.current_theme["fg"],
+            )
 
         pc_stats = pc_stats_callback()
-        self.status_bar_labels["left"].config(
+        self.status_bar["left_label"].config(
             **self.current_theme["secondary"],
             text=constants.LEFT_STATUS_LABEL.format(
                 theme,
@@ -420,7 +441,7 @@ class HUD:
                 pc_stats["disk_percent"],
             )
         )
-        self.status_bar_labels["right"].config(
+        self.status_bar["right_label"].config(
             **self.current_theme["secondary"],
             text=constants.RIGHT_STATUS_LABEL.format(
                 "🔌" if pc_stats["battery_plugged"] else "🔋",
