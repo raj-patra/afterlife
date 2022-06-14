@@ -102,12 +102,12 @@ class HUD:
             right_label = Label(self.status_bar["frame"],
                 **self.current_theme["secondary"], text="", anchor=E,
                 relief=FLAT, height=1, padx=3, pady=2,
-            )
+            ),
+            actions = []
         )
 
-        self.status_bar_actions = []
         for action in commands.STATUS_BAR_ACTIONS:
-            self.status_bar_actions.append(
+            self.status_bar["actions"].append(
                 Button(self.status_bar["frame"],
                     **self.current_theme["secondary"], text=action["label"],
                     activebackground=self.current_theme["secondary_bg"],
@@ -206,7 +206,7 @@ class HUD:
         self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
 
-        for action in self.status_bar_actions:
+        for action in self.status_bar["actions"]:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
 
         self.iexe_widgets["query_entry"].pack(side=TOP, fill=BOTH, expand=1)
@@ -405,7 +405,7 @@ class HUD:
             )
             colors.rotate(1)
 
-        for action in self.status_bar_actions:
+        for action in self.status_bar["actions"]:
             action.config(**self.current_theme["secondary"])
 
         pc_stats = pc_stats_callback()
