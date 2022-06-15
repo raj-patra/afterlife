@@ -231,7 +231,7 @@ class HUD:
         self.status_bar["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
         self.status_bar["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
 
-    def start_widgets(self):
+    def initialize_widgets(self):
 
         random_wiki_article = random_article_callback()
         if random_wiki_article:
