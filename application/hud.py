@@ -149,16 +149,14 @@ class HUD:
                 )
             )
 
-        self.side_bar.update(
-            actions = []
-        )
-        for action in commands.STATUS_BAR_ACTIONS:
+        self.side_bar.update(actions = [])
+        for action in commands.SIDE_BAR_ACTIONS:
             self.side_bar["actions"].append(
                 Button(self.side_bar["frame"],
-                    **self.current_theme["primary"], text=action["label"],
-                    activebackground=self.current_theme["secondary_bg"],
+                    **self.current_theme["primary"], text=action["icon"],
+                    activebackground=self.current_theme["primary_bg"],
                     activeforeground=self.current_theme["fg"],
-                    height=1, width=3, relief=FLAT, overrelief=GROOVE,
+                    height=2, width=2, relief=FLAT, overrelief=GROOVE,
                     command=partial(self.event_handler, event=action["event"], query=action["query"]),
                 )
             )
@@ -434,6 +432,14 @@ class HUD:
             action.config(
                 **self.current_theme["secondary"],
                 activebackground=self.current_theme["secondary_bg"],
+                activeforeground=self.current_theme["fg"],
+            )
+
+        self.side_bar["frame"].config(bg=self.current_theme["primary_bg"])
+        for action in self.side_bar["actions"]:
+            action.config(
+                **self.current_theme["primary"],
+                activebackground=self.current_theme["primary_bg"],
                 activeforeground=self.current_theme["fg"],
             )
 
