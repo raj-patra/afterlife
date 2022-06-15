@@ -58,7 +58,8 @@ class HUD:
 
         # Root Frames - Left
         self.left_section_frame = Frame(root)
-        self.integrated_exe_frame = Frame(self.left_section_frame)
+        self.iexe_widgets = dict(frame = Frame(self.left_section_frame))
+        # self.integrated_exe_frame = Frame(self.left_section_frame)
 
         # Root Frames - Right
         self.right_section_frame = Frame(root)
@@ -73,26 +74,26 @@ class HUD:
             width=50, padx=20, pady=20,
         )
 
-        self.iexe_widgets = dict(
-            query_entry = Entry(self.integrated_exe_frame,
+        self.iexe_widgets.update(
+            query_entry = Entry(self.iexe_widgets["frame"],
                 **self.current_theme["secondary"],
                 bd=5, width=28, insertbackground="white",
             ),
-            search_button = Button(self.integrated_exe_frame,
+            search_button = Button(self.iexe_widgets["frame"],
                 **self.current_theme["secondary"], text="Duck Duck Go!",
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
                 command=partial(self.event_handler, event="search_query", query=None),
             ),
-            execute_button = Button(self.integrated_exe_frame,
+            execute_button = Button(self.iexe_widgets["frame"],
                 **self.current_theme["secondary"], text="Execute Command",
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
                 command=partial(self.event_handler, event="execute_cmd", query=None),
             ),
-            wiki_button = Button(self.integrated_exe_frame,
+            wiki_button = Button(self.iexe_widgets["frame"],
                 **self.current_theme["secondary"], text="Search Wikipedia",
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
@@ -212,7 +213,8 @@ class HUD:
         self.left_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
         self.right_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
+        # self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
+        self.iexe_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
 
         for action in self.status_bar["actions"]:
