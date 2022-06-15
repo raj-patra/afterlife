@@ -46,6 +46,7 @@ class HUD:
         # Root - Frames
         self.header = dict(frame=Frame(self.root))
         self.left_section_frame = Frame(self.root)
+        self.side_bar = dict(frame = Frame(self.left_section_frame, bg=self.current_theme['primary_bg'], bd=5))
         self.iexe_widgets = dict(frame = Frame(self.left_section_frame))
         self.right_section_frame = Frame(self.root)
         self.info_frame = Frame(self.right_section_frame, height=1)
@@ -137,11 +138,24 @@ class HUD:
             ),
             actions = []
         )
-
         for action in commands.STATUS_BAR_ACTIONS:
             self.status_bar["actions"].append(
                 Button(self.status_bar["frame"],
                     **self.current_theme["secondary"], text=action["label"],
+                    activebackground=self.current_theme["secondary_bg"],
+                    activeforeground=self.current_theme["fg"],
+                    height=1, width=3, relief=FLAT, overrelief=GROOVE,
+                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
+                )
+            )
+
+        self.side_bar.update(
+            actions = []
+        )
+        for action in commands.STATUS_BAR_ACTIONS:
+            self.side_bar["actions"].append(
+                Button(self.side_bar["frame"],
+                    **self.current_theme["primary"], text=action["label"],
                     activebackground=self.current_theme["secondary_bg"],
                     activeforeground=self.current_theme["fg"],
                     height=1, width=3, relief=FLAT, overrelief=GROOVE,
@@ -206,11 +220,15 @@ class HUD:
         self.left_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
         self.right_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
 
+        self.side_bar["frame"].pack(side=LEFT, fill=Y, expand=0)
         self.iexe_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
 
         for action in self.status_bar["actions"]:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
+
+        for action in self.side_bar["actions"]:
+            action.pack(side=TOP, fill=BOTH, expand=0)
 
         self.iexe_widgets["query_entry"].pack(side=TOP, fill=BOTH, expand=1)
         self.iexe_widgets["execute_button"].pack(side=LEFT, fill=BOTH, expand=1)
