@@ -35,6 +35,20 @@ NATIVE_APPS = {
     ]
 }
 
+SIDE_BAR_ACTIONS = [
+    dict(event="start_app", icon="⏰", label="Alarms & Clock", query="start ms-clock:"),
+    dict(event="start_app", icon="➗", label="Calculator", query="start calculator:"),
+    dict(event="start_app", icon="📆", label="Calendar", query="start outlook cal:"),
+    dict(event="start_app", icon="📸", label="Camera", query="start microsoft.windows.camera:"),
+    dict(event="start_app", icon="🎶", label="Groove Music", query="start mswindowsmusic:"),
+    dict(event="start_app", icon="📧", label="Mail", query="start outlookmail:"),
+    dict(event="start_app", icon="🌐", label="Microsoft Edge", query="start microsoft-edge:"),
+    dict(event="start_app", icon="🎥", label="Movies & TV", query="start mswindowsvideo:"),
+    dict(event="start_app", icon="🤳", label="Photos", query="start ms-photos:"),
+    dict(event="start_app", icon="✂", label="Snip & Sketch", query="start ms-ScreenSketch:"),
+    dict(event="start_app", icon="🔐", label="Windows Security", query="start windowsdefender:"),
+]
+
 STATUS_BAR_ACTIONS = [
     dict(event="start_app", label="⚙", query="start ms-settings:"),
     dict(event="start_app", label="🗨", query="start ms-actioncenter:"),
@@ -83,7 +97,7 @@ ACTIONS = {
 MENUS = {
     "CLIs": [
         dict(event="start_app", label="Command Prompt", query="start cmd /k cd /d %USERPROFILE%\Desktop"),
-        dict(event="start_app", label="query Prompt - Admin", query='start powershell "start cmd -v runAs"'),
+        dict(event="start_app", label="Command Prompt - Admin", query='start powershell "start cmd -v runAs"'),
         dict(event="start_app", label="Powershell", query="start powershell"),
         dict(event="start_app", label="WSL Bash", query="start bash"),
         "---",
