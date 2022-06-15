@@ -43,8 +43,18 @@ class HUD:
             secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
         )
 
-        # Root - Header
+        # Root - Frames
         self.header = dict(frame=Frame(root))
+        self.left_section_frame = Frame(root)
+        self.iexe_widgets = dict(frame = Frame(self.left_section_frame))
+        self.right_section_frame = Frame(root)
+        self.info_frame = Frame(self.right_section_frame, height=1)
+        self.action_centre_frame = Frame(self.right_section_frame,
+            width=80, height=50,
+            bg=self.current_theme['root'], padx=0, pady=0)
+        self.status_bar = dict(frame = Frame(root))
+        
+        # Widgets on root.header
         self.header.update(
             left_label = Label(self.header["frame"],
                 **self.current_theme["primary"], text="hello world", anchor=W,
@@ -56,24 +66,11 @@ class HUD:
             )
         )
 
-        # Root Frames - Left
-        self.left_section_frame = Frame(root)
-        self.iexe_widgets = dict(frame = Frame(self.left_section_frame))
-        # self.integrated_exe_frame = Frame(self.left_section_frame)
-
-        # Root Frames - Right
-        self.right_section_frame = Frame(root)
-        self.info_frame = Frame(self.right_section_frame, height=1)
-        self.action_centre_frame = Frame(self.right_section_frame,
-            width=80, height=50,
-            bg=self.current_theme['root'], padx=0, pady=0)
-
         # Widgets on root.left
         self.prompt_text = Text(self.left_section_frame,
             **self.current_theme["primary"], wrap=WORD,
             width=50, padx=20, pady=20,
         )
-
         self.iexe_widgets.update(
             query_entry = Entry(self.iexe_widgets["frame"],
                 **self.current_theme["secondary"],
@@ -115,7 +112,6 @@ class HUD:
         self.button_frames = []
 
         for row in commands.ACTIONS.keys():
-
             action_row = Frame(self.action_centre_frame, bg=self.current_theme['root'], pady=1)
             action_row.pack(side=TOP, fill=BOTH, expand=1)
             self.button_frames.append(action_row)
@@ -131,8 +127,7 @@ class HUD:
                 self.action_items.append(button)
                 bg.rotate(1)
 
-        # Root - Status Bar
-        self.status_bar = dict(frame = Frame(root))
+        # Widgets on root.status_bar
         self.status_bar.update(
             left_label = Label(self.status_bar["frame"],
                 **self.current_theme["secondary"], text="", anchor=W,
@@ -213,7 +208,6 @@ class HUD:
         self.left_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
         self.right_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
 
-        # self.integrated_exe_frame.pack(side=TOP, fill=BOTH, expand=1)
         self.iexe_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
 
