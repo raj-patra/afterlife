@@ -57,11 +57,11 @@ class HUD:
         self.header.update(
             left_label = Label(self.header["frame"],
                 **self.current_theme["primary"], text="hello world", anchor=W,
-                relief=FLAT, height=2, width=20, padx=20, pady=2,
+                relief=FLAT, height=2, width=20, padx=10, pady=2,
             ),
             right_label = Label(self.header["frame"],
                 **self.current_theme["primary"], text="clock", anchor=E,
-                relief=FLAT, height=2, width=20, padx=20, pady=2,
+                relief=FLAT, height=2, width=20, padx=10, pady=2,
             )
         )
 
