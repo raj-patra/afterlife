@@ -52,7 +52,7 @@ class HUD:
         self.info_frame = Frame(self.right_section_frame, height=1)
         self.action_centre_frame = Frame(self.right_section_frame, bg=self.current_theme['root'])
         self.status_bar = dict(frame = Frame(self.root))
-        
+
         # Widgets on root.header
         self.header.update(
             left_label = Label(self.header["frame"],
@@ -126,6 +126,19 @@ class HUD:
                 self.action_items.append(button)
                 bg.rotate(1)
 
+        # Widgets on root.side_bar
+        self.side_bar.update(actions = [])
+        for action in commands.SIDE_BAR_ACTIONS:
+            self.side_bar["actions"].append(
+                Button(self.side_bar["frame"],
+                    **self.current_theme["primary"], text=action["icon"],
+                    activebackground=self.current_theme["primary_bg"],
+                    activeforeground=self.current_theme["fg"],
+                    height=2, width=4, relief=FLAT, overrelief=GROOVE,
+                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
+                )
+            )
+
         # Widgets on root.status_bar
         self.status_bar.update(
             left_label = Label(self.status_bar["frame"],
@@ -149,17 +162,6 @@ class HUD:
                 )
             )
 
-        self.side_bar.update(actions = [])
-        for action in commands.SIDE_BAR_ACTIONS:
-            self.side_bar["actions"].append(
-                Button(self.side_bar["frame"],
-                    **self.current_theme["primary"], text=action["icon"],
-                    activebackground=self.current_theme["primary_bg"],
-                    activeforeground=self.current_theme["fg"],
-                    height=2, width=2, relief=FLAT, overrelief=GROOVE,
-                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
-                )
-            )
 
     def render_menu(self):
         menu_bar = Menu(self.root, tearoff=0)
