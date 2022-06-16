@@ -52,16 +52,16 @@ class HUD:
         self.info_frame = Frame(self.right_section_frame, height=1)
         self.action_centre_frame = Frame(self.right_section_frame, bg=self.current_theme['root'])
         self.status_bar = dict(frame = Frame(self.root))
-        
+
         # Widgets on root.header
         self.header.update(
             left_label = Label(self.header["frame"],
                 **self.current_theme["primary"], text="hello world", anchor=W,
-                relief=FLAT, height=2, width=20, padx=20, pady=2,
+                relief=FLAT, height=2, width=20, padx=10, pady=2,
             ),
             right_label = Label(self.header["frame"],
                 **self.current_theme["primary"], text="clock", anchor=E,
-                relief=FLAT, height=2, width=20, padx=20, pady=2,
+                relief=FLAT, height=2, width=20, padx=10, pady=2,
             )
         )
 
@@ -126,6 +126,19 @@ class HUD:
                 self.action_items.append(button)
                 bg.rotate(1)
 
+        # Widgets on root.side_bar
+        self.side_bar.update(actions = [])
+        for action in commands.SIDE_BAR_ACTIONS:
+            self.side_bar["actions"].append(
+                Button(self.side_bar["frame"],
+                    **self.current_theme["primary"], text=action["icon"],
+                    activebackground=self.current_theme["primary_bg"],
+                    activeforeground=self.current_theme["fg"],
+                    height=2, width=4, relief=FLAT, overrelief=GROOVE,
+                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
+                )
+            )
+
         # Widgets on root.status_bar
         self.status_bar.update(
             left_label = Label(self.status_bar["frame"],
@@ -149,17 +162,6 @@ class HUD:
                 )
             )
 
-        self.side_bar.update(actions = [])
-        for action in commands.SIDE_BAR_ACTIONS:
-            self.side_bar["actions"].append(
-                Button(self.side_bar["frame"],
-                    **self.current_theme["primary"], text=action["icon"],
-                    activebackground=self.current_theme["primary_bg"],
-                    activeforeground=self.current_theme["fg"],
-                    height=2, width=2, relief=FLAT, overrelief=GROOVE,
-                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
-                )
-            )
 
     def render_menu(self):
         menu_bar = Menu(self.root, tearoff=0)
@@ -187,15 +189,6 @@ class HUD:
         menu_item.add_command(label='Send Feedback', command=partial(self.event_handler, "open_url", "https://github.com/raj-patra/afterlife/issues/new"))
         menu_item.add_command(label='Exit', command=partial(destroy_root_callback, self.root), accelerator='Alt+F4')
         menu_bar.add_cascade(label='Application', menu=menu_item)
-
-        app_choice = Menu(menu_bar, tearoff=0)
-        for app_type, apps in commands.NATIVE_APPS.items():
-            app_category = Menu(app_choice, tearoff=0)
-            for app in apps:
-                app_category.add_command(label=app["label"], command=partial(self.event_handler, app["event"], app["query"]))
-            app_choice.add_cascade(label=app_type, menu=app_category)
-
-        menu_bar.add_cascade(label="Native Apps", menu=app_choice)
 
         for label, actions in commands.MENUS.items():
             item = Menu(menu_bar, tearoff=0)

@@ -46,6 +46,7 @@ SIDE_BAR_ACTIONS = [
     dict(event="start_app", icon="🎥", label="Movies & TV", query="start mswindowsvideo:"),
     dict(event="start_app", icon="🤳", label="Photos", query="start ms-photos:"),
     dict(event="start_app", icon="✂", label="Snip & Sketch", query="start ms-ScreenSketch:"),
+    dict(event="start_app", icon="⛅", label="Weather", query="start bingweather:"),
     dict(event="start_app", icon="🔐", label="Windows Security", query="start windowsdefender:"),
 ]
 
