@@ -80,21 +80,21 @@ class HUD:
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
-                command=partial(self.event_handler, event="search_query", query=None),
+                command=partial(self._event_handler, event="search_query", query=None),
             ),
             execute_button = Button(self.iexe_widgets["frame"],
                 **self.current_theme["secondary"], text="Execute Command",
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
-                command=partial(self.event_handler, event="execute_cmd", query=None),
+                command=partial(self._event_handler, event="execute_cmd", query=None),
             ),
             wiki_button = Button(self.iexe_widgets["frame"],
                 **self.current_theme["secondary"], text="Search Wikipedia",
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
-                command=partial(self.event_handler, event="fetch_wiki", query=None),
+                command=partial(self._event_handler, event="fetch_wiki", query=None),
             )
         )
 
@@ -119,7 +119,7 @@ class HUD:
                     activebackground=bg[0], activeforeground=self.current_theme['fg'],
                     font=(HUD.default_font, 10), text=action["label"],
                     height=1, width=6, relief=FLAT, overrelief=GROOVE,
-                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
+                    command=partial(self._event_handler, event=action["event"], query=action["query"]),
                 )
                 self.action_items.append(button)
                 bg.rotate(1)
@@ -133,7 +133,7 @@ class HUD:
                     activebackground=self.current_theme["primary_bg"],
                     activeforeground=self.current_theme["fg"],
                     height=2, width=4, relief=FLAT, overrelief=GROOVE,
-                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
+                    command=partial(self._event_handler, event=action["event"], query=action["query"]),
                 )
             )
 
@@ -156,7 +156,7 @@ class HUD:
                     activebackground=self.current_theme["secondary_bg"],
                     activeforeground=self.current_theme["fg"],
                     height=1, width=3, relief=FLAT, overrelief=GROOVE,
-                    command=partial(self.event_handler, event=action["event"], query=action["query"]),
+                    command=partial(self._event_handler, event=action["event"], query=action["query"]),
                 )
             )
 
@@ -167,24 +167,24 @@ class HUD:
         menu_item = Menu(menu_bar, tearoff=0)
         menu_item.add_command(label='About', command=about_dialog_callback)
         menu_item.add_separator()
-        menu_item.add_command(label='Save Prompt', command=self.save_prompt_content, accelerator='Ctrl+S')
-        menu_item.add_command(label='Clear Prompt', command=partial(self.event_handler, event="clear_prompt"), accelerator='Ctrl+Del')
+        menu_item.add_command(label='Save Prompt', command=self._save_prompt_content, accelerator='Ctrl+S')
+        menu_item.add_command(label='Clear Prompt', command=partial(self._event_handler, event="clear_prompt"), accelerator='Ctrl+Del')
         menu_item.add_separator()
 
         theme_choice = Menu(menu_bar, tearoff=0)
-        theme_choice.add_command(label="Random Theme", command=self.update_widget_theme, accelerator='Ctrl+T')
+        theme_choice.add_command(label="Random Theme", command=self._update_widget_theme, accelerator='Ctrl+T')
         theme_choice.add_separator()
 
         for category, themes in schemes.THEME_TYPES.items():
             theme_category = Menu(theme_choice, tearoff=0)
 
             for theme in themes:
-                theme_category.add_command(label=theme, command=partial(self.update_widget_theme, theme))
+                theme_category.add_command(label=theme, command=partial(self._update_widget_theme, theme))
             theme_choice.add_cascade(label=category, menu=theme_category)
 
         menu_item.add_cascade(label="Themes", menu=theme_choice)
         menu_item.add_separator()
-        menu_item.add_command(label='Send Feedback', command=partial(self.event_handler, "open_url", "https://github.com/raj-patra/afterlife/issues/new"))
+        menu_item.add_command(label='Send Feedback', command=partial(self._event_handler, "open_url", "https://github.com/raj-patra/afterlife/issues/new"))
         menu_item.add_command(label='Exit', command=partial(destroy_root_callback, self.root), accelerator='Alt+F4')
         menu_bar.add_cascade(label='Application', menu=menu_item)
 
@@ -192,7 +192,7 @@ class HUD:
             item = Menu(menu_bar, tearoff=0)
             for action in actions:
                 if type(action) == dict:
-                    item.add_command(label=action["label"], command=partial(self.event_handler, action["event"], action["query"]))
+                    item.add_command(label=action["label"], command=partial(self._event_handler, action["event"], action["query"]))
                 else:
                     item.add_separator()
             menu_bar.add_cascade(label=label, menu=item)
@@ -239,23 +239,23 @@ class HUD:
         random_wiki_article = random_article_callback()
         if random_wiki_article:
             self.iexe_widgets["query_entry"].insert(END, "> "+random_wiki_article)
-            self.event_handler(event="fetch_wiki")
+            self._event_handler(event="fetch_wiki")
         else:
             self.iexe_widgets["query_entry"].insert(END, "> ")
-            self.event_handler(event="execute_subprocess", query="systeminfo")
+            self._event_handler(event="execute_subprocess", query="systeminfo")
 
         self.header["left_label"].config(text=constants.WELCOME_MSG)
         self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
-        self.iexe_widgets["query_entry"].bind('<Return>', partial(self.event_handler, "search_query"))
-        self.iexe_widgets["query_entry"].bind('<Control-Return>', partial(self.event_handler, "execute_cmd"))
-        self.iexe_widgets["query_entry"].bind('<Shift-Return>', partial(self.event_handler, "fetch_wiki"))
+        self.iexe_widgets["query_entry"].bind('<Return>', partial(self._event_handler, "search_query"))
+        self.iexe_widgets["query_entry"].bind('<Control-Return>', partial(self._event_handler, "execute_cmd"))
+        self.iexe_widgets["query_entry"].bind('<Shift-Return>', partial(self._event_handler, "fetch_wiki"))
 
-        self.root.bind('<Control-s>', self.save_prompt_content)
-        self.root.bind('<Control-S>', self.save_prompt_content)
-        self.root.bind('<Control-t>', partial(self.update_widget_theme, None))
-        self.root.bind('<Control-T>', partial(self.update_widget_theme, None))
-        self.root.bind('<Control-Delete>', partial(self.event_handler, "clear_prompt"))
+        self.root.bind('<Control-s>', self._save_prompt_content)
+        self.root.bind('<Control-S>', self._save_prompt_content)
+        self.root.bind('<Control-t>', partial(self._update_widget_theme, None))
+        self.root.bind('<Control-T>', partial(self._update_widget_theme, None))
+        self.root.bind('<Control-Delete>', partial(self._event_handler, "clear_prompt"))
 
         self.canvas_widgets["canvas"].bind("<B1-Motion>", partial(self._canvas_event_handler, type="draw"))
 
@@ -293,7 +293,7 @@ class HUD:
 
         loop()
 
-    def event_handler(self, event: str=None, query: str=None):
+    def _event_handler(self, event: str=None, query: str=None):
 
         if event in ["start_app", "open_url"]:
             event_handler_callback(event=event, query=query)
@@ -324,7 +324,7 @@ class HUD:
                 response = event_handler_callback(event=event, query=query)
                 if response["error"]:
                     self.prompt_text.insert(END, constants.WIKI.format(*response.values()))
-                    self.event_handler(event="open_url", query=response['url'])
+                    self._event_handler(event="open_url", query=response['url'])
                 else:
                     self.prompt_text.insert(END, constants.WIKI.format(*response.values()))
                 self.prompt_text.config(state=DISABLED)
@@ -335,7 +335,7 @@ class HUD:
             self.iexe_widgets["query_entry"].delete(0, END)
             self.iexe_widgets["query_entry"].insert(END, "> ")
 
-    def update_widget_theme(self, theme=None, event=None):
+    def _update_widget_theme(self, theme=None, event=None):
 
         if not theme:
             theme = random.choice(list(schemes.THEMES.keys()))
@@ -438,7 +438,7 @@ class HUD:
             )
         )
 
-    def save_prompt_content(self, event=None):
+    def _save_prompt_content(self, event=None):
         handle = filedialog.asksaveasfile(mode="w", defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
         if handle != None:
             handle.write(self.prompt_text.get('1.0', 'end'))
