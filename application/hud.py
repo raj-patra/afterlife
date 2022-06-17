@@ -257,6 +257,8 @@ class HUD:
         self.root.bind('<Control-T>', partial(self.update_widget_theme, None))
         self.root.bind('<Control-Delete>', partial(self.event_handler, "clear_prompt"))
 
+        self.canvas_widgets["canvas"].bind("<B1-Motion>", partial(self._canvas_event_handler, type="draw"))
+
         self.update_widget_content()
 
     def update_widget_content(self):
@@ -442,3 +444,10 @@ class HUD:
             handle.write(self.prompt_text.get('1.0', 'end'))
             handle.close()
             messagebox.showinfo('Info', 'The contents of the Text Widget has been saved.')
+
+    def _canvas_event_handler(self, event=None, type=None):
+        
+        if type == "draw":
+            x1, y1 = ( event.x - 1 ), ( event.y - 1 )
+            x2, y2 = ( event.x + 1 ), ( event.y + 1 )
+            self.canvas_widgets["canvas"].create_oval( x1, y1, x2, y2, fill=self.current_theme["root"])
