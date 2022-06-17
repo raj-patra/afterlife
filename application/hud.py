@@ -49,7 +49,7 @@ class HUD:
         self.side_bar = dict(frame=Frame(self.left_section_frame, bg=self.current_theme['primary_bg'], bd=5))
         self.iexe_widgets = dict(frame=Frame(self.left_section_frame))
         self.right_section_frame = Frame(self.root)
-        self.canvas_widgets = dict(frame=Frame(self.right_section_frame, height=1))
+        self.canvas_widgets = dict(frame=Frame(self.right_section_frame))
         self.action_centre_frame = Frame(self.right_section_frame, bg=self.current_theme['root'])
         self.status_bar = dict(frame=Frame(self.root))
 
@@ -100,8 +100,9 @@ class HUD:
 
         self.canvas_widgets.update(
             canvas = Canvas(self.canvas_widgets["frame"],
-                bg=self.current_theme["secondary_bg"], width=200, height=200,
-            ),
+                bg=self.current_theme["secondary_bg"],
+                relief=FLAT, bd=0
+            )
         )
 
         bg = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
@@ -381,6 +382,8 @@ class HUD:
             activebackground=self.current_theme["secondary_bg"],
             activeforeground=self.current_theme["fg"],
         )
+
+        self.canvas_widgets["canvas"].config(bg=self.current_theme["secondary_bg"])
 
         self.action_centre_frame.config(
             bg=self.current_theme['root']
