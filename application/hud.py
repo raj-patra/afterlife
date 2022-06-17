@@ -3,7 +3,7 @@ import random
 import time
 from collections import deque
 from functools import partial
-from tkinter import (Button, Entry, Frame, Label, Menu, Text, filedialog,
+from tkinter import (Button, Entry, Frame, Label, Menu, Text, Canvas, filedialog,
                      messagebox)
 from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
                                NORMAL, NW, RAISED, RIGHT, TOP, WORD, E, W, X,
@@ -46,12 +46,12 @@ class HUD:
         # Root - Frames
         self.header = dict(frame=Frame(self.root))
         self.left_section_frame = Frame(self.root)
-        self.side_bar = dict(frame = Frame(self.left_section_frame, bg=self.current_theme['primary_bg'], bd=5))
-        self.iexe_widgets = dict(frame = Frame(self.left_section_frame))
+        self.side_bar = dict(frame=Frame(self.left_section_frame, bg=self.current_theme['primary_bg'], bd=5))
+        self.iexe_widgets = dict(frame=Frame(self.left_section_frame))
         self.right_section_frame = Frame(self.root)
-        self.info_frame = Frame(self.right_section_frame, height=1)
+        self.canvas_widgets = dict(frame=Frame(self.right_section_frame, height=1))
         self.action_centre_frame = Frame(self.right_section_frame, bg=self.current_theme['root'])
-        self.status_bar = dict(frame = Frame(self.root))
+        self.status_bar = dict(frame=Frame(self.root))
 
         # Widgets on root.header
         self.header.update(
@@ -99,11 +99,16 @@ class HUD:
         )
 
         # Widgets on root.right
-        self.network_text = Text(self.info_frame,
-            **self.current_theme["secondary"], height=5, width=25, padx=20,
-        )
-        self.system_text = Text(self.info_frame,
-            **self.current_theme["secondary"], height=5, width=35, padx=20,
+        # self.network_text = Text(self.canvas_widgets,
+        #     **self.current_theme["secondary"], height=5, width=25, padx=20,
+        # )
+        # self.system_text = Text(self.canvas_widgets,
+        #     **self.current_theme["secondary"], height=5, width=35, padx=20,
+        # )
+        self.canvas_widgets.update(
+            canvas = Canvas(self.canvas_widgets["frame"],
+                bg=self.current_theme["secondary_bg"], width=200, height=200,
+            ),
         )
 
         bg = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
@@ -226,11 +231,12 @@ class HUD:
         self.iexe_widgets["search_button"].pack(side=LEFT, fill=BOTH, expand=1)
         self.iexe_widgets["wiki_button"].pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.info_frame.pack(side=TOP, fill=BOTH, expand=1)
+        self.canvas_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
+        self.canvas_widgets["canvas"].pack(side=TOP, fill=BOTH, expand=1)
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
-        self.network_text.pack(side=RIGHT, fill=BOTH, expand=1)
-        self.system_text.pack(side=LEFT, fill=BOTH, expand=1)
+        # self.network_text.pack(side=RIGHT, fill=BOTH, expand=1)
+        # self.system_text.pack(side=LEFT, fill=BOTH, expand=1)
 
         for action in self.action_items:
             action.pack(side=LEFT, fill=BOTH, expand=1)
@@ -250,7 +256,7 @@ class HUD:
 
         self.header["left_label"].config(text=constants.WELCOME_MSG)
         self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
-        self.network_text.insert(END, constants.NETWORK)
+        # self.network_text.insert(END, constants.NETWORK)
 
         self.iexe_widgets["query_entry"].bind('<Return>', partial(self.event_handler, "search_query"))
         self.iexe_widgets["query_entry"].bind('<Control-Return>', partial(self.event_handler, "execute_cmd"))
@@ -262,8 +268,8 @@ class HUD:
         self.root.bind('<Control-T>', partial(self.update_widget_theme, None))
         self.root.bind('<Control-Delete>', partial(self.event_handler, "clear_prompt"))
 
-        self.network_text.config(state=DISABLED)
-        self.system_text.config(state=DISABLED)
+        # self.network_text.config(state=DISABLED)
+        # self.system_text.config(state=DISABLED)
 
         self.update_widget_content()
 
@@ -274,18 +280,18 @@ class HUD:
             pc_stats = pc_stats_callback()
 
             self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
-            self.system_text.config(state=NORMAL)
-            self.system_text.delete('1.0', END)
+            # self.system_text.config(state=NORMAL)
+            # self.system_text.delete('1.0', END)
 
-            self.system_text.insert(END,
-                constants.SYSTEM.format(
-                    time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(pc_stats["boot_time"])),
-                    pc_stats["cpu_usage"], pc_stats["virtual_memory_percent"],
-                    pc_stats["battery_usage"],
-                    "(Plugged In)" if pc_stats["battery_plugged"] else "(Not Plugged In)"
-                )
-            )
-            self.system_text.config(state=DISABLED)
+            # self.system_text.insert(END,
+            #     constants.SYSTEM.format(
+            #         time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(pc_stats["boot_time"])),
+            #         pc_stats["cpu_usage"], pc_stats["virtual_memory_percent"],
+            #         pc_stats["battery_usage"],
+            #         "(Plugged In)" if pc_stats["battery_plugged"] else "(Not Plugged In)"
+            #     )
+            # )
+            # self.system_text.config(state=DISABLED)
 
             self.status_bar["left_label"].config(
                 text=constants.LEFT_STATUS_LABEL.format(
@@ -307,8 +313,8 @@ class HUD:
                     pc_stats["battery_usage"],
                 )
             )
-
-            self.system_text.after(5000, loop)
+            self.root.after(5000, loop)
+            # self.system_text.after(5000, loop)
 
         loop()
 
@@ -401,8 +407,8 @@ class HUD:
             activeforeground=self.current_theme["fg"],
         )
 
-        self.network_text.config(**self.current_theme["secondary"])
-        self.system_text.config(**self.current_theme["secondary"])
+        # self.network_text.config(**self.current_theme["secondary"])
+        # self.system_text.config(**self.current_theme["secondary"])
 
         self.action_centre_frame.config(
             bg=self.current_theme['root']
