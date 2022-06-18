@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import random
 import time
+import turtle
 from collections import deque
 from functools import partial
 from tkinter import (Button, Entry, Frame, Label, Menu, Text, Canvas, filedialog,
@@ -249,7 +250,7 @@ class HUD:
         self.canvas_widgets["canvas"].pack(side=TOP, fill=BOTH, expand=1)
         self.canvas_widgets["draw_button"].pack(side=LEFT, fill=BOTH, expand=1)
         self.canvas_widgets["turtle_button"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.canvas_widgets["clear_button"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.canvas_widgets["clear_button"].pack(side=LEFT, fill=BOTH, expand=0)
         
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
@@ -482,5 +483,15 @@ class HUD:
             x2, y2 = ( event.x + 5 ), ( event.y + 5 )
             self.canvas_widgets["canvas"].create_oval( x1, y1, x2, y2, fill=self.current_theme["root"])
 
+        # elif type == "turtle":
+        #     cursor = turtle.RawTurtle(self.canvas_widgets["canvas"], shape="turtle")
+        #     self.canvas_widgets["turtle_button"].config(state=DISABLED)
+        #     while True:
+        #         cursor.forward(200)
+        #         cursor.left(170)
+        #         if abs(cursor.pos()) < 1:
+        #             break
+        #     self.canvas_widgets["turtle_button"].config(state=NORMAL)
+            
         elif type == "clear":
             self.canvas_widgets["canvas"].delete("all")
