@@ -121,6 +121,7 @@ class HUD:
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
+                command=partial(self._canvas_event_handler, type="clear"),
             )
         )
 
@@ -480,3 +481,6 @@ class HUD:
             x1, y1 = ( event.x - 5 ), ( event.y - 5 )
             x2, y2 = ( event.x + 5 ), ( event.y + 5 )
             self.canvas_widgets["canvas"].create_oval( x1, y1, x2, y2, fill=self.current_theme["root"])
+
+        elif type == "clear":
+            self.canvas_widgets["canvas"].delete("all")
