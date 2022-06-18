@@ -103,6 +103,24 @@ class HUD:
             canvas = Canvas(self.canvas_widgets["frame"],
                 bg=self.current_theme["secondary_bg"],
                 relief=FLAT, bd=0
+            ),
+            draw_button = Button(self.canvas_widgets["frame"],
+                **self.current_theme["secondary"], text="🖊",
+                activebackground=self.current_theme["secondary_bg"],
+                activeforeground=self.current_theme["fg"],
+                height=1, width=6, relief=RAISED, overrelief=RAISED,
+            ),
+            turtle_button = Button(self.canvas_widgets["frame"],
+                **self.current_theme["secondary"], text="🐢",
+                activebackground=self.current_theme["secondary_bg"],
+                activeforeground=self.current_theme["fg"],
+                height=1, width=6, relief=RAISED, overrelief=RAISED,
+            ),
+            clear_button = Button(self.canvas_widgets["frame"],
+                **self.current_theme["secondary"], text="❌",
+                activebackground=self.current_theme["secondary_bg"],
+                activeforeground=self.current_theme["fg"],
+                height=1, width=6, relief=RAISED, overrelief=RAISED,
             )
         )
 
@@ -228,6 +246,10 @@ class HUD:
 
         self.canvas_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
         self.canvas_widgets["canvas"].pack(side=TOP, fill=BOTH, expand=1)
+        self.canvas_widgets["draw_button"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.canvas_widgets["turtle_button"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.canvas_widgets["clear_button"].pack(side=LEFT, fill=BOTH, expand=1)
+        
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
         for action in self.action_items:
