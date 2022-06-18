@@ -98,6 +98,7 @@ class HUD:
             )
         )
 
+        # Widgets on root.right
         self.canvas_widgets.update(
             canvas = Canvas(self.canvas_widgets["frame"],
                 bg=self.current_theme["secondary_bg"],
@@ -440,6 +441,9 @@ class HUD:
                 pc_stats["battery_usage"],
             )
         )
+        
+        # Clear Canvas content
+        self.canvas_widgets["canvas"].delete("all")
 
     def _save_prompt_content(self, event=None):
         handle = filedialog.asksaveasfile(mode="w", defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
@@ -451,6 +455,6 @@ class HUD:
     def _canvas_event_handler(self, event=None, type=None):
         
         if type == "draw":
-            x1, y1 = ( event.x - 1 ), ( event.y - 1 )
-            x2, y2 = ( event.x + 1 ), ( event.y + 1 )
+            x1, y1 = ( event.x - 5 ), ( event.y - 5 )
+            x2, y2 = ( event.x + 5 ), ( event.y + 5 )
             self.canvas_widgets["canvas"].create_oval( x1, y1, x2, y2, fill=self.current_theme["root"])
