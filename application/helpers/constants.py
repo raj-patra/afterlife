@@ -24,20 +24,6 @@ RIGHT_STATUS_LABEL = "{} {}%"
 
 # ----------------------------------------------------------------------------------
 
-NETWORK = """
-Host: {}
-
-User: {}
-
-Public IP: {}
-
-Private IP: {}
-
-MAC Address: {}
-""".format(HOST, USER, PUB_IP, PRI_IP, MAC)
-
-# ----------------------------------------------------------------------------------
-
 ABOUT = """
 Afterlife is a minimalistic HUD.
 
