@@ -347,8 +347,8 @@ class HUD:
             elif event == "fetch_wiki":
                 self.prompt_text.config(state=NORMAL)
                 self.prompt_text.delete('1.0', END)
-                response = event_handler_callback(event=event, query=query)
-                if response["error"]:
+                response, error = event_handler_callback(event=event, query=query)
+                if error:
                     self.prompt_text.insert(END, constants.WIKI.format(*response.values()))
                     self._event_handler(event="open_url", query=response['url'])
                 else:
