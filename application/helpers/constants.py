@@ -3,17 +3,17 @@ import subprocess as sp
 
 # ----------------------------------------------------------------------------------
 
-try:
-    PUB_IP = requests.get('https://ident.me').text
-except Exception as e:
-    PUB_IP = "NA. Error Occured."
+# try:
+#     PUB_IP = requests.get('https://ident.me').text
+# except Exception as e:
+#     PUB_IP = "NA. Error Occured."
 
-PRI_IP = socket.gethostbyname(socket.gethostname())
-MAC = getmac.get_mac_address()
-HOST = sp.getoutput("hostname")
+# PRI_IP = socket.gethostbyname(socket.gethostname())
+# MAC = getmac.get_mac_address()
+# HOST = sp.getoutput("hostname")
 USER = sp.getoutput("whoami")
 
-DISK = sp.getoutput("wmic logicaldisk get size,freespace,caption").replace("\n\n", "\n")
+# DISK = sp.getoutput("wmic logicaldisk get size,freespace,caption").replace("\n\n", "\n")
 
 # ----------------------------------------------------------------------------------
     
