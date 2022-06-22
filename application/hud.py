@@ -347,8 +347,8 @@ class HUD:
             elif event == "fetch_wiki":
                 self.prompt_text.config(state=NORMAL)
                 self.prompt_text.delete('1.0', END)
-                response = event_handler_callback(event=event, query=query)
-                if response["error"]:
+                response, error = event_handler_callback(event=event, query=query)
+                if error:
                     self.prompt_text.insert(END, constants.WIKI.format(*response.values()))
                     self._event_handler(event="open_url", query=response['url'])
                 else:
@@ -409,6 +409,9 @@ class HUD:
         )
 
         self.canvas_widgets["canvas"].config(bg=self.current_theme["secondary_bg"])
+        self.canvas_widgets["draw_button"].config(**self.current_theme["secondary"])
+        self.canvas_widgets["turtle_button"].config(**self.current_theme["secondary"])
+        self.canvas_widgets["clear_button"].config(**self.current_theme["secondary"])
 
         self.action_centre_frame.config(
             bg=self.current_theme['root']
@@ -491,6 +494,7 @@ class HUD:
         #         cursor.left(170)
         #         if abs(cursor.pos()) < 1:
         #             break
+        #     turtle.done()
         #     self.canvas_widgets["turtle_button"].config(state=NORMAL)
             
         elif type == "clear":

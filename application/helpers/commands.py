@@ -63,7 +63,7 @@ ACTIONS = {
         dict(event="start_app", label="Root\nFolder", query="start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"),
         dict(event="start_app", label="Task\nManager", query="start taskmgr"),
         dict(event="start_app", label="Control\nPanel", query="start control"),
-        dict(event="start_app", label="System\nSettings", query="start ms-settings:"),
+        dict(event="start_app", label="Command\nPrompt", query="start cmd /k cd /d %USERPROFILE%\Desktop"),
     ],
     1: [
         dict(event="open_url", label="Google", query="www.google.com"),

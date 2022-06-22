@@ -47,15 +47,13 @@ def event_handler_callback(event: str=None, query: str=None):
                 "title": page.title,
                 "url": page.url,
                 "summary": page.summary,
-                "error": False
-            }
+            }, False
         except Exception:
             return {
                 "title": "Error Occured",
                 "url": "https://{lang_code}.wikipedia.org/wiki/{query}".format(lang_code=lang_code, query=query),
                 "summary": "Error Occured in fetching the article. Seaching externally...",
-                "error": True
-            }
+            }, True
 
 def pc_stats_callback():
     cpu = psutil.cpu_percent()
