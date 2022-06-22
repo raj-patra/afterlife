@@ -409,6 +409,9 @@ class HUD:
         )
 
         self.canvas_widgets["canvas"].config(bg=self.current_theme["secondary_bg"])
+        self.canvas_widgets["draw_button"].config(**self.current_theme["secondary"])
+        self.canvas_widgets["turtle_button"].config(**self.current_theme["secondary"])
+        self.canvas_widgets["clear_button"].config(**self.current_theme["secondary"])
 
         self.action_centre_frame.config(
             bg=self.current_theme['root']
@@ -491,6 +494,7 @@ class HUD:
         #         cursor.left(170)
         #         if abs(cursor.pos()) < 1:
         #             break
+        #     turtle.done()
         #     self.canvas_widgets["turtle_button"].config(state=NORMAL)
             
         elif type == "clear":
