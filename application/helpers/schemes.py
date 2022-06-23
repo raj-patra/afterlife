@@ -1,4 +1,4 @@
-DEFAULT_THEME_CHOICE = "cyberpunk"
+DEFAULT_THEME_CHOICE = "dark"
 
 THEMES = {
     "default_repocard": {
