@@ -3,9 +3,6 @@ import subprocess as sp
 
 # ----------------------------------------------------------------------------------
 
-# PRI_IP = socket.gethostbyname(socket.gethostname())
-# MAC = getmac.get_mac_address()
-# HOST = sp.getoutput("hostname")
 USER = sp.getoutput("whoami")
 
 # DISK = sp.getoutput("wmic logicaldisk get size,freespace,caption").replace("\n\n", "\n")
