@@ -1,4 +1,3 @@
-import random, requests, getmac, socket
 import subprocess as sp
 
 # ----------------------------------------------------------------------------------
