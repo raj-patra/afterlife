@@ -5,8 +5,6 @@ import subprocess as sp
 
 USER = sp.getoutput("whoami")
 
-# DISK = sp.getoutput("wmic logicaldisk get size,freespace,caption").replace("\n\n", "\n")
-
 # ----------------------------------------------------------------------------------
     
 WELCOME_MSG = "Welcome, {}!".format(USER.split('\\')[1].title())
