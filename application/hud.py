@@ -77,21 +77,21 @@ class HUD:
                 bd=5, width=28, insertbackground="white",
             ),
             search_button = Button(self.iexe_widgets["frame"],
-                **self.current_theme["secondary"], text="Duck Duck Go!",
+                **self.current_theme["secondary"], text="🔍",
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
                 command=partial(self._event_handler, event="search_query", query=None),
             ),
             execute_button = Button(self.iexe_widgets["frame"],
-                **self.current_theme["secondary"], text="Execute Command",
+                **self.current_theme["secondary"], text=">>>",
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
                 command=partial(self._event_handler, event="execute_cmd", query=None),
             ),
             wiki_button = Button(self.iexe_widgets["frame"],
-                **self.current_theme["secondary"], text="Search Wikipedia",
+                **self.current_theme["secondary"], text="👑",
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
@@ -241,10 +241,10 @@ class HUD:
         for action in self.side_bar["actions"]:
             action.pack(side=TOP, fill=BOTH, expand=0)
 
-        self.iexe_widgets["query_entry"].pack(side=TOP, fill=BOTH, expand=1)
-        self.iexe_widgets["execute_button"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.iexe_widgets["search_button"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.iexe_widgets["wiki_button"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_widgets["query_entry"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_widgets["execute_button"].pack(side=TOP, fill=BOTH, expand=1)
+        self.iexe_widgets["search_button"].pack(side=TOP, fill=BOTH, expand=1)
+        self.iexe_widgets["wiki_button"].pack(side=TOP, fill=BOTH, expand=1)
 
         self.canvas_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
         self.canvas_widgets["canvas"].pack(side=TOP, fill=BOTH, expand=1)
