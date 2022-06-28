@@ -154,7 +154,7 @@ class HUD:
                     **self.current_theme["primary"], text=action["icon"],
                     activebackground=self.current_theme["primary_bg"],
                     activeforeground=self.current_theme["fg"],
-                    height=2, width=4, relief=FLAT, overrelief=GROOVE,
+                    height=2, width=5, relief=FLAT, overrelief=GROOVE,
                     command=partial(self._event_handler, event=action["event"], query=action["query"]),
                 )
             )
