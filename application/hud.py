@@ -239,7 +239,7 @@ class HUD:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
 
         for action in self.side_bar["actions"]:
-            action.pack(side=TOP, fill=BOTH, expand=0)
+            action.pack(side=TOP, fill=BOTH, expand=1)
 
         self.iexe_widgets["query_entry"].pack(side=TOP, fill=BOTH, expand=1)
         self.iexe_widgets["search_button"].pack(side=LEFT, fill=BOTH, expand=1)
