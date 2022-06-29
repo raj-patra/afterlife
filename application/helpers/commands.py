@@ -1,24 +1,5 @@
 """Applications & Commands used in afterlife"""
 
-NATIVE_APPS = {
-    "Least Used": [
-        dict(event="start_app", label="3D Builder", query="start com.microsoft.builder3d:"),
-        dict(event="start_app", label="3D Viewer", query="start com.microsoft.3dviewer:"),
-        dict(event="start_app", label="Cortana", query="start ms-cortana:"),
-        dict(event="start_app", label="Feedback Hub", query="start feedback-hub:"),
-        dict(event="start_app", label="Get Help", query="start ms-contact-support:"),
-        dict(event="start_app", label="Maps", query="start bingmaps:"),
-        dict(event="start_app", label="Messaging", query="start ms-chat:"),
-        dict(event="start_app", label="Microsoft News", query="start bingnews:"),
-        dict(event="start_app", label="Microsoft Store", query="start ms-windows-store:"),
-        dict(event="start_app", label="Paint 3D", query="start ms-paint:"),
-        dict(event="start_app", label="People", query="start ms-people:"),
-        dict(event="start_app", label="Tips", query="start ms-get-started:"),
-        dict(event="start_app", label="Weather", query="start bingweather:"),
-        dict(event="start_app", label="Xbox", query="start xbox:"),
-    ]
-}
-
 SIDE_BAR_ACTIONS = [
     dict(event="start_app", icon="⏰", label="Alarms & Clock", query="start ms-clock:"),
     dict(event="start_app", icon="➗", label="Calculator", query="start calculator:"),
