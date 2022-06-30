@@ -102,8 +102,8 @@ class HUD:
         # Widgets on root.right
         self.canvas_widgets.update(
             header_label = Label(self.canvas_widgets["frame"],
-                **self.current_theme["primary"], text="Canvas by Afterlife", anchor=W,
-                relief=FLAT, height=2, width=20, padx=10, pady=2,
+                **self.current_theme["secondary"], text="Canvas by Afterlife 🎨", anchor=W,
+                relief=GROOVE, height=2, width=20, padx=10, pady=2,
             ),
             canvas = Canvas(self.canvas_widgets["frame"],
                 bg=self.current_theme["secondary_bg"],
