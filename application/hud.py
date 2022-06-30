@@ -250,7 +250,7 @@ class HUD:
         self.canvas_widgets["canvas"].pack(side=TOP, fill=BOTH, expand=1)
         self.canvas_widgets["draw_button"].pack(side=LEFT, fill=BOTH, expand=1)
         self.canvas_widgets["turtle_button"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.canvas_widgets["clear_button"].pack(side=RIGHT, fill=BOTH, expand=0)
+        self.canvas_widgets["clear_button"].pack(side=LEFT, fill=BOTH, expand=0)
         
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
