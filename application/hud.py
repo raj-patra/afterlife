@@ -101,6 +101,10 @@ class HUD:
 
         # Widgets on root.right
         self.canvas_widgets.update(
+            header_label = Label(self.canvas_widgets["frame"],
+                **self.current_theme["primary"], text="Canvas by Afterlife", anchor=W,
+                relief=FLAT, height=2, width=20, padx=10, pady=2,
+            ),
             canvas = Canvas(self.canvas_widgets["frame"],
                 bg=self.current_theme["secondary_bg"],
                 relief=FLAT
@@ -247,6 +251,7 @@ class HUD:
         self.iexe_widgets["wiki_button"].pack(side=LEFT, fill=BOTH, expand=1)
 
         self.canvas_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
+        self.canvas_widgets["header_label"].pack(side=TOP, fill=BOTH, expand=1)
         self.canvas_widgets["canvas"].pack(side=TOP, fill=BOTH, expand=1)
         self.canvas_widgets["draw_button"].pack(side=LEFT, fill=BOTH, expand=1)
         self.canvas_widgets["turtle_button"].pack(side=LEFT, fill=BOTH, expand=1)
