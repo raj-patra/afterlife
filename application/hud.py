@@ -107,7 +107,7 @@ class HUD:
             ),
             canvas = Canvas(self.canvas_widgets["frame"],
                 bg=self.current_theme["secondary_bg"],
-                relief=FLAT
+                relief=FLAT, highlightthickness=0
             ),
             draw_button = Button(self.canvas_widgets["frame"],
                 **self.current_theme["secondary"], text="🖊",
