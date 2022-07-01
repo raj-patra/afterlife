@@ -129,6 +129,7 @@ class HUD:
                 command=partial(self._canvas_event_handler, type="clear"),
             )
         )
+        self.canvas_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
 
         bg = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
         self.action_items = []
