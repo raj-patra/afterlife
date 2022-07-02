@@ -488,8 +488,8 @@ class HUD:
     def _canvas_event_handler(self, event=None, type=None):
         
         if type == "draw":
-            x1, y1 = ( event.x - 5 ), ( event.y - 5 )
-            x2, y2 = ( event.x + 5 ), ( event.y + 5 )
+            x1, y1 = ( event.x - 2 ), ( event.y - 2 )
+            x2, y2 = ( event.x + 2 ), ( event.y + 2 )
             self.canvas_widgets["canvas"].create_oval( x1, y1, x2, y2, fill=self.current_theme["root"])
 
         # elif type == "turtle":
