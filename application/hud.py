@@ -257,7 +257,7 @@ class HUD:
         self.canvas_widgets["draw_button"].pack(side=LEFT, fill=BOTH, expand=1)
         self.canvas_widgets["turtle_button"].pack(side=LEFT, fill=BOTH, expand=1)
         self.canvas_widgets["clear_button"].pack(side=LEFT, fill=BOTH, expand=0)
-        
+
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
         for action in self.action_items:
@@ -474,7 +474,7 @@ class HUD:
                 pc_stats["battery_usage"],
             )
         )
-        
+
         # Clear Canvas content
         self.canvas_widgets["canvas"].delete("all")
 
@@ -486,7 +486,7 @@ class HUD:
             messagebox.showinfo('Info', 'The contents of the Text Widget has been saved.')
 
     def _canvas_event_handler(self, event=None, type=None):
-        
+
         if type == "draw":
             x1, y1 = ( event.x - 2 ), ( event.y - 2 )
             x2, y2 = ( event.x + 2 ), ( event.y + 2 )
@@ -502,6 +502,6 @@ class HUD:
         #             break
         #     turtle.done()
         #     self.canvas_widgets["turtle_button"].config(state=NORMAL)
-            
+
         elif type == "clear":
             self.canvas_widgets["canvas"].delete("all")
