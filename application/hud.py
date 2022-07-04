@@ -77,21 +77,21 @@ class HUD:
                 bd=5, width=28, insertbackground="white",
             ),
             search_button = Button(self.iexe_widgets["frame"],
-                **self.current_theme["secondary"], text="🔍",
+                **self.current_theme["secondary"], text="Search Online",
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
                 command=partial(self._event_handler, event="search_query", query=None),
             ),
             execute_button = Button(self.iexe_widgets["frame"],
-                **self.current_theme["secondary"], text=">>>",
+                **self.current_theme["secondary"], text="Execute Command",
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
                 command=partial(self._event_handler, event="execute_cmd", query=None),
             ),
             wiki_button = Button(self.iexe_widgets["frame"],
-                **self.current_theme["secondary"], text="👑",
+                **self.current_theme["secondary"], text="Wiki Article",
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
@@ -101,9 +101,13 @@ class HUD:
 
         # Widgets on root.right
         self.canvas_widgets.update(
+            header_label = Label(self.canvas_widgets["frame"],
+                **self.current_theme["secondary"], text="Canvas by Afterlife 🎨", anchor=W,
+                relief=GROOVE, height=2, width=20, padx=10, pady=2,
+            ),
             canvas = Canvas(self.canvas_widgets["frame"],
                 bg=self.current_theme["secondary_bg"],
-                relief=FLAT, bd=0
+                relief=FLAT, highlightthickness=0
             ),
             draw_button = Button(self.canvas_widgets["frame"],
                 **self.current_theme["secondary"], text="🖊",
@@ -125,6 +129,7 @@ class HUD:
                 command=partial(self._canvas_event_handler, type="clear"),
             )
         )
+        self.canvas_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
 
         bg = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
         self.action_items = []
@@ -154,7 +159,7 @@ class HUD:
                     **self.current_theme["primary"], text=action["icon"],
                     activebackground=self.current_theme["primary_bg"],
                     activeforeground=self.current_theme["fg"],
-                    height=2, width=4, relief=FLAT, overrelief=GROOVE,
+                    height=2, width=5, relief=FLAT, overrelief=GROOVE,
                     command=partial(self._event_handler, event=action["event"], query=action["query"]),
                 )
             )
@@ -239,19 +244,20 @@ class HUD:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
 
         for action in self.side_bar["actions"]:
-            action.pack(side=TOP, fill=BOTH, expand=0)
+            action.pack(side=TOP, fill=BOTH, expand=1)
 
-        self.iexe_widgets["query_entry"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.iexe_widgets["execute_button"].pack(side=TOP, fill=BOTH, expand=1)
-        self.iexe_widgets["search_button"].pack(side=TOP, fill=BOTH, expand=1)
-        self.iexe_widgets["wiki_button"].pack(side=TOP, fill=BOTH, expand=1)
+        self.iexe_widgets["query_entry"].pack(side=TOP, fill=BOTH, expand=1)
+        self.iexe_widgets["search_button"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_widgets["execute_button"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_widgets["wiki_button"].pack(side=LEFT, fill=BOTH, expand=1)
 
         self.canvas_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
+        self.canvas_widgets["header_label"].pack(side=TOP, fill=BOTH, expand=0)
         self.canvas_widgets["canvas"].pack(side=TOP, fill=BOTH, expand=1)
         self.canvas_widgets["draw_button"].pack(side=LEFT, fill=BOTH, expand=1)
         self.canvas_widgets["turtle_button"].pack(side=LEFT, fill=BOTH, expand=1)
         self.canvas_widgets["clear_button"].pack(side=LEFT, fill=BOTH, expand=0)
-        
+
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
         for action in self.action_items:
@@ -468,7 +474,7 @@ class HUD:
                 pc_stats["battery_usage"],
             )
         )
-        
+
         # Clear Canvas content
         self.canvas_widgets["canvas"].delete("all")
 
@@ -480,10 +486,10 @@ class HUD:
             messagebox.showinfo('Info', 'The contents of the Text Widget has been saved.')
 
     def _canvas_event_handler(self, event=None, type=None):
-        
+
         if type == "draw":
-            x1, y1 = ( event.x - 5 ), ( event.y - 5 )
-            x2, y2 = ( event.x + 5 ), ( event.y + 5 )
+            x1, y1 = ( event.x - 2 ), ( event.y - 2 )
+            x2, y2 = ( event.x + 2 ), ( event.y + 2 )
             self.canvas_widgets["canvas"].create_oval( x1, y1, x2, y2, fill=self.current_theme["root"])
 
         # elif type == "turtle":
@@ -496,6 +502,6 @@ class HUD:
         #             break
         #     turtle.done()
         #     self.canvas_widgets["turtle_button"].config(state=NORMAL)
-            
+
         elif type == "clear":
             self.canvas_widgets["canvas"].delete("all")

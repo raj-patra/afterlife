@@ -1,49 +1,17 @@
 """Applications & Commands used in afterlife"""
 
-NATIVE_APPS = {
-    "Most Used": [
-        dict(event="start_app", label="Alarms & Clock", query="start ms-clock:"),
-        dict(event="start_app", label="Calculator", query="start calculator:"),
-        dict(event="start_app", label="Calendar", query="start outlook cal:"),
-        dict(event="start_app", label="Camera", query="start microsoft.windows.camera:"),
-        dict(event="start_app", label="Drawboard PDF", query="start drawboardpdf:"),
-        dict(event="start_app", label="Groove Music", query="start mswindowsmusic:"),
-        dict(event="start_app", label="Mail", query="start outlookmail:"),
-        dict(event="start_app", label="Microsoft Edge", query="start microsoft-edge:"),
-        dict(event="start_app", label="Microsoft Whiteboard", query="start ms-whiteboard-cmd:"),
-        dict(event="start_app", label="Movies & TV", query="start mswindowsvideo:"),
-        dict(event="start_app", label="Photos", query="start ms-photos:"),
-        dict(event="start_app", label="Screen Snip", query="start ms-screenclip:"),
-        dict(event="start_app", label="Snip & Sketch", query="start ms-ScreenSketch:"),
-        dict(event="start_app", label="Windows Security", query="start windowsdefender:"),
-    ],
-    "Least Used": [
-        dict(event="start_app", label="3D Builder", query="start com.microsoft.builder3d:"),
-        dict(event="start_app", label="3D Viewer", query="start com.microsoft.3dviewer:"),
-        dict(event="start_app", label="Cortana", query="start ms-cortana:"),
-        dict(event="start_app", label="Feedback Hub", query="start feedback-hub:"),
-        dict(event="start_app", label="Get Help", query="start ms-contact-support:"),
-        dict(event="start_app", label="Maps", query="start bingmaps:"),
-        dict(event="start_app", label="Messaging", query="start ms-chat:"),
-        dict(event="start_app", label="Microsoft News", query="start bingnews:"),
-        dict(event="start_app", label="Microsoft Store", query="start ms-windows-store:"),
-        dict(event="start_app", label="Paint 3D", query="start ms-paint:"),
-        dict(event="start_app", label="People", query="start ms-people:"),
-        dict(event="start_app", label="Tips", query="start ms-get-started:"),
-        dict(event="start_app", label="Weather", query="start bingweather:"),
-        dict(event="start_app", label="Xbox", query="start xbox:"),
-    ]
-}
-
 SIDE_BAR_ACTIONS = [
     dict(event="start_app", icon="⏰", label="Alarms & Clock", query="start ms-clock:"),
     dict(event="start_app", icon="➗", label="Calculator", query="start calculator:"),
     dict(event="start_app", icon="📆", label="Calendar", query="start outlook cal:"),
     dict(event="start_app", icon="📸", label="Camera", query="start microsoft.windows.camera:"),
+    dict(event="start_app", icon="🤖", label="Cortana", query="start ms-cortana:"),
     dict(event="start_app", icon="🎶", label="Groove Music", query="start mswindowsmusic:"),
     dict(event="start_app", icon="📧", label="Mail", query="start outlookmail:"),
+    dict(event="start_app", icon="🗺", label="Maps", query="start bingmaps:"),
     dict(event="start_app", icon="🌐", label="Microsoft Edge", query="start microsoft-edge:"),
     dict(event="start_app", icon="🎥", label="Movies & TV", query="start mswindowsvideo:"),
+    dict(event="start_app", icon="🎨", label="Paint 3D", query="start ms-paint:"),
     dict(event="start_app", icon="🤳", label="Photos", query="start ms-photos:"),
     dict(event="start_app", icon="✂", label="Snip & Sketch", query="start ms-ScreenSketch:"),
     dict(event="start_app", icon="⛅", label="Weather", query="start bingweather:"),
