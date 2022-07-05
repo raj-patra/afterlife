@@ -9,6 +9,7 @@ from tkinter import (Button, Entry, Frame, Label, Menu, Text, Canvas, filedialog
 from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
                                NORMAL, NW, RAISED, RIGHT, TOP, WORD, E, W, X,
                                Y)
+from idlelib.tooltip import Hovertip
 
 from application.helpers import commands, constants, schemes
 from application.helpers.callbacks import (about_dialog_callback,
@@ -154,15 +155,15 @@ class HUD:
         # Widgets on root.side_bar
         self.side_bar.update(actions = [])
         for action in commands.SIDE_BAR_ACTIONS:
-            self.side_bar["actions"].append(
-                Button(self.side_bar["frame"],
-                    **self.current_theme["primary"], text=action["icon"],
-                    activebackground=self.current_theme["primary_bg"],
-                    activeforeground=self.current_theme["fg"],
-                    height=2, width=5, relief=FLAT, overrelief=GROOVE,
-                    command=partial(self._event_handler, event=action["event"], query=action["query"]),
-                )
-            )
+            button = Button(self.side_bar["frame"],
+                        **self.current_theme["primary"], text=action["icon"],
+                        activebackground=self.current_theme["primary_bg"],
+                        activeforeground=self.current_theme["fg"],
+                        height=2, width=5, relief=FLAT, overrelief=GROOVE,
+                        command=partial(self._event_handler, event=action["event"], query=action["query"]),
+                    )
+            self.side_bar["actions"].append(button)
+            Hovertip(anchor_widget=button, text=action["label"])
 
         # Widgets on root.status_bar
         self.status_bar.update(
