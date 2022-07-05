@@ -19,10 +19,10 @@ SIDE_BAR_ACTIONS = [
 ]
 
 STATUS_BAR_ACTIONS = [
-    dict(event="start_app", label="⚙", query="start ms-settings:"),
-    dict(event="start_app", label="🗨", query="start ms-actioncenter:"),
-    dict(event="start_app", label="📶", query="start ms-availablenetworks:"),
-    dict(event="start_app", label="🖥", query="start ms-settings-connectabledevices:devicediscovery"),
+    dict(event="start_app", icon="⚙", label="System Settings", query="start ms-settings:"),
+    dict(event="start_app", icon="🗨", label="Action Center", query="start ms-actioncenter:"),
+    dict(event="start_app", icon="📶", label="Available Networks", query="start ms-availablenetworks:"),
+    dict(event="start_app", icon="🖥", label="Device Discovery", query="start ms-settings-connectabledevices:devicediscovery"),
 ]
 
 ACTIONS = {
