@@ -163,7 +163,7 @@ class HUD:
                         command=partial(self._event_handler, event=action["event"], query=action["query"]),
                     )
             self.side_bar["actions"].append(button)
-            Hovertip(anchor_widget=button, text=action["label"])
+            Hovertip(anchor_widget=button, text=action["label"], hover_delay=100)
 
         # Widgets on root.status_bar
         self.status_bar.update(
