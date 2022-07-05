@@ -180,7 +180,7 @@ class HUD:
         for action in commands.STATUS_BAR_ACTIONS:
             self.status_bar["actions"].append(
                 Button(self.status_bar["frame"],
-                    **self.current_theme["secondary"], text=action["label"],
+                    **self.current_theme["secondary"], text=action["icon"],
                     activebackground=self.current_theme["secondary_bg"],
                     activeforeground=self.current_theme["fg"],
                     height=1, width=3, relief=FLAT, overrelief=GROOVE,
