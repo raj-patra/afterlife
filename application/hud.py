@@ -186,7 +186,7 @@ class HUD:
                 command=partial(self._event_handler, event=action["event"], query=action["query"]),
             )
             self.status_bar["actions"].append(button)
-
+            Hovertip(anchor_widget=button, text=action["label"], hover_delay=100)
 
     def render_menu(self):
         menu_bar = Menu(self.root, tearoff=0)
