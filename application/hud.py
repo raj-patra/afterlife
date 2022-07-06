@@ -156,12 +156,12 @@ class HUD:
         self.side_bar.update(actions = [])
         for action in commands.SIDE_BAR_ACTIONS:
             button = Button(self.side_bar["frame"],
-                        **self.current_theme["primary"], text=action["icon"],
-                        activebackground=self.current_theme["primary_bg"],
-                        activeforeground=self.current_theme["fg"],
-                        height=2, width=5, relief=FLAT, overrelief=GROOVE,
-                        command=partial(self._event_handler, event=action["event"], query=action["query"]),
-                    )
+                **self.current_theme["primary"], text=action["icon"],
+                activebackground=self.current_theme["primary_bg"],
+                activeforeground=self.current_theme["fg"],
+                height=2, width=5, relief=FLAT, overrelief=GROOVE,
+                command=partial(self._event_handler, event=action["event"], query=action["query"]),
+            )
             self.side_bar["actions"].append(button)
             Hovertip(anchor_widget=button, text=action["label"], hover_delay=100)
 
