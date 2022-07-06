@@ -115,12 +115,14 @@ class HUD:
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
+                command=partial(self._canvas_event_handler, type="bind_pencil"),
             ),
             turtle_button = Button(self.canvas_widgets["frame"],
                 **self.current_theme["secondary"], text="🐢",
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
+                command=partial(self._canvas_event_handler, type="turtle"),
             ),
             clear_button = Button(self.canvas_widgets["frame"],
                 **self.current_theme["secondary"], text="🗑",
@@ -288,8 +290,6 @@ class HUD:
         self.root.bind('<Control-t>', partial(self._update_widget_theme, None))
         self.root.bind('<Control-T>', partial(self._update_widget_theme, None))
         self.root.bind('<Control-Delete>', partial(self._event_handler, "clear_prompt"))
-
-        self.canvas_widgets["canvas"].bind("<B1-Motion>", partial(self._canvas_event_handler, type="draw"))
 
         self.update_widget_content()
 
@@ -487,21 +487,28 @@ class HUD:
 
     def _canvas_event_handler(self, event=None, type=None):
 
+        if type == "bind_pencil":
+            self.canvas_widgets["canvas"].bind("<B1-Motion>", partial(self._canvas_event_handler, type="draw"))
+
         if type == "draw":
             x1, y1 = ( event.x - 2 ), ( event.y - 2 )
             x2, y2 = ( event.x + 2 ), ( event.y + 2 )
             self.canvas_widgets["canvas"].create_oval( x1, y1, x2, y2, fill=self.current_theme["root"])
 
-        # elif type == "turtle":
-        #     cursor = turtle.RawTurtle(self.canvas_widgets["canvas"], shape="turtle")
-        #     self.canvas_widgets["turtle_button"].config(state=DISABLED)
-        #     while True:
-        #         cursor.forward(200)
-        #         cursor.left(170)
-        #         if abs(cursor.pos()) < 1:
-        #             break
-        #     turtle.done()
-        #     self.canvas_widgets["turtle_button"].config(state=NORMAL)
+        elif type == "turtle":
+            self.canvas_widgets["turtle_button"].config(state=DISABLED)
+            self.screen = turtle.TurtleScreen(self.canvas_widgets["canvas"])
+            self.screen.bgcolor(self.current_theme["secondary_bg"])
+            cursor = turtle.RawTurtle(self.screen, shape="turtle")
+            # while True:
+            #     cursor.forward(200)
+            #     cursor.left(170)
+            #     if abs(cursor.pos()) < 1:
+            #         break
+            # turtle.done()
+            self.canvas_widgets["turtle_button"].config(state=NORMAL)
 
         elif type == "clear":
+            self.screen._RUNNING = False
             self.canvas_widgets["canvas"].delete("all")
+            self.canvas_widgets["turtle_button"].config(state=NORMAL)
