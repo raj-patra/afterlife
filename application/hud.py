@@ -123,7 +123,7 @@ class HUD:
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
             ),
             clear_button = Button(self.canvas_widgets["frame"],
-                **self.current_theme["secondary"], text="❌",
+                **self.current_theme["secondary"], text="🗑",
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
