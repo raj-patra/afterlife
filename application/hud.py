@@ -488,15 +488,15 @@ class HUD:
     def _canvas_event_handler(self, event=None, type=None):
 
         if type == "bind_pencil":
-            self.canvas_widgets["canvas"].bind("<B1-Motion>", partial(self._canvas_event_handler, type="draw"))
-
-        if type == "draw":
-            x1, y1 = ( event.x - 2 ), ( event.y - 2 )
-            x2, y2 = ( event.x + 2 ), ( event.y + 2 )
-            self.canvas_widgets["canvas"].create_oval( x1, y1, x2, y2, fill=self.current_theme["root"])
-
+            self._canvas_event_handler(type="clear")
+            self.canvas_widgets["draw_button"].config(state=DISABLED)
+            self.canvas_widgets["canvas"].bind("<B1-Motion>", self._canvas_doodle)
+            
         elif type == "turtle":
+            self._canvas_event_handler(type="clear")
             self.canvas_widgets["turtle_button"].config(state=DISABLED)
+            self.canvas_widgets["canvas"].unbind("<B1-Motion>")
+
             self.screen = turtle.TurtleScreen(self.canvas_widgets["canvas"])
             self.screen.bgcolor(self.current_theme["secondary_bg"])
             cursor = turtle.RawTurtle(self.screen, shape="turtle")
@@ -506,9 +506,14 @@ class HUD:
             #     if abs(cursor.pos()) < 1:
             #         break
             # turtle.done()
-            self.canvas_widgets["turtle_button"].config(state=NORMAL)
 
         elif type == "clear":
-            self.screen._RUNNING = False
+            # self.screen._RUNNING = False
             self.canvas_widgets["canvas"].delete("all")
+            self.canvas_widgets["draw_button"].config(state=NORMAL)
             self.canvas_widgets["turtle_button"].config(state=NORMAL)
+    
+    def _canvas_doodle(self, event=None):
+        x1, y1 = ( event.x - 2 ), ( event.y - 2 )
+        x2, y2 = ( event.x + 2 ), ( event.y + 2 )
+        self.canvas_widgets["canvas"].create_oval( x1, y1, x2, y2, fill=self.current_theme["root"])
