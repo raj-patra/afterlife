@@ -115,15 +115,17 @@ class HUD:
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
+                command=partial(self._canvas_event_handler, type="bind_pencil"),
             ),
             turtle_button = Button(self.canvas_widgets["frame"],
                 **self.current_theme["secondary"], text="🐢",
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
+                command=partial(self._canvas_event_handler, type="turtle"),
             ),
             clear_button = Button(self.canvas_widgets["frame"],
-                **self.current_theme["secondary"], text="❌",
+                **self.current_theme["secondary"], text="🗑",
                 activebackground=self.current_theme["secondary_bg"],
                 activeforeground=self.current_theme["fg"],
                 height=1, width=6, relief=RAISED, overrelief=RAISED,
@@ -156,12 +158,12 @@ class HUD:
         self.side_bar.update(actions = [])
         for action in commands.SIDE_BAR_ACTIONS:
             button = Button(self.side_bar["frame"],
-                        **self.current_theme["primary"], text=action["icon"],
-                        activebackground=self.current_theme["primary_bg"],
-                        activeforeground=self.current_theme["fg"],
-                        height=2, width=5, relief=FLAT, overrelief=GROOVE,
-                        command=partial(self._event_handler, event=action["event"], query=action["query"]),
-                    )
+                **self.current_theme["primary"], text=action["icon"],
+                activebackground=self.current_theme["primary_bg"],
+                activeforeground=self.current_theme["fg"],
+                height=2, width=5, relief=FLAT, overrelief=GROOVE,
+                command=partial(self._event_handler, event=action["event"], query=action["query"]),
+            )
             self.side_bar["actions"].append(button)
             Hovertip(anchor_widget=button, text=action["label"], hover_delay=100)
 
@@ -178,16 +180,15 @@ class HUD:
             actions = []
         )
         for action in commands.STATUS_BAR_ACTIONS:
-            self.status_bar["actions"].append(
-                Button(self.status_bar["frame"],
-                    **self.current_theme["secondary"], text=action["icon"],
-                    activebackground=self.current_theme["secondary_bg"],
-                    activeforeground=self.current_theme["fg"],
-                    height=1, width=3, relief=FLAT, overrelief=GROOVE,
-                    command=partial(self._event_handler, event=action["event"], query=action["query"]),
-                )
+            button = Button(self.status_bar["frame"],
+                **self.current_theme["secondary"], text=action["icon"],
+                activebackground=self.current_theme["secondary_bg"],
+                activeforeground=self.current_theme["fg"],
+                height=1, width=3, relief=FLAT, overrelief=GROOVE,
+                command=partial(self._event_handler, event=action["event"], query=action["query"]),
             )
-
+            self.status_bar["actions"].append(button)
+            Hovertip(anchor_widget=button, text=action["label"], hover_delay=100)
 
     def render_menu(self):
         menu_bar = Menu(self.root, tearoff=0)
@@ -289,8 +290,6 @@ class HUD:
         self.root.bind('<Control-t>', partial(self._update_widget_theme, None))
         self.root.bind('<Control-T>', partial(self._update_widget_theme, None))
         self.root.bind('<Control-Delete>', partial(self._event_handler, "clear_prompt"))
-
-        self.canvas_widgets["canvas"].bind("<B1-Motion>", partial(self._canvas_event_handler, type="draw"))
 
         self.update_widget_content()
 
@@ -488,21 +487,33 @@ class HUD:
 
     def _canvas_event_handler(self, event=None, type=None):
 
-        if type == "draw":
-            x1, y1 = ( event.x - 2 ), ( event.y - 2 )
-            x2, y2 = ( event.x + 2 ), ( event.y + 2 )
-            self.canvas_widgets["canvas"].create_oval( x1, y1, x2, y2, fill=self.current_theme["root"])
+        if type == "bind_pencil":
+            self._canvas_event_handler(type="clear")
+            self.canvas_widgets["draw_button"].config(state=DISABLED)
+            self.canvas_widgets["canvas"].bind("<B1-Motion>", self._canvas_doodle)
+            
+        elif type == "turtle":
+            self._canvas_event_handler(type="clear")
+            self.canvas_widgets["turtle_button"].config(state=DISABLED)
+            self.canvas_widgets["canvas"].unbind("<B1-Motion>")
 
-        # elif type == "turtle":
-        #     cursor = turtle.RawTurtle(self.canvas_widgets["canvas"], shape="turtle")
-        #     self.canvas_widgets["turtle_button"].config(state=DISABLED)
-        #     while True:
-        #         cursor.forward(200)
-        #         cursor.left(170)
-        #         if abs(cursor.pos()) < 1:
-        #             break
-        #     turtle.done()
-        #     self.canvas_widgets["turtle_button"].config(state=NORMAL)
+            self.screen = turtle.TurtleScreen(self.canvas_widgets["canvas"])
+            self.screen.bgcolor(self.current_theme["secondary_bg"])
+            cursor = turtle.RawTurtle(self.screen, shape="turtle")
+            # while True:
+            #     cursor.forward(200)
+            #     cursor.left(170)
+            #     if abs(cursor.pos()) < 1:
+            #         break
+            # turtle.done()
 
         elif type == "clear":
+            # self.screen._RUNNING = False
             self.canvas_widgets["canvas"].delete("all")
+            self.canvas_widgets["draw_button"].config(state=NORMAL)
+            self.canvas_widgets["turtle_button"].config(state=NORMAL)
+    
+    def _canvas_doodle(self, event=None):
+        x1, y1 = ( event.x - 2 ), ( event.y - 2 )
+        x2, y2 = ( event.x + 2 ), ( event.y + 2 )
+        self.canvas_widgets["canvas"].create_oval( x1, y1, x2, y2, fill=self.current_theme["root"])
