@@ -417,6 +417,8 @@ class HUD:
             activeforeground=self.current_theme["fg"],
         )
 
+        
+        self.canvas_widgets["header_label"].config(**self.current_theme["secondary"])
         self.canvas_widgets["canvas"].config(bg=self.current_theme["secondary_bg"])
         self.canvas_widgets["draw_button"].config(**self.current_theme["secondary"])
         self.canvas_widgets["turtle_button"].config(**self.current_theme["secondary"])
