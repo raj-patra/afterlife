@@ -11,6 +11,7 @@ from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
                                Y)
 from idlelib.tooltip import Hovertip
 
+from application.graphics import yinyang
 from application.helpers import commands, constants, schemes
 from application.helpers.callbacks import (about_dialog_callback,
                                            destroy_root_callback,
@@ -500,12 +501,7 @@ class HUD:
             self.canvas_widgets["canvas"].unbind("<B1-Motion>")
 
             cursor = turtle.RawTurtle(self.screen, shape="turtle")
-            # while True:
-            #     cursor.forward(200)
-            #     cursor.left(170)
-            #     if abs(cursor.pos()) < 1:
-            #         break
-            turtle.done()
+            yinyang.main(cursor)
 
         elif type == "clear":
             self.screen._RUNNING = False
