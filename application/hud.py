@@ -11,6 +11,7 @@ from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
                                Y)
 from idlelib.tooltip import Hovertip
 
+from application.graphics import yinyang
 from application.helpers import commands, constants, schemes
 from application.helpers.callbacks import (about_dialog_callback,
                                            destroy_root_callback,
@@ -132,6 +133,8 @@ class HUD:
                 command=partial(self._canvas_event_handler, type="clear"),
             )
         )
+        self.screen = turtle.TurtleScreen(self.canvas_widgets["canvas"])
+        self.screen.bgcolor(self.current_theme["secondary_bg"])
         self.canvas_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
 
         bg = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
@@ -414,6 +417,8 @@ class HUD:
             activeforeground=self.current_theme["fg"],
         )
 
+        
+        self.canvas_widgets["header_label"].config(**self.current_theme["secondary"])
         self.canvas_widgets["canvas"].config(bg=self.current_theme["secondary_bg"])
         self.canvas_widgets["draw_button"].config(**self.current_theme["secondary"])
         self.canvas_widgets["turtle_button"].config(**self.current_theme["secondary"])
@@ -497,19 +502,13 @@ class HUD:
             self.canvas_widgets["turtle_button"].config(state=DISABLED)
             self.canvas_widgets["canvas"].unbind("<B1-Motion>")
 
-            self.screen = turtle.TurtleScreen(self.canvas_widgets["canvas"])
-            self.screen.bgcolor(self.current_theme["secondary_bg"])
             cursor = turtle.RawTurtle(self.screen, shape="turtle")
-            # while True:
-            #     cursor.forward(200)
-            #     cursor.left(170)
-            #     if abs(cursor.pos()) < 1:
-            #         break
-            # turtle.done()
+            yinyang.main(cursor)
 
         elif type == "clear":
-            # self.screen._RUNNING = False
+            self.screen._RUNNING = False
             self.canvas_widgets["canvas"].delete("all")
+            self.canvas_widgets["canvas"].unbind("<B1-Motion>")
             self.canvas_widgets["draw_button"].config(state=NORMAL)
             self.canvas_widgets["turtle_button"].config(state=NORMAL)
     
