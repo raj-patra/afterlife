@@ -132,6 +132,8 @@ class HUD:
                 command=partial(self._canvas_event_handler, type="clear"),
             )
         )
+        self.screen = turtle.TurtleScreen(self.canvas_widgets["canvas"])
+        self.screen.bgcolor(self.current_theme["secondary_bg"])
         self.canvas_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
 
         bg = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
@@ -497,17 +499,16 @@ class HUD:
             self.canvas_widgets["turtle_button"].config(state=DISABLED)
             self.canvas_widgets["canvas"].unbind("<B1-Motion>")
 
-            self.screen = turtle.TurtleScreen(self.canvas_widgets["canvas"])
-            self.screen.bgcolor(self.current_theme["secondary_bg"])
             cursor = turtle.RawTurtle(self.screen, shape="turtle")
             # while True:
             #     cursor.forward(200)
             #     cursor.left(170)
             #     if abs(cursor.pos()) < 1:
             #         break
-            # turtle.done()
+            turtle.done()
 
         elif type == "clear":
+            self.screen._RUNNING = False
             self.canvas_widgets["canvas"].delete("all")
             self.canvas_widgets["canvas"].unbind("<B1-Motion>")
             self.canvas_widgets["draw_button"].config(state=NORMAL)
