@@ -508,8 +508,8 @@ class HUD:
             # turtle.done()
 
         elif type == "clear":
-            # self.screen._RUNNING = False
             self.canvas_widgets["canvas"].delete("all")
+            self.canvas_widgets["canvas"].unbind("<B1-Motion>")
             self.canvas_widgets["draw_button"].config(state=NORMAL)
             self.canvas_widgets["turtle_button"].config(state=NORMAL)
     
