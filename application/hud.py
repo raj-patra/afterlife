@@ -110,7 +110,6 @@ class HUD:
             canvas = Canvas(self.canvas_widgets["frame"],
                 bg=self.current_theme["secondary_bg"],
                 relief=FLAT, highlightthickness=0,
-                xscrollincrement=0, yscrollincrement=0
             ),
             horizontal_scroll = Scrollbar(self.canvas_widgets["frame"], orient=HORIZONTAL),
             vertical_scroll = Scrollbar(self.canvas_widgets["frame"], orient=VERTICAL),
@@ -268,7 +267,9 @@ class HUD:
 
         self.canvas_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
         self.canvas_widgets["header_label"].pack(side=TOP, fill=BOTH, expand=0)
+        self.canvas_widgets["vertical_scroll"].pack(side=RIGHT, fill=Y)
         self.canvas_widgets["canvas"].pack(side=TOP, fill=BOTH, expand=1)
+        self.canvas_widgets["horizontal_scroll"].pack(side=BOTTOM, fill=X)
         self.canvas_widgets["draw_button"].pack(side=LEFT, fill=BOTH, expand=1)
         self.canvas_widgets["turtle_button"].pack(side=LEFT, fill=BOTH, expand=1)
         self.canvas_widgets["clear_button"].pack(side=LEFT, fill=BOTH, expand=0)
