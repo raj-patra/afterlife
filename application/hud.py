@@ -110,6 +110,7 @@ class HUD:
             canvas = Canvas(self.canvas_widgets["frame"],
                 bg=self.current_theme["secondary_bg"],
                 relief=FLAT, highlightthickness=0,
+                scrollregion=(0,0,1000,1000)
             ),
             horizontal_scroll = Scrollbar(self.canvas_widgets["frame"], orient=HORIZONTAL),
             vertical_scroll = Scrollbar(self.canvas_widgets["frame"], orient=VERTICAL),
