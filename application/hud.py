@@ -136,6 +136,13 @@ class HUD:
                 command=partial(self._canvas_event_handler, type="clear"),
             )
         )
+        self.canvas_widgets["horizontal_scroll"].config(command=self.canvas_widgets["canvas"].xview)
+        self.canvas_widgets["vertical_scroll"].config(command=self.canvas_widgets["canvas"].yview)
+        self.canvas_widgets["canvas"].config(
+            xscrollcommand=self.canvas_widgets["horizontal_scroll"].set, 
+            yscrollcommand=self.canvas_widgets["vertical_scroll"].set
+        )
+
         self.screen = turtle.TurtleScreen(self.canvas_widgets["canvas"])
         self.screen.bgcolor(self.current_theme["secondary_bg"])
         self.canvas_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
