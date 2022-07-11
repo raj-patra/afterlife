@@ -4,9 +4,9 @@ import time
 import turtle
 from collections import deque
 from functools import partial
-from tkinter import (Button, Entry, Frame, Label, Menu, Text, Canvas, filedialog,
+from tkinter import (Button, Entry, Frame, Label, Menu, Text, Canvas, Scrollbar, filedialog,
                      messagebox)
-from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
+from tkinter.constants import (HORIZONTAL, VERTICAL, BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
                                NORMAL, NW, RAISED, RIGHT, TOP, WORD, E, W, X,
                                Y)
 from idlelib.tooltip import Hovertip
@@ -109,7 +109,7 @@ class HUD:
             ),
             canvas = Canvas(self.canvas_widgets["frame"],
                 bg=self.current_theme["secondary_bg"],
-                relief=FLAT, highlightthickness=0
+                relief=FLAT, highlightthickness=0,
             ),
             draw_button = Button(self.canvas_widgets["frame"],
                 **self.current_theme["secondary"], text="🖊",
