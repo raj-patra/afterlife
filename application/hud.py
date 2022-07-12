@@ -4,11 +4,10 @@ import time
 import turtle
 from collections import deque
 from functools import partial
-from tkinter import (Button, Entry, Frame, Label, Menu, Text, Canvas, Scrollbar, filedialog,
+from tkinter import (Button, Entry, Frame, Label, Menu, Text, Canvas, filedialog,
                      messagebox)
-from tkinter.constants import (HORIZONTAL, VERTICAL, BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
-                               NORMAL, NW, RAISED, RIGHT, TOP, WORD, E, W, X,
-                               Y)
+from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
+                               NORMAL, NW, RAISED, RIGHT, TOP, WORD, E, W, X, Y)
 from idlelib.tooltip import Hovertip
 
 from application.graphics import yinyang
