@@ -11,7 +11,7 @@ from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
 from idlelib.tooltip import Hovertip
 
 from application.graphics import \
-    (bytedesign, yinyang)
+    (bytedesign, chaos, yinyang)
 from application.helpers import commands, constants, schemes
 from application.helpers.callbacks import (about_dialog_callback,
                                            destroy_root_callback,
@@ -503,7 +503,7 @@ class HUD:
             self.canvas_widgets["canvas"].unbind("<B1-Motion>")
 
             cursor = turtle.RawTurtle(self.screen, shape="turtle")
-            bytedesign.main(cursor)
+            chaos.main(cursor)
 
         elif type == "clear":
             self.screen._RUNNING = False
