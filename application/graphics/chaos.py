@@ -41,7 +41,7 @@ def plot(cursor, fun, start, color):
         cursor.goto(i+1,x)
         cursor.dot(5)
 
-def main(cursor: turtle.RawTurtle, screen):
+def main(cursor: turtle.RawTurtle, screen: turtle.TurtleScreen):
     cursor.reset()
     screen.setworldcoordinates(-1.0,-0.1, N+1, 1.1)
     cursor.speed(0)
