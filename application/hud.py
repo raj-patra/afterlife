@@ -503,7 +503,7 @@ class HUD:
             self.canvas_widgets["canvas"].unbind("<B1-Motion>")
 
             cursor = turtle.RawTurtle(self.screen, shape="turtle")
-            chaos.main(cursor)
+            chaos.main(cursor, self.screen)
 
         elif type == "clear":
             self.screen._RUNNING = False

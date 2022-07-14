@@ -41,9 +41,9 @@ def plot(cursor, fun, start, color):
         cursor.goto(i+1,x)
         cursor.dot(5)
 
-def main(cursor: turtle.RawTurtle):
+def main(cursor: turtle.RawTurtle, screen):
     cursor.reset()
-    turtle.setworldcoordinates(-1.0,-0.1, N+1, 1.1)
+    screen.setworldcoordinates(-1.0,-0.1, N+1, 1.1)
     cursor.speed(0)
     cursor.hideturtle()
     coosys(cursor)
@@ -52,5 +52,5 @@ def main(cursor: turtle.RawTurtle):
     plot(cursor, h, 0.35, "red")
     # Now zoom in:
     for s in range(100):
-        turtle.setworldcoordinates(0.5*s,-0.1, N+1, 1.1)
+        screen.setworldcoordinates(0.5*s,-0.1, N+1, 1.1)
     return "Done!"
