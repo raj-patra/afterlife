@@ -69,7 +69,6 @@ MENUS = {
         dict(event="start_app", label="Command Prompt - Admin", query='start powershell "start cmd -v runAs"'),
         dict(event="start_app", label="Powershell", query="start powershell"),
         dict(event="start_app", label="WSL Bash", query="start bash"),
-        "---",
     ],
     "Network": [
         dict(event="execute_subprocess", label="Ping", query="ping www.google.com"),
