@@ -70,8 +70,6 @@ MENUS = {
         dict(event="start_app", label="Powershell", query="start powershell"),
         dict(event="start_app", label="WSL Bash", query="start bash"),
         "---",
-        dict(event="start_app", label="Python", query="start python"),
-        dict(event="start_app", label="Node", query="start node"),
     ],
     "Network": [
         dict(event="execute_subprocess", label="Ping", query="ping www.google.com"),
