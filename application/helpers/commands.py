@@ -65,7 +65,7 @@ ACTIONS = {
 
 MENUS = {
     "Network": [
-        dict(event="execute_subprocess", label="Ping", query="ping www.google.com"),
+        dict(event="execute_subprocess", label="Ping", query="ping 8.8.8.8"),
         "---",
         dict(event="execute_subprocess", label="List DNS Servers", query="ipconfig /displaydns"),
         dict(event="execute_subprocess", label="Initiate DNS Flush", query="ipconfig /flushdns"),
