@@ -4,14 +4,14 @@ import time
 import turtle
 from collections import deque
 from functools import partial
-from tkinter import (Button, Entry, Frame, Label, Menu, Text, Canvas, Scrollbar, filedialog,
+from tkinter import (Button, Entry, Frame, Label, Menu, Text, Canvas, filedialog,
                      messagebox)
-from tkinter.constants import (HORIZONTAL, VERTICAL, BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
-                               NORMAL, NW, RAISED, RIGHT, TOP, WORD, E, W, X,
-                               Y)
+from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
+                               NORMAL, NW, RAISED, RIGHT, TOP, WORD, E, W, X, Y)
 from idlelib.tooltip import Hovertip
 
-from application.graphics import yinyang
+from application.graphics import \
+    (bytedesign, chaos, yinyang)
 from application.helpers import commands, constants, schemes
 from application.helpers.callbacks import (about_dialog_callback,
                                            destroy_root_callback,
@@ -503,7 +503,7 @@ class HUD:
             self.canvas_widgets["canvas"].unbind("<B1-Motion>")
 
             cursor = turtle.RawTurtle(self.screen, shape="turtle")
-            yinyang.main(cursor)
+            chaos.main(cursor, self.screen)
 
         elif type == "clear":
             self.screen._RUNNING = False

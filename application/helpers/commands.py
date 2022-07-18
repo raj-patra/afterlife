@@ -64,17 +64,8 @@ ACTIONS = {
 }
 
 MENUS = {
-    "CLIs": [
-        dict(event="start_app", label="Command Prompt", query="start cmd /k cd /d %USERPROFILE%\Desktop"),
-        dict(event="start_app", label="Command Prompt - Admin", query='start powershell "start cmd -v runAs"'),
-        dict(event="start_app", label="Powershell", query="start powershell"),
-        dict(event="start_app", label="WSL Bash", query="start bash"),
-        "---",
-        dict(event="start_app", label="Python", query="start python"),
-        dict(event="start_app", label="Node", query="start node"),
-    ],
     "Network": [
-        dict(event="execute_subprocess", label="Ping", query="ping www.google.com"),
+        dict(event="execute_subprocess", label="Ping", query="ping 8.8.8.8"),
         "---",
         dict(event="execute_subprocess", label="List DNS Servers", query="ipconfig /displaydns"),
         dict(event="execute_subprocess", label="Initiate DNS Flush", query="ipconfig /flushdns"),
