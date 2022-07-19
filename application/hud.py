@@ -9,7 +9,6 @@ from tkinter import (Button, Entry, Frame, Label, Menu, Text, Canvas, filedialog
 from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
                                NORMAL, NW, RAISED, RIGHT, TOP, WORD, E, W, X, Y)
 from idlelib.tooltip import Hovertip
-import psutil
 
 from application.graphics import \
     (bytedesign, chaos, yinyang)
