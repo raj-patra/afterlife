@@ -9,6 +9,7 @@ from tkinter import (Button, Entry, Frame, Label, Menu, Text, Canvas, filedialog
 from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
                                NORMAL, NW, RAISED, RIGHT, TOP, WORD, E, W, X, Y)
 from idlelib.tooltip import Hovertip
+import psutil
 
 from application.graphics import \
     (bytedesign, chaos, yinyang)
@@ -320,6 +321,7 @@ class HUD:
             )
             self.status_bar["right_label"].config(
                 text=constants.RIGHT_STATUS_LABEL.format(
+                    time.strftime("%H:%M", time.localtime(time.time() - psutil.boot_time())),
                     "🔌" if pc_stats["battery_plugged"] else "🔋",
                     pc_stats["battery_usage"],
                 )
