@@ -320,7 +320,7 @@ class HUD:
             )
             self.status_bar["right_label"].config(
                 text=constants.RIGHT_STATUS_LABEL.format(
-                    time.strftime("%H:%M", time.localtime(time.time() - pc_stats["boot_time"])),
+                    time.strftime("%Hhrs %Mmin", time.localtime(time.time() - pc_stats["boot_time"])),
                     "🔌" if pc_stats["battery_plugged"] else "🔋",
                     pc_stats["battery_usage"],
                 )
