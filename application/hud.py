@@ -476,6 +476,7 @@ class HUD:
         self.status_bar["right_label"].config(
             **self.current_theme["secondary"],
             text=constants.RIGHT_STATUS_LABEL.format(
+                time.strftime("%Hhrs %Mmin", time.localtime(time.time() - pc_stats["boot_time"])),
                 "🔌" if pc_stats["battery_plugged"] else "🔋",
                 pc_stats["battery_usage"],
             )
