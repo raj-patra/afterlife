@@ -34,27 +34,13 @@ ACTIONS = {
         dict(event="start_app", label="Command\nPrompt", query="start cmd /k cd /d %USERPROFILE%\Desktop"),
     ],
     1: [
-        dict(event="open_url", label="Web\nUtilities", query="www.123apps.com"),
-        dict(event="open_url", label="Cloud File\nConverter", query="www.cloudconvert.com"),
-        dict(event="open_url", label="Digital PDF\nTools", query="www.smallpdf.com/pdf-tools"),
-        dict(event="open_url", label="Online Photo\nEditor", query="www.photopea.com"),
-        dict(event="open_url", label="Net\nSpeed", query="www.speedtest.net"),
-    ],
-    2: [
-        dict(event="open_url", label="Spotify", query="open.spotify.com"),
-        dict(event="open_url", label="Bored\nButton", query="www.boredbutton.com/random"),
-        dict(event="open_url", label="Wikipedia", query="www.wikipedia.org"),
-        dict(event="open_url", label="Library\nGenesis", query="libgen.rs/index.php"),
-        dict(event="open_url", label="Good Reads", query="www.readsomethinggreat.com"),
-    ],
-    3: [
         dict(event="execute_subprocess", label="System\nInfo", query="systeminfo"),
         dict(event="execute_subprocess", label="Running\nProcesses", query="tasklist"),
         dict(event="execute_subprocess", label="Environment\nVariables", query="set"),
         dict(event="execute_subprocess", label="Available\nDrivers", query="driverquery"),
         dict(event="start_app", label="Notepad", query="start notepad"),
     ],
-    4: [
+    2: [
         dict(event="start_app", label="Run", query="start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"),
         dict(event="start_app", label="God\nMode", query="start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"),
         dict(event="start_app", label="Device\nManagement", query="start devmgmt"),
@@ -88,4 +74,16 @@ MENUS = {
         dict(event="open_url", label="Pinterest", query="www.pinterest.com"),
         dict(event="open_url", label="Linkedin", query="www.linkedin.com"),
     ],
+    "Utilities & Recreation": [
+        dict(event="open_url", label="Web Utilities", query="www.123apps.com"),
+        dict(event="open_url", label="Cloud File Converter", query="www.cloudconvert.com"),
+        dict(event="open_url", label="Digital PDF Tools", query="www.smallpdf.com/pdf-tools"),
+        dict(event="open_url", label="Online Photo Editor", query="www.photopea.com"),
+        dict(event="open_url", label="Net Speed", query="www.speedtest.net"),
+        "---",
+        dict(event="open_url", label="Bored Button", query="www.boredbutton.com/random"),
+        dict(event="open_url", label="Wikipedia", query="www.wikipedia.org"),
+        dict(event="open_url", label="Library Genesis", query="libgen.rs/index.php"),
+        dict(event="open_url", label="Good Reads", query="www.readsomethinggreat.com"),
+    ]
 }
