@@ -421,9 +421,21 @@ class HUD:
         
         self.canvas_widgets["header_label"].config(**self.current_theme["secondary"])
         self.canvas_widgets["canvas"].config(bg=self.current_theme["secondary_bg"])
-        self.canvas_widgets["draw_button"].config(**self.current_theme["secondary"])
-        self.canvas_widgets["turtle_button"].config(**self.current_theme["secondary"])
-        self.canvas_widgets["clear_button"].config(**self.current_theme["secondary"])
+        self.canvas_widgets["draw_button"].config(
+            **self.current_theme["secondary"],
+            activebackground=self.current_theme["secondary_bg"],
+            activeforeground=self.current_theme["fg"],
+        )
+        self.canvas_widgets["turtle_button"].config(
+            **self.current_theme["secondary"],
+            activebackground=self.current_theme["secondary_bg"],
+            activeforeground=self.current_theme["fg"],
+        )
+        self.canvas_widgets["clear_button"].config(
+            **self.current_theme["secondary"],
+            activebackground=self.current_theme["secondary_bg"],
+            activeforeground=self.current_theme["fg"],
+        )
 
         self.action_centre_frame.config(
             bg=self.current_theme['root']
