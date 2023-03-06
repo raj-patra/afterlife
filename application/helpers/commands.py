@@ -74,13 +74,14 @@ MENUS = {
         dict(event="open_url", label="Pinterest", query="www.pinterest.com"),
         dict(event="open_url", label="Linkedin", query="www.linkedin.com"),
     ],
-    "Utilities & Recreation": [
+    "Utilities": [
         dict(event="open_url", label="Web Utilities", query="www.123apps.com"),
         dict(event="open_url", label="Cloud File Converter", query="www.cloudconvert.com"),
         dict(event="open_url", label="Digital PDF Tools", query="www.smallpdf.com/pdf-tools"),
         dict(event="open_url", label="Online Photo Editor", query="www.photopea.com"),
         dict(event="open_url", label="Net Speed", query="www.speedtest.net"),
-        "---",
+    ],
+    "Recreation": [
         dict(event="open_url", label="Bored Button", query="www.boredbutton.com/random"),
         dict(event="open_url", label="Wikipedia", query="www.wikipedia.org"),
         dict(event="open_url", label="Library Genesis", query="libgen.rs/index.php"),
