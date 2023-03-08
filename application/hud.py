@@ -271,7 +271,7 @@ class HUD:
         self.status_bar["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
         self.status_bar["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
 
-    def initialize_widgets(self):
+    def init_widgets(self):
 
         random_wiki_article = random_article_callback()
         if random_wiki_article:
@@ -286,7 +286,7 @@ class HUD:
 
         self.update_widget_content()
     
-    def initialize_keybinds(self):
+    def init_keybinds(self):
 
         self.iexe_widgets["query_entry"].bind('<Return>', partial(self._event_handler, "search_query"))
         self.iexe_widgets["query_entry"].bind('<Control-Return>', partial(self._event_handler, "execute_cmd"))
@@ -298,7 +298,7 @@ class HUD:
         self.root.bind('<Control-T>', partial(self._update_widget_theme, None))
         self.root.bind('<Control-Delete>', partial(self._event_handler, "clear_prompt"))
 
-    def initialize_hovertips(self):
+    def init_hovertips(self):
 
         Hovertip(anchor_widget=self.iexe_widgets["search_button"],
             text=self.iexe_widgets["search_button"]["text"]+" (Enter)", hover_delay=100
