@@ -138,15 +138,15 @@ class HUD:
         self.canvas_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
 
         bg = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
-        self.action_items = []
-        self.button_frames = []
+        self.dashboard_actions = []
+        self.dashboard_frames = []
 
-        for row in commands.ACTIONS.keys():
+        for action_idx in range(len(commands.DASHBOARD_ACTIONS)):
             action_row = Frame(self.action_centre_frame, bg=self.current_theme['root'], pady=1)
             action_row.pack(side=TOP, fill=BOTH, expand=1)
-            self.button_frames.append(action_row)
+            self.dashboard_frames.append(action_row)
 
-            for action in commands.ACTIONS[row]:
+            for action in commands.DASHBOARD_ACTIONS[action_idx]:
                 button = Button(action_row,
                     bg=bg[0], fg=self.current_theme['fg'],
                     activebackground=bg[0], activeforeground=self.current_theme['fg'],
@@ -154,7 +154,7 @@ class HUD:
                     height=1, width=6, relief=FLAT, overrelief=GROOVE,
                     command=partial(self._event_handler, event=action["event"], query=action["query"]),
                 )
-                self.action_items.append(button)
+                self.dashboard_actions.append(button)
                 bg.rotate(1)
 
         # Widgets on root.side_bar
@@ -247,7 +247,7 @@ class HUD:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
 
         for action in self.side_bar["actions"]:
-            action.pack(side=TOP, fill=BOTH, expand=1)
+            action.pack(side=TOP, fill=BOTH, expand=0)
 
         self.iexe_widgets["query_entry"].pack(side=TOP, fill=BOTH, expand=1)
         self.iexe_widgets["search_button"].pack(side=LEFT, fill=BOTH, expand=1)
@@ -263,7 +263,7 @@ class HUD:
 
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
-        for action in self.action_items:
+        for action in self.dashboard_actions:
             action.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.status_bar["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
@@ -468,10 +468,10 @@ class HUD:
         )
         colors = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
 
-        for frame in self.button_frames:
+        for frame in self.dashboard_frames:
             frame.config(bg=self.current_theme['root'])
 
-        for button in self.action_items:
+        for button in self.dashboard_actions:
             button.config(
                 bg=colors[0],
                 fg=self.current_theme['fg'],

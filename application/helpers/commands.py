@@ -5,13 +5,13 @@ SIDE_BAR_ACTIONS = [
     dict(event="start_app", icon="➗", label="Calculator", query="start calculator:"),
     dict(event="start_app", icon="📆", label="Calendar", query="start outlook cal:"),
     dict(event="start_app", icon="📸", label="Camera", query="start microsoft.windows.camera:"),
-    dict(event="start_app", icon="🤖", label="Cortana", query="start ms-cortana:"),
+    # dict(event="start_app", icon="🤖", label="Cortana", query="start ms-cortana:"),
     dict(event="start_app", icon="🎶", label="Groove Music", query="start mswindowsmusic:"),
     dict(event="start_app", icon="📧", label="Mail", query="start outlookmail:"),
     dict(event="start_app", icon="🗺", label="Maps", query="start bingmaps:"),
     dict(event="start_app", icon="🌐", label="Microsoft Edge", query="start microsoft-edge:"),
     dict(event="start_app", icon="🎥", label="Movies & TV", query="start mswindowsvideo:"),
-    dict(event="start_app", icon="🎨", label="Paint 3D", query="start ms-paint:"),
+    # dict(event="start_app", icon="🎨", label="Paint 3D", query="start ms-paint:"),
     dict(event="start_app", icon="🤳", label="Photos", query="start ms-photos:"),
     dict(event="start_app", icon="✂", label="Snip & Sketch", query="start ms-ScreenSketch:"),
     dict(event="start_app", icon="⛅", label="Weather", query="start bingweather:"),
@@ -25,29 +25,29 @@ STATUS_BAR_ACTIONS = [
     dict(event="start_app", icon="🖥", label="Device Discovery", query="start ms-settings-connectabledevices:devicediscovery"),
 ]
 
-ACTIONS = {
-    0: [
+DASHBOARD_ACTIONS = [
+    [
         dict(event="start_app", label="Installed\nApps", query="start explorer.exe Shell:::AppsFolder"),
         dict(event="start_app", label="Root\nFolder", query="start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"),
         dict(event="start_app", label="Task\nManager", query="start taskmgr"),
         dict(event="start_app", label="Control\nPanel", query="start control"),
         dict(event="start_app", label="Command\nPrompt", query="start cmd /k cd /d %USERPROFILE%\Desktop"),
     ],
-    1: [
+    [
         dict(event="execute_subprocess", label="System\nInfo", query="systeminfo"),
         dict(event="execute_subprocess", label="Running\nProcesses", query="tasklist"),
         dict(event="execute_subprocess", label="Environment\nVariables", query="set"),
         dict(event="execute_subprocess", label="Available\nDrivers", query="driverquery"),
         dict(event="start_app", label="Notepad", query="start notepad"),
     ],
-    2: [
+    [
         dict(event="start_app", label="Run", query="start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"),
         dict(event="start_app", label="God\nMode", query="start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"),
         dict(event="start_app", label="Device\nManagement", query="start devmgmt"),
         dict(event="start_app", label="Disk\nManagement", query="start diskmgmt"),
         dict(event="start_app", label="Registry\nEditor", query="start regedit"),
     ]
-}
+]
 
 MENUS = {
     "Network": [
