@@ -168,7 +168,6 @@ class HUD:
                 command=partial(self._event_handler, event=action["event"], query=action["query"]),
             )
             self.side_bar["actions"].append(button)
-            Hovertip(anchor_widget=button, text=action["label"], hover_delay=100)
 
         # Widgets on root.status_bar
         self.status_bar.update(
@@ -191,7 +190,6 @@ class HUD:
                 command=partial(self._event_handler, event=action["event"], query=action["query"]),
             )
             self.status_bar["actions"].append(button)
-            Hovertip(anchor_widget=button, text=action["label"], hover_delay=100)
 
     def render_menu(self):
         menu_bar = Menu(self.root, tearoff=0)
@@ -299,7 +297,9 @@ class HUD:
         self.root.bind('<Control-Delete>', partial(self._event_handler, "clear_prompt"))
 
     def init_hovertips(self):
+        """Initializes hovertips for required widgets"""
 
+        # Hovertips for iexe widgets
         Hovertip(anchor_widget=self.iexe_widgets["search_button"],
             text=self.iexe_widgets["search_button"]["text"]+" (Enter)", hover_delay=100
         )
@@ -309,6 +309,18 @@ class HUD:
         Hovertip(anchor_widget=self.iexe_widgets["wiki_button"],
             text=self.iexe_widgets["wiki_button"]["text"]+" (Shift+Enter)", hover_delay=100
         )
+
+        # Hovertips for status bar action widgets
+        for action_idx in range(len(self.status_bar["actions"])):
+            Hovertip(anchor_widget=self.status_bar["actions"][action_idx], 
+                text=commands.STATUS_BAR_ACTIONS[action_idx]["label"], hover_delay=100
+            )
+
+        # Hovertips for side bar action widgets
+        for action_idx in range(len(self.side_bar["actions"])):
+            Hovertip(anchor_widget=self.side_bar["actions"][action_idx], 
+                text=commands.SIDE_BAR_ACTIONS[action_idx]["label"], hover_delay=100
+            )
 
     def update_widget_content(self):
 
