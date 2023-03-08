@@ -138,15 +138,15 @@ class HUD:
         self.canvas_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
 
         bg = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
-        self.action_items = []
-        self.button_frames = []
+        self.dashboard_actions = []
+        self.dashboard_frames = []
 
-        for row in commands.ACTIONS.keys():
+        for action_idx in range(len(commands.DASHBOARD_ACTIONS)):
             action_row = Frame(self.action_centre_frame, bg=self.current_theme['root'], pady=1)
             action_row.pack(side=TOP, fill=BOTH, expand=1)
-            self.button_frames.append(action_row)
+            self.dashboard_frames.append(action_row)
 
-            for action in commands.ACTIONS[row]:
+            for action in commands.DASHBOARD_ACTIONS[action_idx]:
                 button = Button(action_row,
                     bg=bg[0], fg=self.current_theme['fg'],
                     activebackground=bg[0], activeforeground=self.current_theme['fg'],
@@ -154,7 +154,7 @@ class HUD:
                     height=1, width=6, relief=FLAT, overrelief=GROOVE,
                     command=partial(self._event_handler, event=action["event"], query=action["query"]),
                 )
-                self.action_items.append(button)
+                self.dashboard_actions.append(button)
                 bg.rotate(1)
 
         # Widgets on root.side_bar
@@ -168,7 +168,6 @@ class HUD:
                 command=partial(self._event_handler, event=action["event"], query=action["query"]),
             )
             self.side_bar["actions"].append(button)
-            Hovertip(anchor_widget=button, text=action["label"], hover_delay=100)
 
         # Widgets on root.status_bar
         self.status_bar.update(
@@ -191,7 +190,6 @@ class HUD:
                 command=partial(self._event_handler, event=action["event"], query=action["query"]),
             )
             self.status_bar["actions"].append(button)
-            Hovertip(anchor_widget=button, text=action["label"], hover_delay=100)
 
     def render_menu(self):
         menu_bar = Menu(self.root, tearoff=0)
@@ -249,7 +247,7 @@ class HUD:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
 
         for action in self.side_bar["actions"]:
-            action.pack(side=TOP, fill=BOTH, expand=1)
+            action.pack(side=TOP, fill=BOTH, expand=0)
 
         self.iexe_widgets["query_entry"].pack(side=TOP, fill=BOTH, expand=1)
         self.iexe_widgets["search_button"].pack(side=LEFT, fill=BOTH, expand=1)
@@ -265,13 +263,13 @@ class HUD:
 
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
-        for action in self.action_items:
+        for action in self.dashboard_actions:
             action.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.status_bar["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
         self.status_bar["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
 
-    def initialize_widgets(self):
+    def init_widgets(self):
 
         random_wiki_article = random_article_callback()
         if random_wiki_article:
@@ -284,6 +282,10 @@ class HUD:
         self.header["left_label"].config(text=constants.WELCOME_MSG)
         self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
+        self.update_widget_content()
+    
+    def init_keybinds(self):
+
         self.iexe_widgets["query_entry"].bind('<Return>', partial(self._event_handler, "search_query"))
         self.iexe_widgets["query_entry"].bind('<Control-Return>', partial(self._event_handler, "execute_cmd"))
         self.iexe_widgets["query_entry"].bind('<Shift-Return>', partial(self._event_handler, "fetch_wiki"))
@@ -294,7 +296,31 @@ class HUD:
         self.root.bind('<Control-T>', partial(self._update_widget_theme, None))
         self.root.bind('<Control-Delete>', partial(self._event_handler, "clear_prompt"))
 
-        self.update_widget_content()
+    def init_hovertips(self):
+        """Initializes hovertips for required widgets"""
+
+        # Hovertips for iexe widgets
+        Hovertip(anchor_widget=self.iexe_widgets["search_button"],
+            text=self.iexe_widgets["search_button"]["text"]+" (Enter)", hover_delay=100
+        )
+        Hovertip(anchor_widget=self.iexe_widgets["execute_button"],
+            text=self.iexe_widgets["execute_button"]["text"]+" (Ctrl+Enter)", hover_delay=100
+        )
+        Hovertip(anchor_widget=self.iexe_widgets["wiki_button"],
+            text=self.iexe_widgets["wiki_button"]["text"]+" (Shift+Enter)", hover_delay=100
+        )
+
+        # Hovertips for status bar action widgets
+        for action_idx in range(len(self.status_bar["actions"])):
+            Hovertip(anchor_widget=self.status_bar["actions"][action_idx], 
+                text=commands.STATUS_BAR_ACTIONS[action_idx]["label"], hover_delay=100
+            )
+
+        # Hovertips for side bar action widgets
+        for action_idx in range(len(self.side_bar["actions"])):
+            Hovertip(anchor_widget=self.side_bar["actions"][action_idx], 
+                text=commands.SIDE_BAR_ACTIONS[action_idx]["label"], hover_delay=100
+            )
 
     def update_widget_content(self):
 
@@ -418,22 +444,34 @@ class HUD:
             activeforeground=self.current_theme["fg"],
         )
 
-        
+
         self.canvas_widgets["header_label"].config(**self.current_theme["secondary"])
         self.canvas_widgets["canvas"].config(bg=self.current_theme["secondary_bg"])
-        self.canvas_widgets["draw_button"].config(**self.current_theme["secondary"])
-        self.canvas_widgets["turtle_button"].config(**self.current_theme["secondary"])
-        self.canvas_widgets["clear_button"].config(**self.current_theme["secondary"])
+        self.canvas_widgets["draw_button"].config(
+            **self.current_theme["secondary"],
+            activebackground=self.current_theme["secondary_bg"],
+            activeforeground=self.current_theme["fg"],
+        )
+        self.canvas_widgets["turtle_button"].config(
+            **self.current_theme["secondary"],
+            activebackground=self.current_theme["secondary_bg"],
+            activeforeground=self.current_theme["fg"],
+        )
+        self.canvas_widgets["clear_button"].config(
+            **self.current_theme["secondary"],
+            activebackground=self.current_theme["secondary_bg"],
+            activeforeground=self.current_theme["fg"],
+        )
 
         self.action_centre_frame.config(
             bg=self.current_theme['root']
         )
         colors = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
 
-        for frame in self.button_frames:
+        for frame in self.dashboard_frames:
             frame.config(bg=self.current_theme['root'])
 
-        for button in self.action_items:
+        for button in self.dashboard_actions:
             button.config(
                 bg=colors[0],
                 fg=self.current_theme['fg'],
@@ -476,6 +514,7 @@ class HUD:
         self.status_bar["right_label"].config(
             **self.current_theme["secondary"],
             text=constants.RIGHT_STATUS_LABEL.format(
+                time.strftime("%Hhrs %Mmin", time.localtime(time.time() - pc_stats["boot_time"])),
                 "🔌" if pc_stats["battery_plugged"] else "🔋",
                 pc_stats["battery_usage"],
             )
@@ -497,7 +536,7 @@ class HUD:
             self._canvas_event_handler(type="clear")
             self.canvas_widgets["draw_button"].config(state=DISABLED)
             self.canvas_widgets["canvas"].bind("<B1-Motion>", self._canvas_doodle)
-            
+
         elif type == "turtle":
             self._canvas_event_handler(type="clear")
             self.canvas_widgets["turtle_button"].config(state=DISABLED)
@@ -512,7 +551,7 @@ class HUD:
             self.canvas_widgets["canvas"].unbind("<B1-Motion>")
             self.canvas_widgets["draw_button"].config(state=NORMAL)
             self.canvas_widgets["turtle_button"].config(state=NORMAL)
-    
+
     def _canvas_doodle(self, event=None):
         x1, y1 = ( event.x - 2 ), ( event.y - 2 )
         x2, y2 = ( event.x + 2 ), ( event.y + 2 )
