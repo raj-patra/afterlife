@@ -19,6 +19,7 @@ def init_app():
     hud.render_menu()
     hud.render_widgets()
     hud.initialize_widgets()
+    hud.initialize_hovertips()
 
     root.protocol("WM_DELETE_WINDOW", quit)
     root.mainloop()

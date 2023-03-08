@@ -296,6 +296,18 @@ class HUD:
 
         self.update_widget_content()
 
+    def initialize_hovertips(self):
+
+        Hovertip(anchor_widget=self.iexe_widgets["search_button"],
+            text=self.iexe_widgets["search_button"]["text"]+" (Enter)", hover_delay=100
+        )
+        Hovertip(anchor_widget=self.iexe_widgets["execute_button"],
+            text=self.iexe_widgets["execute_button"]["text"]+" (Ctrl+Enter)", hover_delay=100
+        )
+        Hovertip(anchor_widget=self.iexe_widgets["wiki_button"],
+            text=self.iexe_widgets["wiki_button"]["text"]+" (Shift+Enter)", hover_delay=100
+        )
+
     def update_widget_content(self):
 
         def loop():
@@ -418,7 +430,7 @@ class HUD:
             activeforeground=self.current_theme["fg"],
         )
 
-        
+
         self.canvas_widgets["header_label"].config(**self.current_theme["secondary"])
         self.canvas_widgets["canvas"].config(bg=self.current_theme["secondary_bg"])
         self.canvas_widgets["draw_button"].config(
@@ -510,7 +522,7 @@ class HUD:
             self._canvas_event_handler(type="clear")
             self.canvas_widgets["draw_button"].config(state=DISABLED)
             self.canvas_widgets["canvas"].bind("<B1-Motion>", self._canvas_doodle)
-            
+
         elif type == "turtle":
             self._canvas_event_handler(type="clear")
             self.canvas_widgets["turtle_button"].config(state=DISABLED)
@@ -525,7 +537,7 @@ class HUD:
             self.canvas_widgets["canvas"].unbind("<B1-Motion>")
             self.canvas_widgets["draw_button"].config(state=NORMAL)
             self.canvas_widgets["turtle_button"].config(state=NORMAL)
-    
+
     def _canvas_doodle(self, event=None):
         x1, y1 = ( event.x - 2 ), ( event.y - 2 )
         x2, y2 = ( event.x + 2 ), ( event.y + 2 )
