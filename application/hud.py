@@ -284,6 +284,10 @@ class HUD:
         self.header["left_label"].config(text=constants.WELCOME_MSG)
         self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
+        self.update_widget_content()
+    
+    def initialize_keybinds(self):
+
         self.iexe_widgets["query_entry"].bind('<Return>', partial(self._event_handler, "search_query"))
         self.iexe_widgets["query_entry"].bind('<Control-Return>', partial(self._event_handler, "execute_cmd"))
         self.iexe_widgets["query_entry"].bind('<Shift-Return>', partial(self._event_handler, "fetch_wiki"))
@@ -293,8 +297,6 @@ class HUD:
         self.root.bind('<Control-t>', partial(self._update_widget_theme, None))
         self.root.bind('<Control-T>', partial(self._update_widget_theme, None))
         self.root.bind('<Control-Delete>', partial(self._event_handler, "clear_prompt"))
-
-        self.update_widget_content()
 
     def initialize_hovertips(self):
 
