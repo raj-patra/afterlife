@@ -1,4 +1,4 @@
-DEFAULT_THEME_CHOICE = "react"
+DEFAULT_THEME_CHOICE = "calm"
 
 THEMES = {
     "default_repocard": {
