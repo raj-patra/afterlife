@@ -59,9 +59,9 @@ class HUD:
         self.header = dict(frame=Frame(self.root))
         self.left_section_frame = Frame(self.root)
         self.side_bar = dict(frame=Frame(self.left_section_frame, bg=self.current_theme['primary_bg'], bd=5))
-        self.iexe_widgets = dict(frame=Frame(self.left_section_frame))
+        self.iexe_widgets = dict(frame=Frame(self.left_section_frame, bd=1))
         self.right_section_frame = Frame(self.root)
-        self.canvas_widgets = dict(frame=Frame(self.right_section_frame))
+        self.canvas_widgets = dict(frame=Frame(self.right_section_frame, bd=1))
         self.action_centre_frame = Frame(self.right_section_frame, bg=self.current_theme['root'])
         self.status_bar = dict(frame=Frame(self.root, bd=1))
 
@@ -75,10 +75,10 @@ class HUD:
 
         # Widgets on root.left
         self.prompt_text = Text(self.left_section_frame,
-            **self.current_theme["primary"], wrap=WORD,
-            width=50, padx=20, pady=20,
+            **self.current_theme["primary"], wrap=WORD, width=50, padx=20, pady=20,
         )
         self.iexe_widgets.update(
+            # query_entry = ttk.Entry(self.iexe_widgets["frame"], style="Secondary.TLabel"),
             query_entry = Entry(self.iexe_widgets["frame"],
                 **self.current_theme["secondary"],
                 bd=5, width=28, insertbackground="white",
@@ -96,9 +96,8 @@ class HUD:
 
         # Widgets on root.right
         self.canvas_widgets.update(
-            header_label = Label(self.canvas_widgets["frame"],
-                **self.current_theme["secondary"], text="Canvas by Afterlife 🎨", anchor=W,
-                relief=GROOVE, height=2, width=20, padx=10, pady=2,
+            header_label = ttk.Label(self.canvas_widgets["frame"], text="Canvas by Afterlife 🎨",
+                style="Secondary.TLabel", anchor=W, #relief=GROOVE
             ),
             canvas = Canvas(self.canvas_widgets["frame"],
                 bg=self.current_theme["secondary_bg"],
@@ -161,6 +160,11 @@ class HUD:
 
         self.custom_styles = ttk.Style()
         self.custom_styles.theme_use("clam")
+
+        self.custom_styles.configure("Secondary.Entry.TLabel",
+            background=self.theme["secondary_bg"], foreground=self.theme["fg"],
+            font=self.theme["font"], borderwidth=10, width=20, padding=10,
+        )
 
         self.custom_styles.configure("Primary.TLabel",
             background=self.theme["primary_bg"], foreground=self.theme["fg"],
@@ -244,9 +248,6 @@ class HUD:
         self.iexe_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
 
-        for action in self.status_bar["actions"]:
-            action.pack(side=RIGHT, fill=BOTH, expand=0)
-
         for action in self.side_bar["actions"]:
             action.pack(side=TOP, fill=BOTH, expand=0, ipady=3)
 
@@ -269,6 +270,9 @@ class HUD:
 
         self.status_bar["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
         self.status_bar["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
+
+        for action in self.status_bar["actions"]:
+            action.pack(side=RIGHT, fill=BOTH, expand=0)
 
     def init_widgets(self):
 
@@ -403,6 +407,17 @@ class HUD:
         if not theme:
             theme = random.choice(list(schemes.THEMES.keys()))
 
+        self.theme.update(
+            dict(
+                theme=theme,
+                root=schemes.THEMES[theme]['root'],
+                primary_bg=schemes.THEMES[theme]['primary'],
+                secondary_bg=schemes.THEMES[theme]['secondary'],
+                fg=schemes.THEMES[theme]['fg'],
+            )
+        )
+        self.render_styles()
+        
         self.current_theme.update(
             dict(
                 theme=theme,
@@ -423,82 +438,16 @@ class HUD:
 
         self.root.config(bg=self.current_theme['root'])
 
-        self.header["left_label"].config(**self.current_theme["primary"])
-        self.header["right_label"].config(**self.current_theme["primary"])
-
         self.prompt_text.config(**self.current_theme["primary"])
 
         self.iexe_widgets["query_entry"].config(**self.current_theme["secondary"])
-        self.iexe_widgets["search_button"].config(
-            **self.current_theme["secondary"],
-            activebackground=self.current_theme["secondary_bg"],
-            activeforeground=self.current_theme["fg"],
-        )
-        self.iexe_widgets["execute_button"].config(
-            **self.current_theme["secondary"],
-            activebackground=self.current_theme["secondary_bg"],
-            activeforeground=self.current_theme["fg"],
-        )
-        self.iexe_widgets["wiki_button"].config(
-            **self.current_theme["secondary"],
-            activebackground=self.current_theme["secondary_bg"],
-            activeforeground=self.current_theme["fg"],
-        )
 
-
-        self.canvas_widgets["header_label"].config(**self.current_theme["secondary"])
         self.canvas_widgets["canvas"].config(bg=self.current_theme["secondary_bg"])
-        self.canvas_widgets["draw_button"].config(
-            **self.current_theme["secondary"],
-            activebackground=self.current_theme["secondary_bg"],
-            activeforeground=self.current_theme["fg"],
-        )
-        self.canvas_widgets["turtle_button"].config(
-            **self.current_theme["secondary"],
-            activebackground=self.current_theme["secondary_bg"],
-            activeforeground=self.current_theme["fg"],
-        )
-        self.canvas_widgets["clear_button"].config(
-            **self.current_theme["secondary"],
-            activebackground=self.current_theme["secondary_bg"],
-            activeforeground=self.current_theme["fg"],
-        )
-
-        self.action_centre_frame.config(
-            bg=self.current_theme['root']
-        )
-        colors = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
-
-        for frame in self.dashboard_frames:
-            frame.config(bg=self.current_theme['root'])
-
-        for button in self.dashboard_actions:
-            button.config(
-                bg=colors[0],
-                fg=self.current_theme['fg'],
-                activebackground=colors[0],
-                activeforeground=self.current_theme['fg'],
-            )
-            colors.rotate(1)
-
-        for action in self.status_bar["actions"]:
-            action.config(
-                **self.current_theme["secondary"],
-                activebackground=self.current_theme["secondary_bg"],
-                activeforeground=self.current_theme["fg"],
-            )
 
         self.side_bar["frame"].config(bg=self.current_theme["primary_bg"])
-        for action in self.side_bar["actions"]:
-            action.config(
-                **self.current_theme["primary"],
-                activebackground=self.current_theme["primary_bg"],
-                activeforeground=self.current_theme["fg"],
-            )
 
         pc_stats = pc_stats_callback()
         self.status_bar["left_label"].config(
-            **self.current_theme["secondary"],
             text=constants.LEFT_STATUS_LABEL.format(
                 theme,
                 pc_stats["cpu_usage"],
@@ -510,14 +459,6 @@ class HUD:
                 pc_stats["disk_used"],
                 pc_stats["disk_total"],
                 pc_stats["disk_percent"],
-            )
-        )
-        self.status_bar["right_label"].config(
-            **self.current_theme["secondary"],
-            text=constants.RIGHT_STATUS_LABEL.format(
-                time.strftime("%Hhrs %Mmin", time.localtime(time.time() - pc_stats["boot_time"])),
-                "🔌" if pc_stats["battery_plugged"] else "🔋",
-                pc_stats["battery_usage"],
             )
         )
 
