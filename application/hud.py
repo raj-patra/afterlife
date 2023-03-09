@@ -4,14 +4,15 @@ import time
 import turtle
 from collections import deque
 from functools import partial
-from tkinter import (Button, Entry, Frame, Label, Menu, Text, Canvas, filedialog,
-                     messagebox)
-from tkinter.constants import (BOTH, BOTTOM, DISABLED, END, FLAT, GROOVE, LEFT,
-                               NORMAL, NW, RAISED, RIGHT, TOP, WORD, E, W, X, Y)
+from tkinter import (Button, Canvas, Entry, Frame, Label, Menu, Text,
+                     filedialog, messagebox, ttk)
+from tkinter.constants import (BOTH, BOTTOM, CENTER, DISABLED, END, FLAT,
+                               GROOVE, LEFT, NORMAL, NW, RAISED, RIDGE, RIGHT,
+                               TOP, WORD, E, W, X, Y)
+
 from idlelib.tooltip import Hovertip
 
-from application.graphics import \
-    (bytedesign, chaos, yinyang)
+from application.graphics import bytedesign, chaos, yinyang
 from application.helpers import commands, constants, schemes
 from application.helpers.callbacks import (about_dialog_callback,
                                            destroy_root_callback,
@@ -58,14 +59,10 @@ class HUD:
 
         # Widgets on root.header
         self.header.update(
-            left_label = Label(self.header["frame"],
-                **self.current_theme["primary"], text="hello world", anchor=W,
-                relief=FLAT, height=2, width=20, padx=10, pady=2,
-            ),
-            right_label = Label(self.header["frame"],
-                **self.current_theme["primary"], text="clock", anchor=E,
-                relief=FLAT, height=2, width=20, padx=10, pady=2,
-            )
+            left_label = ttk.Label(self.header["frame"], text="hello world",
+                style="Header.TLabel", anchor=W),
+            right_label = ttk.Label(self.header["frame"], text="clock",
+                style="Header.TLabel", anchor=E)
         )
 
         # Widgets on root.left
@@ -78,27 +75,15 @@ class HUD:
                 **self.current_theme["secondary"],
                 bd=5, width=28, insertbackground="white",
             ),
-            search_button = Button(self.iexe_widgets["frame"],
-                **self.current_theme["secondary"], text="Search Online",
-                activebackground=self.current_theme["secondary_bg"],
-                activeforeground=self.current_theme["fg"],
-                height=1, width=6, relief=RAISED, overrelief=RAISED,
-                command=partial(self._event_handler, event="search_query", query=None),
+            search_button = ttk.Button(self.iexe_widgets["frame"], text="🔎 Search Online",
+                style="Action.Secondary.TButton", command=partial(self._event_handler, event="search_query", query=None),
             ),
-            execute_button = Button(self.iexe_widgets["frame"],
-                **self.current_theme["secondary"], text="Execute Command",
-                activebackground=self.current_theme["secondary_bg"],
-                activeforeground=self.current_theme["fg"],
-                height=1, width=6, relief=RAISED, overrelief=RAISED,
-                command=partial(self._event_handler, event="execute_cmd", query=None),
+            execute_button = ttk.Button(self.iexe_widgets["frame"], text="▶ Execute Command",
+                style="Action.Secondary.TButton", command=partial(self._event_handler, event="execute_cmd", query=None),
             ),
-            wiki_button = Button(self.iexe_widgets["frame"],
-                **self.current_theme["secondary"], text="Wiki Article",
-                activebackground=self.current_theme["secondary_bg"],
-                activeforeground=self.current_theme["fg"],
-                height=1, width=6, relief=RAISED, overrelief=RAISED,
-                command=partial(self._event_handler, event="fetch_wiki", query=None),
-            )
+            wiki_button = ttk.Button(self.iexe_widgets["frame"], text="📖 Wiki Article",
+                style="Action.Secondary.TButton", command=partial(self._event_handler, event="fetch_wiki", query=None),
+            ),
         )
 
         # Widgets on root.right
@@ -111,33 +96,21 @@ class HUD:
                 bg=self.current_theme["secondary_bg"],
                 relief=FLAT, highlightthickness=0,
             ),
-            draw_button = Button(self.canvas_widgets["frame"],
-                **self.current_theme["secondary"], text="🖊",
-                activebackground=self.current_theme["secondary_bg"],
-                activeforeground=self.current_theme["fg"],
-                height=1, width=6, relief=RAISED, overrelief=RAISED,
-                command=partial(self._canvas_event_handler, type="bind_pencil"),
+            draw_button = ttk.Button(self.canvas_widgets["frame"], text="🖊 Doodle",
+                style="Action.Secondary.TButton", command=partial(self._canvas_event_handler, type="bind_pencil"),
             ),
-            turtle_button = Button(self.canvas_widgets["frame"],
-                **self.current_theme["secondary"], text="🐢",
-                activebackground=self.current_theme["secondary_bg"],
-                activeforeground=self.current_theme["fg"],
-                height=1, width=6, relief=RAISED, overrelief=RAISED,
-                command=partial(self._canvas_event_handler, type="turtle"),
+            turtle_button = ttk.Button(self.canvas_widgets["frame"], text="🐢 Turtle",
+                style="Action.Secondary.TButton", command=partial(self._canvas_event_handler, type="turtle"),
             ),
-            clear_button = Button(self.canvas_widgets["frame"],
-                **self.current_theme["secondary"], text="🗑",
-                activebackground=self.current_theme["secondary_bg"],
-                activeforeground=self.current_theme["fg"],
-                height=1, width=6, relief=RAISED, overrelief=RAISED,
-                command=partial(self._canvas_event_handler, type="clear"),
-            )
+            clear_button = ttk.Button(self.canvas_widgets["frame"], text="🗑 Clear Canvas",
+                style="Action.Secondary.TButton", command=partial(self._canvas_event_handler, type="clear"),
+            ),
         )
         self.screen = turtle.TurtleScreen(self.canvas_widgets["canvas"])
         self.screen.bgcolor(self.current_theme["secondary_bg"])
         self.canvas_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
 
-        bg = deque([self.current_theme['primary_bg'], self.current_theme['secondary_bg']])
+        button_styles = deque(["Action.Primary.TButton", "Action.Secondary.TButton"])
         self.dashboard_actions = []
         self.dashboard_frames = []
 
@@ -147,15 +120,11 @@ class HUD:
             self.dashboard_frames.append(action_row)
 
             for action in commands.DASHBOARD_ACTIONS[action_idx]:
-                button = Button(action_row,
-                    bg=bg[0], fg=self.current_theme['fg'],
-                    activebackground=bg[0], activeforeground=self.current_theme['fg'],
-                    font=(HUD.default_font, 10), text=action["label"],
-                    height=1, width=6, relief=FLAT, overrelief=GROOVE,
-                    command=partial(self._event_handler, event=action["event"], query=action["query"]),
+                button = ttk.Button(action_row, text=action["label"], 
+                    style=button_styles[0], command=partial(self._event_handler, event=action["event"], query=action["query"]),
                 )
                 self.dashboard_actions.append(button)
-                bg.rotate(1)
+                button_styles.rotate(1)
 
         # Widgets on root.side_bar
         self.side_bar.update(actions = [])
@@ -171,16 +140,11 @@ class HUD:
 
         # Widgets on root.status_bar
         self.status_bar.update(
-            left_label = Label(self.status_bar["frame"],
-                **self.current_theme["secondary"], text="", anchor=W,
-                relief=FLAT, height=1, padx=3, pady=2,
-            ),
-            right_label = Label(self.status_bar["frame"],
-                **self.current_theme["secondary"], text="", anchor=E,
-                relief=FLAT, height=1, padx=3, pady=2,
-            ),
+            left_label = ttk.Label(self.status_bar["frame"], text="", style="Status.TLabel", anchor=W),
+            right_label = ttk.Label(self.status_bar["frame"], text="", style="Status.TLabel", anchor=E,),
             actions = []
         )
+
         for action in commands.STATUS_BAR_ACTIONS:
             button = Button(self.status_bar["frame"],
                 **self.current_theme["secondary"], text=action["icon"],
@@ -190,6 +154,40 @@ class HUD:
                 command=partial(self._event_handler, event=action["event"], query=action["query"]),
             )
             self.status_bar["actions"].append(button)
+
+    def render_styles(self):
+        """Render styles for all ttk based components"""
+
+        self.custom_styles = ttk.Style()
+        self.custom_styles.theme_use("classic")
+        
+        self.custom_styles.configure("Header.TLabel",
+            background=self.current_theme["primary_bg"], foreground=self.current_theme["fg"],
+            font=self.current_theme["primary"]["font"], relief=FLAT, width=20, padding=10,
+        )
+
+        self.custom_styles.configure("Action.Primary.TButton",
+            background=self.current_theme["primary_bg"], foreground=self.current_theme["fg"],
+            font=self.current_theme["secondary"]["font"], width=3, anchor=CENTER, justify=CENTER
+        )
+        self.custom_styles.map("Action.Primary.TButton",
+            background=[("active", self.current_theme["primary_bg"]), ("pressed", self.current_theme["primary_bg"])],
+            relief=[('pressed', GROOVE), ('!pressed', FLAT)], borderwidth=[("active", 5), ("pressed", 5)],
+        )
+
+        self.custom_styles.configure("Action.Secondary.TButton",
+            background=self.current_theme["secondary_bg"], foreground=self.current_theme["fg"],
+            font=self.current_theme["secondary"]["font"], width=3, anchor=CENTER, justify=CENTER
+        )
+        self.custom_styles.map("Action.Secondary.TButton",
+            background=[("active", self.current_theme["secondary_bg"]), ("pressed", self.current_theme["secondary_bg"])],
+            relief=[('pressed', GROOVE), ('!pressed', FLAT)], borderwidth=[("active", 5), ("pressed", 5)],
+        )
+
+        self.custom_styles.configure("Status.TLabel",
+            background=self.current_theme["secondary_bg"], foreground=self.current_theme["fg"],
+            font=self.current_theme["secondary"]["font"], relief=FLAT, padding=5,
+        )
 
     def render_menu(self):
         menu_bar = Menu(self.root, tearoff=0)
@@ -259,7 +257,7 @@ class HUD:
         self.canvas_widgets["canvas"].pack(side=TOP, fill=BOTH, expand=1)
         self.canvas_widgets["draw_button"].pack(side=LEFT, fill=BOTH, expand=1)
         self.canvas_widgets["turtle_button"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.canvas_widgets["clear_button"].pack(side=LEFT, fill=BOTH, expand=0)
+        self.canvas_widgets["clear_button"].pack(side=LEFT, fill=BOTH, expand=1)
 
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
@@ -283,7 +281,7 @@ class HUD:
         self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
         self.update_widget_content()
-    
+
     def init_keybinds(self):
 
         self.iexe_widgets["query_entry"].bind('<Return>', partial(self._event_handler, "search_query"))
@@ -312,13 +310,13 @@ class HUD:
 
         # Hovertips for status bar action widgets
         for action_idx in range(len(self.status_bar["actions"])):
-            Hovertip(anchor_widget=self.status_bar["actions"][action_idx], 
+            Hovertip(anchor_widget=self.status_bar["actions"][action_idx],
                 text=commands.STATUS_BAR_ACTIONS[action_idx]["label"], hover_delay=100
             )
 
         # Hovertips for side bar action widgets
         for action_idx in range(len(self.side_bar["actions"])):
-            Hovertip(anchor_widget=self.side_bar["actions"][action_idx], 
+            Hovertip(anchor_widget=self.side_bar["actions"][action_idx],
                 text=commands.SIDE_BAR_ACTIONS[action_idx]["label"], hover_delay=100
             )
 

@@ -18,6 +18,7 @@ def init_app():
     hud = HUD(root=root)
     hud.render_menu()
     hud.render_widgets()
+    hud.render_styles()
     hud.init_widgets()
     hud.init_keybinds()
     hud.init_hovertips()
