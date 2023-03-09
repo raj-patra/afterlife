@@ -1,4 +1,4 @@
-DEFAULT_THEME_CHOICE = "dark"
+DEFAULT_THEME_CHOICE = "city_lights"
 
 THEMES = {
     "default_repocard": {

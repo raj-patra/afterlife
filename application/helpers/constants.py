@@ -8,7 +8,7 @@ USER = sp.getoutput("whoami")
     
 WELCOME_MSG = "Welcome, {}!".format(USER.split('\\')[1].title())
 
-LEFT_STATUS_LABEL = "☀ {}  ⚡ {}%   🧠 {}/{}GB ({}%)   💾 {}/{}TB ({}%)%"
+LEFT_STATUS_LABEL = "☀ {}  ⚡ {}%   🧠 {}/{}GB ({}%)   💾 {}/{}TB ({}%)"
 RIGHT_STATUS_LABEL = "Uptime: {} | {} {}% |"
 
 # ----------------------------------------------------------------------------------

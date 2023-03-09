@@ -46,7 +46,7 @@ DASHBOARD_ACTIONS = [
         dict(event="start_app", label="Device\nManagement", query="start devmgmt"),
         dict(event="start_app", label="Disk\nManagement", query="start diskmgmt"),
         dict(event="start_app", label="Registry\nEditor", query="start regedit"),
-    ]
+    ],
 ]
 
 MENUS = {
@@ -86,5 +86,6 @@ MENUS = {
         dict(event="open_url", label="Wikipedia", query="www.wikipedia.org"),
         dict(event="open_url", label="Library Genesis", query="libgen.rs/index.php"),
         dict(event="open_url", label="Good Reads", query="www.readsomethinggreat.com"),
+        dict(event="open_url", label="Drive & Listen", query="https://driveandlisten.herokuapp.com/"),
     ]
 }
