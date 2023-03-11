@@ -20,4 +20,4 @@ py afterlife.py
 ```
 
 ### Screenshots
-![image](static/afterlife.png "HUD")
+![image](assets/static/afterlife.png "HUD")
