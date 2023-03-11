@@ -30,7 +30,7 @@ class HUD:
 
         self.root = root
         self.theme = dict(
-            theme=schemes.DEFAULT_THEME_CHOICE,
+            name=schemes.DEFAULT_THEME_CHOICE,
             root=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['root'],
             primary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
             secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
@@ -58,11 +58,11 @@ class HUD:
         # Root - Frames
         self.header = dict(frame=Frame(self.root))
         self.left_section_frame = Frame(self.root)
-        self.side_bar = dict(frame=Frame(self.left_section_frame, bg=self.current_theme['primary_bg'], bd=5))
+        self.side_bar = dict(frame=Frame(self.left_section_frame, bg=self.theme['primary_bg'], bd=5))
         self.iexe_widgets = dict(frame=Frame(self.left_section_frame, bd=1))
         self.right_section_frame = Frame(self.root)
         self.canvas_widgets = dict(frame=Frame(self.right_section_frame, bd=1))
-        self.action_centre_frame = Frame(self.right_section_frame, bg=self.current_theme['root'])
+        self.action_centre_frame = Frame(self.right_section_frame, bg=self.theme['root'])
         self.status_bar = dict(frame=Frame(self.root, bd=1))
 
         # Widgets on root.header
@@ -75,13 +75,16 @@ class HUD:
 
         # Widgets on root.left
         self.prompt_text = Text(self.left_section_frame,
-            **self.current_theme["primary"], wrap=WORD, width=50, padx=20, pady=20,
+            # **self.current_theme["primary"], 
+            bg=self.theme["primary_bg"], fg=self.theme["fg"],
+            font=self.theme["font"], wrap=WORD, width=50, padx=20, pady=20,
         )
         self.iexe_widgets.update(
             # query_entry = ttk.Entry(self.iexe_widgets["frame"], style="Secondary.TLabel"),
             query_entry = Entry(self.iexe_widgets["frame"],
-                **self.current_theme["secondary"],
-                bd=5, width=28, insertbackground="white",
+                # **self.current_theme["secondary"],
+                bg=self.theme["secondary_bg"], fg=self.theme["fg"],
+                font=self.theme["font"], bd=5, width=28, insertbackground="white",
             ),
             search_button = ttk.Button(self.iexe_widgets["frame"], text="🔎 Search Online",
                 style="Secondary.TButton", command=partial(self._event_handler, event="search_query", query=None),
@@ -100,8 +103,7 @@ class HUD:
                 style="Secondary.TLabel", anchor=W, #relief=GROOVE
             ),
             canvas = Canvas(self.canvas_widgets["frame"],
-                bg=self.current_theme["secondary_bg"],
-                relief=FLAT, highlightthickness=0,
+                bg=self.theme["secondary_bg"], relief=FLAT, highlightthickness=0,
             ),
             draw_button = ttk.Button(self.canvas_widgets["frame"], text="🖊 Doodle",
                 style="Secondary.TButton", command=partial(self._canvas_event_handler, type="bind_pencil"),
@@ -114,7 +116,7 @@ class HUD:
             ),
         )
         self.screen = turtle.TurtleScreen(self.canvas_widgets["canvas"])
-        self.screen.bgcolor(self.current_theme["secondary_bg"])
+        self.screen.bgcolor(self.theme["secondary_bg"])
         self.canvas_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
 
         button_styles = deque(["Primary.TButton", "Secondary.TButton"])
@@ -122,7 +124,7 @@ class HUD:
         self.dashboard_frames = []
 
         for action_idx in range(len(commands.DASHBOARD_ACTIONS)):
-            action_row = Frame(self.action_centre_frame, bg=self.current_theme["primary_bg"], pady=1)
+            action_row = Frame(self.action_centre_frame, bg=self.theme["primary_bg"], pady=1)
             action_row.pack(side=TOP, fill=BOTH, expand=1)
             self.dashboard_frames.append(action_row)
 
@@ -337,7 +339,7 @@ class HUD:
 
             self.status_bar["left_label"].config(
                 text=constants.LEFT_STATUS_LABEL.format(
-                    self.current_theme["theme"],
+                    self.theme["name"],
                     pc_stats["cpu_usage"],
 
                     pc_stats["virtual_memory_used"],
@@ -436,15 +438,17 @@ class HUD:
             )
         )
 
-        self.root.config(bg=self.current_theme['root'])
+        self.root.config(bg=self.theme['root'])
 
-        self.prompt_text.config(**self.current_theme["primary"])
+        self.prompt_text.config(bg=self.theme["primary_bg"], fg=self.theme["fg"],
+            font=self.theme["font"], )
 
-        self.iexe_widgets["query_entry"].config(**self.current_theme["secondary"])
+        self.iexe_widgets["query_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"],
+            font=self.theme["font"], )
 
-        self.canvas_widgets["canvas"].config(bg=self.current_theme["secondary_bg"])
+        self.canvas_widgets["canvas"].config(bg=self.theme["secondary_bg"])
 
-        self.side_bar["frame"].config(bg=self.current_theme["primary_bg"])
+        self.side_bar["frame"].config(bg=self.theme["primary_bg"])
 
         pc_stats = pc_stats_callback()
         self.status_bar["left_label"].config(
@@ -497,4 +501,4 @@ class HUD:
     def _canvas_doodle(self, event=None):
         x1, y1 = ( event.x - 2 ), ( event.y - 2 )
         x2, y2 = ( event.x + 2 ), ( event.y + 2 )
-        self.canvas_widgets["canvas"].create_oval( x1, y1, x2, y2, fill=self.current_theme["root"])
+        self.canvas_widgets["canvas"].create_oval( x1, y1, x2, y2, fill=self.theme["root"])
