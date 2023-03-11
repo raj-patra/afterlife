@@ -26,9 +26,11 @@ class HUD:
     default_font_old = 'Noto Mono'
     default_font = 'Cascadia Mono'
 
-    def __init__(self, root=None):
+    def __init__(self, root=None, bot_kernel=None):
 
         self.root = root
+        self.bot_kernel = bot_kernel
+
         self.theme = dict(
             name=schemes.DEFAULT_THEME_CHOICE,
             root=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['root'],
@@ -44,7 +46,7 @@ class HUD:
         self.side_bar = dict(frame=Frame(self.left_section_frame, bg=self.theme['primary_bg'], bd=5))
         self.iexe_widgets = dict(frame=Frame(self.left_section_frame, bd=1))
         self.right_section_frame = Frame(self.root)
-        self.canvas_widgets = dict(frame=Frame(self.right_section_frame, bd=1))
+        self.chatbot_widgets = dict(frame=Frame(self.right_section_frame, bd=1))
         self.action_centre_frame = Frame(self.right_section_frame, bg=self.theme['root'])
         self.status_bar = dict(frame=Frame(self.root, bd=1))
 
@@ -79,23 +81,24 @@ class HUD:
         )
 
         # Widgets on root.right
-        self.canvas_widgets.update(
-            header_label = ttk.Label(self.canvas_widgets["frame"], text="Nicole - The Chatbot",
+        self.chatbot_widgets.update(
+            header_label = ttk.Label(self.chatbot_widgets["frame"], text="Nicole - The Chatbot",
                 style="Secondary.TLabel", anchor=W,
             ),
             # canvas = Canvas(self.canvas_widgets["frame"],
             #     bg=self.theme["secondary_bg"], relief=FLAT, highlightthickness=0,
             # ),
-            chat_window_text = Text(self.canvas_widgets["frame"],
+            chat_window_text = Text(self.chatbot_widgets["frame"],
                 bg=self.theme["secondary_bg"], fg=self.theme["fg"],
                 font=self.theme["font"], wrap=WORD, width=50, height=15, padx=20, pady=20,
+                state=DISABLED, spacing1=1, spacing3=1
             ),
-            msg_entry = Entry(self.canvas_widgets["frame"],
-                bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"], 
+            msg_entry = Entry(self.chatbot_widgets["frame"],
+                bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"],
                 bd=3, insertbackground="white",
             ),
-            send_button = ttk.Button(self.canvas_widgets["frame"], text="▶",
-                style="Secondary.TButton",
+            send_button = ttk.Button(self.chatbot_widgets["frame"], text="▶",
+                style="Secondary.TButton", command=partial(self._event_handler, event="nicole_respond"),
             ),
             # draw_button = ttk.Button(self.canvas_widgets["frame"], text="🖊 Doodle",
             #     style="Secondary.TButton", command=partial(self._canvas_event_handler, type="bind_pencil"),
@@ -109,7 +112,7 @@ class HUD:
         )
         # self.screen = turtle.TurtleScreen(self.canvas_widgets["canvas"])
         # self.screen.bgcolor(self.theme["secondary_bg"])
-        self.canvas_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
+        self.chatbot_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
 
         button_styles = deque(["Primary.TButton", "Secondary.TButton"])
         self.dashboard_actions = []
@@ -209,12 +212,12 @@ class HUD:
         self.iexe_widgets["execute_button"].pack(side=LEFT, fill=BOTH, expand=1)
         self.iexe_widgets["wiki_button"].pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.canvas_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
-        self.canvas_widgets["header_label"].pack(side=TOP, fill=BOTH, expand=0)
+        self.chatbot_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
+        self.chatbot_widgets["header_label"].pack(side=TOP, fill=BOTH, expand=0)
         # self.canvas_widgets["canvas"].pack(side=TOP, fill=BOTH, expand=1)
-        self.canvas_widgets["chat_window_text"].pack(side=TOP, fill=BOTH, expand=1)
-        self.canvas_widgets["msg_entry"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.canvas_widgets["send_button"].pack(side=LEFT, fill=BOTH, expand=0)
+        self.chatbot_widgets["chat_window_text"].pack(side=TOP, fill=BOTH, expand=1)
+        self.chatbot_widgets["msg_entry"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.chatbot_widgets["send_button"].pack(side=LEFT, fill=BOTH, expand=0)
         # self.canvas_widgets["draw_button"].pack(side=LEFT, fill=BOTH, expand=1)
         # self.canvas_widgets["turtle_button"].pack(side=LEFT, fill=BOTH, expand=1)
 
@@ -274,8 +277,8 @@ class HUD:
         self.root.config(bg=self.theme['root'])
         self.prompt_text.config(bg=self.theme["primary_bg"], fg=self.theme["fg"], font=self.theme["font"])
         self.iexe_widgets["query_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"])
-        self.canvas_widgets["chat_window_text"].config(bg=self.theme["secondary_bg"])
-        self.canvas_widgets["msg_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"])
+        self.chatbot_widgets["chat_window_text"].config(bg=self.theme["secondary_bg"])
+        self.chatbot_widgets["msg_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"])
         self.side_bar["frame"].config(bg=self.theme["primary_bg"])
         self.action_centre_frame.config(bg=self.theme['root'])
 
@@ -296,15 +299,17 @@ class HUD:
 
     def init_keybinds(self):
 
-        self.iexe_widgets["query_entry"].bind('<Control-Return>', partial(self._event_handler, "search_query"))
-        self.iexe_widgets["query_entry"].bind('<Shift-Return>', partial(self._event_handler, "execute_cmd"))
-        self.iexe_widgets["query_entry"].bind('<Alt-Return>', partial(self._event_handler, "fetch_wiki"))
+        self.iexe_widgets["query_entry"].bind("<Control-Return>", partial(self._event_handler, "search_query"))
+        self.iexe_widgets["query_entry"].bind("<Shift-Return>", partial(self._event_handler, "execute_cmd"))
+        self.iexe_widgets["query_entry"].bind("<Alt-Return>", partial(self._event_handler, "fetch_wiki"))
 
-        self.root.bind('<Control-s>', self._save_prompt_content)
-        self.root.bind('<Control-S>', self._save_prompt_content)
-        self.root.bind('<Control-t>', partial(self._update_app_theme, None))
-        self.root.bind('<Control-T>', partial(self._update_app_theme, None))
-        self.root.bind('<Control-Delete>', partial(self._event_handler, "clear_prompt"))
+        self.chatbot_widgets["msg_entry"].bind("<Return>", partial(self._event_handler, "nicole_respond"))
+
+        self.root.bind("<Control-s>", self._save_prompt_content)
+        self.root.bind("<Control-S>", self._save_prompt_content)
+        self.root.bind("<Control-t>", partial(self._update_app_theme, None))
+        self.root.bind("<Control-T>", partial(self._update_app_theme, None))
+        self.root.bind("<Control-Delete>", partial(self._event_handler, "clear_prompt"))
 
     def init_hovertips(self):
         """Initializes hovertips for required widgets"""
@@ -406,6 +411,20 @@ class HUD:
 
             self.iexe_widgets["query_entry"].delete(0, END)
             self.iexe_widgets["query_entry"].insert(END, "> ")
+
+        elif event == "nicole_respond":
+            self.chatbot_widgets["chat_window_text"].config(state=NORMAL)
+
+            query = self.chatbot_widgets["msg_entry"].get()
+            response = self.bot_kernel.respond(query)
+
+            self.chatbot_widgets["chat_window_text"].insert(END, "You: "+query+"\n")
+            self.chatbot_widgets["msg_entry"].delete(0, END)
+            self.chatbot_widgets["chat_window_text"].insert(END, "Nicole: "+response+"\n\n")
+            self.chatbot_widgets["chat_window_text"].see(END)
+
+            self.chatbot_widgets["chat_window_text"].config(state=DISABLED)
+
 
     def _update_app_theme(self, theme=None, event=None):
 

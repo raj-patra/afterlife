@@ -3,6 +3,7 @@ from tkinter import Tk
 
 from application.helpers import schemes
 from application.hud import HUD
+from application.nicole import NicoleBot
 
 
 def init_app():
@@ -15,7 +16,9 @@ def init_app():
     root.title("Afterlife")
     root.iconbitmap("assets/static/hud.ico")
 
-    hud = HUD(root=root)
+    bot_kernel = NicoleBot()
+
+    hud = HUD(root=root, bot_kernel=bot_kernel)
     hud.render_menu()
     hud.render_widgets()
     hud.render_styles()

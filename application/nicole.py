@@ -14,3 +14,14 @@ class NicoleBot:
             self.kernel.saveBrain("assets/bot_brain.brn")
 
         self.kernel.setPredicate("name", "Stranger")
+    
+    def respond(self, stimuli:str):
+        """Handle nicole's response to stimuli"""
+
+        return self.kernel.respond(stimuli)
+    
+    def reset_brain(self):
+        """Resets brain to initial state"""
+
+        return self.kernel.resetBrain()
+    
