@@ -149,57 +149,6 @@ class HUD:
             )
             self.status_bar["actions"].append(button)
 
-    def render_styles(self):
-        """Render styles for all ttk based components"""
-
-        self.custom_styles = ttk.Style()
-        self.custom_styles.theme_use("clam")
-
-        self.custom_styles.configure("Secondary.Entry.TLabel",
-            background=self.theme["secondary_bg"], foreground=self.theme["fg"],
-            font=self.theme["font"], borderwidth=10, width=20, padding=10,
-        )
-
-        self.custom_styles.configure("Primary.TLabel",
-            background=self.theme["primary_bg"], foreground=self.theme["fg"],
-            font=self.theme["font"], relief=FLAT, width=20, padding=10,
-        )
-
-        self.custom_styles.configure("Secondary.TLabel",
-            background=self.theme["secondary_bg"], foreground=self.theme["fg"],
-            font=self.theme["font"], relief=FLAT, width=20, padding=10,
-        )
-
-        self.custom_styles.configure("Primary.TButton",
-            background=self.theme["primary_bg"], foreground=self.theme["fg"],
-            font=self.theme["font"], width=3, anchor=CENTER, justify=CENTER, cursor="hand1"
-        )
-        self.custom_styles.map("Primary.TButton",
-            background=[("active", self.theme["primary_bg"]), ("pressed", self.theme["primary_bg"])],
-            relief=[('pressed', FLAT), ('!pressed', FLAT)],
-            borderwidth=[("active", 6)],
-        )
-
-        self.custom_styles.configure("Secondary.TButton",
-            background=self.theme["secondary_bg"], foreground=self.theme["fg"],
-            font=self.theme["font"], width=3, anchor=CENTER, justify=CENTER
-        )
-        self.custom_styles.map("Secondary.TButton",
-            background=[("active", self.theme["secondary_bg"]), ("pressed", self.theme["secondary_bg"])],
-            relief=[('pressed', FLAT), ('!pressed', RIDGE)],
-            borderwidth=[("active", 5)],
-        )
-
-        # Render styles for non ttk compatible components
-        self.root.config(bg=self.theme['root'])
-        self.prompt_text.config(bg=self.theme["primary_bg"], fg=self.theme["fg"],
-            font=self.theme["font"], )
-        self.iexe_widgets["query_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"],
-            font=self.theme["font"], )
-        self.canvas_widgets["chat_window_text"].config(bg=self.theme["secondary_bg"])
-        self.side_bar["frame"].config(bg=self.theme["primary_bg"])
-        self.action_centre_frame.config(bg=self.theme['root'])
-
     def render_menu(self):
         menu_bar = Menu(self.root, tearoff=0)
 
@@ -279,6 +228,56 @@ class HUD:
 
         for action in self.status_bar["actions"]:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
+
+    def render_styles(self):
+        """Render styles for all ttk based components"""
+
+        self.custom_styles = ttk.Style()
+        self.custom_styles.theme_use("clam")
+
+        self.custom_styles.configure("Secondary.Entry.TLabel",
+            background=self.theme["secondary_bg"], foreground=self.theme["fg"],
+            font=self.theme["font"], borderwidth=10, width=20, padding=10,
+        )
+
+        self.custom_styles.configure("Primary.TLabel",
+            background=self.theme["primary_bg"], foreground=self.theme["fg"],
+            font=self.theme["font"], relief=FLAT, width=20, padding=10,
+        )
+
+        self.custom_styles.configure("Secondary.TLabel",
+            background=self.theme["secondary_bg"], foreground=self.theme["fg"],
+            font=self.theme["font"], relief=FLAT, width=20, padding=10,
+        )
+
+        self.custom_styles.configure("Primary.TButton",
+            background=self.theme["primary_bg"], foreground=self.theme["fg"],
+            font=self.theme["font"], width=3, anchor=CENTER, justify=CENTER, cursor="hand1"
+        )
+        self.custom_styles.map("Primary.TButton",
+            background=[("active", self.theme["primary_bg"]), ("pressed", self.theme["primary_bg"])],
+            relief=[('pressed', FLAT), ('!pressed', FLAT)],
+            borderwidth=[("active", 6)],
+        )
+
+        self.custom_styles.configure("Secondary.TButton",
+            background=self.theme["secondary_bg"], foreground=self.theme["fg"],
+            font=self.theme["font"], width=3, anchor=CENTER, justify=CENTER
+        )
+        self.custom_styles.map("Secondary.TButton",
+            background=[("active", self.theme["secondary_bg"]), ("pressed", self.theme["secondary_bg"])],
+            relief=[('pressed', FLAT), ('!pressed', RIDGE)],
+            borderwidth=[("active", 5)],
+        )
+
+        # Render styles for non ttk compatible components
+        self.root.config(bg=self.theme['root'])
+        self.prompt_text.config(bg=self.theme["primary_bg"], fg=self.theme["fg"], font=self.theme["font"])
+        self.iexe_widgets["query_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"])
+        self.canvas_widgets["chat_window_text"].config(bg=self.theme["secondary_bg"])
+        self.canvas_widgets["msg_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"])
+        self.side_bar["frame"].config(bg=self.theme["primary_bg"])
+        self.action_centre_frame.config(bg=self.theme['root'])
 
     def init_widgets(self):
 
