@@ -4,11 +4,10 @@ import time
 import turtle
 from collections import deque
 from functools import partial
-from tkinter import (Button, Canvas, Entry, Frame, Label, Menu, Text,
-                     filedialog, messagebox, ttk)
+from tkinter import Entry, Frame, Menu, Text, filedialog, messagebox, ttk
 from tkinter.constants import (BOTH, BOTTOM, CENTER, DISABLED, END, FLAT,
                                GROOVE, LEFT, NORMAL, NW, RAISED, RIDGE, RIGHT,
-                               TOP, WORD, E, W, X, Y, HORIZONTAL)
+                               TOP, WORD, E, W, X, Y)
 
 from idlelib.tooltip import Hovertip
 
@@ -26,43 +25,28 @@ class HUD:
     default_font_old = 'Noto Mono'
     default_font = 'Cascadia Mono'
 
-    def __init__(self, root=None):
+    def __init__(self, root=None, bot_kernel=None):
 
         self.root = root
+        self.bot_kernel = bot_kernel
+
         self.theme = dict(
-            theme=schemes.DEFAULT_THEME_CHOICE,
+            name=schemes.DEFAULT_THEME_CHOICE,
             root=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['root'],
             primary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
             secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
             fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
             font=(HUD.default_font, 10),
         )
-        self.current_theme = dict(
-            theme=schemes.DEFAULT_THEME_CHOICE,
-            primary=dict(
-                bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
-                fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
-                font=(HUD.default_font, 10),
-            ),
-            secondary=dict(
-                bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
-                fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
-                font=(HUD.default_font, 10),
-            ),
-            root=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['root'],
-            fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
-            primary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
-            secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
-        )
 
         # Root - Frames
         self.header = dict(frame=Frame(self.root))
         self.left_section_frame = Frame(self.root)
-        self.side_bar = dict(frame=Frame(self.left_section_frame, bg=self.current_theme['primary_bg'], bd=5))
+        self.side_bar = dict(frame=Frame(self.left_section_frame, bg=self.theme['primary_bg'], bd=5))
         self.iexe_widgets = dict(frame=Frame(self.left_section_frame, bd=1))
         self.right_section_frame = Frame(self.root)
-        self.canvas_widgets = dict(frame=Frame(self.right_section_frame, bd=1))
-        self.action_centre_frame = Frame(self.right_section_frame, bg=self.current_theme['root'])
+        self.chatbot_widgets = dict(frame=Frame(self.right_section_frame, bd=1))
+        self.action_centre_frame = Frame(self.right_section_frame, bg=self.theme['root'])
         self.status_bar = dict(frame=Frame(self.root, bd=1))
 
         # Widgets on root.header
@@ -75,13 +59,13 @@ class HUD:
 
         # Widgets on root.left
         self.prompt_text = Text(self.left_section_frame,
-            **self.current_theme["primary"], wrap=WORD, width=50, padx=20, pady=20,
+            bg=self.theme["primary_bg"], fg=self.theme["fg"],
+            font=self.theme["font"], wrap=WORD, width=50, padx=20, pady=20,
         )
         self.iexe_widgets.update(
-            # query_entry = ttk.Entry(self.iexe_widgets["frame"], style="Secondary.TLabel"),
             query_entry = Entry(self.iexe_widgets["frame"],
-                **self.current_theme["secondary"],
-                bd=5, width=28, insertbackground="white",
+                bg=self.theme["secondary_bg"], fg=self.theme["fg"],
+                font=self.theme["font"], bd=5, width=28, insertbackground="white",
             ),
             search_button = ttk.Button(self.iexe_widgets["frame"], text="🔎 Search Online",
                 style="Secondary.TButton", command=partial(self._event_handler, event="search_query", query=None),
@@ -95,34 +79,34 @@ class HUD:
         )
 
         # Widgets on root.right
-        self.canvas_widgets.update(
-            header_label = ttk.Label(self.canvas_widgets["frame"], text="Canvas by Afterlife 🎨",
-                style="Secondary.TLabel", anchor=W, #relief=GROOVE
+        self.chatbot_widgets.update(
+            header_label = ttk.Label(self.chatbot_widgets["frame"], text="Nicole - The Chatbot",
+                style="Secondary.TLabel", anchor=W,
             ),
-            canvas = Canvas(self.canvas_widgets["frame"],
-                bg=self.current_theme["secondary_bg"],
-                relief=FLAT, highlightthickness=0,
+            chat_window_text = Text(self.chatbot_widgets["frame"],
+                bg=self.theme["secondary_bg"], fg=self.theme["fg"],
+                font=self.theme["font"], wrap=WORD, width=50, height=15, padx=20, pady=20,
+                state=DISABLED, spacing1=1, spacing3=1
             ),
-            draw_button = ttk.Button(self.canvas_widgets["frame"], text="🖊 Doodle",
-                style="Secondary.TButton", command=partial(self._canvas_event_handler, type="bind_pencil"),
+            msg_entry = Entry(self.chatbot_widgets["frame"],
+                bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"],
+                bd=3, insertbackground="white",
             ),
-            turtle_button = ttk.Button(self.canvas_widgets["frame"], text="🐢 Turtle",
-                style="Secondary.TButton", command=partial(self._canvas_event_handler, type="turtle"),
+            send_button = ttk.Button(self.chatbot_widgets["frame"], text="▶",
+                style="Secondary.TButton", command=partial(self._event_handler, event="nicole_respond"),
             ),
-            clear_button = ttk.Button(self.canvas_widgets["frame"], text="🗑 Clear Canvas",
-                style="Secondary.TButton", command=partial(self._canvas_event_handler, type="clear"),
+            clear_button = ttk.Button(self.chatbot_widgets["frame"], text="❌",
+                style="Secondary.TButton", command=partial(self._event_handler, event="nicole_clear"),
             ),
         )
-        self.screen = turtle.TurtleScreen(self.canvas_widgets["canvas"])
-        self.screen.bgcolor(self.current_theme["secondary_bg"])
-        self.canvas_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
+        self.chatbot_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
 
         button_styles = deque(["Primary.TButton", "Secondary.TButton"])
         self.dashboard_actions = []
         self.dashboard_frames = []
 
         for action_idx in range(len(commands.DASHBOARD_ACTIONS)):
-            action_row = Frame(self.action_centre_frame, bg=self.current_theme["primary_bg"], pady=1)
+            action_row = Frame(self.action_centre_frame, pady=1)
             action_row.pack(side=TOP, fill=BOTH, expand=1)
             self.dashboard_frames.append(action_row)
 
@@ -154,6 +138,84 @@ class HUD:
                 style="Primary.TButton", command=partial(self._event_handler, event=action["event"], query=action["query"]),
             )
             self.status_bar["actions"].append(button)
+
+    def render_menu(self):
+        menu_bar = Menu(self.root, tearoff=0)
+
+        menu_item = Menu(menu_bar, tearoff=0)
+        menu_item.add_command(label='About', command=about_dialog_callback)
+        menu_item.add_separator()
+        menu_item.add_command(label='Save Prompt', command=self._save_prompt_content, accelerator='Ctrl+S')
+        menu_item.add_command(label='Clear Prompt', command=partial(self._event_handler, event="clear_prompt"), accelerator='Ctrl+Del')
+        menu_item.add_separator()
+
+        theme_choice = Menu(menu_bar, tearoff=0)
+        theme_choice.add_command(label="Random Theme", command=self._update_app_theme, accelerator='Ctrl+T')
+        theme_choice.add_separator()
+
+        for category, themes in schemes.THEME_TYPES.items():
+            theme_category = Menu(theme_choice, tearoff=0)
+
+            for theme in themes:
+                theme_category.add_command(label=theme, command=partial(self._update_app_theme, theme))
+            theme_choice.add_cascade(label=category, menu=theme_category)
+
+        menu_item.add_cascade(label="Themes", menu=theme_choice)
+        menu_item.add_separator()
+        menu_item.add_command(label='Send Feedback', command=partial(self._event_handler, "open_url", "https://github.com/raj-patra/afterlife/issues/new"))
+        menu_item.add_command(label='Exit', command=partial(destroy_root_callback, self.root), accelerator='Alt+F4')
+        menu_bar.add_cascade(label='Application', menu=menu_item)
+
+        for label, actions in commands.MENUS.items():
+            item = Menu(menu_bar, tearoff=0)
+            for action in actions:
+                if type(action) == dict:
+                    item.add_command(label=action["label"], command=partial(self._event_handler, action["event"], action["query"]))
+                else:
+                    item.add_separator()
+            menu_bar.add_cascade(label=label, menu=item)
+
+        self.root.config(menu=menu_bar)
+
+    def render_widgets(self):
+        self.header["frame"].pack(side=TOP, fill=X, expand=0)
+        self.status_bar["frame"].pack(side=BOTTOM, fill=X, expand=0)
+
+        self.header["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.header["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
+
+        self.left_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
+        self.right_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
+
+        self.side_bar["frame"].pack(side=LEFT, fill=Y, expand=0)
+        self.iexe_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
+        self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
+
+        for action in self.side_bar["actions"]:
+            action.pack(side=TOP, fill=BOTH, expand=0, ipady=3)
+
+        self.iexe_widgets["query_entry"].pack(side=TOP, fill=BOTH, expand=1)
+        self.iexe_widgets["search_button"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_widgets["execute_button"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.iexe_widgets["wiki_button"].pack(side=LEFT, fill=BOTH, expand=1)
+
+        self.chatbot_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
+        self.chatbot_widgets["header_label"].pack(side=TOP, fill=BOTH, expand=0)
+        self.chatbot_widgets["chat_window_text"].pack(side=TOP, fill=BOTH, expand=1)
+        self.chatbot_widgets["msg_entry"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.chatbot_widgets["send_button"].pack(side=LEFT, fill=BOTH, expand=0)
+        self.chatbot_widgets["clear_button"].pack(side=LEFT, fill=BOTH, expand=0)
+
+        self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
+
+        for action in self.dashboard_actions:
+            action.pack(side=LEFT, fill=BOTH, expand=1)
+
+        self.status_bar["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
+        self.status_bar["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
+
+        for action in self.status_bar["actions"]:
+            action.pack(side=RIGHT, fill=BOTH, expand=0)
 
     def render_styles(self):
         """Render styles for all ttk based components"""
@@ -196,83 +258,14 @@ class HUD:
             borderwidth=[("active", 5)],
         )
 
-    def render_menu(self):
-        menu_bar = Menu(self.root, tearoff=0)
-
-        menu_item = Menu(menu_bar, tearoff=0)
-        menu_item.add_command(label='About', command=about_dialog_callback)
-        menu_item.add_separator()
-        menu_item.add_command(label='Save Prompt', command=self._save_prompt_content, accelerator='Ctrl+S')
-        menu_item.add_command(label='Clear Prompt', command=partial(self._event_handler, event="clear_prompt"), accelerator='Ctrl+Del')
-        menu_item.add_separator()
-
-        theme_choice = Menu(menu_bar, tearoff=0)
-        theme_choice.add_command(label="Random Theme", command=self._update_widget_theme, accelerator='Ctrl+T')
-        theme_choice.add_separator()
-
-        for category, themes in schemes.THEME_TYPES.items():
-            theme_category = Menu(theme_choice, tearoff=0)
-
-            for theme in themes:
-                theme_category.add_command(label=theme, command=partial(self._update_widget_theme, theme))
-            theme_choice.add_cascade(label=category, menu=theme_category)
-
-        menu_item.add_cascade(label="Themes", menu=theme_choice)
-        menu_item.add_separator()
-        menu_item.add_command(label='Send Feedback', command=partial(self._event_handler, "open_url", "https://github.com/raj-patra/afterlife/issues/new"))
-        menu_item.add_command(label='Exit', command=partial(destroy_root_callback, self.root), accelerator='Alt+F4')
-        menu_bar.add_cascade(label='Application', menu=menu_item)
-
-        for label, actions in commands.MENUS.items():
-            item = Menu(menu_bar, tearoff=0)
-            for action in actions:
-                if type(action) == dict:
-                    item.add_command(label=action["label"], command=partial(self._event_handler, action["event"], action["query"]))
-                else:
-                    item.add_separator()
-            menu_bar.add_cascade(label=label, menu=item)
-
-        self.root.config(menu=menu_bar)
-
-    def render_widgets(self):
-        self.header["frame"].pack(side=TOP, fill=X, expand=0)
-        self.status_bar["frame"].pack(side=BOTTOM, fill=X, expand=0)
-
-        self.header["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.header["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
-
-        self.left_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
-        self.right_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
-
-        self.side_bar["frame"].pack(side=LEFT, fill=Y, expand=0)
-        self.iexe_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
-        self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
-
-        for action in self.side_bar["actions"]:
-            action.pack(side=TOP, fill=BOTH, expand=0, ipady=3)
-
-        self.iexe_widgets["query_entry"].pack(side=TOP, fill=BOTH, expand=1)
-        self.iexe_widgets["search_button"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.iexe_widgets["execute_button"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.iexe_widgets["wiki_button"].pack(side=LEFT, fill=BOTH, expand=1)
-
-        self.canvas_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
-        self.canvas_widgets["header_label"].pack(side=TOP, fill=BOTH, expand=0)
-        self.canvas_widgets["canvas"].pack(side=TOP, fill=BOTH, expand=1)
-        self.canvas_widgets["draw_button"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.canvas_widgets["turtle_button"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.canvas_widgets["clear_button"].pack(side=LEFT, fill=BOTH, expand=1)
-
-        self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
-
-        for action in self.dashboard_actions:
-            action.pack(side=LEFT, fill=BOTH, expand=1)
-
-        self.status_bar["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.status_bar["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
-
-        for action in self.status_bar["actions"]:
-            action.pack(side=RIGHT, fill=BOTH, expand=0)
+        # Render styles for non ttk compatible components
+        self.root.config(bg=self.theme['root'])
+        self.prompt_text.config(bg=self.theme["primary_bg"], fg=self.theme["fg"], font=self.theme["font"])
+        self.iexe_widgets["query_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"])
+        self.chatbot_widgets["chat_window_text"].config(bg=self.theme["secondary_bg"])
+        self.chatbot_widgets["msg_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"])
+        self.side_bar["frame"].config(bg=self.theme["primary_bg"])
+        self.action_centre_frame.config(bg=self.theme['root'])
 
     def init_widgets(self):
 
@@ -287,32 +280,44 @@ class HUD:
         self.header["left_label"].config(text=constants.WELCOME_MSG)
         self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
+        self.chatbot_widgets["msg_entry"].insert(END, "Type your message...")
+
         self.update_widget_content()
 
     def init_keybinds(self):
 
-        self.iexe_widgets["query_entry"].bind('<Return>', partial(self._event_handler, "search_query"))
-        self.iexe_widgets["query_entry"].bind('<Control-Return>', partial(self._event_handler, "execute_cmd"))
-        self.iexe_widgets["query_entry"].bind('<Shift-Return>', partial(self._event_handler, "fetch_wiki"))
+        self.chatbot_widgets["msg_entry"].bind("<Return>", partial(self._event_handler, "nicole_respond"))
 
-        self.root.bind('<Control-s>', self._save_prompt_content)
-        self.root.bind('<Control-S>', self._save_prompt_content)
-        self.root.bind('<Control-t>', partial(self._update_widget_theme, None))
-        self.root.bind('<Control-T>', partial(self._update_widget_theme, None))
-        self.root.bind('<Control-Delete>', partial(self._event_handler, "clear_prompt"))
+        self.iexe_widgets["query_entry"].bind("<Control-Return>", partial(self._event_handler, "search_query"))
+        self.iexe_widgets["query_entry"].bind("<Shift-Return>", partial(self._event_handler, "execute_cmd"))
+        self.iexe_widgets["query_entry"].bind("<Alt-Return>", partial(self._event_handler, "fetch_wiki"))
+
+        self.root.bind("<Control-s>", self._save_prompt_content)
+        self.root.bind("<Control-S>", self._save_prompt_content)
+        self.root.bind("<Control-t>", partial(self._update_app_theme, None))
+        self.root.bind("<Control-T>", partial(self._update_app_theme, None))
+        self.root.bind("<Control-Delete>", partial(self._event_handler, "clear_prompt"))
 
     def init_hovertips(self):
         """Initializes hovertips for required widgets"""
 
         # Hovertips for iexe widgets
         Hovertip(anchor_widget=self.iexe_widgets["search_button"],
-            text=self.iexe_widgets["search_button"]["text"]+" (Enter)", hover_delay=100
+            text=self.iexe_widgets["search_button"]["text"]+" (Ctrl+Enter)", hover_delay=100
         )
         Hovertip(anchor_widget=self.iexe_widgets["execute_button"],
-            text=self.iexe_widgets["execute_button"]["text"]+" (Ctrl+Enter)", hover_delay=100
+            text=self.iexe_widgets["execute_button"]["text"]+" (Shift+Enter)", hover_delay=100
         )
         Hovertip(anchor_widget=self.iexe_widgets["wiki_button"],
-            text=self.iexe_widgets["wiki_button"]["text"]+" (Shift+Enter)", hover_delay=100
+            text=self.iexe_widgets["wiki_button"]["text"]+" (Alt+Enter)", hover_delay=100
+        )
+
+        # Hovertips for chat window widgets
+        Hovertip(anchor_widget=self.chatbot_widgets["send_button"],
+            text="Send Message (Enter)", hover_delay=100
+        )
+        Hovertip(anchor_widget=self.chatbot_widgets["clear_button"],
+            text="Clear Contents", hover_delay=100
         )
 
         # Hovertips for status bar action widgets
@@ -337,7 +342,7 @@ class HUD:
 
             self.status_bar["left_label"].config(
                 text=constants.LEFT_STATUS_LABEL.format(
-                    self.current_theme["theme"],
+                    self.theme["name"],
                     pc_stats["cpu_usage"],
 
                     pc_stats["virtual_memory_used"],
@@ -402,14 +407,37 @@ class HUD:
             self.iexe_widgets["query_entry"].delete(0, END)
             self.iexe_widgets["query_entry"].insert(END, "> ")
 
-    def _update_widget_theme(self, theme=None, event=None):
+        elif event == "nicole_respond":
+            self.chatbot_widgets["chat_window_text"].config(state=NORMAL)
+
+            query = self.chatbot_widgets["msg_entry"].get()
+            response = self.bot_kernel.respond(query)
+
+            self.chatbot_widgets["chat_window_text"].insert(END, "You: "+query+"\n")
+            self.chatbot_widgets["msg_entry"].delete(0, END)
+            self.chatbot_widgets["chat_window_text"].insert(END, "Nicole: "+response+"\n\n")
+            self.chatbot_widgets["chat_window_text"].see(END)
+
+            self.chatbot_widgets["chat_window_text"].config(state=DISABLED)
+
+        elif event == "nicole_clear":
+
+            BOT_RESET_TITLE = "Clear Content"
+            BOT_RESET_MESSAGE = "Do you want to clear the contents of the chat window?"
+
+            if messagebox.askyesno(title=BOT_RESET_TITLE, message=BOT_RESET_MESSAGE):
+                self.chatbot_widgets["chat_window_text"].config(state=NORMAL)
+                self.chatbot_widgets["chat_window_text"].delete('1.0', END)
+                self.chatbot_widgets["chat_window_text"].config(state=DISABLED)
+
+    def _update_app_theme(self, theme=None, event=None):
 
         if not theme:
             theme = random.choice(list(schemes.THEMES.keys()))
 
         self.theme.update(
             dict(
-                theme=theme,
+                name=theme,
                 root=schemes.THEMES[theme]['root'],
                 primary_bg=schemes.THEMES[theme]['primary'],
                 secondary_bg=schemes.THEMES[theme]['secondary'],
@@ -417,34 +445,6 @@ class HUD:
             )
         )
         self.render_styles()
-        
-        self.current_theme.update(
-            dict(
-                theme=theme,
-                primary=dict(
-                    bg=schemes.THEMES[theme]['primary'],
-                    fg=schemes.THEMES[theme]['fg'],
-                ),
-                secondary=dict(
-                    bg=schemes.THEMES[theme]['secondary'],
-                    fg=schemes.THEMES[theme]['fg'],
-                ),
-                root=schemes.THEMES[theme]['root'],
-                fg=schemes.THEMES[theme]['fg'],
-                primary_bg=schemes.THEMES[theme]['primary'],
-                secondary_bg=schemes.THEMES[theme]['secondary'],
-            )
-        )
-
-        self.root.config(bg=self.current_theme['root'])
-
-        self.prompt_text.config(**self.current_theme["primary"])
-
-        self.iexe_widgets["query_entry"].config(**self.current_theme["secondary"])
-
-        self.canvas_widgets["canvas"].config(bg=self.current_theme["secondary_bg"])
-
-        self.side_bar["frame"].config(bg=self.current_theme["primary_bg"])
 
         pc_stats = pc_stats_callback()
         self.status_bar["left_label"].config(
@@ -462,9 +462,6 @@ class HUD:
             )
         )
 
-        # Clear Canvas content
-        self.canvas_widgets["canvas"].delete("all")
-
     def _save_prompt_content(self, event=None):
         handle = filedialog.asksaveasfile(mode="w", defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
         if handle != None:
@@ -472,29 +469,3 @@ class HUD:
             handle.close()
             messagebox.showinfo('Info', 'The contents of the Text Widget has been saved.')
 
-    def _canvas_event_handler(self, event=None, type=None):
-
-        if type == "bind_pencil":
-            self._canvas_event_handler(type="clear")
-            self.canvas_widgets["draw_button"].config(state=DISABLED)
-            self.canvas_widgets["canvas"].bind("<B1-Motion>", self._canvas_doodle)
-
-        elif type == "turtle":
-            self._canvas_event_handler(type="clear")
-            self.canvas_widgets["turtle_button"].config(state=DISABLED)
-            self.canvas_widgets["canvas"].unbind("<B1-Motion>")
-
-            cursor = turtle.RawTurtle(self.screen, shape="turtle")
-            chaos.main(cursor, self.screen)
-
-        elif type == "clear":
-            self.screen._RUNNING = False
-            self.canvas_widgets["canvas"].delete("all")
-            self.canvas_widgets["canvas"].unbind("<B1-Motion>")
-            self.canvas_widgets["draw_button"].config(state=NORMAL)
-            self.canvas_widgets["turtle_button"].config(state=NORMAL)
-
-    def _canvas_doodle(self, event=None):
-        x1, y1 = ( event.x - 2 ), ( event.y - 2 )
-        x2, y2 = ( event.x + 2 ), ( event.y + 2 )
-        self.canvas_widgets["canvas"].create_oval( x1, y1, x2, y2, fill=self.current_theme["root"])

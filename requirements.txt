@@ -3,3 +3,4 @@ requests
 GPUtil
 getmac
 wikipedia
+python-aiml
