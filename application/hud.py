@@ -4,11 +4,10 @@ import time
 import turtle
 from collections import deque
 from functools import partial
-from tkinter import (Button, Canvas, Entry, Frame, Label, Menu, Text,
-                     filedialog, messagebox, ttk)
+from tkinter import Entry, Frame, Menu, Text, filedialog, messagebox, ttk
 from tkinter.constants import (BOTH, BOTTOM, CENTER, DISABLED, END, FLAT,
                                GROOVE, LEFT, NORMAL, NW, RAISED, RIDGE, RIGHT,
-                               TOP, WORD, E, W, X, Y, HORIZONTAL)
+                               TOP, WORD, E, W, X, Y)
 
 from idlelib.tooltip import Hovertip
 
@@ -95,6 +94,9 @@ class HUD:
             ),
             send_button = ttk.Button(self.chatbot_widgets["frame"], text="▶",
                 style="Secondary.TButton", command=partial(self._event_handler, event="nicole_respond"),
+            ),
+            clear_button = ttk.Button(self.chatbot_widgets["frame"], text="❌",
+                style="Secondary.TButton", command=partial(self._event_handler, event="nicole_clear"),
             ),
         )
         self.chatbot_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
@@ -202,6 +204,7 @@ class HUD:
         self.chatbot_widgets["chat_window_text"].pack(side=TOP, fill=BOTH, expand=1)
         self.chatbot_widgets["msg_entry"].pack(side=LEFT, fill=BOTH, expand=1)
         self.chatbot_widgets["send_button"].pack(side=LEFT, fill=BOTH, expand=0)
+        self.chatbot_widgets["clear_button"].pack(side=LEFT, fill=BOTH, expand=0)
 
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
@@ -277,6 +280,8 @@ class HUD:
         self.header["left_label"].config(text=constants.WELCOME_MSG)
         self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
+        self.chatbot_widgets["msg_entry"].insert(END, "Type your message...")
+
         self.update_widget_content()
 
     def init_keybinds(self):
@@ -305,6 +310,14 @@ class HUD:
         )
         Hovertip(anchor_widget=self.iexe_widgets["wiki_button"],
             text=self.iexe_widgets["wiki_button"]["text"]+" (Alt+Enter)", hover_delay=100
+        )
+
+        # Hovertips for chat window widgets
+        Hovertip(anchor_widget=self.chatbot_widgets["send_button"],
+            text="Send Message (Enter)", hover_delay=100
+        )
+        Hovertip(anchor_widget=self.chatbot_widgets["clear_button"],
+            text="Clear Contents", hover_delay=100
         )
 
         # Hovertips for status bar action widgets
@@ -407,6 +420,15 @@ class HUD:
 
             self.chatbot_widgets["chat_window_text"].config(state=DISABLED)
 
+        elif event == "nicole_clear":
+
+            BOT_RESET_TITLE = "Clear Content"
+            BOT_RESET_MESSAGE = "Do you want to clear the contents of the chat window?"
+
+            if messagebox.askyesno(title=BOT_RESET_TITLE, message=BOT_RESET_MESSAGE):
+                self.chatbot_widgets["chat_window_text"].config(state=NORMAL)
+                self.chatbot_widgets["chat_window_text"].delete('1.0', END)
+                self.chatbot_widgets["chat_window_text"].config(state=DISABLED)
 
     def _update_app_theme(self, theme=None, event=None):
 
@@ -439,9 +461,6 @@ class HUD:
                 pc_stats["disk_percent"],
             )
         )
-
-        # Clear Canvas content
-        # self.canvas_widgets["canvas"].delete("all")
 
     def _save_prompt_content(self, event=None):
         handle = filedialog.asksaveasfile(mode="w", defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
