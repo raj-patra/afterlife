@@ -37,23 +37,6 @@ class HUD:
             fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
             font=(HUD.default_font, 10),
         )
-        self.current_theme = dict(
-            theme=schemes.DEFAULT_THEME_CHOICE,
-            primary=dict(
-                bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
-                fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
-                font=(HUD.default_font, 10),
-            ),
-            secondary=dict(
-                bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
-                fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
-                font=(HUD.default_font, 10),
-            ),
-            root=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['root'],
-            fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
-            primary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
-            secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
-        )
 
         # Root - Frames
         self.header = dict(frame=Frame(self.root))
@@ -75,14 +58,12 @@ class HUD:
 
         # Widgets on root.left
         self.prompt_text = Text(self.left_section_frame,
-            # **self.current_theme["primary"], 
             bg=self.theme["primary_bg"], fg=self.theme["fg"],
             font=self.theme["font"], wrap=WORD, width=50, padx=20, pady=20,
         )
         self.iexe_widgets.update(
             # query_entry = ttk.Entry(self.iexe_widgets["frame"], style="Secondary.TLabel"),
             query_entry = Entry(self.iexe_widgets["frame"],
-                # **self.current_theme["secondary"],
                 bg=self.theme["secondary_bg"], fg=self.theme["fg"],
                 font=self.theme["font"], bd=5, width=28, insertbackground="white",
             ),
@@ -100,7 +81,7 @@ class HUD:
         # Widgets on root.right
         self.canvas_widgets.update(
             header_label = ttk.Label(self.canvas_widgets["frame"], text="Canvas by Afterlife 🎨",
-                style="Secondary.TLabel", anchor=W, #relief=GROOVE
+                style="Secondary.TLabel", anchor=W,
             ),
             canvas = Canvas(self.canvas_widgets["frame"],
                 bg=self.theme["secondary_bg"], relief=FLAT, highlightthickness=0,
@@ -124,7 +105,7 @@ class HUD:
         self.dashboard_frames = []
 
         for action_idx in range(len(commands.DASHBOARD_ACTIONS)):
-            action_row = Frame(self.action_centre_frame, bg=self.theme["primary_bg"], pady=1)
+            action_row = Frame(self.action_centre_frame, pady=1)
             action_row.pack(side=TOP, fill=BOTH, expand=1)
             self.dashboard_frames.append(action_row)
 
@@ -198,6 +179,16 @@ class HUD:
             borderwidth=[("active", 5)],
         )
 
+        # Render styles for non ttk compatible components
+        self.root.config(bg=self.theme['root'])
+        self.prompt_text.config(bg=self.theme["primary_bg"], fg=self.theme["fg"],
+            font=self.theme["font"], )
+        self.iexe_widgets["query_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"],
+            font=self.theme["font"], )
+        self.canvas_widgets["canvas"].config(bg=self.theme["secondary_bg"])
+        self.side_bar["frame"].config(bg=self.theme["primary_bg"])
+        self.action_centre_frame.config(bg=self.theme['root'])
+
     def render_menu(self):
         menu_bar = Menu(self.root, tearoff=0)
 
@@ -209,14 +200,14 @@ class HUD:
         menu_item.add_separator()
 
         theme_choice = Menu(menu_bar, tearoff=0)
-        theme_choice.add_command(label="Random Theme", command=self._update_widget_theme, accelerator='Ctrl+T')
+        theme_choice.add_command(label="Random Theme", command=self._update_app_theme, accelerator='Ctrl+T')
         theme_choice.add_separator()
 
         for category, themes in schemes.THEME_TYPES.items():
             theme_category = Menu(theme_choice, tearoff=0)
 
             for theme in themes:
-                theme_category.add_command(label=theme, command=partial(self._update_widget_theme, theme))
+                theme_category.add_command(label=theme, command=partial(self._update_app_theme, theme))
             theme_choice.add_cascade(label=category, menu=theme_category)
 
         menu_item.add_cascade(label="Themes", menu=theme_choice)
@@ -299,8 +290,8 @@ class HUD:
 
         self.root.bind('<Control-s>', self._save_prompt_content)
         self.root.bind('<Control-S>', self._save_prompt_content)
-        self.root.bind('<Control-t>', partial(self._update_widget_theme, None))
-        self.root.bind('<Control-T>', partial(self._update_widget_theme, None))
+        self.root.bind('<Control-t>', partial(self._update_app_theme, None))
+        self.root.bind('<Control-T>', partial(self._update_app_theme, None))
         self.root.bind('<Control-Delete>', partial(self._event_handler, "clear_prompt"))
 
     def init_hovertips(self):
@@ -404,14 +395,14 @@ class HUD:
             self.iexe_widgets["query_entry"].delete(0, END)
             self.iexe_widgets["query_entry"].insert(END, "> ")
 
-    def _update_widget_theme(self, theme=None, event=None):
+    def _update_app_theme(self, theme=None, event=None):
 
         if not theme:
             theme = random.choice(list(schemes.THEMES.keys()))
 
         self.theme.update(
             dict(
-                theme=theme,
+                name=theme,
                 root=schemes.THEMES[theme]['root'],
                 primary_bg=schemes.THEMES[theme]['primary'],
                 secondary_bg=schemes.THEMES[theme]['secondary'],
@@ -419,36 +410,6 @@ class HUD:
             )
         )
         self.render_styles()
-        
-        self.current_theme.update(
-            dict(
-                theme=theme,
-                primary=dict(
-                    bg=schemes.THEMES[theme]['primary'],
-                    fg=schemes.THEMES[theme]['fg'],
-                ),
-                secondary=dict(
-                    bg=schemes.THEMES[theme]['secondary'],
-                    fg=schemes.THEMES[theme]['fg'],
-                ),
-                root=schemes.THEMES[theme]['root'],
-                fg=schemes.THEMES[theme]['fg'],
-                primary_bg=schemes.THEMES[theme]['primary'],
-                secondary_bg=schemes.THEMES[theme]['secondary'],
-            )
-        )
-
-        self.root.config(bg=self.theme['root'])
-
-        self.prompt_text.config(bg=self.theme["primary_bg"], fg=self.theme["fg"],
-            font=self.theme["font"], )
-
-        self.iexe_widgets["query_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"],
-            font=self.theme["font"], )
-
-        self.canvas_widgets["canvas"].config(bg=self.theme["secondary_bg"])
-
-        self.side_bar["frame"].config(bg=self.theme["primary_bg"])
 
         pc_stats = pc_stats_callback()
         self.status_bar["left_label"].config(
