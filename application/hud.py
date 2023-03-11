@@ -64,7 +64,6 @@ class HUD:
             font=self.theme["font"], wrap=WORD, width=50, padx=20, pady=20,
         )
         self.iexe_widgets.update(
-            # query_entry = ttk.Entry(self.iexe_widgets["frame"], style="Secondary.TLabel"),
             query_entry = Entry(self.iexe_widgets["frame"],
                 bg=self.theme["secondary_bg"], fg=self.theme["fg"],
                 font=self.theme["font"], bd=5, width=28, insertbackground="white",
@@ -85,9 +84,6 @@ class HUD:
             header_label = ttk.Label(self.chatbot_widgets["frame"], text="Nicole - The Chatbot",
                 style="Secondary.TLabel", anchor=W,
             ),
-            # canvas = Canvas(self.canvas_widgets["frame"],
-            #     bg=self.theme["secondary_bg"], relief=FLAT, highlightthickness=0,
-            # ),
             chat_window_text = Text(self.chatbot_widgets["frame"],
                 bg=self.theme["secondary_bg"], fg=self.theme["fg"],
                 font=self.theme["font"], wrap=WORD, width=50, height=15, padx=20, pady=20,
@@ -100,18 +96,7 @@ class HUD:
             send_button = ttk.Button(self.chatbot_widgets["frame"], text="▶",
                 style="Secondary.TButton", command=partial(self._event_handler, event="nicole_respond"),
             ),
-            # draw_button = ttk.Button(self.canvas_widgets["frame"], text="🖊 Doodle",
-            #     style="Secondary.TButton", command=partial(self._canvas_event_handler, type="bind_pencil"),
-            # ),
-            # turtle_button = ttk.Button(self.canvas_widgets["frame"], text="🐢 Turtle",
-            #     style="Secondary.TButton", command=partial(self._canvas_event_handler, type="turtle"),
-            # ),
-            # clear_button = ttk.Button(self.canvas_widgets["frame"], text="🗑 Clear Canvas",
-            #     style="Secondary.TButton", command=partial(self._canvas_event_handler, type="clear"),
-            # ),
         )
-        # self.screen = turtle.TurtleScreen(self.canvas_widgets["canvas"])
-        # self.screen.bgcolor(self.theme["secondary_bg"])
         self.chatbot_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
 
         button_styles = deque(["Primary.TButton", "Secondary.TButton"])
@@ -214,12 +199,9 @@ class HUD:
 
         self.chatbot_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
         self.chatbot_widgets["header_label"].pack(side=TOP, fill=BOTH, expand=0)
-        # self.canvas_widgets["canvas"].pack(side=TOP, fill=BOTH, expand=1)
         self.chatbot_widgets["chat_window_text"].pack(side=TOP, fill=BOTH, expand=1)
         self.chatbot_widgets["msg_entry"].pack(side=LEFT, fill=BOTH, expand=1)
         self.chatbot_widgets["send_button"].pack(side=LEFT, fill=BOTH, expand=0)
-        # self.canvas_widgets["draw_button"].pack(side=LEFT, fill=BOTH, expand=1)
-        # self.canvas_widgets["turtle_button"].pack(side=LEFT, fill=BOTH, expand=1)
 
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
@@ -299,11 +281,11 @@ class HUD:
 
     def init_keybinds(self):
 
+        self.chatbot_widgets["msg_entry"].bind("<Return>", partial(self._event_handler, "nicole_respond"))
+
         self.iexe_widgets["query_entry"].bind("<Control-Return>", partial(self._event_handler, "search_query"))
         self.iexe_widgets["query_entry"].bind("<Shift-Return>", partial(self._event_handler, "execute_cmd"))
         self.iexe_widgets["query_entry"].bind("<Alt-Return>", partial(self._event_handler, "fetch_wiki"))
-
-        self.chatbot_widgets["msg_entry"].bind("<Return>", partial(self._event_handler, "nicole_respond"))
 
         self.root.bind("<Control-s>", self._save_prompt_content)
         self.root.bind("<Control-S>", self._save_prompt_content)
@@ -468,29 +450,3 @@ class HUD:
             handle.close()
             messagebox.showinfo('Info', 'The contents of the Text Widget has been saved.')
 
-    # def _canvas_event_handler(self, event=None, type=None):
-
-    #     if type == "bind_pencil":
-    #         self._canvas_event_handler(type="clear")
-    #         self.canvas_widgets["draw_button"].config(state=DISABLED)
-    #         self.canvas_widgets["canvas"].bind("<B1-Motion>", self._canvas_doodle)
-
-    #     elif type == "turtle":
-    #         self._canvas_event_handler(type="clear")
-    #         self.canvas_widgets["turtle_button"].config(state=DISABLED)
-    #         self.canvas_widgets["canvas"].unbind("<B1-Motion>")
-
-    #         cursor = turtle.RawTurtle(self.screen, shape="turtle")
-    #         chaos.main(cursor, self.screen)
-
-    #     elif type == "clear":
-    #         self.screen._RUNNING = False
-    #         self.canvas_widgets["canvas"].delete("all")
-    #         self.canvas_widgets["canvas"].unbind("<B1-Motion>")
-    #         self.canvas_widgets["draw_button"].config(state=NORMAL)
-    #         self.canvas_widgets["turtle_button"].config(state=NORMAL)
-
-    # def _canvas_doodle(self, event=None):
-    #     x1, y1 = ( event.x - 2 ), ( event.y - 2 )
-    #     x2, y2 = ( event.x + 2 ), ( event.y + 2 )
-    #     self.canvas_widgets["canvas"].create_oval( x1, y1, x2, y2, fill=self.theme["root"])
