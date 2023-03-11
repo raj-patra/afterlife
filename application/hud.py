@@ -260,10 +260,10 @@ class HUD:
 
         # Render styles for non ttk compatible components
         self.root.config(bg=self.theme['root'])
-        self.prompt_text.config(bg=self.theme["primary_bg"], fg=self.theme["fg"], font=self.theme["font"])
-        self.iexe_widgets["query_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"])
-        self.chatbot_widgets["chat_window_text"].config(bg=self.theme["secondary_bg"])
-        self.chatbot_widgets["msg_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"])
+        self.prompt_text.config(bg=self.theme["primary_bg"], fg=self.theme["fg"])
+        self.iexe_widgets["query_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"])
+        self.chatbot_widgets["chat_window_text"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"])
+        self.chatbot_widgets["msg_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"])
         self.side_bar["frame"].config(bg=self.theme["primary_bg"])
         self.action_centre_frame.config(bg=self.theme['root'])
 
