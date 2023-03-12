@@ -135,9 +135,11 @@ class HUD:
         )
 
         for action in commands.STATUS_BAR_ACTIONS:
-            button = ttk.Button(self.status_bar["frame"], text=action["icon"],
+            button_image = PhotoImage(file=action["icon_file"])
+            button = ttk.Button(self.status_bar["frame"], image=button_image,
                 style="Primary.TButton", command=partial(self._event_handler, event=action["event"], query=action["query"]),
             )
+            button.image=button_image
             self.status_bar["actions"].append(button)
 
     def render_menu(self):

@@ -34,10 +34,14 @@ SIDE_BAR_ACTIONS = [
 ]
 
 STATUS_BAR_ACTIONS = [
-    dict(event="start_app", icon="⚙", label="System Settings", query="start ms-settings:"),
-    dict(event="start_app", icon="🗨", label="Action Center", query="start ms-actioncenter:"),
-    dict(event="start_app", icon="📶", label="Available Networks", query="start ms-availablenetworks:"),
-    dict(event="start_app", icon="🖥", label="Device Discovery", query="start ms-settings-connectabledevices:devicediscovery"),
+    dict(event="start_app", icon="⚙", icon_file="./assets/icons/google/gear.png", 
+        label="System Settings", query="start ms-settings:"),
+    dict(event="start_app", icon="🗨", icon_file="./assets/icons/google/messages.png", 
+        label="Action Center", query="start ms-actioncenter:"),
+    dict(event="start_app", icon="📶", icon_file="./assets/icons/google/network.png", 
+        label="Available Networks", query="start ms-availablenetworks:"),
+    dict(event="start_app", icon="🖥", icon_file="./assets/icons/google/display.png", 
+        label="Device Discovery", query="start ms-settings-connectabledevices:devicediscovery"),
 ]
 
 DASHBOARD_ACTIONS = [
