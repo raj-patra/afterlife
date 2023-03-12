@@ -41,11 +41,11 @@ class HUD:
         # Root - Frames
         self.header = dict(frame=ttk.Frame(self.root))
         self.left_section_frame = ttk.Frame(self.root)
-        self.right_section_frame = Frame(self.root, pady=1)
+        self.right_section_frame = ttk.Frame(self.root)
         self.status_bar = dict(frame=ttk.Frame(self.root, style="Primary.TFrame"))
         self.side_bar = dict(frame=ttk.Frame(self.left_section_frame, style="Primary.TFrame", borderwidth=7))
         self.iexe_widgets = dict(frame=ttk.Frame(self.left_section_frame))
-        self.chatbot_widgets = dict(frame=ttk.Frame(self.right_section_frame))
+        self.chatbot_widgets = dict(frame=Frame(self.right_section_frame, pady=1))
         self.action_centre_frame = ttk.Frame(self.right_section_frame)
 
         # Widgets on root.header
@@ -63,8 +63,8 @@ class HUD:
         )
         self.iexe_widgets.update(
             query_entry = Entry(self.iexe_widgets["frame"],
-                bg=self.theme["secondary_bg"], fg=self.theme["fg"],
-                font=self.theme["font"], bd=5, width=28, insertbackground="white"
+                bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"],
+                bd=5, width=28, insertbackground="white",
             ),
             search_button = ttk.Button(self.iexe_widgets["frame"], text="🔎 Search Online",
                 style="Secondary.TButton", command=partial(self._event_handler, event="search_query", query=None),
@@ -89,16 +89,19 @@ class HUD:
             ),
             msg_entry = Entry(self.chatbot_widgets["frame"],
                 bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"],
-                bd=3, insertbackground="white",
+                bd=5, insertbackground="white", relief=FLAT,
             ),
-            send_button = ttk.Button(self.chatbot_widgets["frame"], text="▶",
-                style="Secondary.TButton", command=partial(self._event_handler, event="nicole_respond"),
-            ),
-            clear_button = ttk.Button(self.chatbot_widgets["frame"], text="❌",
-                style="Secondary.TButton", command=partial(self._event_handler, event="nicole_clear"),
-            ),
+            actions = [],
         )
         self.chatbot_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
+
+        for action in commands.CHATBOT_ACTIONS:
+            button_image = PhotoImage(file=action["icon_file"])
+            button = ttk.Button(self.chatbot_widgets["frame"], image=button_image,
+                style="Secondary.TButton", command=partial(self._event_handler, event=action["event"]),
+            )
+            button.image = button_image
+            self.chatbot_widgets["actions"].append(button)
 
         button_styles = deque(["Primary.TButton", "Secondary.TButton"])
         self.dashboard_actions = []
@@ -216,8 +219,9 @@ class HUD:
         self.chatbot_widgets["header_label"].pack(side=TOP, fill=BOTH, expand=0)
         self.chatbot_widgets["chat_window_text"].pack(side=TOP, fill=BOTH, expand=1)
         self.chatbot_widgets["msg_entry"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.chatbot_widgets["send_button"].pack(side=LEFT, fill=BOTH, expand=0)
-        self.chatbot_widgets["clear_button"].pack(side=LEFT, fill=BOTH, expand=0)
+
+        for action in self.chatbot_widgets["actions"]:
+            action.pack(side=LEFT, fill=BOTH, expand=0)
 
         self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
 
@@ -272,7 +276,7 @@ class HUD:
         )
         self.custom_styles.map("Secondary.TButton",
             background=[("active", self.theme["secondary_bg"]), ("pressed", self.theme["secondary_bg"])],
-            relief=[('pressed', FLAT), ('!pressed', RIDGE)],
+            relief=[('pressed', FLAT), ('!pressed', FLAT)],
             borderwidth=[("active", 5)],
         )
 
@@ -329,12 +333,10 @@ class HUD:
         )
 
         # Hovertips for chat window widgets
-        Hovertip(anchor_widget=self.chatbot_widgets["send_button"],
-            text="Send Message (Enter)", hover_delay=100
-        )
-        Hovertip(anchor_widget=self.chatbot_widgets["clear_button"],
-            text="Clear Contents", hover_delay=100
-        )
+        for action_idx in range(len(self.chatbot_widgets["actions"])):
+            Hovertip(anchor_widget=self.chatbot_widgets["actions"][action_idx],
+                text=commands.CHATBOT_ACTIONS[action_idx]["label"], hover_delay=100
+            )
 
         # Hovertips for status bar action widgets
         for action_idx in range(len(self.status_bar["actions"])):

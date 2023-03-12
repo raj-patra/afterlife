@@ -120,3 +120,8 @@ MENUS = {
         dict(event="open_url", label="Drive & Listen", query="https://driveandlisten.herokuapp.com/"),
     ]
 }
+
+CHATBOT_ACTIONS = [
+    dict(event="nicole_respond", icon_file="./assets/icons/google/arrow_forward.png", label="Send Message (Enter)"),
+    dict(event="nicole_clear", icon_file="./assets/icons/google/x.png", label="Clear Contents"),
+]
