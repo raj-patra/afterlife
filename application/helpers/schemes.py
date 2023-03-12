@@ -1,4 +1,4 @@
-DEFAULT_THEME_CHOICE = "onedark"
+DEFAULT_THEME_CHOICE = "ayu_mirage"
 
 THEMES = {
     "default_repocard": {

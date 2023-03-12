@@ -41,8 +41,8 @@ STATUS_BAR_LABELS_LEFT = [
 ]
 
 STATUS_BAR_LABELS_RIGHT = [
-    dict(icon="⌚ ", icon_file="./assets/icons/google/clock.png", text="Uptime: {}"),
     dict(icon="🔋 ", icon_file="./assets/icons/google/battery.png", text="{}%"),
+    dict(icon="⌚ ", icon_file="./assets/icons/google/clock.png", text="Uptime: {}"),
 ]
 
 STATUS_BAR_ACTIONS = [

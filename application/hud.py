@@ -39,14 +39,14 @@ class HUD:
         )
 
         # Root - Frames
-        self.header = dict(frame=Frame(self.root))
-        self.left_section_frame = Frame(self.root)
-        self.side_bar = dict(frame=Frame(self.left_section_frame, bg=self.theme['primary_bg'], bd=5))
-        self.iexe_widgets = dict(frame=Frame(self.left_section_frame, bd=1))
-        self.right_section_frame = Frame(self.root)
-        self.chatbot_widgets = dict(frame=Frame(self.right_section_frame, bd=1))
-        self.action_centre_frame = Frame(self.right_section_frame, bg=self.theme['root'])
-        self.status_bar = dict(frame=Frame(self.root, bd=1, bg=self.theme['primary_bg']))
+        self.header = dict(frame=ttk.Frame(self.root))
+        self.left_section_frame = ttk.Frame(self.root)
+        self.right_section_frame = Frame(self.root, pady=1)
+        self.status_bar = dict(frame=ttk.Frame(self.root, style="Primary.TFrame"))
+        self.side_bar = dict(frame=ttk.Frame(self.left_section_frame, style="Primary.TFrame", borderwidth=7))
+        self.iexe_widgets = dict(frame=ttk.Frame(self.left_section_frame))
+        self.chatbot_widgets = dict(frame=ttk.Frame(self.right_section_frame))
+        self.action_centre_frame = ttk.Frame(self.right_section_frame)
 
         # Widgets on root.header
         self.header.update(
@@ -64,7 +64,7 @@ class HUD:
         self.iexe_widgets.update(
             query_entry = Entry(self.iexe_widgets["frame"],
                 bg=self.theme["secondary_bg"], fg=self.theme["fg"],
-                font=self.theme["font"], bd=5, width=28, insertbackground="white",
+                font=self.theme["font"], bd=5, width=28, insertbackground="white"
             ),
             search_button = ttk.Button(self.iexe_widgets["frame"], text="🔎 Search Online",
                 style="Secondary.TButton", command=partial(self._event_handler, event="search_query", query=None),
@@ -105,7 +105,7 @@ class HUD:
         self.dashboard_frames = []
 
         for action_idx in range(len(commands.DASHBOARD_ACTIONS)):
-            action_row = Frame(self.action_centre_frame, pady=1)
+            action_row = ttk.Frame(self.action_centre_frame)
             action_row.pack(side=TOP, fill=BOTH, expand=1)
             self.dashboard_frames.append(action_row)
 
@@ -239,14 +239,16 @@ class HUD:
         self.custom_styles = ttk.Style()
         self.custom_styles.theme_use("clam")
 
+        self.custom_styles.configure("Primary.TFrame", background=self.theme["primary_bg"])
+
         self.custom_styles.configure("Secondary.Entry.TLabel",
             background=self.theme["secondary_bg"], foreground=self.theme["fg"],
-            font=self.theme["font"], borderwidth=10, width=20, padding=10,
+            font=self.theme["font"], borderwidth=10, padding=10,
         )
 
         self.custom_styles.configure("Primary.TLabel",
             background=self.theme["primary_bg"], foreground=self.theme["fg"],
-            font=self.theme["font"], relief=FLAT, padding=10,#width=20, 
+            font=self.theme["font"], relief=FLAT, padding=10,
         )
 
         self.custom_styles.configure("Secondary.TLabel",
@@ -280,9 +282,6 @@ class HUD:
         self.iexe_widgets["query_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"])
         self.chatbot_widgets["chat_window_text"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"])
         self.chatbot_widgets["msg_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"])
-        self.side_bar["frame"].config(bg=self.theme["primary_bg"])
-        self.status_bar["frame"].config(bg=self.theme["primary_bg"])
-        self.action_centre_frame.config(bg=self.theme['root'])
 
     def init_widgets(self):
 
@@ -370,8 +369,8 @@ class HUD:
                 ],
             ]
             label_info_right= [
-                [   time.strftime("%Hhrs %Mmin", time.localtime(time.time() - pc_stats["boot_time"]))   ],
                 [   pc_stats["battery_usage"]   ],
+                [   time.strftime("%Hhrs %Mmin", time.localtime(time.time() - pc_stats["boot_time"]))   ],
             ]
 
             self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
