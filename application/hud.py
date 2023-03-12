@@ -1,17 +1,16 @@
 #!/usr/bin/python
 import random
 import time
-import turtle
 from collections import deque
 from functools import partial
-from tkinter import Entry, Frame, Menu, Text, filedialog, messagebox, ttk
+from tkinter import (Entry, Frame, Menu, PhotoImage, Text, filedialog,
+                     messagebox, ttk)
 from tkinter.constants import (BOTH, BOTTOM, CENTER, DISABLED, END, FLAT,
                                GROOVE, LEFT, NORMAL, NW, RAISED, RIDGE, RIGHT,
                                TOP, WORD, E, W, X, Y)
 
 from idlelib.tooltip import Hovertip
 
-from application.graphics import bytedesign, chaos, yinyang
 from application.helpers import commands, constants, schemes
 from application.helpers.callbacks import (about_dialog_callback,
                                            destroy_root_callback,
@@ -40,14 +39,14 @@ class HUD:
         )
 
         # Root - Frames
-        self.header = dict(frame=Frame(self.root))
-        self.left_section_frame = Frame(self.root)
-        self.side_bar = dict(frame=Frame(self.left_section_frame, bg=self.theme['primary_bg'], bd=5))
-        self.iexe_widgets = dict(frame=Frame(self.left_section_frame, bd=1))
-        self.right_section_frame = Frame(self.root)
-        self.chatbot_widgets = dict(frame=Frame(self.right_section_frame, bd=1))
-        self.action_centre_frame = Frame(self.right_section_frame, bg=self.theme['root'])
-        self.status_bar = dict(frame=Frame(self.root, bd=1))
+        self.header = dict(frame=ttk.Frame(self.root))
+        self.left_section_frame = ttk.Frame(self.root)
+        self.right_section_frame = Frame(self.root, pady=1)
+        self.status_bar = dict(frame=ttk.Frame(self.root, style="Primary.TFrame"))
+        self.side_bar = dict(frame=ttk.Frame(self.left_section_frame, style="Primary.TFrame", borderwidth=7))
+        self.iexe_widgets = dict(frame=ttk.Frame(self.left_section_frame))
+        self.chatbot_widgets = dict(frame=ttk.Frame(self.right_section_frame))
+        self.action_centre_frame = ttk.Frame(self.right_section_frame)
 
         # Widgets on root.header
         self.header.update(
@@ -65,7 +64,7 @@ class HUD:
         self.iexe_widgets.update(
             query_entry = Entry(self.iexe_widgets["frame"],
                 bg=self.theme["secondary_bg"], fg=self.theme["fg"],
-                font=self.theme["font"], bd=5, width=28, insertbackground="white",
+                font=self.theme["font"], bd=5, width=28, insertbackground="white"
             ),
             search_button = ttk.Button(self.iexe_widgets["frame"], text="🔎 Search Online",
                 style="Secondary.TButton", command=partial(self._event_handler, event="search_query", query=None),
@@ -106,7 +105,7 @@ class HUD:
         self.dashboard_frames = []
 
         for action_idx in range(len(commands.DASHBOARD_ACTIONS)):
-            action_row = Frame(self.action_centre_frame, pady=1)
+            action_row = ttk.Frame(self.action_centre_frame)
             action_row.pack(side=TOP, fill=BOTH, expand=1)
             self.dashboard_frames.append(action_row)
 
@@ -118,25 +117,39 @@ class HUD:
                 button_styles.rotate(1)
 
         # Widgets on root.side_bar
-        self.side_bar.update(actions = [])
+        self.side_bar.update(actions=[])
 
         for action in commands.SIDE_BAR_ACTIONS:
-            button = ttk.Button(self.side_bar["frame"], text=action["icon"],
+            button_image = PhotoImage(file=action["icon_file"])
+            button = ttk.Button(self.side_bar["frame"], image=button_image,
                 style="Primary.TButton", command=partial(self._event_handler, event=action["event"], query=action["query"]),
             )
+            button.image=button_image
             self.side_bar["actions"].append(button)
 
         # Widgets on root.status_bar
-        self.status_bar.update(
-            left_label = ttk.Label(self.status_bar["frame"], text="", style="Primary.TLabel", anchor=W),
-            right_label = ttk.Label(self.status_bar["frame"], text="", style="Primary.TLabel", anchor=E,),
-            actions = []
-        )
+        self.status_bar.update(labels_left=[], labels_right=[], actions = [])
+
+        for label_widget in commands.STATUS_BAR_LABELS_LEFT:
+            label_image = PhotoImage(file=label_widget["icon_file"])
+            label = ttk.Label(self.status_bar["frame"], image=label_image,
+                style="Primary.TLabel", compound=LEFT, anchor=W)
+            label.image = label_image
+            self.status_bar["labels_left"].append(label)
+
+        for label_widget in commands.STATUS_BAR_LABELS_RIGHT:
+            label_image = PhotoImage(file=label_widget["icon_file"])
+            label = ttk.Label(self.status_bar["frame"], image=label_image,
+                style="Primary.TLabel", compound=LEFT, anchor=W)
+            label.image = label_image
+            self.status_bar["labels_right"].append(label)
 
         for action in commands.STATUS_BAR_ACTIONS:
-            button = ttk.Button(self.status_bar["frame"], text=action["icon"],
-                style="Primary.TButton", command=partial(self._event_handler, event=action["event"], query=action["query"]),
+            button_image = PhotoImage(file=action["icon_file"])
+            button = ttk.Button(self.status_bar["frame"], image=button_image, style="Primary.TButton",
+                command=partial(self._event_handler, event=action["event"], query=action["query"]),
             )
+            button.image=button_image
             self.status_bar["actions"].append(button)
 
     def render_menu(self):
@@ -211,10 +224,13 @@ class HUD:
         for action in self.dashboard_actions:
             action.pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.status_bar["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.status_bar["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
-
         for action in self.status_bar["actions"]:
+            action.pack(side=RIGHT, fill=BOTH, expand=0)
+
+        for action in self.status_bar["labels_left"]:
+            action.pack(side=LEFT, fill=BOTH, expand=0)
+
+        for action in self.status_bar["labels_right"]:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
 
     def render_styles(self):
@@ -223,14 +239,16 @@ class HUD:
         self.custom_styles = ttk.Style()
         self.custom_styles.theme_use("clam")
 
+        self.custom_styles.configure("Primary.TFrame", background=self.theme["primary_bg"])
+
         self.custom_styles.configure("Secondary.Entry.TLabel",
             background=self.theme["secondary_bg"], foreground=self.theme["fg"],
-            font=self.theme["font"], borderwidth=10, width=20, padding=10,
+            font=self.theme["font"], borderwidth=10, padding=10,
         )
 
         self.custom_styles.configure("Primary.TLabel",
             background=self.theme["primary_bg"], foreground=self.theme["fg"],
-            font=self.theme["font"], relief=FLAT, width=20, padding=10,
+            font=self.theme["font"], relief=FLAT, padding=10,
         )
 
         self.custom_styles.configure("Secondary.TLabel",
@@ -264,8 +282,6 @@ class HUD:
         self.iexe_widgets["query_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"])
         self.chatbot_widgets["chat_window_text"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"])
         self.chatbot_widgets["msg_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"])
-        self.side_bar["frame"].config(bg=self.theme["primary_bg"])
-        self.action_centre_frame.config(bg=self.theme['root'])
 
     def init_widgets(self):
 
@@ -338,29 +354,37 @@ class HUD:
 
             pc_stats = pc_stats_callback()
 
-            self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
-
-            self.status_bar["left_label"].config(
-                text=constants.LEFT_STATUS_LABEL.format(
-                    self.theme["name"],
-                    pc_stats["cpu_usage"],
-
+            label_info_left = [
+                [   self.theme["name"]  ],
+                [   pc_stats["cpu_usage"]   ],
+                [
                     pc_stats["virtual_memory_used"],
                     pc_stats["virtual_memory_total"],
-                    pc_stats["virtual_memory_percent"],
-
+                    pc_stats["virtual_memory_percent"]
+                ],
+                [
                     pc_stats["disk_used"],
                     pc_stats["disk_total"],
-                    pc_stats["disk_percent"],
+                    pc_stats["disk_percent"]
+                ],
+            ]
+            label_info_right= [
+                [   pc_stats["battery_usage"]   ],
+                [   time.strftime("%Hhrs %Mmin", time.localtime(time.time() - pc_stats["boot_time"]))   ],
+            ]
+
+            self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
+
+            for label_idx in range(len(self.status_bar["labels_left"])):
+                self.status_bar["labels_left"][label_idx].config(
+                    text=commands.STATUS_BAR_LABELS_LEFT[label_idx]["text"].format(*label_info_left[label_idx])
                 )
-            )
-            self.status_bar["right_label"].config(
-                text=constants.RIGHT_STATUS_LABEL.format(
-                    time.strftime("%Hhrs %Mmin", time.localtime(time.time() - pc_stats["boot_time"])),
-                    "🔌" if pc_stats["battery_plugged"] else "🔋",
-                    pc_stats["battery_usage"],
+
+            for label_idx in range(len(self.status_bar["labels_right"])):
+                self.status_bar["labels_right"][label_idx].config(
+                    text=commands.STATUS_BAR_LABELS_RIGHT[label_idx]["text"].format(*label_info_right[label_idx])
                 )
-            )
+
             self.root.after(5000, loop)
 
         loop()
@@ -445,22 +469,7 @@ class HUD:
             )
         )
         self.render_styles()
-
-        pc_stats = pc_stats_callback()
-        self.status_bar["left_label"].config(
-            text=constants.LEFT_STATUS_LABEL.format(
-                theme,
-                pc_stats["cpu_usage"],
-
-                pc_stats["virtual_memory_used"],
-                pc_stats["virtual_memory_total"],
-                pc_stats["virtual_memory_percent"],
-
-                pc_stats["disk_used"],
-                pc_stats["disk_total"],
-                pc_stats["disk_percent"],
-            )
-        )
+        self.update_widget_content()
 
     def _save_prompt_content(self, event=None):
         handle = filedialog.asksaveasfile(mode="w", defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
