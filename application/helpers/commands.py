@@ -33,6 +33,18 @@ SIDE_BAR_ACTIONS = [
         label="Windows Security", query="start windowsdefender:"),
 ]
 
+STATUS_BAR_LABELS_LEFT = [
+    dict(icon="☀ ", icon_file="./assets/icons/google/high_brightness.png", text="{}"),
+    dict(icon="⚡ ", icon_file="./assets/icons/google/zap.png", text="{}%"),
+    dict(icon="🧠 ", icon_file="./assets/icons/google/brain.png", text="{}/{}GB ({}%)"),
+    dict(icon="💾 ", icon_file="./assets/icons/google/floppy_disk.png", text="{}/{}TB ({}%)"),
+]
+
+STATUS_BAR_LABELS_RIGHT = [
+    dict(icon="⌚ ", icon_file="./assets/icons/google/clock.png", text="Uptime: {}"),
+    dict(icon="🔋 ", icon_file="./assets/icons/google/battery.png", text="{}%"),
+]
+
 STATUS_BAR_ACTIONS = [
     dict(event="start_app", icon="⚙", icon_file="./assets/icons/google/gear.png", 
         label="System Settings", query="start ms-settings:"),
