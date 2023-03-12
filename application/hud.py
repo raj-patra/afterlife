@@ -470,22 +470,7 @@ class HUD:
             )
         )
         self.render_styles()
-
-        pc_stats = pc_stats_callback()
-        self.status_bar["left_label"].config(
-            text=constants.LEFT_STATUS_LABEL.format(
-                theme,
-                pc_stats["cpu_usage"],
-
-                pc_stats["virtual_memory_used"],
-                pc_stats["virtual_memory_total"],
-                pc_stats["virtual_memory_percent"],
-
-                pc_stats["disk_used"],
-                pc_stats["disk_total"],
-                pc_stats["disk_percent"],
-            )
-        )
+        self.update_widget_content()
 
     def _save_prompt_content(self, event=None):
         handle = filedialog.asksaveasfile(mode="w", defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
