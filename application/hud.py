@@ -128,13 +128,7 @@ class HUD:
             self.side_bar["actions"].append(button)
 
         # Widgets on root.status_bar
-        self.status_bar.update(
-            # left_label = ttk.Label(self.status_bar["frame"], text="", style="Primary.TLabel", anchor=W),
-            # right_label = ttk.Label(self.status_bar["frame"], text="", style="Primary.TLabel", anchor=E,),
-            labels_left=[],
-            labels_right=[],
-            actions = []
-        )
+        self.status_bar.update(labels_left=[], labels_right=[], actions = [])
 
         for label_widget in commands.STATUS_BAR_LABELS_LEFT:
             label_image = PhotoImage(file=label_widget["icon_file"])
@@ -229,9 +223,6 @@ class HUD:
 
         for action in self.dashboard_actions:
             action.pack(side=LEFT, fill=BOTH, expand=1)
-
-        # self.status_bar["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
-        # self.status_bar["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
 
         for action in self.status_bar["actions"]:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
@@ -394,27 +385,7 @@ class HUD:
                 self.status_bar["labels_right"][label_idx].config(
                     text=commands.STATUS_BAR_LABELS_RIGHT[label_idx]["text"].format(*label_info_right[label_idx])
                 )
-            # self.status_bar["left_label"].config(
-            #     text=constants.LEFT_STATUS_LABEL.format(
-            #         self.theme["name"],
-            #         pc_stats["cpu_usage"],
 
-            #         pc_stats["virtual_memory_used"],
-            #         pc_stats["virtual_memory_total"],
-            #         pc_stats["virtual_memory_percent"],
-
-            #         pc_stats["disk_used"],
-            #         pc_stats["disk_total"],
-            #         pc_stats["disk_percent"],
-            #     )
-            # )
-            # self.status_bar["right_label"].config(
-            #     text=constants.RIGHT_STATUS_LABEL.format(
-            #         time.strftime("%Hhrs %Mmin", time.localtime(time.time() - pc_stats["boot_time"])),
-            #         "🔌" if pc_stats["battery_plugged"] else "🔋",
-            #         pc_stats["battery_usage"],
-            #     )
-            # )
             self.root.after(5000, loop)
 
         loop()
