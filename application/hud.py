@@ -1,17 +1,16 @@
 #!/usr/bin/python
 import random
 import time
-import turtle
 from collections import deque
 from functools import partial
-from tkinter import Entry, Frame, Menu, Text, filedialog, messagebox, ttk
+from tkinter import (Entry, Frame, Menu, PhotoImage, Text, filedialog,
+                     messagebox, ttk)
 from tkinter.constants import (BOTH, BOTTOM, CENTER, DISABLED, END, FLAT,
                                GROOVE, LEFT, NORMAL, NW, RAISED, RIDGE, RIGHT,
                                TOP, WORD, E, W, X, Y)
 
 from idlelib.tooltip import Hovertip
 
-from application.graphics import bytedesign, chaos, yinyang
 from application.helpers import commands, constants, schemes
 from application.helpers.callbacks import (about_dialog_callback,
                                            destroy_root_callback,
@@ -121,9 +120,11 @@ class HUD:
         self.side_bar.update(actions = [])
 
         for action in commands.SIDE_BAR_ACTIONS:
-            button = ttk.Button(self.side_bar["frame"], text=action["icon"],
+            button_image = PhotoImage(file=action["icon_file"])
+            button = ttk.Button(self.side_bar["frame"], image=button_image,
                 style="Primary.TButton", command=partial(self._event_handler, event=action["event"], query=action["query"]),
             )
+            button.image=button_image
             self.side_bar["actions"].append(button)
 
         # Widgets on root.status_bar
