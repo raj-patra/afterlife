@@ -125,3 +125,9 @@ CHATBOT_ACTIONS = [
     dict(event="nicole_respond", icon_file="./assets/icons/google/arrow_forward.png", label="Send Message (Enter)"),
     dict(event="nicole_clear", icon_file="./assets/icons/google/x.png", label="Clear Contents"),
 ]
+
+IEXE_ACTIONS = [
+    dict(icon="🔎", icon_file="./assets/icons/google/mag_right.png", text="Search Online", event="search_query"),
+    dict(icon="▶", icon_file="./assets/icons/google/arrow_forward.png", text="Execute Command", event="execute_cmd"),
+    dict(icon="📖", icon_file="./assets/icons/google/book.png", text="Wiki Article", event="fetch_wiki"),
+]
