@@ -46,6 +46,14 @@ class HUD:
         self.chatbot_widgets = dict(frame=Frame(self.right_section_frame, pady=1))
         self.action_centre_widgets = dict(frame=ttk.Frame(self.right_section_frame))
 
+        # Render all components and their call to actions
+        self._render_widgets()
+        self._render_actions()
+        self._render_menu()
+
+    def _render_widgets(self):
+        """Render widgets for all components"""
+
         # Widgets on root.header
         self.header.update(
             left_label = ttk.Label(self.header["frame"], text="hello world",
@@ -94,13 +102,9 @@ class HUD:
         # Widgets on root.status_bar
         self.status_bar.update(labels_left=[], labels_right=[], actions = [])
 
-        # Render all action widgets
-        self._render_actions()
-
-
     def _render_actions(self):
         """Render action widgets for all components"""
-        
+
         for action in commands.IEXE_ACTIONS:
             button_image = PhotoImage(file=action["icon_file"])
             button = ttk.Button(self.iexe_widgets["frame"], image=button_image, text=action["label"],
@@ -109,7 +113,7 @@ class HUD:
             )
             button.image = button_image
             self.iexe_widgets["actions"].append(button)
-        
+
         for action in commands.CHATBOT_ACTIONS:
             button_image = PhotoImage(file=action["icon_file"])
             button = ttk.Button(self.chatbot_widgets["frame"], image=button_image,
@@ -125,12 +129,12 @@ class HUD:
 
             for action in commands.ACTION_CENTRE_ACTIONS[action_idx]:
                 button = ttk.Button(action_row, text=action["label"],
-                    style=self.action_centre_widgets["button_styles"][0], 
+                    style=self.action_centre_widgets["button_styles"][0],
                     command=partial(self._event_handler, event=action["event"], query=action["query"]),
                 )
                 self.action_centre_widgets["actions"].append(button)
                 self.action_centre_widgets["button_styles"].rotate(1)
-        
+
         for action in commands.SIDE_BAR_ACTIONS:
             button_image = PhotoImage(file=action["icon_file"])
             button = ttk.Button(self.side_bar["frame"], image=button_image,
@@ -138,7 +142,7 @@ class HUD:
             )
             button.image=button_image
             self.side_bar["actions"].append(button)
-        
+
         for label_widget in commands.STATUS_BAR_LABELS_LEFT:
             label_image = PhotoImage(file=label_widget["icon_file"])
             label = ttk.Label(self.status_bar["frame"], image=label_image,
@@ -160,8 +164,10 @@ class HUD:
             )
             button.image=button_image
             self.status_bar["actions"].append(button)
-    
+
     def _render_menu(self):
+        """Render menu bar for the application"""
+
         menu_bar = Menu(self.root, tearoff=0)
 
         menu_item = Menu(menu_bar, tearoff=0)

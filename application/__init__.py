@@ -19,7 +19,6 @@ def init_app():
     bot_kernel = NicoleBot()
 
     hud = HUD(root=root, bot_kernel=bot_kernel)
-    hud._render_menu()
     hud.apply_position()
     hud.apply_styles()
     hud.init_widgets()
