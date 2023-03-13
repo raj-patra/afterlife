@@ -11,7 +11,7 @@ from tkinter.constants import (BOTH, BOTTOM, CENTER, DISABLED, END, FLAT,
 
 from idlelib.tooltip import Hovertip
 
-from application.helpers import actions, constants, schemes
+from application.helpers import actions, constants, themes
 from application.helpers.callbacks import (about_dialog_callback,
                                            destroy_root_callback,
                                            event_handler_callback,
@@ -28,11 +28,11 @@ class HUD:
         self.bot_kernel = bot_kernel
 
         self.theme = dict(
-            name=schemes.DEFAULT_THEME_CHOICE,
-            root=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['root'],
-            primary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
-            secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
-            fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
+            name=themes.DEFAULT_THEME_CHOICE,
+            root=themes.THEMES[themes.DEFAULT_THEME_CHOICE]['root'],
+            primary_bg=themes.THEMES[themes.DEFAULT_THEME_CHOICE]['primary'],
+            secondary_bg=themes.THEMES[themes.DEFAULT_THEME_CHOICE]['secondary'],
+            fg=themes.THEMES[themes.DEFAULT_THEME_CHOICE]['fg'],
             font=(HUD.default_font, 10),
         )
 
@@ -181,10 +181,10 @@ class HUD:
         theme_choice.add_command(label="Random Theme", command=self._update_app_theme, accelerator='Ctrl+T')
         theme_choice.add_separator()
 
-        for category, themes in schemes.THEME_TYPES.items():
+        for category, theme_list in themes.THEME_TYPES.items():
             theme_category = Menu(theme_choice, tearoff=0)
 
-            for theme in themes:
+            for theme in theme_list:
                 theme_category.add_command(label=theme, command=partial(self._update_app_theme, theme))
             theme_choice.add_cascade(label=category, menu=theme_category)
 
@@ -462,15 +462,15 @@ class HUD:
     def _update_app_theme(self, theme=None, event=None):
 
         if not theme:
-            theme = random.choice(list(schemes.THEMES.keys()))
+            theme = random.choice(list(themes.THEMES.keys()))
 
         self.theme.update(
             dict(
                 name=theme,
-                root=schemes.THEMES[theme]['root'],
-                primary_bg=schemes.THEMES[theme]['primary'],
-                secondary_bg=schemes.THEMES[theme]['secondary'],
-                fg=schemes.THEMES[theme]['fg'],
+                root=themes.THEMES[theme]['root'],
+                primary_bg=themes.THEMES[theme]['primary'],
+                secondary_bg=themes.THEMES[theme]['secondary'],
+                fg=themes.THEMES[theme]['fg'],
             )
         )
         self.apply_styles()

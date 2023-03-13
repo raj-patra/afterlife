@@ -1,7 +1,7 @@
 import gc
 from tkinter import Tk
 
-from application.helpers import schemes
+from application.helpers import themes
 from application.hud import HUD
 from application.nicole import NicoleBot
 
@@ -10,7 +10,7 @@ def init_app():
     gc.enable()
 
     root = Tk()
-    root.config(bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]["root"], bd=5)
+    root.config(bg=themes.THEMES[themes.DEFAULT_THEME_CHOICE]["root"], bd=5)
     root.resizable(1, 1)
     root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
     root.title("Afterlife")
