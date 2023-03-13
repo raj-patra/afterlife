@@ -20,8 +20,6 @@ from application.helpers.callbacks import (about_dialog_callback,
 
 
 class HUD:
-    timer_font = 'cursed timer ulil'
-    default_font_old = 'Noto Mono'
     default_font = 'Cascadia Mono'
 
     def __init__(self, root=None, bot_kernel=None):
@@ -46,7 +44,7 @@ class HUD:
         self.side_bar = dict(frame=ttk.Frame(self.left_section_frame, style="Primary.TFrame", borderwidth=7))
         self.iexe_widgets = dict(frame=ttk.Frame(self.left_section_frame))
         self.chatbot_widgets = dict(frame=Frame(self.right_section_frame, pady=1))
-        self.action_centre_frame = ttk.Frame(self.right_section_frame)
+        self.action_centre_widgets = dict(frame=ttk.Frame(self.right_section_frame))
 
         # Widgets on root.header
         self.header.update(
@@ -85,6 +83,10 @@ class HUD:
             ),
             actions = [],
         )
+        self.action_centre_widgets.update(
+            button_styles = deque(["Primary.TButton", "Secondary.TButton"]),
+            frames=[], actions=[],
+        )
 
         # Widgets on root.side_bar
         self.side_bar.update(actions=[])
@@ -115,22 +117,19 @@ class HUD:
             )
             button.image = button_image
             self.chatbot_widgets["actions"].append(button)
-        
-        button_styles = deque(["Primary.TButton", "Secondary.TButton"])
-        self.dashboard_actions = []
-        self.dashboard_frames = []
 
-        for action_idx in range(len(commands.DASHBOARD_ACTIONS)):
-            action_row = ttk.Frame(self.action_centre_frame)
+        for action_idx in range(len(commands.ACTION_CENTRE_ACTIONS)):
+            action_row = ttk.Frame(self.action_centre_widgets["frame"])
             action_row.pack(side=TOP, fill=BOTH, expand=1)
-            self.dashboard_frames.append(action_row)
+            self.action_centre_widgets["frames"].append(action_row)
 
-            for action in commands.DASHBOARD_ACTIONS[action_idx]:
+            for action in commands.ACTION_CENTRE_ACTIONS[action_idx]:
                 button = ttk.Button(action_row, text=action["label"],
-                    style=button_styles[0], command=partial(self._event_handler, event=action["event"], query=action["query"]),
+                    style=self.action_centre_widgets["button_styles"][0], 
+                    command=partial(self._event_handler, event=action["event"], query=action["query"]),
                 )
-                self.dashboard_actions.append(button)
-                button_styles.rotate(1)
+                self.action_centre_widgets["actions"].append(button)
+                self.action_centre_widgets["button_styles"].rotate(1)
         
         for action in commands.SIDE_BAR_ACTIONS:
             button_image = PhotoImage(file=action["icon_file"])
@@ -221,9 +220,6 @@ class HUD:
 
         for action in self.iexe_widgets["actions"]:
             action.pack(side=LEFT, fill=BOTH, expand=1)
-        # self.iexe_widgets["search_button"].pack(side=LEFT, fill=BOTH, expand=1)
-        # self.iexe_widgets["execute_button"].pack(side=LEFT, fill=BOTH, expand=1)
-        # self.iexe_widgets["wiki_button"].pack(side=LEFT, fill=BOTH, expand=1)
 
         self.chatbot_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
         self.chatbot_widgets["header_label"].pack(side=TOP, fill=BOTH, expand=0)
@@ -233,9 +229,9 @@ class HUD:
         for action in self.chatbot_widgets["actions"]:
             action.pack(side=LEFT, fill=BOTH, expand=0)
 
-        self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
+        self.action_centre_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
 
-        for action in self.dashboard_actions:
+        for action in self.action_centre_widgets["actions"]:
             action.pack(side=LEFT, fill=BOTH, expand=1)
 
         for action in self.status_bar["actions"]:

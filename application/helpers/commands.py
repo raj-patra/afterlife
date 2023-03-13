@@ -56,7 +56,7 @@ STATUS_BAR_ACTIONS = [
         label="Device Discovery", query="start ms-settings-connectabledevices:devicediscovery"),
 ]
 
-DASHBOARD_ACTIONS = [
+ACTION_CENTRE_ACTIONS = [
     [
         dict(event="start_app", label="Installed\nApps", query="start explorer.exe Shell:::AppsFolder"),
         dict(event="start_app", label="Root\nFolder", query="start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"),
