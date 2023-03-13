@@ -6,12 +6,12 @@ from functools import partial
 from tkinter import (Entry, Frame, Menu, PhotoImage, Text, filedialog,
                      messagebox, ttk)
 from tkinter.constants import (BOTH, BOTTOM, CENTER, DISABLED, END, FLAT,
-                               GROOVE, LEFT, NORMAL, NW, RAISED, RIDGE, RIGHT,
-                               TOP, WORD, E, W, X, Y)
+                               GROOVE, LEFT, NORMAL, RAISED, RIDGE, RIGHT, TOP,
+                               WORD, E, W, X, Y)
 
 from idlelib.tooltip import Hovertip
 
-from application.helpers import commands, constants, schemes
+from application.helpers import actions, constants, themes
 from application.helpers.callbacks import (about_dialog_callback,
                                            destroy_root_callback,
                                            event_handler_callback,
@@ -19,10 +19,7 @@ from application.helpers.callbacks import (about_dialog_callback,
                                            random_article_callback)
 
 
-class HUD:
-    timer_font = 'cursed timer ulil'
-    default_font_old = 'Noto Mono'
-    default_font = 'Cascadia Mono'
+class Afterlife:
 
     def __init__(self, root=None, bot_kernel=None):
 
@@ -30,23 +27,31 @@ class HUD:
         self.bot_kernel = bot_kernel
 
         self.theme = dict(
-            name=schemes.DEFAULT_THEME_CHOICE,
-            root=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['root'],
-            primary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['primary'],
-            secondary_bg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['secondary'],
-            fg=schemes.THEMES[schemes.DEFAULT_THEME_CHOICE]['fg'],
-            font=(HUD.default_font, 10),
+            name=themes.DEFAULT_THEME,
+            root=themes.THEMES[themes.DEFAULT_THEME]['root'],
+            primary_bg=themes.THEMES[themes.DEFAULT_THEME]['primary'],
+            secondary_bg=themes.THEMES[themes.DEFAULT_THEME]['secondary'],
+            fg=themes.THEMES[themes.DEFAULT_THEME]['fg'],
+            font=(themes.DEFAULT_FONT, 10),
         )
 
         # Root - Frames
         self.header = dict(frame=ttk.Frame(self.root))
         self.left_section_frame = ttk.Frame(self.root)
-        self.right_section_frame = Frame(self.root, pady=1)
+        self.right_section_frame = ttk.Frame(self.root)
         self.status_bar = dict(frame=ttk.Frame(self.root, style="Primary.TFrame"))
         self.side_bar = dict(frame=ttk.Frame(self.left_section_frame, style="Primary.TFrame", borderwidth=7))
         self.iexe_widgets = dict(frame=ttk.Frame(self.left_section_frame))
-        self.chatbot_widgets = dict(frame=ttk.Frame(self.right_section_frame))
-        self.action_centre_frame = ttk.Frame(self.right_section_frame)
+        self.chatbot_widgets = dict(frame=Frame(self.right_section_frame, pady=1))
+        self.action_centre_widgets = dict(frame=ttk.Frame(self.right_section_frame))
+
+        # Render all components and their call to actions
+        self._render_widgets()
+        self._render_actions()
+        self._render_menu()
+
+    def _render_widgets(self):
+        """Render widgets for all components"""
 
         # Widgets on root.header
         self.header.update(
@@ -63,63 +68,73 @@ class HUD:
         )
         self.iexe_widgets.update(
             query_entry = Entry(self.iexe_widgets["frame"],
-                bg=self.theme["secondary_bg"], fg=self.theme["fg"],
-                font=self.theme["font"], bd=5, width=28, insertbackground="white"
+                bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"],
+                bd=5, width=28, insertbackground="white",
             ),
-            search_button = ttk.Button(self.iexe_widgets["frame"], text="🔎 Search Online",
-                style="Secondary.TButton", command=partial(self._event_handler, event="search_query", query=None),
-            ),
-            execute_button = ttk.Button(self.iexe_widgets["frame"], text="▶ Execute Command",
-                style="Secondary.TButton", command=partial(self._event_handler, event="execute_cmd", query=None),
-            ),
-            wiki_button = ttk.Button(self.iexe_widgets["frame"], text="📖 Wiki Article",
-                style="Secondary.TButton", command=partial(self._event_handler, event="fetch_wiki", query=None),
-            ),
+            actions=[],
         )
 
         # Widgets on root.right
         self.chatbot_widgets.update(
             header_label = ttk.Label(self.chatbot_widgets["frame"], text="Nicole - The Chatbot",
-                style="Secondary.TLabel", anchor=W,
+                style="Secondary.TLabel", anchor=W, font=(themes.DEFAULT_FONT, 10, "bold italic"),
             ),
             chat_window_text = Text(self.chatbot_widgets["frame"],
                 bg=self.theme["secondary_bg"], fg=self.theme["fg"],
                 font=self.theme["font"], wrap=WORD, width=50, height=15, padx=20, pady=20,
-                state=DISABLED, spacing1=1, spacing3=1
+                state=DISABLED, spacing1=1, spacing3=1,
             ),
             msg_entry = Entry(self.chatbot_widgets["frame"],
                 bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"],
-                bd=3, insertbackground="white",
+                bd=5, insertbackground="white", relief=FLAT,
             ),
-            send_button = ttk.Button(self.chatbot_widgets["frame"], text="▶",
-                style="Secondary.TButton", command=partial(self._event_handler, event="nicole_respond"),
-            ),
-            clear_button = ttk.Button(self.chatbot_widgets["frame"], text="❌",
-                style="Secondary.TButton", command=partial(self._event_handler, event="nicole_clear"),
-            ),
+            actions = [],
         )
-        self.chatbot_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
-
-        button_styles = deque(["Primary.TButton", "Secondary.TButton"])
-        self.dashboard_actions = []
-        self.dashboard_frames = []
-
-        for action_idx in range(len(commands.DASHBOARD_ACTIONS)):
-            action_row = ttk.Frame(self.action_centre_frame)
-            action_row.pack(side=TOP, fill=BOTH, expand=1)
-            self.dashboard_frames.append(action_row)
-
-            for action in commands.DASHBOARD_ACTIONS[action_idx]:
-                button = ttk.Button(action_row, text=action["label"],
-                    style=button_styles[0], command=partial(self._event_handler, event=action["event"], query=action["query"]),
-                )
-                self.dashboard_actions.append(button)
-                button_styles.rotate(1)
+        self.action_centre_widgets.update(
+            button_styles = deque(["Primary.TButton", "Secondary.TButton"]),
+            frames=[], actions=[],
+        )
 
         # Widgets on root.side_bar
         self.side_bar.update(actions=[])
 
-        for action in commands.SIDE_BAR_ACTIONS:
+        # Widgets on root.status_bar
+        self.status_bar.update(labels_left=[], labels_right=[], actions = [])
+
+    def _render_actions(self):
+        """Render action widgets for all components"""
+
+        for action in actions.IEXE_ACTIONS:
+            button_image = PhotoImage(file=action["icon_file"])
+            button = ttk.Button(self.iexe_widgets["frame"], image=button_image, text=action["label"],
+                style="Secondary.TButton", compound=LEFT,
+                command=partial(self._event_handler, event=action["event"]),
+            )
+            button.image = button_image
+            self.iexe_widgets["actions"].append(button)
+
+        for action in actions.CHATBOT_ACTIONS:
+            button_image = PhotoImage(file=action["icon_file"])
+            button = ttk.Button(self.chatbot_widgets["frame"], image=button_image,
+                style="Secondary.TButton", command=partial(self._event_handler, event=action["event"]),
+            )
+            button.image = button_image
+            self.chatbot_widgets["actions"].append(button)
+
+        for action_idx in range(len(actions.ACTION_CENTRE_ACTIONS)):
+            action_row = ttk.Frame(self.action_centre_widgets["frame"])
+            action_row.pack(side=TOP, fill=BOTH, expand=1)
+            self.action_centre_widgets["frames"].append(action_row)
+
+            for action in actions.ACTION_CENTRE_ACTIONS[action_idx]:
+                button = ttk.Button(action_row, text=action["label"],
+                    style=self.action_centre_widgets["button_styles"][0],
+                    command=partial(self._event_handler, event=action["event"], query=action["query"]),
+                )
+                self.action_centre_widgets["actions"].append(button)
+                self.action_centre_widgets["button_styles"].rotate(1)
+
+        for action in actions.SIDE_BAR_ACTIONS:
             button_image = PhotoImage(file=action["icon_file"])
             button = ttk.Button(self.side_bar["frame"], image=button_image,
                 style="Primary.TButton", command=partial(self._event_handler, event=action["event"], query=action["query"]),
@@ -127,24 +142,21 @@ class HUD:
             button.image=button_image
             self.side_bar["actions"].append(button)
 
-        # Widgets on root.status_bar
-        self.status_bar.update(labels_left=[], labels_right=[], actions = [])
-
-        for label_widget in commands.STATUS_BAR_LABELS_LEFT:
+        for label_widget in actions.STATUS_BAR_LABELS_LEFT:
             label_image = PhotoImage(file=label_widget["icon_file"])
             label = ttk.Label(self.status_bar["frame"], image=label_image,
                 style="Primary.TLabel", compound=LEFT, anchor=W)
             label.image = label_image
             self.status_bar["labels_left"].append(label)
 
-        for label_widget in commands.STATUS_BAR_LABELS_RIGHT:
+        for label_widget in actions.STATUS_BAR_LABELS_RIGHT:
             label_image = PhotoImage(file=label_widget["icon_file"])
             label = ttk.Label(self.status_bar["frame"], image=label_image,
                 style="Primary.TLabel", compound=LEFT, anchor=W)
             label.image = label_image
             self.status_bar["labels_right"].append(label)
 
-        for action in commands.STATUS_BAR_ACTIONS:
+        for action in actions.STATUS_BAR_ACTIONS:
             button_image = PhotoImage(file=action["icon_file"])
             button = ttk.Button(self.status_bar["frame"], image=button_image, style="Primary.TButton",
                 command=partial(self._event_handler, event=action["event"], query=action["query"]),
@@ -152,7 +164,9 @@ class HUD:
             button.image=button_image
             self.status_bar["actions"].append(button)
 
-    def render_menu(self):
+    def _render_menu(self):
+        """Render menu bar for the application"""
+
         menu_bar = Menu(self.root, tearoff=0)
 
         menu_item = Menu(menu_bar, tearoff=0)
@@ -166,10 +180,10 @@ class HUD:
         theme_choice.add_command(label="Random Theme", command=self._update_app_theme, accelerator='Ctrl+T')
         theme_choice.add_separator()
 
-        for category, themes in schemes.THEME_TYPES.items():
+        for category, theme_list in themes.THEME_TYPES.items():
             theme_category = Menu(theme_choice, tearoff=0)
 
-            for theme in themes:
+            for theme in theme_list:
                 theme_category.add_command(label=theme, command=partial(self._update_app_theme, theme))
             theme_choice.add_cascade(label=category, menu=theme_category)
 
@@ -179,18 +193,20 @@ class HUD:
         menu_item.add_command(label='Exit', command=partial(destroy_root_callback, self.root), accelerator='Alt+F4')
         menu_bar.add_cascade(label='Application', menu=menu_item)
 
-        for label, actions in commands.MENUS.items():
-            item = Menu(menu_bar, tearoff=0)
-            for action in actions:
-                if type(action) == dict:
-                    item.add_command(label=action["label"], command=partial(self._event_handler, action["event"], action["query"]))
+        for label, items in actions.MENUS.items():
+            item_menu = Menu(menu_bar, tearoff=0)
+            for item in items:
+                if type(item) == dict:
+                    item_menu.add_command(label=item["label"], 
+                        command=partial(self._event_handler, item["event"], item["query"])
+                    )
                 else:
-                    item.add_separator()
-            menu_bar.add_cascade(label=label, menu=item)
+                    item_menu.add_separator()
+            menu_bar.add_cascade(label=label, menu=item_menu)
 
         self.root.config(menu=menu_bar)
 
-    def render_widgets(self):
+    def apply_position(self):
         self.header["frame"].pack(side=TOP, fill=X, expand=0)
         self.status_bar["frame"].pack(side=BOTTOM, fill=X, expand=0)
 
@@ -208,20 +224,21 @@ class HUD:
             action.pack(side=TOP, fill=BOTH, expand=0, ipady=3)
 
         self.iexe_widgets["query_entry"].pack(side=TOP, fill=BOTH, expand=1)
-        self.iexe_widgets["search_button"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.iexe_widgets["execute_button"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.iexe_widgets["wiki_button"].pack(side=LEFT, fill=BOTH, expand=1)
+
+        for action in self.iexe_widgets["actions"]:
+            action.pack(side=LEFT, fill=BOTH, expand=1)
 
         self.chatbot_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
         self.chatbot_widgets["header_label"].pack(side=TOP, fill=BOTH, expand=0)
         self.chatbot_widgets["chat_window_text"].pack(side=TOP, fill=BOTH, expand=1)
         self.chatbot_widgets["msg_entry"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.chatbot_widgets["send_button"].pack(side=LEFT, fill=BOTH, expand=0)
-        self.chatbot_widgets["clear_button"].pack(side=LEFT, fill=BOTH, expand=0)
 
-        self.action_centre_frame.pack(side=TOP, fill=BOTH, expand=1)
+        for action in self.chatbot_widgets["actions"]:
+            action.pack(side=LEFT, fill=BOTH, expand=0)
 
-        for action in self.dashboard_actions:
+        self.action_centre_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
+
+        for action in self.action_centre_widgets["actions"]:
             action.pack(side=LEFT, fill=BOTH, expand=1)
 
         for action in self.status_bar["actions"]:
@@ -233,7 +250,7 @@ class HUD:
         for action in self.status_bar["labels_right"]:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
 
-    def render_styles(self):
+    def apply_styles(self):
         """Render styles for all ttk based components"""
 
         self.custom_styles = ttk.Style()
@@ -272,7 +289,7 @@ class HUD:
         )
         self.custom_styles.map("Secondary.TButton",
             background=[("active", self.theme["secondary_bg"]), ("pressed", self.theme["secondary_bg"])],
-            relief=[('pressed', FLAT), ('!pressed', RIDGE)],
+            relief=[('pressed', FLAT), ('!pressed', FLAT)],
             borderwidth=[("active", 5)],
         )
 
@@ -317,35 +334,22 @@ class HUD:
     def init_hovertips(self):
         """Initializes hovertips for required widgets"""
 
-        # Hovertips for iexe widgets
-        Hovertip(anchor_widget=self.iexe_widgets["search_button"],
-            text=self.iexe_widgets["search_button"]["text"]+" (Ctrl+Enter)", hover_delay=100
-        )
-        Hovertip(anchor_widget=self.iexe_widgets["execute_button"],
-            text=self.iexe_widgets["execute_button"]["text"]+" (Shift+Enter)", hover_delay=100
-        )
-        Hovertip(anchor_widget=self.iexe_widgets["wiki_button"],
-            text=self.iexe_widgets["wiki_button"]["text"]+" (Alt+Enter)", hover_delay=100
-        )
-
         # Hovertips for chat window widgets
-        Hovertip(anchor_widget=self.chatbot_widgets["send_button"],
-            text="Send Message (Enter)", hover_delay=100
-        )
-        Hovertip(anchor_widget=self.chatbot_widgets["clear_button"],
-            text="Clear Contents", hover_delay=100
-        )
+        for action_idx in range(len(self.chatbot_widgets["actions"])):
+            Hovertip(anchor_widget=self.chatbot_widgets["actions"][action_idx],
+                text=actions.CHATBOT_ACTIONS[action_idx]["label"], hover_delay=100
+            )
 
         # Hovertips for status bar action widgets
         for action_idx in range(len(self.status_bar["actions"])):
             Hovertip(anchor_widget=self.status_bar["actions"][action_idx],
-                text=commands.STATUS_BAR_ACTIONS[action_idx]["label"], hover_delay=100
+                text=actions.STATUS_BAR_ACTIONS[action_idx]["label"], hover_delay=100
             )
 
         # Hovertips for side bar action widgets
         for action_idx in range(len(self.side_bar["actions"])):
             Hovertip(anchor_widget=self.side_bar["actions"][action_idx],
-                text=commands.SIDE_BAR_ACTIONS[action_idx]["label"], hover_delay=100
+                text=actions.SIDE_BAR_ACTIONS[action_idx]["label"], hover_delay=100
             )
 
     def update_widget_content(self):
@@ -377,12 +381,12 @@ class HUD:
 
             for label_idx in range(len(self.status_bar["labels_left"])):
                 self.status_bar["labels_left"][label_idx].config(
-                    text=commands.STATUS_BAR_LABELS_LEFT[label_idx]["text"].format(*label_info_left[label_idx])
+                    text=actions.STATUS_BAR_LABELS_LEFT[label_idx]["text"].format(*label_info_left[label_idx])
                 )
 
             for label_idx in range(len(self.status_bar["labels_right"])):
                 self.status_bar["labels_right"][label_idx].config(
-                    text=commands.STATUS_BAR_LABELS_RIGHT[label_idx]["text"].format(*label_info_right[label_idx])
+                    text=actions.STATUS_BAR_LABELS_RIGHT[label_idx]["text"].format(*label_info_right[label_idx])
                 )
 
             self.root.after(5000, loop)
@@ -457,18 +461,18 @@ class HUD:
     def _update_app_theme(self, theme=None, event=None):
 
         if not theme:
-            theme = random.choice(list(schemes.THEMES.keys()))
+            theme = random.choice(list(themes.THEMES.keys()))
 
         self.theme.update(
             dict(
                 name=theme,
-                root=schemes.THEMES[theme]['root'],
-                primary_bg=schemes.THEMES[theme]['primary'],
-                secondary_bg=schemes.THEMES[theme]['secondary'],
-                fg=schemes.THEMES[theme]['fg'],
+                root=themes.THEMES[theme]['root'],
+                primary_bg=themes.THEMES[theme]['primary'],
+                secondary_bg=themes.THEMES[theme]['secondary'],
+                fg=themes.THEMES[theme]['fg'],
             )
         )
-        self.render_styles()
+        self.apply_styles()
         self.update_widget_content()
 
     def _save_prompt_content(self, event=None):

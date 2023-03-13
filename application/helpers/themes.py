@@ -1,4 +1,5 @@
-DEFAULT_THEME_CHOICE = "ayu_mirage"
+DEFAULT_THEME = "city_lights"
+DEFAULT_FONT = "Cascadia Mono"
 
 THEMES = {
     "default_repocard": {
@@ -285,15 +286,15 @@ THEMES = {
 
 THEME_TYPES = { 
     
-    "Light Mode": ['default_repocard', 'vue', 'solarized_light'],
+    "Light Mode": ["default_repocard", "vue", "solarized_light"],
                 
-    "Dark Mode (Low Contrast)": ['gruvbox', 'onedark', 'cobalt', 'synthwave', 'dracula', 
-                            'monokai', 'vue_dark', 'darcula', 'bear', 'solarized_dark', 'kacho_ga',
-                            'nord', 'material_palenight', 'ayu_mirage', 'react', 'calm', 'blueberry', 
-                            'slateorange', 'jolly', 'shades_of_purple', 'discord_old_blurple', 'prussian'],
+    "Dark Mode (Low Contrast)": ["gruvbox", "onedark", "cobalt", "synthwave", "dracula", 
+        "monokai", "vue_dark", "darcula", "bear", "solarized_dark", "kacho_ga",
+        "nord", "material_palenight", "ayu_mirage", "react", "calm", "blueberry", 
+        "slateorange", "jolly", "shades_of_purple", "discord_old_blurple", "prussian"],
     
-    "Dark Mode (High Contrast)": ['og_blue', 'dark', 'radical', 'merko', 'tokyonight', 'cyberpunk', 'omni',
-                            'buefy', 'nightowl', 'blue_green', 'algolia', 'great_gatsby', 'chartreuse_dark', 
-                            'gotham', 'graphite', 'vision_friendly_dark', 'maroongold', 'yeblu',
-                                'ocean_dark', 'city_lights', 'github_dark']
+    "Dark Mode (High Contrast)": ["og_blue", "dark", "radical", "merko", "tokyonight", "cyberpunk", "omni",
+        "buefy", "nightowl", "blue_green", "algolia", "great_gatsby", "chartreuse_dark", 
+        "gotham", "graphite", "vision_friendly_dark", "maroongold", "yeblu",
+            "ocean_dark", "city_lights", "github_dark"]
 }

@@ -1,4 +1,4 @@
-"""Applications & Commands used in afterlife"""
+"""Call to actions used in afterlife"""
 
 SIDE_BAR_ACTIONS = [
     dict(event="start_app", icon="⏰", icon_file="./assets/icons/google/clock.png",
@@ -56,7 +56,7 @@ STATUS_BAR_ACTIONS = [
         label="Device Discovery", query="start ms-settings-connectabledevices:devicediscovery"),
 ]
 
-DASHBOARD_ACTIONS = [
+ACTION_CENTRE_ACTIONS = [
     [
         dict(event="start_app", label="Installed\nApps", query="start explorer.exe Shell:::AppsFolder"),
         dict(event="start_app", label="Root\nFolder", query="start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"),
@@ -120,3 +120,14 @@ MENUS = {
         dict(event="open_url", label="Drive & Listen", query="https://driveandlisten.herokuapp.com/"),
     ]
 }
+
+CHATBOT_ACTIONS = [
+    dict(event="nicole_respond", icon_file="./assets/icons/google/arrow_forward.png", label="Send Message (Enter)"),
+    dict(event="nicole_clear", icon_file="./assets/icons/google/x.png", label="Clear Contents"),
+]
+
+IEXE_ACTIONS = [
+    dict(icon="🔎", icon_file="./assets/icons/google/mag_right.png", label="Search Online", event="search_query"),
+    dict(icon="▶", icon_file="./assets/icons/google/arrow_forward.png", label="Execute Command", event="execute_cmd"),
+    dict(icon="📖", icon_file="./assets/icons/google/book.png", label="Wiki Article", event="fetch_wiki"),
+]
