@@ -6,8 +6,8 @@ from functools import partial
 from tkinter import (Entry, Frame, Menu, PhotoImage, Text, filedialog,
                      messagebox, ttk)
 from tkinter.constants import (BOTH, BOTTOM, CENTER, DISABLED, END, FLAT,
-                               GROOVE, LEFT, NORMAL, NW, RAISED, RIDGE, RIGHT,
-                               TOP, WORD, E, W, X, Y)
+                               GROOVE, LEFT, NORMAL, RAISED, RIDGE, RIGHT, TOP,
+                               WORD, E, W, X, Y)
 
 from idlelib.tooltip import Hovertip
 
@@ -19,8 +19,7 @@ from application.helpers.callbacks import (about_dialog_callback,
                                            random_article_callback)
 
 
-class HUD:
-    default_font = 'Cascadia Mono'
+class Afterlife:
 
     def __init__(self, root=None, bot_kernel=None):
 
@@ -28,12 +27,12 @@ class HUD:
         self.bot_kernel = bot_kernel
 
         self.theme = dict(
-            name=themes.DEFAULT_THEME_CHOICE,
-            root=themes.THEMES[themes.DEFAULT_THEME_CHOICE]['root'],
-            primary_bg=themes.THEMES[themes.DEFAULT_THEME_CHOICE]['primary'],
-            secondary_bg=themes.THEMES[themes.DEFAULT_THEME_CHOICE]['secondary'],
-            fg=themes.THEMES[themes.DEFAULT_THEME_CHOICE]['fg'],
-            font=(HUD.default_font, 10),
+            name=themes.DEFAULT_THEME,
+            root=themes.THEMES[themes.DEFAULT_THEME]['root'],
+            primary_bg=themes.THEMES[themes.DEFAULT_THEME]['primary'],
+            secondary_bg=themes.THEMES[themes.DEFAULT_THEME]['secondary'],
+            fg=themes.THEMES[themes.DEFAULT_THEME]['fg'],
+            font=(themes.DEFAULT_FONT, 10),
         )
 
         # Root - Frames
@@ -78,7 +77,7 @@ class HUD:
         # Widgets on root.right
         self.chatbot_widgets.update(
             header_label = ttk.Label(self.chatbot_widgets["frame"], text="Nicole - The Chatbot",
-                style="Secondary.TLabel", anchor=W, font=(HUD.default_font, 10, "bold italic"),
+                style="Secondary.TLabel", anchor=W, font=(themes.DEFAULT_FONT, 10, "bold italic"),
             ),
             chat_window_text = Text(self.chatbot_widgets["frame"],
                 bg=self.theme["secondary_bg"], fg=self.theme["fg"],
