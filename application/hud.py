@@ -67,20 +67,11 @@ class HUD:
                 bd=5, width=28, insertbackground="white",
             ),
             actions=[],
-            # search_button = ttk.Button(self.iexe_widgets["frame"], text="🔎 Search Online",
-            #     style="Secondary.TButton", command=partial(self._event_handler, event="search_query", query=None),
-            # ),
-            # execute_button = ttk.Button(self.iexe_widgets["frame"], text="▶ Execute Command",
-            #     style="Secondary.TButton", command=partial(self._event_handler, event="execute_cmd", query=None),
-            # ),
-            # wiki_button = ttk.Button(self.iexe_widgets["frame"], text="📖 Wiki Article",
-            #     style="Secondary.TButton", command=partial(self._event_handler, event="fetch_wiki", query=None),
-            # ),
         )
 
         for action in commands.IEXE_ACTIONS:
             button_image = PhotoImage(file=action["icon_file"])
-            button = ttk.Button(self.iexe_widgets["frame"], image=button_image, text=action["text"],
+            button = ttk.Button(self.iexe_widgets["frame"], image=button_image, text=action["label"],
                 style="Secondary.TButton", compound=LEFT,
                 command=partial(self._event_handler, event=action["event"]),
             )
@@ -333,17 +324,6 @@ class HUD:
 
     def init_hovertips(self):
         """Initializes hovertips for required widgets"""
-
-        # Hovertips for iexe widgets
-        # Hovertip(anchor_widget=self.iexe_widgets["search_button"],
-        #     text=self.iexe_widgets["search_button"]["text"]+" (Ctrl+Enter)", hover_delay=100
-        # )
-        # Hovertip(anchor_widget=self.iexe_widgets["execute_button"],
-        #     text=self.iexe_widgets["execute_button"]["text"]+" (Shift+Enter)", hover_delay=100
-        # )
-        # Hovertip(anchor_widget=self.iexe_widgets["wiki_button"],
-        #     text=self.iexe_widgets["wiki_button"]["text"]+" (Alt+Enter)", hover_delay=100
-        # )
 
         # Hovertips for chat window widgets
         for action_idx in range(len(self.chatbot_widgets["actions"])):

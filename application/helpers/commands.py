@@ -127,7 +127,7 @@ CHATBOT_ACTIONS = [
 ]
 
 IEXE_ACTIONS = [
-    dict(icon="🔎", icon_file="./assets/icons/google/mag_right.png", text="Search Online", event="search_query"),
-    dict(icon="▶", icon_file="./assets/icons/google/arrow_forward.png", text="Execute Command", event="execute_cmd"),
-    dict(icon="📖", icon_file="./assets/icons/google/book.png", text="Wiki Article", event="fetch_wiki"),
+    dict(icon="🔎", icon_file="./assets/icons/google/mag_right.png", label="Search Online", event="search_query"),
+    dict(icon="▶", icon_file="./assets/icons/google/arrow_forward.png", label="Execute Command", event="execute_cmd"),
+    dict(icon="📖", icon_file="./assets/icons/google/book.png", label="Wiki Article", event="fetch_wiki"),
 ]
