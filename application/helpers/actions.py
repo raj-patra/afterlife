@@ -1,4 +1,4 @@
-"""Applications & Commands used in afterlife"""
+"""Call to actions used in afterlife"""
 
 SIDE_BAR_ACTIONS = [
     dict(event="start_app", icon="⏰", icon_file="./assets/icons/google/clock.png",

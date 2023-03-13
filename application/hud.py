@@ -11,7 +11,7 @@ from tkinter.constants import (BOTH, BOTTOM, CENTER, DISABLED, END, FLAT,
 
 from idlelib.tooltip import Hovertip
 
-from application.helpers import commands, constants, schemes
+from application.helpers import actions, constants, schemes
 from application.helpers.callbacks import (about_dialog_callback,
                                            destroy_root_callback,
                                            event_handler_callback,
@@ -105,7 +105,7 @@ class HUD:
     def _render_actions(self):
         """Render action widgets for all components"""
 
-        for action in commands.IEXE_ACTIONS:
+        for action in actions.IEXE_ACTIONS:
             button_image = PhotoImage(file=action["icon_file"])
             button = ttk.Button(self.iexe_widgets["frame"], image=button_image, text=action["label"],
                 style="Secondary.TButton", compound=LEFT,
@@ -114,7 +114,7 @@ class HUD:
             button.image = button_image
             self.iexe_widgets["actions"].append(button)
 
-        for action in commands.CHATBOT_ACTIONS:
+        for action in actions.CHATBOT_ACTIONS:
             button_image = PhotoImage(file=action["icon_file"])
             button = ttk.Button(self.chatbot_widgets["frame"], image=button_image,
                 style="Secondary.TButton", command=partial(self._event_handler, event=action["event"]),
@@ -122,12 +122,12 @@ class HUD:
             button.image = button_image
             self.chatbot_widgets["actions"].append(button)
 
-        for action_idx in range(len(commands.ACTION_CENTRE_ACTIONS)):
+        for action_idx in range(len(actions.ACTION_CENTRE_ACTIONS)):
             action_row = ttk.Frame(self.action_centre_widgets["frame"])
             action_row.pack(side=TOP, fill=BOTH, expand=1)
             self.action_centre_widgets["frames"].append(action_row)
 
-            for action in commands.ACTION_CENTRE_ACTIONS[action_idx]:
+            for action in actions.ACTION_CENTRE_ACTIONS[action_idx]:
                 button = ttk.Button(action_row, text=action["label"],
                     style=self.action_centre_widgets["button_styles"][0],
                     command=partial(self._event_handler, event=action["event"], query=action["query"]),
@@ -135,7 +135,7 @@ class HUD:
                 self.action_centre_widgets["actions"].append(button)
                 self.action_centre_widgets["button_styles"].rotate(1)
 
-        for action in commands.SIDE_BAR_ACTIONS:
+        for action in actions.SIDE_BAR_ACTIONS:
             button_image = PhotoImage(file=action["icon_file"])
             button = ttk.Button(self.side_bar["frame"], image=button_image,
                 style="Primary.TButton", command=partial(self._event_handler, event=action["event"], query=action["query"]),
@@ -143,21 +143,21 @@ class HUD:
             button.image=button_image
             self.side_bar["actions"].append(button)
 
-        for label_widget in commands.STATUS_BAR_LABELS_LEFT:
+        for label_widget in actions.STATUS_BAR_LABELS_LEFT:
             label_image = PhotoImage(file=label_widget["icon_file"])
             label = ttk.Label(self.status_bar["frame"], image=label_image,
                 style="Primary.TLabel", compound=LEFT, anchor=W)
             label.image = label_image
             self.status_bar["labels_left"].append(label)
 
-        for label_widget in commands.STATUS_BAR_LABELS_RIGHT:
+        for label_widget in actions.STATUS_BAR_LABELS_RIGHT:
             label_image = PhotoImage(file=label_widget["icon_file"])
             label = ttk.Label(self.status_bar["frame"], image=label_image,
                 style="Primary.TLabel", compound=LEFT, anchor=W)
             label.image = label_image
             self.status_bar["labels_right"].append(label)
 
-        for action in commands.STATUS_BAR_ACTIONS:
+        for action in actions.STATUS_BAR_ACTIONS:
             button_image = PhotoImage(file=action["icon_file"])
             button = ttk.Button(self.status_bar["frame"], image=button_image, style="Primary.TButton",
                 command=partial(self._event_handler, event=action["event"], query=action["query"]),
@@ -194,14 +194,16 @@ class HUD:
         menu_item.add_command(label='Exit', command=partial(destroy_root_callback, self.root), accelerator='Alt+F4')
         menu_bar.add_cascade(label='Application', menu=menu_item)
 
-        for label, actions in commands.MENUS.items():
-            item = Menu(menu_bar, tearoff=0)
-            for action in actions:
-                if type(action) == dict:
-                    item.add_command(label=action["label"], command=partial(self._event_handler, action["event"], action["query"]))
+        for label, items in actions.MENUS.items():
+            item_menu = Menu(menu_bar, tearoff=0)
+            for item in items:
+                if type(item) == dict:
+                    item_menu.add_command(label=item["label"], 
+                        command=partial(self._event_handler, item["event"], item["query"])
+                    )
                 else:
-                    item.add_separator()
-            menu_bar.add_cascade(label=label, menu=item)
+                    item_menu.add_separator()
+            menu_bar.add_cascade(label=label, menu=item_menu)
 
         self.root.config(menu=menu_bar)
 
@@ -336,19 +338,19 @@ class HUD:
         # Hovertips for chat window widgets
         for action_idx in range(len(self.chatbot_widgets["actions"])):
             Hovertip(anchor_widget=self.chatbot_widgets["actions"][action_idx],
-                text=commands.CHATBOT_ACTIONS[action_idx]["label"], hover_delay=100
+                text=actions.CHATBOT_ACTIONS[action_idx]["label"], hover_delay=100
             )
 
         # Hovertips for status bar action widgets
         for action_idx in range(len(self.status_bar["actions"])):
             Hovertip(anchor_widget=self.status_bar["actions"][action_idx],
-                text=commands.STATUS_BAR_ACTIONS[action_idx]["label"], hover_delay=100
+                text=actions.STATUS_BAR_ACTIONS[action_idx]["label"], hover_delay=100
             )
 
         # Hovertips for side bar action widgets
         for action_idx in range(len(self.side_bar["actions"])):
             Hovertip(anchor_widget=self.side_bar["actions"][action_idx],
-                text=commands.SIDE_BAR_ACTIONS[action_idx]["label"], hover_delay=100
+                text=actions.SIDE_BAR_ACTIONS[action_idx]["label"], hover_delay=100
             )
 
     def update_widget_content(self):
@@ -380,12 +382,12 @@ class HUD:
 
             for label_idx in range(len(self.status_bar["labels_left"])):
                 self.status_bar["labels_left"][label_idx].config(
-                    text=commands.STATUS_BAR_LABELS_LEFT[label_idx]["text"].format(*label_info_left[label_idx])
+                    text=actions.STATUS_BAR_LABELS_LEFT[label_idx]["text"].format(*label_info_left[label_idx])
                 )
 
             for label_idx in range(len(self.status_bar["labels_right"])):
                 self.status_bar["labels_right"][label_idx].config(
-                    text=commands.STATUS_BAR_LABELS_RIGHT[label_idx]["text"].format(*label_info_right[label_idx])
+                    text=actions.STATUS_BAR_LABELS_RIGHT[label_idx]["text"].format(*label_info_right[label_idx])
                 )
 
             self.root.after(5000, loop)
