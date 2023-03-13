@@ -69,6 +69,36 @@ class HUD:
             actions=[],
         )
 
+        # Widgets on root.right
+        self.chatbot_widgets.update(
+            header_label = ttk.Label(self.chatbot_widgets["frame"], text="Nicole - The Chatbot",
+                style="Secondary.TLabel", anchor=W, font=(HUD.default_font, 10, "bold italic"),
+            ),
+            chat_window_text = Text(self.chatbot_widgets["frame"],
+                bg=self.theme["secondary_bg"], fg=self.theme["fg"],
+                font=self.theme["font"], wrap=WORD, width=50, height=15, padx=20, pady=20,
+                state=DISABLED, spacing1=1, spacing3=1,
+            ),
+            msg_entry = Entry(self.chatbot_widgets["frame"],
+                bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"],
+                bd=5, insertbackground="white", relief=FLAT,
+            ),
+            actions = [],
+        )
+
+        # Widgets on root.side_bar
+        self.side_bar.update(actions=[])
+
+        # Widgets on root.status_bar
+        self.status_bar.update(labels_left=[], labels_right=[], actions = [])
+
+        # Render all action widgets
+        self._render_actions()
+
+
+    def _render_actions(self):
+        """Render action widgets for all components"""
+        
         for action in commands.IEXE_ACTIONS:
             button_image = PhotoImage(file=action["icon_file"])
             button = ttk.Button(self.iexe_widgets["frame"], image=button_image, text=action["label"],
@@ -77,25 +107,7 @@ class HUD:
             )
             button.image = button_image
             self.iexe_widgets["actions"].append(button)
-
-        # Widgets on root.right
-        self.chatbot_widgets.update(
-            header_label = ttk.Label(self.chatbot_widgets["frame"], text="Nicole - The Chatbot",
-                style="Secondary.TLabel", anchor=W,
-            ),
-            chat_window_text = Text(self.chatbot_widgets["frame"],
-                bg=self.theme["secondary_bg"], fg=self.theme["fg"],
-                font=self.theme["font"], wrap=WORD, width=50, height=15, padx=20, pady=20,
-                state=DISABLED, spacing1=1, spacing3=1
-            ),
-            msg_entry = Entry(self.chatbot_widgets["frame"],
-                bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"],
-                bd=5, insertbackground="white", relief=FLAT,
-            ),
-            actions = [],
-        )
-        self.chatbot_widgets["header_label"].config(font=(HUD.default_font, 10, "bold italic"))
-
+        
         for action in commands.CHATBOT_ACTIONS:
             button_image = PhotoImage(file=action["icon_file"])
             button = ttk.Button(self.chatbot_widgets["frame"], image=button_image,
@@ -103,7 +115,7 @@ class HUD:
             )
             button.image = button_image
             self.chatbot_widgets["actions"].append(button)
-
+        
         button_styles = deque(["Primary.TButton", "Secondary.TButton"])
         self.dashboard_actions = []
         self.dashboard_frames = []
@@ -119,10 +131,7 @@ class HUD:
                 )
                 self.dashboard_actions.append(button)
                 button_styles.rotate(1)
-
-        # Widgets on root.side_bar
-        self.side_bar.update(actions=[])
-
+        
         for action in commands.SIDE_BAR_ACTIONS:
             button_image = PhotoImage(file=action["icon_file"])
             button = ttk.Button(self.side_bar["frame"], image=button_image,
@@ -130,10 +139,7 @@ class HUD:
             )
             button.image=button_image
             self.side_bar["actions"].append(button)
-
-        # Widgets on root.status_bar
-        self.status_bar.update(labels_left=[], labels_right=[], actions = [])
-
+        
         for label_widget in commands.STATUS_BAR_LABELS_LEFT:
             label_image = PhotoImage(file=label_widget["icon_file"])
             label = ttk.Label(self.status_bar["frame"], image=label_image,
@@ -155,8 +161,8 @@ class HUD:
             )
             button.image=button_image
             self.status_bar["actions"].append(button)
-
-    def render_menu(self):
+    
+    def _render_menu(self):
         menu_bar = Menu(self.root, tearoff=0)
 
         menu_item = Menu(menu_bar, tearoff=0)
@@ -194,7 +200,7 @@ class HUD:
 
         self.root.config(menu=menu_bar)
 
-    def render_widgets(self):
+    def apply_position(self):
         self.header["frame"].pack(side=TOP, fill=X, expand=0)
         self.status_bar["frame"].pack(side=BOTTOM, fill=X, expand=0)
 
@@ -241,7 +247,7 @@ class HUD:
         for action in self.status_bar["labels_right"]:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
 
-    def render_styles(self):
+    def apply_styles(self):
         """Render styles for all ttk based components"""
 
         self.custom_styles = ttk.Style()
@@ -463,7 +469,7 @@ class HUD:
                 fg=schemes.THEMES[theme]['fg'],
             )
         )
-        self.render_styles()
+        self.apply_styles()
         self.update_widget_content()
 
     def _save_prompt_content(self, event=None):
