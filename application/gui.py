@@ -44,9 +44,6 @@ class Afterlife:
         self.iexe_widgets = dict(frame=ttk.Frame(self.left_section_frame))
         self.chatbot_widgets = dict(frame=Frame(self.right_section_frame, pady=1))
         self.action_centre_notebook = ttk.Notebook(self.right_section_frame)
-        self.action_centre_widgets = dict()
-        # self.action_centre_widgets = dict(frame=ttk.Frame(self.action_centre_notebook))
-        # self.action_centre_widgets = dict(frame=ttk.Frame(self.right_section_frame))
 
         # Render all components and their call to actions
         self._render_widgets()
@@ -93,11 +90,10 @@ class Afterlife:
             ),
             actions = [],
         )
-        self.action_centre_widgets.update(
+        self.action_centre_widgets = dict(
             button_styles = deque(["Primary.TButton", "Secondary.TButton"]),
             actions=[],
         )
-        # self.action_centre_notebook.add(self.action_centre_widgets["frame"], text="Dashboard")
 
         # Widgets on root.side_bar
         self.side_bar.update(actions=[])
@@ -141,18 +137,6 @@ class Afterlife:
                     self.action_centre_widgets["button_styles"].rotate(1)
 
             self.action_centre_notebook.add(notebook_frame, text=section)
-
-        # for action_idx in range(len(actions.ACTION_CENTRE_ACTIONS)):
-        #     action_row = ttk.Frame(self.action_centre_widgets["frame"])
-        #     action_row.pack(side=TOP, fill=BOTH, expand=1)
-
-        #     for action in actions.ACTION_CENTRE_ACTIONS[action_idx]:
-        #         button = ttk.Button(action_row, text=action["label"],
-        #             style=self.action_centre_widgets["button_styles"][0],
-        #             command=partial(self._event_handler, event=action["event"], query=action["query"]),
-        #         )
-        #         self.action_centre_widgets["actions"].append(button)
-                # self.action_centre_widgets["button_styles"].rotate(1)
 
         for action in actions.SIDE_BAR_ACTIONS:
             button_image = PhotoImage(file=action["icon_file"])
@@ -257,7 +241,6 @@ class Afterlife:
             action.pack(side=LEFT, fill=BOTH, expand=0)
 
         self.action_centre_notebook.pack(side=TOP, fill=BOTH, expand=1, padx=10, pady=10)
-        # self.action_centre_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
 
         for action in self.action_centre_widgets["actions"]:
             action.pack(side=LEFT, fill=BOTH, expand=1)
