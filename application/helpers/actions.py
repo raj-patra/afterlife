@@ -56,31 +56,7 @@ STATUS_BAR_ACTIONS = [
         label="Device Discovery", query="start ms-settings-connectabledevices:devicediscovery"),
 ]
 
-ACTION_CENTRE_ACTIONS = [
-    [
-        dict(event="start_app", label="Installed\nApps", query="start explorer.exe Shell:::AppsFolder"),
-        dict(event="start_app", label="Root\nFolder", query="start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"),
-        dict(event="start_app", label="Task\nManager", query="start taskmgr"),
-        dict(event="start_app", label="Control\nPanel", query="start control"),
-        dict(event="start_app", label="Command\nPrompt", query="start cmd /k cd /d %USERPROFILE%\Desktop"),
-    ],
-    [
-        dict(event="execute_subprocess", label="System\nInfo", query="systeminfo"),
-        dict(event="execute_subprocess", label="Running\nProcesses", query="tasklist"),
-        dict(event="execute_subprocess", label="Environment\nVariables", query="set"),
-        dict(event="execute_subprocess", label="Available\nDrivers", query="driverquery"),
-        dict(event="start_app", label="Notepad", query="start notepad"),
-    ],
-    [
-        dict(event="start_app", label="Run", query="start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"),
-        dict(event="start_app", label="God\nMode", query="start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"),
-        dict(event="start_app", label="Device\nManagement", query="start devmgmt"),
-        dict(event="start_app", label="Disk\nManagement", query="start diskmgmt"),
-        dict(event="start_app", label="Registry\nEditor", query="start regedit"),
-    ],
-]
-
-ACTION_CENTRE_ACTIONS_NEW = {
+ACTION_CENTRE_ACTIONS = {
     "Windows Actions": [
         [
             dict(event="start_app", label="Installed\nApps", query="start explorer.exe Shell:::AppsFolder"),
@@ -104,7 +80,7 @@ ACTION_CENTRE_ACTIONS_NEW = {
             dict(event="start_app", label="Registry\nEditor", query="start regedit"),
         ],
     ],
-    "Utilities & Recreation": [
+    "Utilities": [
         [
             dict(event="open_url", label="Web\nUtilities", query="www.123apps.com"),
             dict(event="open_url", label="Cloud File\nConverter", query="www.cloudconvert.com"),
@@ -146,20 +122,6 @@ MENUS = {
         dict(event="open_url", label="Tumblr", query="www.tumblr.com"),
         dict(event="open_url", label="Pinterest", query="www.pinterest.com"),
         dict(event="open_url", label="Linkedin", query="www.linkedin.com"),
-    ],
-    "Utilities": [
-        dict(event="open_url", label="Web Utilities", query="www.123apps.com"),
-        dict(event="open_url", label="Cloud File Converter", query="www.cloudconvert.com"),
-        dict(event="open_url", label="Digital PDF Tools", query="www.smallpdf.com/pdf-tools"),
-        dict(event="open_url", label="Online Photo Editor", query="www.photopea.com"),
-        dict(event="open_url", label="Net Speed", query="www.speedtest.net"),
-    ],
-    "Recreation": [
-        dict(event="open_url", label="Bored Button", query="www.boredbutton.com/random"),
-        dict(event="open_url", label="Wikipedia", query="www.wikipedia.org"),
-        dict(event="open_url", label="Library Genesis", query="libgen.rs/index.php"),
-        dict(event="open_url", label="Good Reads", query="www.readsomethinggreat.com"),
-        dict(event="open_url", label="Drive & Listen", query="https://driveandlisten.herokuapp.com/"),
     ]
 }
 

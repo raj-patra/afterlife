@@ -121,7 +121,7 @@ class Afterlife:
             button.image = button_image
             self.chatbot_widgets["actions"].append(button)
 
-        for section, items in actions.ACTION_CENTRE_ACTIONS_NEW.items():
+        for section, items in actions.ACTION_CENTRE_ACTIONS.items():
             notebook_frame = ttk.Frame(self.action_centre_notebook)
 
             for action_row in items:
@@ -225,7 +225,7 @@ class Afterlife:
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
 
         for action in self.side_bar["actions"]:
-            action.pack(side=TOP, fill=BOTH, expand=0, ipady=3)
+            action.pack(side=TOP, fill=BOTH, expand=0, ipady=5)
 
         self.iexe_widgets["query_entry"].pack(side=TOP, fill=BOTH, expand=1)
 
