@@ -258,7 +258,7 @@ class Afterlife:
         """Render styles for all ttk based components"""
 
         self.custom_styles = ttk.Style()
-        self.custom_styles.theme_use("default")
+        self.custom_styles.theme_use("clam")
 
         self.custom_styles.configure("Primary.TFrame", background=self.theme["primary_bg"])
         self.custom_styles.configure("Secondary.TFrame", background=self.theme["secondary_bg"])
@@ -305,7 +305,7 @@ class Afterlife:
         self.custom_styles.configure("TNotebook.Tab", background=self.theme["primary_bg"],
             foreground=self.theme["fg"], borderwidth=0, font=self.theme["font"])
         self.custom_styles.map("TNotebook.Tab", background=[("!selected", self.theme["secondary_bg"])],
-            relief=[('pressed', FLAT), ('!pressed', FLAT)],)
+            relief=[('pressed', FLAT), ('!pressed', GROOVE)],)
 
         # Render styles for non ttk compatible components
         self.root.config(bg=self.theme['root'])

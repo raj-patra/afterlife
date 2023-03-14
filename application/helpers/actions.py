@@ -57,29 +57,6 @@ STATUS_BAR_ACTIONS = [
 ]
 
 ACTION_CENTRE_ACTIONS = {
-    "Windows Actions": [
-        [
-            dict(event="start_app", label="Installed\nApps", query="start explorer.exe Shell:::AppsFolder"),
-            dict(event="start_app", label="Root\nFolder", query="start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"),
-            dict(event="start_app", label="Task\nManager", query="start taskmgr"),
-            dict(event="start_app", label="Control\nPanel", query="start control"),
-            dict(event="start_app", label="Command\nPrompt", query="start cmd /k cd /d %USERPROFILE%\Desktop"),
-        ],
-        [
-            dict(event="execute_subprocess", label="System\nInfo", query="systeminfo"),
-            dict(event="execute_subprocess", label="Running\nProcesses", query="tasklist"),
-            dict(event="execute_subprocess", label="Environment\nVariables", query="set"),
-            dict(event="execute_subprocess", label="Available\nDrivers", query="driverquery"),
-            dict(event="start_app", label="Notepad", query="start notepad"),
-        ],
-        [
-            dict(event="start_app", label="Run", query="start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"),
-            dict(event="start_app", label="God\nMode", query="start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"),
-            dict(event="start_app", label="Device\nManagement", query="start devmgmt"),
-            dict(event="start_app", label="Disk\nManagement", query="start diskmgmt"),
-            dict(event="start_app", label="Registry\nEditor", query="start regedit"),
-        ],
-    ],
     "Utilities": [
         [
             dict(event="open_url", label="Web\nUtilities", query="www.123apps.com"),
@@ -95,19 +72,42 @@ ACTION_CENTRE_ACTIONS = {
             dict(event="open_url", label="Good\nReads", query="www.readsomethinggreat.com"),
             dict(event="open_url", label="Drive &\nListen", query="https://driveandlisten.herokuapp.com/"),
         ],
-    ]
+    ],
+    "System Apps": [
+        [
+            dict(event="start_app", label="Installed\nApps", query="start explorer.exe Shell:::AppsFolder"),
+            dict(event="start_app", label="Root\nFolder", query="start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"),
+            dict(event="start_app", label="Task\nManager", query="start taskmgr"),
+            dict(event="start_app", label="Control\nPanel", query="start control"),
+            dict(event="start_app", label="Command\nPrompt", query="start cmd /k cd /d %USERPROFILE%\Desktop"),
+        ],
+        [
+            dict(event="start_app", label="Run", query="start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"),
+            dict(event="start_app", label="God\nMode", query="start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"),
+            dict(event="start_app", label="Device\nManagement", query="start devmgmt"),
+            dict(event="start_app", label="Disk\nManagement", query="start diskmgmt"),
+            dict(event="start_app", label="Registry\nEditor", query="start regedit"),
+        ],
+    ],
+    "Health Check": [
+        [
+            dict(event="execute_subprocess", label="System\nInfo", query="systeminfo"),
+            dict(event="execute_subprocess", label="Running\nProcesses", query="tasklist"),
+            dict(event="execute_subprocess", label="Environment\nVariables", query="set"),
+            dict(event="execute_subprocess", label="Available\nDrivers", query="driverquery"),
+            dict(event="start_app", label="Notepad", query="start notepad"),
+        ],
+        [
+            dict(event="execute_subprocess", label="Ping", query="ping 8.8.8.8"),
+            dict(event="execute_subprocess", label="List DNS\nServers", query="ipconfig /displaydns"),
+            dict(event="execute_subprocess", label="Initiate\nDNS Flush", query="ipconfig /flushdns"),
+            dict(event="execute_subprocess", label="Network\nConnections", query="netstat -an"),
+            dict(event="execute_subprocess", label="IP\nConfigurations", query="ipconfig /allcompartments /all"),
+        ],
+    ],
 }
 
 MENUS = {
-    "Network": [
-        dict(event="execute_subprocess", label="Ping", query="ping 8.8.8.8"),
-        "---",
-        dict(event="execute_subprocess", label="List DNS Servers", query="ipconfig /displaydns"),
-        dict(event="execute_subprocess", label="Initiate DNS Flush", query="ipconfig /flushdns"),
-        "---",
-        dict(event="execute_subprocess", label="Network Connections", query="netstat -an"),
-        dict(event="execute_subprocess", label="IP Configurations", query="ipconfig /allcompartments /all"),
-    ],
     "Socials": [
         dict(event="open_url", label="Facebook", query="www.facebook.com"),
         dict(event="open_url", label="Instagram", query="www.instagram.com"),
