@@ -37,13 +37,15 @@ class Afterlife:
 
         # Root - Frames
         self.header = dict(frame=ttk.Frame(self.root))
-        self.left_section_frame = ttk.Frame(self.root)
-        self.right_section_frame = ttk.Frame(self.root)
+        self.left_section_frame = ttk.Frame(self.root, style="Secondary.TFrame")
+        self.right_section_frame = ttk.Frame(self.root, style="Secondary.TFrame")
         self.status_bar = dict(frame=ttk.Frame(self.root, style="Primary.TFrame"))
         self.side_bar = dict(frame=ttk.Frame(self.left_section_frame, style="Primary.TFrame", borderwidth=7))
         self.iexe_widgets = dict(frame=ttk.Frame(self.left_section_frame))
         self.chatbot_widgets = dict(frame=Frame(self.right_section_frame, pady=1))
-        self.action_centre_widgets = dict(frame=ttk.Frame(self.right_section_frame))
+        self.action_centre_notebook = ttk.Notebook(self.right_section_frame)
+        self.action_centre_widgets = dict(frame=ttk.Frame(self.action_centre_notebook))
+        # self.action_centre_widgets = dict(frame=ttk.Frame(self.right_section_frame))
 
         # Render all components and their call to actions
         self._render_widgets()
@@ -92,8 +94,9 @@ class Afterlife:
         )
         self.action_centre_widgets.update(
             button_styles = deque(["Primary.TButton", "Secondary.TButton"]),
-            frames=[], actions=[],
+            actions=[],
         )
+        self.action_centre_notebook.add(self.action_centre_widgets["frame"], text="Dashboard")
 
         # Widgets on root.side_bar
         self.side_bar.update(actions=[])
@@ -124,7 +127,6 @@ class Afterlife:
         for action_idx in range(len(actions.ACTION_CENTRE_ACTIONS)):
             action_row = ttk.Frame(self.action_centre_widgets["frame"])
             action_row.pack(side=TOP, fill=BOTH, expand=1)
-            self.action_centre_widgets["frames"].append(action_row)
 
             for action in actions.ACTION_CENTRE_ACTIONS[action_idx]:
                 button = ttk.Button(action_row, text=action["label"],
@@ -236,7 +238,8 @@ class Afterlife:
         for action in self.chatbot_widgets["actions"]:
             action.pack(side=LEFT, fill=BOTH, expand=0)
 
-        self.action_centre_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
+        self.action_centre_notebook.pack(side=TOP, fill=BOTH, expand=1, padx=10, pady=10)
+        # self.action_centre_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
 
         for action in self.action_centre_widgets["actions"]:
             action.pack(side=LEFT, fill=BOTH, expand=1)
@@ -257,6 +260,7 @@ class Afterlife:
         self.custom_styles.theme_use("clam")
 
         self.custom_styles.configure("Primary.TFrame", background=self.theme["primary_bg"])
+        self.custom_styles.configure("Secondary.TFrame", background=self.theme["secondary_bg"])
 
         self.custom_styles.configure("Secondary.Entry.TLabel",
             background=self.theme["secondary_bg"], foreground=self.theme["fg"],
@@ -275,7 +279,8 @@ class Afterlife:
 
         self.custom_styles.configure("Primary.TButton",
             background=self.theme["primary_bg"], foreground=self.theme["fg"],
-            font=self.theme["font"], width=3, anchor=CENTER, justify=CENTER, cursor="hand1"
+            font=self.theme["font"], #width=3, 
+            anchor=CENTER, justify=CENTER, cursor="hand1"
         )
         self.custom_styles.map("Primary.TButton",
             background=[("active", self.theme["primary_bg"]), ("pressed", self.theme["primary_bg"])],
@@ -285,13 +290,20 @@ class Afterlife:
 
         self.custom_styles.configure("Secondary.TButton",
             background=self.theme["secondary_bg"], foreground=self.theme["fg"],
-            font=self.theme["font"], width=3, anchor=CENTER, justify=CENTER
+            font=self.theme["font"], #width=3, 
+            anchor=CENTER, justify=CENTER
         )
         self.custom_styles.map("Secondary.TButton",
             background=[("active", self.theme["secondary_bg"]), ("pressed", self.theme["secondary_bg"])],
             relief=[('pressed', FLAT), ('!pressed', FLAT)],
             borderwidth=[("active", 5)],
         )
+
+        self.custom_styles.configure("TNotebook", background=self.theme["secondary_bg"],
+            borderwidth=0,)
+        self.custom_styles.configure("TNotebook.Tab", background=self.theme["primary_bg"],
+            borderwidth=0, font=self.theme["font"])
+        # self.custom_styles.map("TNotebook", background=[("selected", self.theme["secondary_bg"])], relief=[('pressed', FLAT), ('!pressed', FLAT)],)
 
         # Render styles for non ttk compatible components
         self.root.config(bg=self.theme['root'])
