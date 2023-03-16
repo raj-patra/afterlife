@@ -329,6 +329,8 @@ class Afterlife:
 
         self.chatbot_widgets["msg_entry"].insert(END, "Type your message...")
 
+        self.action_centre_notebook.enable_traversal()
+
         self.update_widget_content()
 
     def init_keybinds(self):

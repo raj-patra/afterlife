@@ -21,8 +21,10 @@ SIDE_BAR_ACTIONS = [
         label="Microsoft Edge", query="start microsoft-edge:"),
     dict(event="start_app", icon="🎥", icon_file="./assets/icons/video.png",
         label="Movies & TV", query="start mswindowsvideo:"),
+    dict(event="start_app", icon="🗒", icon_file="./assets/icons/spiral_note_pad.png",
+        label="Notepad", query="start notepad"),
     dict(event="start_app", icon="🎨", icon_file="./assets/icons/art.png",
-        label="Paint 3D", query="start ms-paint:"),
+        label="Paint", query="start mspaint"),
     dict(event="start_app", icon="🤳", icon_file="./assets/icons/selfie.png",
         label="Photos", query="start ms-photos:"),
     dict(event="start_app", icon="✂", icon_file="./assets/icons/scissors.png",
@@ -46,13 +48,13 @@ STATUS_BAR_LABELS_RIGHT = [
 ]
 
 STATUS_BAR_ACTIONS = [
-    dict(event="start_app", icon="⚙", icon_file="./assets/icons/gear.png", 
+    dict(event="start_app", icon="⚙", icon_file="./assets/icons/gear.png",
         label="System Settings", query="start ms-settings:"),
-    dict(event="start_app", icon="🗨", icon_file="./assets/icons/messages.png", 
+    dict(event="start_app", icon="🗨", icon_file="./assets/icons/messages.png",
         label="Action Center", query="start ms-actioncenter:"),
-    dict(event="start_app", icon="📶", icon_file="./assets/icons/network.png", 
+    dict(event="start_app", icon="📶", icon_file="./assets/icons/network.png",
         label="Available Networks", query="start ms-availablenetworks:"),
-    dict(event="start_app", icon="🖥", icon_file="./assets/icons/display.png", 
+    dict(event="start_app", icon="🖥", icon_file="./assets/icons/display.png",
         label="Device Discovery", query="start ms-settings-connectabledevices:devicediscovery"),
 ]
 
@@ -75,27 +77,27 @@ ACTION_CENTRE_ACTIONS = {
     ],
     "System Apps": [
         [
-            dict(event="start_app", label="Installed\nApps", query="start explorer.exe Shell:::AppsFolder"),
-            dict(event="start_app", label="Root\nFolder", query="start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"),
+            dict(event="start_app", label="System\nInformation", query="start msinfo32"),
             dict(event="start_app", label="Task\nManager", query="start taskmgr"),
             dict(event="start_app", label="Control\nPanel", query="start control"),
-            dict(event="start_app", label="Command\nPrompt", query="start cmd /k cd /d %USERPROFILE%\Desktop"),
-        ],
-        [
-            dict(event="start_app", label="Run", query="start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"),
-            dict(event="start_app", label="God\nMode", query="start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"),
             dict(event="start_app", label="Device\nManagement", query="start devmgmt"),
             dict(event="start_app", label="Disk\nManagement", query="start diskmgmt"),
+        ],
+        [
+            dict(event="start_app", label="Installed\nApps", query="start explorer.exe Shell:::AppsFolder"),
+            dict(event="start_app", label="Root\nFolder", query="start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"),
+            dict(event="start_app", label="Run", query="start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"),
+            dict(event="start_app", label="God\nMode", query="start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"),
             dict(event="start_app", label="Registry\nEditor", query="start regedit"),
         ],
     ],
     "Health Check": [
         [
-            dict(event="execute_subprocess", label="System\nInfo", query="systeminfo"),
+            dict(event="execute_subprocess", label="Echo System\nInformation", query="systeminfo"),
+            dict(event="execute_subprocess", label="Running\nApps", query="net start"),
             dict(event="execute_subprocess", label="Running\nProcesses", query="tasklist"),
             dict(event="execute_subprocess", label="Environment\nVariables", query="set"),
             dict(event="execute_subprocess", label="Available\nDrivers", query="driverquery"),
-            dict(event="start_app", label="Notepad", query="start notepad"),
         ],
         [
             dict(event="execute_subprocess", label="Ping", query="ping 8.8.8.8"),
@@ -137,10 +139,14 @@ IEXE_ACTIONS = [
 ]
 
 """
-1. System Information - start msinfo32
 2. Address Resolution Protocol - subprocess arp -a
-3. File Extension Association - subprocess assoc
+3. File Extension Association - subprocess ftype
 4. Running Apps - subprocess net start
 5. Local Routing Table - subprocess route print
 6. Local Time Zone - tzutil /g
+7. List MAC Address - subprocess getmac
 """
+
+"""Deprecated Actions"""
+
+# dict(event="start_app", label="Command\nPrompt", query="start cmd /k cd /d %USERPROFILE%\Desktop"),
