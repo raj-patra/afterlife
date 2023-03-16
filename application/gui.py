@@ -225,7 +225,7 @@ class Afterlife:
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
 
         for action in self.side_bar["actions"]:
-            action.pack(side=TOP, fill=BOTH, expand=0, ipady=5)
+            action.pack(side=TOP, fill=BOTH, expand=0, ipady=3)
 
         self.iexe_widgets["query_entry"].pack(side=TOP, fill=BOTH, expand=1)
 
