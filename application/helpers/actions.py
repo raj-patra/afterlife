@@ -1,5 +1,7 @@
 """Call to actions used in afterlife"""
 
+from application.helpers import constants
+
 SIDE_BAR_ACTIONS = [
     dict(event="start_app", icon="⏰", icon_file="./assets/icons/clock.png",
         label="Alarms & Clock", query="start ms-clock:"),
@@ -128,14 +130,14 @@ MENUS = {
 }
 
 CHATBOT_ACTIONS = [
-    dict(event="nicole_respond", icon_file="./assets/icons/arrow_forward.png", label="Send Message (Enter)"),
-    dict(event="nicole_clear", icon_file="./assets/icons/x.png", label="Clear Contents"),
+    dict(event="nicole_respond", icon_file=constants.ARROW_FORWARD_ICON, label="Send Message (Enter)"),
+    dict(event="nicole_clear", icon_file=constants.X_ICON, label="Clear Contents"),
 ]
 
 IEXE_ACTIONS = [
-    dict(icon="🔎", icon_file="./assets/icons/mag_right.png", label="Search Online", event="search_query"),
-    dict(icon="▶", icon_file="./assets/icons/arrow_forward.png", label="Execute Command", event="execute_cmd"),
-    dict(icon="📖", icon_file="./assets/icons/book.png", label="Wiki Article", event="fetch_wiki"),
+    dict(icon="🔎", icon_file=constants.MAG_RIGHT_ICON, label="Search Online", event="search_query"),
+    dict(icon="▶", icon_file=constants.ARROW_FORWARD_ICON, label="Execute Command", event="execute_cmd"),
+    dict(icon="📖", icon_file=constants.BOOK_ICON, label="Wiki Article", event="fetch_wiki"),
 ]
 
 """
