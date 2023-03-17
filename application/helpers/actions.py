@@ -38,26 +38,22 @@ SIDE_BAR_ACTIONS = [
 ]
 
 STATUS_BAR_LABELS_LEFT = [
-    dict(icon="☀ ", icon_file="./assets/icons/high_brightness.png", text="{}"),
-    dict(icon="⚡ ", icon_file="./assets/icons/zap.png", text="{}%"),
-    dict(icon="🧠 ", icon_file="./assets/icons/brain.png", text="{}/{}GB ({}%)"),
-    dict(icon="💾 ", icon_file="./assets/icons/floppy_disk.png", text="{}/{}TB ({}%)"),
+    dict(icon="☀ ", icon_file=constants.HIGH_BRIGHTNESS_ICON, text="{}"),
+    dict(icon="⚡ ", icon_file=constants.ZAP_ICON, text="{}%"),
+    dict(icon="🧠 ", icon_file=constants.BRAIN_ICON, text="{}/{}GB ({}%)"),
+    dict(icon="💾 ", icon_file=constants.FLOPPY_DISK_ICON, text="{}/{}TB ({}%)"),
 ]
 
 STATUS_BAR_LABELS_RIGHT = [
-    dict(icon="🔋 ", icon_file="./assets/icons/battery.png", text="{}%"),
-    dict(icon="⌚ ", icon_file="./assets/icons/clock.png", text="Uptime: {}"),
+    dict(icon="🔋 ", icon_file=constants.BATTERY_ICON, text="{}%"),
+    dict(icon="⌚ ", icon_file=constants.CLOCK_ICON, text="Uptime: {}"),
 ]
 
 STATUS_BAR_ACTIONS = [
-    dict(event="start_app", icon="⚙", icon_file="./assets/icons/gear.png",
-        label="System Settings", query="start ms-settings:"),
-    dict(event="start_app", icon="🗨", icon_file="./assets/icons/messages.png",
-        label="Action Center", query="start ms-actioncenter:"),
-    dict(event="start_app", icon="📶", icon_file="./assets/icons/network.png",
-        label="Available Networks", query="start ms-availablenetworks:"),
-    dict(event="start_app", icon="🖥", icon_file="./assets/icons/display.png",
-        label="Device Discovery", query="start ms-settings-connectabledevices:devicediscovery"),
+    dict(event="start_app", icon="⚙", icon_file=constants.GEAR_ICON, label="System Settings", query="start ms-settings:"),
+    dict(event="start_app", icon="🗨", icon_file=constants.MESSAGES_ICON, label="Action Center", query="start ms-actioncenter:"),
+    dict(event="start_app", icon="📶", icon_file=constants.NETWORK_ICON, label="Available Networks", query="start ms-availablenetworks:"),
+    dict(event="start_app", icon="🖥", icon_file=constants.DISPLAY_ICON, label="Device Discovery", query="start ms-settings-connectabledevices:devicediscovery"),
 ]
 
 ACTION_CENTRE_ACTIONS = {
