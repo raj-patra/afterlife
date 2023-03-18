@@ -13,7 +13,7 @@ SIDE_BAR_ACTIONS = [
     dict(event="start_app", icon="🗺", icon_file=constants.MAPS_ICON, label="Maps", query="start bingmaps:"),
     dict(event="start_app", icon="🌐", icon_file=constants.INTERNET_ICON, label="Microsoft Edge", query="start microsoft-edge:"),
     dict(event="start_app", icon="🎥", icon_file=constants.VIDEO_ICON, label="Movies & TV", query="start mswindowsvideo:"),
-    dict(event="start_app", icon="🗒", icon_file=constants.SPIRAL_NOTE_PAD, label="Notepad", query="start notepad"),
+    dict(event="start_app", icon="🗒", icon_file=constants.SPIRAL_NOTE_PAD_ICON, label="Notepad", query="start notepad"),
     dict(event="start_app", icon="🎨", icon_file=constants.ART_ICON, label="Paint", query="start mspaint"),
     dict(event="start_app", icon="🤳", icon_file=constants.SELFIE_ICON, label="Photos", query="start ms-photos:"),
     dict(event="start_app", icon="✂", icon_file=constants.SCISSORS_ICON, label="Snip & Sketch", query="start ms-ScreenSketch:"),

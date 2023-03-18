@@ -52,7 +52,7 @@ def event_handler_callback(event: str=None, query: str=None):
             return {
                 "title": "Oops... Something went wrong.",
                 "url": "https://{lang_code}.wikipedia.org/wiki/{query}".format(lang_code=lang_code, query=query),
-                "summary": "Error Occured in fetching the article. Seaching externally...",
+                "summary": "Error Occured in fetching the article.",
             }, True
 
 def pc_stats_callback():

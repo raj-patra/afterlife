@@ -76,8 +76,8 @@ class Afterlife:
 
         # Widgets on root.right
         self.chatbot_widgets.update(
-            header_label = ttk.Label(self.chatbot_widgets["frame"], text="Nicole - The Chatbot",
-                style="Secondary.TLabel", anchor=W, font=(themes.DEFAULT_FONT, 10, "bold italic"),
+            header_label = ttk.Label(self.chatbot_widgets["frame"], style="Secondary.TLabel", 
+                text="Nicole - The Chatbot", anchor=W, font=(themes.DEFAULT_FONT, 10, "bold italic"),
             ),
             chat_window_text = Text(self.chatbot_widgets["frame"],
                 bg=self.theme["secondary_bg"], fg=self.theme["fg"],
@@ -437,12 +437,8 @@ class Afterlife:
             elif event == "fetch_wiki":
                 self.prompt_text.config(state=NORMAL)
                 self.prompt_text.delete('1.0', END)
-                response, error = event_handler_callback(event=event, query=query)
-                if error:
-                    self.prompt_text.insert(END, constants.WIKI.format(*response.values()))
-                    self._event_handler(event="open_url", query=response['url'])
-                else:
-                    self.prompt_text.insert(END, constants.WIKI.format(*response.values()))
+                response, _ = event_handler_callback(event=event, query=query)
+                self.prompt_text.insert(END, constants.WIKI.format(*response.values()))
                 self.prompt_text.config(state=DISABLED)
 
             else:
