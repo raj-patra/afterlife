@@ -61,7 +61,7 @@ ACTION_CENTRE_ACTIONS = {
         [
             dict(event="start_app", label="System\nInformation", query="start msinfo32"),
             dict(event="start_app", label="Task\nManager", query="start taskmgr"),
-            dict(event="start_app", label="Control\nPanel", query="start control"),
+            dict(event="start_app", label="Performance\nMonitor", query="start perfmon"),
             dict(event="start_app", label="Device\nManagement", query="start devmgmt"),
             dict(event="start_app", label="Disk\nManagement", query="start diskmgmt"),
         ],
@@ -69,7 +69,7 @@ ACTION_CENTRE_ACTIONS = {
             dict(event="start_app", label="Installed\nApps", query="start explorer.exe Shell:::AppsFolder"),
             dict(event="start_app", label="Root\nFolder", query="start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"),
             dict(event="start_app", label="Run", query="start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"),
-            dict(event="start_app", label="God\nMode", query="start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"),
+            dict(event="start_app", label="Control\nPanel", query="start control"),
             dict(event="start_app", label="Registry\nEditor", query="start regedit"),
         ],
     ],
@@ -87,6 +87,13 @@ ACTION_CENTRE_ACTIONS = {
             dict(event="execute_subprocess", label="Initiate\nDNS Flush", query="ipconfig /flushdns"),
             dict(event="execute_subprocess", label="Network\nConnections", query="netstat -an"),
             dict(event="execute_subprocess", label="IP\nConfigurations", query="ipconfig /allcompartments /all"),
+        ],
+        [
+            dict(event="execute_subprocess", label="Address\nResolution\nProtocol", query="arp -a"),
+            dict(event="execute_subprocess", label="File Type\nAssociation", query="ftype"),
+            dict(event="execute_subprocess", label="Local Routing\nTable", query="route print"),
+            dict(event="execute_subprocess", label="List MAC\nAddresses", query="getmac"),
+            dict(event="start_app", label="God\nMode", query="start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"),
         ],
     ],
 }
@@ -121,12 +128,7 @@ IEXE_ACTIONS = [
 ]
 
 """
-2. Address Resolution Protocol - subprocess arp -a
-3. File Extension Association - subprocess ftype
-4. Running Apps - subprocess net start
-5. Local Routing Table - subprocess route print
-6. Local Time Zone - tzutil /g
-7. List MAC Address - subprocess getmac
+Local Time Zone - tzutil /g
 """
 
 """Deprecated Actions"""
