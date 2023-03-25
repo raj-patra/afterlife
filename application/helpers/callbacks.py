@@ -4,7 +4,6 @@ import subprocess as sp
 import webbrowser
 from tkinter import messagebox
 
-import GPUtil
 import psutil
 import wikipedia
 from application.helpers import constants
