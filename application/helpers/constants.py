@@ -1,13 +1,6 @@
-import subprocess as sp
-
-# ----------------------------------------------------------------------------------
-
-USER = sp.getoutput("whoami")
-
 # ----------------------------------------------------------------------------------
     
-WELCOME_MSG = "Welcome {}!".format(USER.split('+')[1].title())
-
+WELCOME_MSG = "Welcome to the Afterlife!"
 LEFT_STATUS_LABEL = "☀ {}  ⚡ {}%   🧠 {}/{}GB ({}%)   💾 {}/{}TB ({}%)"
 RIGHT_STATUS_LABEL = "Uptime: {} | {} {}% |"
 

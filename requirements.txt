@@ -1,6 +1,5 @@
 psutil
 requests
-GPUtil
 getmac
 wikipedia
 python-aiml

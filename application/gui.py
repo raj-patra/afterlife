@@ -56,9 +56,9 @@ class Afterlife:
         # Widgets on root.header
         self.header.update(
             left_label = ttk.Label(self.header["frame"], text="hello world",
-                style="Primary.TLabel", anchor=W),
+                style="Primary.TLabel", anchor=W, font=(themes.DEFAULT_FONT, 12, "bold italic")),
             right_label = ttk.Label(self.header["frame"], text="clock",
-                style="Primary.TLabel", anchor=E)
+                style="Primary.TLabel", anchor=E, font=(themes.DEFAULT_FONT, 12, "bold italic")),
         )
 
         # Widgets on root.left
