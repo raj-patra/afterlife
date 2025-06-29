@@ -1,4 +1,4 @@
-DEFAULT_THEME = "city_lights"
+DEFAULT_THEME = "og_blue"
 DEFAULT_FONT = "Cascadia Mono"
 
 THEMES = {

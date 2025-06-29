@@ -46,6 +46,7 @@ def event_handler_callback(event: str=None, query: str=None):
                 "title": page.title,
                 "url": page.url,
                 "summary": page.summary,
+                "content": page.content
             }, False
         except Exception:
             return {

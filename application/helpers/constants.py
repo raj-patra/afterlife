@@ -21,13 +21,13 @@ Made with ♥ by a_ignorant_mortal
 # ----------------------------------------------------------------------------------
 
 WIKI = """
-Here's your article...
+Title: {}
+Article URL: {}
 
-Title - {}
-Article URL - {}
+Summary:
+{}
 
-Summary
-
+Content:
 {}
 """
 

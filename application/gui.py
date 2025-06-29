@@ -40,10 +40,12 @@ class Afterlife:
         self.left_section_frame = ttk.Frame(self.root, style="Secondary.TFrame")
         self.right_section_frame = ttk.Frame(self.root, style="Secondary.TFrame")
         self.status_bar = dict(frame=ttk.Frame(self.root, style="Primary.TFrame"))
-        self.side_bar = dict(frame=ttk.Frame(self.left_section_frame, style="Primary.TFrame", borderwidth=7))
+
         self.iexe_widgets = dict(frame=ttk.Frame(self.left_section_frame))
-        self.chatbot_widgets = dict(frame=Frame(self.right_section_frame, pady=1))
-        self.action_centre_notebook = ttk.Notebook(self.right_section_frame)
+        self.action_centre_notebook = ttk.Notebook(self.left_section_frame)
+
+        self.interactive_notebook = ttk.Notebook(self.right_section_frame)
+        self.chatbot_widgets = dict(frame=Frame(self.interactive_notebook, pady=1))
 
         # Render all components and their call to actions
         self._render_widgets()
@@ -62,9 +64,9 @@ class Afterlife:
         )
 
         # Widgets on root.left
-        self.prompt_text = Text(self.left_section_frame,
-            bg=self.theme["primary_bg"], fg=self.theme["fg"],
-            font=self.theme["font"], wrap=WORD, width=50, padx=20, pady=20,
+        self.action_centre_widgets = dict(
+            button_styles = deque(["Primary.TButton", "Secondary.TButton"]),
+            actions=[],
         )
         self.iexe_widgets.update(
             query_entry = Entry(self.iexe_widgets["frame"],
@@ -76,7 +78,7 @@ class Afterlife:
 
         # Widgets on root.right
         self.chatbot_widgets.update(
-            header_label = ttk.Label(self.chatbot_widgets["frame"], style="Secondary.TLabel", 
+            header_label = ttk.Label(self.chatbot_widgets["frame"], style="Secondary.TLabel",
                 text="Nicole - The Chatbot", anchor=W, font=(themes.DEFAULT_FONT, 10, "bold italic"),
             ),
             chat_window_text = Text(self.chatbot_widgets["frame"],
@@ -90,13 +92,13 @@ class Afterlife:
             ),
             actions = [],
         )
-        self.action_centre_widgets = dict(
-            button_styles = deque(["Primary.TButton", "Secondary.TButton"]),
-            actions=[],
+        stdout_frame = ttk.Frame(self.interactive_notebook)
+        self.prompt_text = Text(stdout_frame,
+            bg=self.theme["primary_bg"], fg=self.theme["fg"],
+            font=self.theme["font"], wrap=WORD, width=50, padx=20, pady=20,
         )
-
-        # Widgets on root.side_bar
-        self.side_bar.update(actions=[])
+        self.interactive_notebook.add(stdout_frame, text="Output")
+        self.interactive_notebook.add(self.chatbot_widgets["frame"], text="Nicole")
 
         # Widgets on root.status_bar
         self.status_bar.update(labels_left=[], labels_right=[], actions = [])
@@ -137,14 +139,6 @@ class Afterlife:
                     self.action_centre_widgets["button_styles"].rotate(1)
 
             self.action_centre_notebook.add(notebook_frame, text=section)
-
-        for action in actions.SIDE_BAR_ACTIONS:
-            button_image = PhotoImage(file=action["icon_file"])
-            button = ttk.Button(self.side_bar["frame"], image=button_image,
-                style="Primary.TButton", command=partial(self._event_handler, event=action["event"], query=action["query"]),
-            )
-            button.image=button_image
-            self.side_bar["actions"].append(button)
 
         for label_widget in actions.STATUS_BAR_LABELS_LEFT:
             label_image = PhotoImage(file=label_widget["icon_file"])
@@ -201,7 +195,7 @@ class Afterlife:
             item_menu = Menu(menu_bar, tearoff=0)
             for item in items:
                 if type(item) is dict:
-                    item_menu.add_command(label=item["label"], 
+                    item_menu.add_command(label=item["label"],
                         command=partial(self._event_handler, item["event"], item["query"])
                     )
                 else:
@@ -220,30 +214,25 @@ class Afterlife:
         self.left_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
         self.right_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.side_bar["frame"].pack(side=LEFT, fill=Y, expand=0)
+        # Left section
+        self.action_centre_notebook.pack(side=TOP, fill=BOTH, expand=1, padx=10, pady=10)
+        for action in self.action_centre_widgets["actions"]:
+            action.pack(side=LEFT, fill=BOTH, expand=1)
+
         self.iexe_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
-        self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
-
-        for action in self.side_bar["actions"]:
-            action.pack(side=TOP, fill=BOTH, expand=0, ipady=3)
-
         self.iexe_widgets["query_entry"].pack(side=TOP, fill=BOTH, expand=1)
-
         for action in self.iexe_widgets["actions"]:
             action.pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.chatbot_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
+        # Right section
+        self.interactive_notebook.pack(side=TOP, fill=BOTH, expand=1, padx=10, pady=10)
+        self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
+
         self.chatbot_widgets["header_label"].pack(side=TOP, fill=BOTH, expand=0)
         self.chatbot_widgets["chat_window_text"].pack(side=TOP, fill=BOTH, expand=1)
         self.chatbot_widgets["msg_entry"].pack(side=LEFT, fill=BOTH, expand=1)
-
         for action in self.chatbot_widgets["actions"]:
             action.pack(side=LEFT, fill=BOTH, expand=0)
-
-        self.action_centre_notebook.pack(side=TOP, fill=BOTH, expand=1, padx=10, pady=10)
-
-        for action in self.action_centre_widgets["actions"]:
-            action.pack(side=LEFT, fill=BOTH, expand=1)
 
         for action in self.status_bar["actions"]:
             action.pack(side=RIGHT, fill=BOTH, expand=0)
@@ -280,7 +269,7 @@ class Afterlife:
 
         self.custom_styles.configure("Primary.TButton",
             background=self.theme["primary_bg"], foreground=self.theme["fg"],
-            font=self.theme["font"], width=3, 
+            font=self.theme["font"], width=3,
             anchor=CENTER, justify=CENTER, cursor="hand1"
         )
         self.custom_styles.map("Primary.TButton",
@@ -291,7 +280,7 @@ class Afterlife:
 
         self.custom_styles.configure("Secondary.TButton",
             background=self.theme["secondary_bg"], foreground=self.theme["fg"],
-            font=self.theme["font"], width=3, 
+            font=self.theme["font"], width=3,
             anchor=CENTER, justify=CENTER
         )
         self.custom_styles.map("Secondary.TButton",
@@ -360,12 +349,6 @@ class Afterlife:
         for action_idx in range(len(self.status_bar["actions"])):
             Hovertip(anchor_widget=self.status_bar["actions"][action_idx],
                 text=actions.STATUS_BAR_ACTIONS[action_idx]["label"], hover_delay=100
-            )
-
-        # Hovertips for side bar action widgets
-        for action_idx in range(len(self.side_bar["actions"])):
-            Hovertip(anchor_widget=self.side_bar["actions"][action_idx],
-                text=actions.SIDE_BAR_ACTIONS[action_idx]["label"], hover_delay=100
             )
 
     def update_widget_content(self):
