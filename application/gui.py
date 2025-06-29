@@ -168,11 +168,6 @@ class Afterlife:
         menu_bar = Menu(self.root, tearoff=0)
 
         menu_item = Menu(menu_bar, tearoff=0)
-        menu_item.add_command(label='About', command=about_dialog_callback)
-        menu_item.add_separator()
-        menu_item.add_command(label='Save Prompt', command=self._save_prompt_content, accelerator='Ctrl+S')
-        menu_item.add_command(label='Clear Prompt', command=partial(self._event_handler, event="clear_prompt"), accelerator='Ctrl+Del')
-        menu_item.add_separator()
 
         theme_choice = Menu(menu_bar, tearoff=0)
         theme_choice.add_command(label="Random Theme", command=self._update_app_theme, accelerator='Ctrl+T')
@@ -185,12 +180,21 @@ class Afterlife:
                 theme_category.add_command(label=theme, command=partial(self._update_app_theme, theme))
             theme_choice.add_cascade(label=category, menu=theme_category)
 
-        menu_item.add_cascade(label="Themes", menu=theme_choice)
+        menu_item.add_cascade(label="Appearance", menu=theme_choice)
         menu_item.add_separator()
         menu_item.add_command(label='Send Feedback', command=partial(self._event_handler, "open_url", "https://github.com/raj-patra/afterlife/issues/new"))
+        menu_item.add_command(label='About', command=about_dialog_callback)
         menu_item.add_command(label='Exit', command=partial(destroy_root_callback, self.root), accelerator='Alt+F4')
         menu_bar.add_cascade(label='Application', menu=menu_item)
 
+        # Editor menu
+        editor = Menu(menu_bar, tearoff=0)
+        editor.add_command(label='Save Output', command=self._save_prompt_content, accelerator='Ctrl+S')
+        editor.add_command(label='Clear Output', command=partial(self._event_handler, event="clear_prompt"), accelerator='Ctrl+Del')
+        menu_bar.add_cascade(label='Editor', menu=editor)
+
+        # Extras menu
+        extras = Menu(menu_bar, tearoff=0)
         for label, items in actions.MENUS.items():
             item_menu = Menu(menu_bar, tearoff=0)
             for item in items:
@@ -200,7 +204,8 @@ class Afterlife:
                     )
                 else:
                     item_menu.add_separator()
-            menu_bar.add_cascade(label=label, menu=item_menu)
+            extras.add_cascade(label=label, menu=item_menu)
+        menu_bar.add_cascade(label='Extras', menu=extras)
 
         self.root.config(menu=menu_bar)
 
@@ -293,8 +298,10 @@ class Afterlife:
             borderwidth=0,)
         self.custom_styles.configure("TNotebook.Tab", background=self.theme["primary_bg"],
             foreground=self.theme["fg"], borderwidth=0, font=self.theme["font"])
-        self.custom_styles.map("TNotebook.Tab", background=[("!selected", self.theme["secondary_bg"])],
-            relief=[('pressed', FLAT), ('!pressed', GROOVE)],)
+        self.custom_styles.map("TNotebook.Tab", 
+            background=[("!selected", self.theme["secondary_bg"])],
+            relief=[('pressed', FLAT), ('!pressed', GROOVE)],
+        )
 
         # Render styles for non ttk compatible components
         self.root.config(bg=self.theme['root'])
@@ -421,7 +428,7 @@ class Afterlife:
                 self.prompt_text.config(state=NORMAL)
                 self.prompt_text.delete('1.0', END)
                 response, _ = event_handler_callback(event=event, query=query)
-                self.prompt_text.insert(END, constants.WIKI.format(*response.values()))
+                self.prompt_text.insert(END, constants.WIKI.format(**response))
                 self.prompt_text.config(state=DISABLED)
 
             else:

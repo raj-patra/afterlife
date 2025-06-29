@@ -21,14 +21,14 @@ Made with ♥ by a_ignorant_mortal
 # ----------------------------------------------------------------------------------
 
 WIKI = """
-Title: {}
-Article URL: {}
+Title: {title}
+Article URL: {url}
 
-Summary:
-{}
+= Summary =
+{summary}
 
-Content:
-{}
+= Content =
+{content}
 """
 
 # ----------------------------------------------------------------------------------

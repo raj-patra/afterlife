@@ -1,4 +1,4 @@
-DEFAULT_THEME = "og_blue"
+DEFAULT_THEME = "ayu_mirage"
 DEFAULT_FONT = "Cascadia Mono"
 
 THEMES = {
