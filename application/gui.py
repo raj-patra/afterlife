@@ -6,7 +6,7 @@ from functools import partial
 from tkinter import (Entry, Frame, Menu, PhotoImage, Text, filedialog,
                      messagebox, ttk)
 from tkinter.constants import (BOTH, BOTTOM, CENTER, DISABLED, END, FLAT,
-                               GROOVE, LEFT, NORMAL, RAISED, RIDGE, RIGHT, TOP,
+                               GROOVE, LEFT, NORMAL, RIGHT, TOP,
                                WORD, E, W, X, Y)
 
 from idlelib.tooltip import Hovertip
@@ -200,7 +200,7 @@ class Afterlife:
         for label, items in actions.MENUS.items():
             item_menu = Menu(menu_bar, tearoff=0)
             for item in items:
-                if type(item) == dict:
+                if type(item) is dict:
                     item_menu.add_command(label=item["label"], 
                         command=partial(self._event_handler, item["event"], item["query"])
                     )
@@ -489,7 +489,7 @@ class Afterlife:
 
     def _save_prompt_content(self, event=None):
         handle = filedialog.asksaveasfile(mode="w", defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
-        if handle != None:
+        if handle:
             handle.write(self.prompt_text.get('1.0', 'end'))
             handle.close()
             messagebox.showinfo('Info', 'The contents of the Text Widget has been saved.')
