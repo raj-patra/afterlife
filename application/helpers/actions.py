@@ -2,48 +2,44 @@
 
 from application.helpers import constants
 
-STATUS_BAR_LABELS_LEFT = [
+STATUS_BAR_STATS = [
     dict(icon="☀ ", icon_file=constants.HIGH_BRIGHTNESS_ICON, text="{}"),
-    dict(icon="⚡ ", icon_file=constants.ZAP_ICON, text="{}%"),
-    dict(icon="🧠 ", icon_file=constants.BRAIN_ICON, text="{}/{}GB ({}%)"),
+    dict(icon="🔋", icon_file=constants.BATTERY_ICON, text="{}%"),
     dict(icon="💾 ", icon_file=constants.FLOPPY_DISK_ICON, text="{}/{}TB ({}%)"),
-]
-
-STATUS_BAR_LABELS_RIGHT = [
-    dict(icon="🔋 ", icon_file=constants.BATTERY_ICON, text="{}%"),
-    dict(icon="⌚ ", icon_file=constants.CLOCK_ICON, text="Uptime: {}"),
-]
-
-STATUS_BAR_ACTIONS = [
-    dict(event="open_app", icon="⚙", icon_file=constants.GEAR_ICON, label="System Settings", query="start ms-settings:"),
-    dict(event="open_app", icon="🗨", icon_file=constants.MESSAGES_ICON, label="Action Center", query="start ms-actioncenter:"),
-    dict(event="open_app", icon="📶", icon_file=constants.NETWORK_ICON, label="Available Networks", query="start ms-availablenetworks:"),
-    dict(event="open_app", icon="🖥", icon_file=constants.DISPLAY_ICON, label="Device Discovery", query="start ms-settings-connectabledevices:devicediscovery"),
+    dict(icon="🖥️", icon_file=constants.BRAIN_ICON, text="{}/{}GB ({}%)"),
+    dict(icon="⚡", icon_file=constants.ZAP_ICON, text="{}%"),
 ]
 
 ACTION_CENTRE_ACTIONS = {
     "Windows apps": [
         [
-            dict(event="open_app", icon="⏰", icon_file=constants.CLOCK_ICON, label="Alarms & Clock", query="start ms-clock:"),
-            dict(event="open_app", icon="➗", icon_file=constants.DIVISION_ICON, label="Calculator", query="start calculator:"),
-            dict(event="open_app", icon="📆", icon_file=constants.CALENDAR_ICON, label="Calendar", query="start outlook cal:"),
-            dict(event="open_app", icon="📸", icon_file=constants.CAMERA_ICON, label="Camera", query="start microsoft.windows.camera:"),
-            dict(event="open_app", icon="🎶", icon_file=constants.MUSIC_ICON, label="Groove Music", query="start mswindowsmusic:"),
+            dict(event="open_app", label="🤖 Microsoft\nCopilot", query="start ms-copilot:"),
+            dict(event="open_app", label="🌐 Microsoft\nEdge", query="start microsoft-edge:"),
+            dict(event="open_app", label="➗ Calculator", query="start calculator:"),
+            dict(event="open_app", label="📆 Calendar", query="start outlook cal:"),
+            dict(event="open_app", label="📸 Camera", query="start microsoft.windows.camera:"),
         ],
         [
-            dict(event="open_app", icon="📧", icon_file=constants.EMAIL_ICON, label="Mail", query="start outlookmail:"),
-            dict(event="open_app", icon="🗺", icon_file=constants.MAPS_ICON, label="Maps", query="start bingmaps:"),
-            dict(event="open_app", icon="🌐", icon_file=constants.INTERNET_ICON, label="Microsoft Edge", query="start microsoft-edge:"),
-            dict(event="open_app", icon="🎥", icon_file=constants.VIDEO_ICON, label="Movies & TV", query="start mswindowsvideo:"),
-            dict(event="open_app", icon="🗒", icon_file=constants.SPIRAL_NOTE_PAD_ICON, label="Notepad", query="start notepad"),
+            dict(event="open_app", label="⏰ Alarms & Clock", query="start ms-clock:"),
+            dict(event="open_app", label="📧 Mail", query="start outlookmail:"),
+            dict(event="open_app", label="🗺 Maps", query="start bingmaps:"),
+            dict(event="open_app", label="🎥 Movies & TV", query="start mswindowsvideo:"),
+            dict(event="open_app", label="🎶 Groove Music", query="start mswindowsmusic:"),
         ],
         [
-            dict(event="open_app", icon="🎨", icon_file=constants.ART_ICON, label="Paint", query="start mspaint"),
-            dict(event="open_app", icon="🤳", icon_file=constants.SELFIE_ICON, label="Photos", query="start ms-photos:"),
-            dict(event="open_app", icon="✂", icon_file=constants.SCISSORS_ICON, label="Snip & Sketch", query="start ms-ScreenSketch:"),
-            dict(event="open_app", icon="⛅", icon_file=constants.WEATHER_ICON, label="Weather", query="start bingweather:"),
-            dict(event="open_app", icon="🔐", icon_file=constants.LOCK_ICON, label="Windows Security", query="start windowsdefender:"),
-        ]
+            dict(event="open_app", label="🤳 Photos", query="start ms-photos:"),
+            dict(event="open_app", label="🎨 Paint", query="start mspaint"),
+            dict(event="open_app", label="✂ Snip & Sketch", query="start ms-ScreenSketch:"),
+            dict(event="open_app", label="🗒 Notepad", query="start notepad"),
+            dict(event="open_app", label="⛅ Weather", query="start bingweather:"),
+        ],
+        [
+            dict(event="open_app", label="🗨 Action\nCenter", query="start ms-actioncenter:"),
+            dict(event="open_app", label="📶 Available\nNetworks", query="start ms-availablenetworks:"),
+            dict(event="open_app", label="🖥 Device\nDiscovery", query="start ms-settings-connectabledevices:devicediscovery"),
+            dict(event="open_app", label="🔐 Windows\nSecurity", query="start windowsdefender:"),
+            dict(event="open_app", label="⚙ System\nSettings", query="start ms-settings:"),
+        ],
     ],
     "Power user": [
         [

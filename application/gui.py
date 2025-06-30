@@ -36,15 +36,18 @@ class Afterlife:
         )
 
         # Root - Frames
-        self.header = dict(frame=ttk.Frame(self.root))
-        self.left_section_frame = ttk.Frame(self.root, style="Secondary.TFrame")
-        self.right_section_frame = ttk.Frame(self.root, style="Secondary.TFrame")
+        self.root_pw = ttk.Panedwindow(self.root, orient='horizontal', style="Primary.TPanedwindow")
         self.status_bar = dict(frame=ttk.Frame(self.root, style="Primary.TFrame"))
 
-        self.iexe_widgets = dict(frame=ttk.Frame(self.left_section_frame))
-        self.action_centre_notebook = ttk.Notebook(self.left_section_frame)
+        self.left_root_frame = ttk.Frame(self.root_pw, style="Secondary.TFrame")
+        self.right_root_frame = ttk.Frame(self.root_pw, style="Secondary.TFrame")
+        self.root_pw.insert("end", self.left_root_frame)
+        self.root_pw.insert("end", self.right_root_frame)
 
-        self.interactive_notebook = ttk.Notebook(self.right_section_frame)
+        self.iexe_widgets = dict(frame=ttk.Frame(self.left_root_frame))
+        self.action_centre_notebook = ttk.Notebook(self.left_root_frame)
+
+        self.interactive_notebook = ttk.Notebook(self.right_root_frame)
         self.chatbot_widgets = dict(frame=Frame(self.interactive_notebook, pady=1))
 
         # Render all components and their call to actions
@@ -54,14 +57,6 @@ class Afterlife:
 
     def _render_widgets(self):
         """Render widgets for all components"""
-
-        # Widgets on root.header
-        self.header.update(
-            left_label = ttk.Label(self.header["frame"], text="hello world",
-                style="Primary.TLabel", anchor=W, font=(themes.DEFAULT_FONT, 12, "bold italic")),
-            right_label = ttk.Label(self.header["frame"], text="clock",
-                style="Primary.TLabel", anchor=E, font=(themes.DEFAULT_FONT, 12, "bold italic")),
-        )
 
         # Widgets on root.left
         self.action_centre_widgets = dict(
@@ -78,9 +73,6 @@ class Afterlife:
 
         # Widgets on root.right
         self.chatbot_widgets.update(
-            header_label = ttk.Label(self.chatbot_widgets["frame"], style="Secondary.TLabel",
-                text="Nicole - The Chatbot", anchor=W, font=(themes.DEFAULT_FONT, 10, "bold italic"),
-            ),
             chat_window_text = Text(self.chatbot_widgets["frame"],
                 bg=self.theme["secondary_bg"], fg=self.theme["fg"],
                 font=self.theme["font"], wrap=WORD, width=50, height=15, padx=20, pady=20,
@@ -98,10 +90,10 @@ class Afterlife:
             font=self.theme["font"], wrap=WORD, width=50, padx=20, pady=20,
         )
         self.interactive_notebook.add(stdout_frame, text="Output")
-        self.interactive_notebook.add(self.chatbot_widgets["frame"], text="Nicole")
+        self.interactive_notebook.add(self.chatbot_widgets["frame"], text="Nicole chatbot")
 
         # Widgets on root.status_bar
-        self.status_bar.update(labels_left=[], labels_right=[], actions = [])
+        self.status_bar.update(sb_components_left={}, sb_components_right=[])
 
     def _render_actions(self):
         """Render action widgets for all components"""
@@ -132,7 +124,7 @@ class Afterlife:
 
                 for actionn in action_row:
                     button = ttk.Button(action_frame, text=actionn["label"],
-                        style=self.action_centre_widgets["button_styles"][0],
+                        style=self.action_centre_widgets["button_styles"][0], width=20,
                         command=partial(self._event_handler, event=actionn["event"], query=actionn["query"]),
                     )
                     self.action_centre_widgets["actions"].append(button)
@@ -140,27 +132,14 @@ class Afterlife:
 
             self.action_centre_notebook.add(notebook_frame, text=section)
 
-        for label_widget in actions.STATUS_BAR_LABELS_LEFT:
-            label_image = PhotoImage(file=label_widget["icon_file"])
-            label = ttk.Label(self.status_bar["frame"], image=label_image,
-                style="Primary.TLabel", compound=LEFT, anchor=W)
-            label.image = label_image
-            self.status_bar["labels_left"].append(label)
+        self.status_bar["sb_components_left"].update(
+            clock = ttk.Label(self.status_bar["frame"], text="clock",
+                style="Primary.TLabel", anchor=W, font=(themes.DEFAULT_FONT, 12, "italic"))
+        )
 
-        for label_widget in actions.STATUS_BAR_LABELS_RIGHT:
-            label_image = PhotoImage(file=label_widget["icon_file"])
-            label = ttk.Label(self.status_bar["frame"], image=label_image,
-                style="Primary.TLabel", compound=LEFT, anchor=W)
-            label.image = label_image
-            self.status_bar["labels_right"].append(label)
-
-        for action in actions.STATUS_BAR_ACTIONS:
-            button_image = PhotoImage(file=action["icon_file"])
-            button = ttk.Button(self.status_bar["frame"], image=button_image, style="Primary.TButton",
-                command=partial(self._event_handler, event=action["event"], query=action["query"]),
-            )
-            button.image=button_image
-            self.status_bar["actions"].append(button)
+        for label_widget in actions.STATUS_BAR_STATS:
+            label = ttk.Label(self.status_bar["frame"], style="Primary.TLabel", compound=LEFT, anchor=W)
+            self.status_bar["sb_components_right"].append(label)
 
     def _render_menu(self):
         """Render menu bar for the application"""
@@ -210,16 +189,10 @@ class Afterlife:
         self.root.config(menu=menu_bar)
 
     def apply_position(self):
-        self.header["frame"].pack(side=TOP, fill=X, expand=0)
+        self.root_pw.pack(side=TOP, fill=BOTH, expand=1)
         self.status_bar["frame"].pack(side=BOTTOM, fill=X, expand=0)
 
-        self.header["left_label"].pack(side=LEFT, fill=BOTH, expand=1)
-        self.header["right_label"].pack(side=LEFT, fill=BOTH, expand=1)
-
-        self.left_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
-        self.right_section_frame.pack(side=LEFT, fill=BOTH, expand=1)
-
-        # Left section
+        # root.left
         self.action_centre_notebook.pack(side=TOP, fill=BOTH, expand=1, padx=10, pady=10)
         for action in self.action_centre_widgets["actions"]:
             action.pack(side=LEFT, fill=BOTH, expand=1)
@@ -229,24 +202,21 @@ class Afterlife:
         for action in self.iexe_widgets["actions"]:
             action.pack(side=LEFT, fill=BOTH, expand=1)
 
-        # Right section
+        # root.right
         self.interactive_notebook.pack(side=TOP, fill=BOTH, expand=1, padx=10, pady=10)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
 
-        self.chatbot_widgets["header_label"].pack(side=TOP, fill=BOTH, expand=0)
         self.chatbot_widgets["chat_window_text"].pack(side=TOP, fill=BOTH, expand=1)
         self.chatbot_widgets["msg_entry"].pack(side=LEFT, fill=BOTH, expand=1)
         for action in self.chatbot_widgets["actions"]:
             action.pack(side=LEFT, fill=BOTH, expand=0)
 
-        for action in self.status_bar["actions"]:
-            action.pack(side=RIGHT, fill=BOTH, expand=0)
+        # root.status_bar
+        for component in self.status_bar["sb_components_left"].values():
+            component.pack(side=LEFT, fill=BOTH, expand=0)
 
-        for action in self.status_bar["labels_left"]:
-            action.pack(side=LEFT, fill=BOTH, expand=0)
-
-        for action in self.status_bar["labels_right"]:
-            action.pack(side=RIGHT, fill=BOTH, expand=0)
+        for component in self.status_bar["sb_components_right"]:
+            component.pack(side=RIGHT, fill=BOTH, expand=0)
 
     def apply_styles(self):
         """Render styles for all ttk based components"""
@@ -320,9 +290,6 @@ class Afterlife:
         self.iexe_widgets["query_entry"].insert(END, "> ")
         self._event_handler(event="init_app")
 
-        self.header["left_label"].config(text=constants.WELCOME_MSG)
-        self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
-
         self.chatbot_widgets["msg_entry"].insert(END, "Type your message...")
 
         self.action_centre_notebook.enable_traversal()
@@ -353,47 +320,34 @@ class Afterlife:
                 text=actions.CHATBOT_ACTIONS[action_idx]["label"], hover_delay=100
             )
 
-        # Hovertips for status bar action widgets
-        for action_idx in range(len(self.status_bar["actions"])):
-            Hovertip(anchor_widget=self.status_bar["actions"][action_idx],
-                text=actions.STATUS_BAR_ACTIONS[action_idx]["label"], hover_delay=100
-            )
-
     def update_widget_content(self):
 
         def loop():
 
             pc_stats = pc_stats_callback()
 
-            label_info_left = [
+            status_bar_stats= [
                 [   self.theme["name"]  ],
-                [   pc_stats["cpu_usage"]   ],
-                [
-                    pc_stats["virtual_memory_used"],
-                    pc_stats["virtual_memory_total"],
-                    pc_stats["virtual_memory_percent"]
-                ],
+                [   pc_stats["battery_usage"]   ],
                 [
                     pc_stats["disk_used"],
                     pc_stats["disk_total"],
                     pc_stats["disk_percent"]
                 ],
+                [
+                    pc_stats["virtual_memory_used"],
+                    pc_stats["virtual_memory_total"],
+                    pc_stats["virtual_memory_percent"]
+                ],
+                [   pc_stats["cpu_usage"]   ],
             ]
-            label_info_right= [
-                [   pc_stats["battery_usage"]   ],
-                [   time.strftime("%Hhrs %Mmin", time.localtime(time.time() - pc_stats["boot_time"]))   ],
-            ]
 
-            self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
+            self.status_bar["sb_components_left"]["clock"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
 
-            for label_idx in range(len(self.status_bar["labels_left"])):
-                self.status_bar["labels_left"][label_idx].config(
-                    text=actions.STATUS_BAR_LABELS_LEFT[label_idx]["text"].format(*label_info_left[label_idx])
-                )
-
-            for label_idx in range(len(self.status_bar["labels_right"])):
-                self.status_bar["labels_right"][label_idx].config(
-                    text=actions.STATUS_BAR_LABELS_RIGHT[label_idx]["text"].format(*label_info_right[label_idx])
+            for label_idx in range(len(self.status_bar["sb_components_right"])):
+                self.status_bar["sb_components_right"][label_idx].config(
+                    text=actions.STATUS_BAR_STATS[label_idx]["icon"]+\
+                        actions.STATUS_BAR_STATS[label_idx]["text"].format(*status_bar_stats[label_idx])
                 )
 
             self.root.after(5000, loop)
@@ -417,6 +371,7 @@ class Afterlife:
             self.prompt_text.config(state=DISABLED)
 
         elif event == "execute_subprocess":
+            self.interactive_notebook.select(0)
             self.prompt_text.config(state=NORMAL)
             self.prompt_text.delete('1.0', END)
             response = event_handler_callback(event=event, query=query)
