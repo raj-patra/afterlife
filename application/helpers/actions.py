@@ -43,17 +43,17 @@ ACTION_CENTRE_ACTIONS = {
     ],
     "Power user": [
         [
-            dict(event="open_app", label="System\nInformation", query="start msinfo32"),
             dict(event="open_app", label="Task\nManager", query="start taskmgr"),
+            dict(event="open_app", label="Reliability\nMonitor", query="perfmon /rel"),
             dict(event="open_app", label="Performance\nMonitor", query="start perfmon"),
             dict(event="open_app", label="Device\nManagement", query="start devmgmt"),
             dict(event="open_app", label="Disk\nManagement", query="start diskmgmt"),
         ],
         [
-            dict(event="open_app", label="Installed\nApps", query="start explorer.exe Shell:::AppsFolder"),
             dict(event="open_app", label="User\nFolder", query="start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"),
-            dict(event="open_app", label="Run", query="start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"),
             dict(event="open_app", label="Control\nPanel", query="start control"),
+            dict(event="open_app", label="Run", query="start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"),
+            dict(event="open_app", label="System\nInformation", query="start msinfo32"),
             dict(event="open_app", label="Registry\nEditor", query="start regedit"),
         ],
         [

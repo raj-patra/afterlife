@@ -49,7 +49,8 @@ class Afterlife:
 
         # Right section - Frames
         self.interactive_notebook = ttk.Notebook(self.right_root_frame, style="Secondary.TNotebook")
-        self.chatbot_widgets = dict(frame=Frame(self.interactive_notebook, pady=1))
+        self.stdout_frame = ttk.Frame(self.interactive_notebook)
+        self.chatbot_widgets = dict(frame=Frame(self.interactive_notebook))
 
         # Render all components and their call to actions
         self._render_widgets()
@@ -67,16 +68,18 @@ class Afterlife:
         self.iexe_widgets.update(
             query_entry = Entry(self.iexe_widgets["frame"],
                 bg=self.theme["secondary_bg"], fg=self.theme["fg"], font=self.theme["font"],
-                bd=5, width=28, insertbackground="white",
+                bd=5, insertbackground="white",
             ),
             actions=[],
         )
 
         # Widgets on root.right
+        self.stdout_text = Text(self.stdout_frame,
+            font=self.theme["font"], wrap=WORD, padx=20, pady=20,
+        )
         self.chatbot_widgets.update(
             chat_window_text = Text(self.chatbot_widgets["frame"],
-                bg=self.theme["secondary_bg"], fg=self.theme["fg"],
-                font=self.theme["font"], wrap=WORD, width=50, height=15, padx=20, pady=20,
+                font=self.theme["font"], wrap=WORD, padx=20, pady=20,
                 state=DISABLED, spacing1=1, spacing3=1,
             ),
             msg_entry = Entry(self.chatbot_widgets["frame"],
@@ -85,13 +88,6 @@ class Afterlife:
             ),
             actions = [],
         )
-        stdout_frame = ttk.Frame(self.interactive_notebook)
-        self.prompt_text = Text(stdout_frame,
-            bg=self.theme["primary_bg"], fg=self.theme["fg"],
-            font=self.theme["font"], wrap=WORD, width=50, padx=20, pady=20,
-        )
-        self.interactive_notebook.add(stdout_frame, text="Output")
-        self.interactive_notebook.add(self.chatbot_widgets["frame"], text="Nicole chatbot")
 
         # Widgets on root.status_bar
         self.status_bar.update(sb_components_left={}, sb_components_right=[])
@@ -209,8 +205,10 @@ class Afterlife:
 
         # root.right
         self.interactive_notebook.pack(side=TOP, fill=BOTH, expand=1)
-        self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
+        self.interactive_notebook.add(self.stdout_frame, text="Output")
+        self.interactive_notebook.add(self.chatbot_widgets["frame"], text="Nicole chatbot")
 
+        self.stdout_text.pack(side=TOP, fill=BOTH, expand=1)
         self.chatbot_widgets["chat_window_text"].pack(side=TOP, fill=BOTH, expand=1)
         self.chatbot_widgets["msg_entry"].pack(side=LEFT, fill=BOTH, expand=1)
         for action in self.chatbot_widgets["actions"]:
@@ -291,9 +289,9 @@ class Afterlife:
 
         # Render styles for non ttk compatible components
         self.root.config(bg=self.theme['root'])
-        self.prompt_text.config(bg=self.theme["primary_bg"], fg=self.theme["fg"])
+        self.stdout_text.config(bg=self.theme["primary_bg"], fg=self.theme["fg"])
         self.iexe_widgets["query_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"])
-        self.chatbot_widgets["chat_window_text"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"])
+        self.chatbot_widgets["chat_window_text"].config(bg=self.theme["primary_bg"], fg=self.theme["fg"])
         self.chatbot_widgets["msg_entry"].config(bg=self.theme["secondary_bg"], fg=self.theme["fg"])
 
     def init_widgets(self):
@@ -366,33 +364,35 @@ class Afterlife:
                         actions.STATUS_BAR_STATS[label_idx]["text"].format(*status_bar_stats[label_idx])
                 )
 
-            self.root.after(5000, loop)
+            self.root.after(10000, loop)
 
         loop()
 
     def _event_handler(self, event: str=None, query: str=None):
 
         if event == "init_app":
-            self.prompt_text.config(state=NORMAL)
-            self.prompt_text.delete('1.0', END)
-            self.prompt_text.insert(END, constants.INIT_MSG)
-            self.prompt_text.config(state=DISABLED)
+            self.stdout_text.config(state=NORMAL)
+            self.stdout_text.delete('1.0', END)
+            self.stdout_text.tag_configure("center", justify="center")
+            self.stdout_text.insert(END, constants.INIT_MSG)
+            self.stdout_text.tag_add("center", "1.0", "end")
+            self.stdout_text.config(state=DISABLED)
 
         elif event in ["open_app", "open_url"]:
             event_handler_callback(event=event, query=query)
 
         elif event == "clear_prompt":
-            self.prompt_text.config(state=NORMAL)
-            self.prompt_text.delete('1.0', END)
-            self.prompt_text.config(state=DISABLED)
+            self.stdout_text.config(state=NORMAL)
+            self.stdout_text.delete('1.0', END)
+            self.stdout_text.config(state=DISABLED)
 
         elif event == "execute_subprocess":
             self.interactive_notebook.select(0)
-            self.prompt_text.config(state=NORMAL)
-            self.prompt_text.delete('1.0', END)
+            self.stdout_text.config(state=NORMAL)
+            self.stdout_text.delete('1.0', END)
             response = event_handler_callback(event=event, query=query)
-            self.prompt_text.insert(END, response.strip())
-            self.prompt_text.config(state=DISABLED)
+            self.stdout_text.insert(END, response.strip())
+            self.stdout_text.config(state=DISABLED)
 
         elif event in ["search_query", "execute_cmd", "fetch_wiki"]:
             query = self.iexe_widgets["query_entry"].get()
@@ -403,11 +403,11 @@ class Afterlife:
                 event_handler_callback(event="open_app", query="start cmd /k "+query)
 
             elif event == "fetch_wiki":
-                self.prompt_text.config(state=NORMAL)
-                self.prompt_text.delete('1.0', END)
+                self.stdout_text.config(state=NORMAL)
+                self.stdout_text.delete('1.0', END)
                 response, _ = event_handler_callback(event=event, query=query)
-                self.prompt_text.insert(END, constants.WIKI.format(**response))
-                self.prompt_text.config(state=DISABLED)
+                self.stdout_text.insert(END, constants.WIKI.format(**response))
+                self.stdout_text.config(state=DISABLED)
 
             else:
                 event_handler_callback(event=event, query=query)
@@ -458,7 +458,7 @@ class Afterlife:
     def _save_prompt_content(self, event=None):
         handle = filedialog.asksaveasfile(mode="w", defaultextension='.txt', filetypes = [('Text', '*.txt'),('All files', '*')])
         if handle:
-            handle.write(self.prompt_text.get('1.0', 'end'))
+            handle.write(self.stdout_text.get('1.0', 'end'))
             handle.close()
             messagebox.showinfo('Info', 'The contents of the Text Widget has been saved.')
 
