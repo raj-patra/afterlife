@@ -312,13 +312,13 @@ class Afterlife:
 
     def init_widgets(self):
 
-        random_wiki_article = random_article_callback()
-        if random_wiki_article:
-            self.iexe_widgets["query_entry"].insert(END, "> "+random_wiki_article)
-            self._event_handler(event="fetch_wiki")
-        else:
-            self.iexe_widgets["query_entry"].insert(END, "> ")
-            self._event_handler(event="execute_subprocess", query="systeminfo")
+        # random_wiki_article = random_article_callback()
+        # if random_wiki_article:
+        #     self.iexe_widgets["query_entry"].insert(END, "> "+random_wiki_article)
+        #     self._event_handler(event="fetch_wiki")
+        # else:
+        self.iexe_widgets["query_entry"].insert(END, "> ")
+        self._event_handler(event="init_app")
 
         self.header["left_label"].config(text=constants.WELCOME_MSG)
         self.header["right_label"].config(text=time.strftime(" %I:%M %p - %A - %d %B %Y", time.localtime()))
@@ -326,6 +326,7 @@ class Afterlife:
         self.chatbot_widgets["msg_entry"].insert(END, "Type your message...")
 
         self.action_centre_notebook.enable_traversal()
+        self.interactive_notebook.enable_traversal()
 
         self.update_widget_content()
 
@@ -401,7 +402,13 @@ class Afterlife:
 
     def _event_handler(self, event: str=None, query: str=None):
 
-        if event in ["start_app", "open_url"]:
+        if event == "init_app":
+            self.prompt_text.config(state=NORMAL)
+            self.prompt_text.delete('1.0', END)
+            self.prompt_text.insert(END, constants.INIT_MSG)
+            self.prompt_text.config(state=DISABLED)
+
+        elif event in ["open_app", "open_url"]:
             event_handler_callback(event=event, query=query)
 
         elif event == "clear_prompt":
@@ -422,7 +429,7 @@ class Afterlife:
                 query = query.split('>')[-1]
 
             if event == "execute_cmd":
-                event_handler_callback(event="start_app", query="start cmd /k "+query)
+                event_handler_callback(event="open_app", query="start cmd /k "+query)
 
             elif event == "fetch_wiki":
                 self.prompt_text.config(state=NORMAL)

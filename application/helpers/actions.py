@@ -15,50 +15,50 @@ STATUS_BAR_LABELS_RIGHT = [
 ]
 
 STATUS_BAR_ACTIONS = [
-    dict(event="start_app", icon="⚙", icon_file=constants.GEAR_ICON, label="System Settings", query="start ms-settings:"),
-    dict(event="start_app", icon="🗨", icon_file=constants.MESSAGES_ICON, label="Action Center", query="start ms-actioncenter:"),
-    dict(event="start_app", icon="📶", icon_file=constants.NETWORK_ICON, label="Available Networks", query="start ms-availablenetworks:"),
-    dict(event="start_app", icon="🖥", icon_file=constants.DISPLAY_ICON, label="Device Discovery", query="start ms-settings-connectabledevices:devicediscovery"),
+    dict(event="open_app", icon="⚙", icon_file=constants.GEAR_ICON, label="System Settings", query="start ms-settings:"),
+    dict(event="open_app", icon="🗨", icon_file=constants.MESSAGES_ICON, label="Action Center", query="start ms-actioncenter:"),
+    dict(event="open_app", icon="📶", icon_file=constants.NETWORK_ICON, label="Available Networks", query="start ms-availablenetworks:"),
+    dict(event="open_app", icon="🖥", icon_file=constants.DISPLAY_ICON, label="Device Discovery", query="start ms-settings-connectabledevices:devicediscovery"),
 ]
 
 ACTION_CENTRE_ACTIONS = {
     "Windows apps": [
         [
-            dict(event="start_app", icon="⏰", icon_file=constants.CLOCK_ICON, label="Alarms & Clock", query="start ms-clock:"),
-            dict(event="start_app", icon="➗", icon_file=constants.DIVISION_ICON, label="Calculator", query="start calculator:"),
-            dict(event="start_app", icon="📆", icon_file=constants.CALENDAR_ICON, label="Calendar", query="start outlook cal:"),
-            dict(event="start_app", icon="📸", icon_file=constants.CAMERA_ICON, label="Camera", query="start microsoft.windows.camera:"),
-            dict(event="start_app", icon="🎶", icon_file=constants.MUSIC_ICON, label="Groove Music", query="start mswindowsmusic:"),
+            dict(event="open_app", icon="⏰", icon_file=constants.CLOCK_ICON, label="Alarms & Clock", query="start ms-clock:"),
+            dict(event="open_app", icon="➗", icon_file=constants.DIVISION_ICON, label="Calculator", query="start calculator:"),
+            dict(event="open_app", icon="📆", icon_file=constants.CALENDAR_ICON, label="Calendar", query="start outlook cal:"),
+            dict(event="open_app", icon="📸", icon_file=constants.CAMERA_ICON, label="Camera", query="start microsoft.windows.camera:"),
+            dict(event="open_app", icon="🎶", icon_file=constants.MUSIC_ICON, label="Groove Music", query="start mswindowsmusic:"),
         ],
         [
-            dict(event="start_app", icon="📧", icon_file=constants.EMAIL_ICON, label="Mail", query="start outlookmail:"),
-            dict(event="start_app", icon="🗺", icon_file=constants.MAPS_ICON, label="Maps", query="start bingmaps:"),
-            dict(event="start_app", icon="🌐", icon_file=constants.INTERNET_ICON, label="Microsoft Edge", query="start microsoft-edge:"),
-            dict(event="start_app", icon="🎥", icon_file=constants.VIDEO_ICON, label="Movies & TV", query="start mswindowsvideo:"),
-            dict(event="start_app", icon="🗒", icon_file=constants.SPIRAL_NOTE_PAD_ICON, label="Notepad", query="start notepad"),
+            dict(event="open_app", icon="📧", icon_file=constants.EMAIL_ICON, label="Mail", query="start outlookmail:"),
+            dict(event="open_app", icon="🗺", icon_file=constants.MAPS_ICON, label="Maps", query="start bingmaps:"),
+            dict(event="open_app", icon="🌐", icon_file=constants.INTERNET_ICON, label="Microsoft Edge", query="start microsoft-edge:"),
+            dict(event="open_app", icon="🎥", icon_file=constants.VIDEO_ICON, label="Movies & TV", query="start mswindowsvideo:"),
+            dict(event="open_app", icon="🗒", icon_file=constants.SPIRAL_NOTE_PAD_ICON, label="Notepad", query="start notepad"),
         ],
         [
-            dict(event="start_app", icon="🎨", icon_file=constants.ART_ICON, label="Paint", query="start mspaint"),
-            dict(event="start_app", icon="🤳", icon_file=constants.SELFIE_ICON, label="Photos", query="start ms-photos:"),
-            dict(event="start_app", icon="✂", icon_file=constants.SCISSORS_ICON, label="Snip & Sketch", query="start ms-ScreenSketch:"),
-            dict(event="start_app", icon="⛅", icon_file=constants.WEATHER_ICON, label="Weather", query="start bingweather:"),
-            dict(event="start_app", icon="🔐", icon_file=constants.LOCK_ICON, label="Windows Security", query="start windowsdefender:"),
+            dict(event="open_app", icon="🎨", icon_file=constants.ART_ICON, label="Paint", query="start mspaint"),
+            dict(event="open_app", icon="🤳", icon_file=constants.SELFIE_ICON, label="Photos", query="start ms-photos:"),
+            dict(event="open_app", icon="✂", icon_file=constants.SCISSORS_ICON, label="Snip & Sketch", query="start ms-ScreenSketch:"),
+            dict(event="open_app", icon="⛅", icon_file=constants.WEATHER_ICON, label="Weather", query="start bingweather:"),
+            dict(event="open_app", icon="🔐", icon_file=constants.LOCK_ICON, label="Windows Security", query="start windowsdefender:"),
         ]
     ],
     "Power user": [
         [
-            dict(event="start_app", label="System\nInformation", query="start msinfo32"),
-            dict(event="start_app", label="Task\nManager", query="start taskmgr"),
-            dict(event="start_app", label="Performance\nMonitor", query="start perfmon"),
-            dict(event="start_app", label="Device\nManagement", query="start devmgmt"),
-            dict(event="start_app", label="Disk\nManagement", query="start diskmgmt"),
+            dict(event="open_app", label="System\nInformation", query="start msinfo32"),
+            dict(event="open_app", label="Task\nManager", query="start taskmgr"),
+            dict(event="open_app", label="Performance\nMonitor", query="start perfmon"),
+            dict(event="open_app", label="Device\nManagement", query="start devmgmt"),
+            dict(event="open_app", label="Disk\nManagement", query="start diskmgmt"),
         ],
         [
-            dict(event="start_app", label="Installed\nApps", query="start explorer.exe Shell:::AppsFolder"),
-            dict(event="start_app", label="User\nFolder", query="start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"),
-            dict(event="start_app", label="Run", query="start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"),
-            dict(event="start_app", label="Control\nPanel", query="start control"),
-            dict(event="start_app", label="Registry\nEditor", query="start regedit"),
+            dict(event="open_app", label="Installed\nApps", query="start explorer.exe Shell:::AppsFolder"),
+            dict(event="open_app", label="User\nFolder", query="start explorer.exe Shell:::{59031a47-3f72-44a7-89c5-5595fe6b30ee}"),
+            dict(event="open_app", label="Run", query="start explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}"),
+            dict(event="open_app", label="Control\nPanel", query="start control"),
+            dict(event="open_app", label="Registry\nEditor", query="start regedit"),
         ],
         [
             dict(event="execute_subprocess", label="Echo System\nInformation", query="systeminfo"),
@@ -79,7 +79,7 @@ ACTION_CENTRE_ACTIONS = {
             dict(event="execute_subprocess", label="Local Routing\nTable", query="route print"),
             dict(event="execute_subprocess", label="List MAC\nAddresses", query="getmac"),
             dict(event="execute_subprocess", label="File Type\nAssociation", query="ftype"),
-            dict(event="start_app", label="God\nMode", query="start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"),
+            dict(event="open_app", label="God\nMode", query="start explorer.exe Shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"),
         ],
     ],
 }
@@ -137,4 +137,4 @@ Local Time Zone - tzutil /g
 
 """Deprecated Actions"""
 
-# dict(event="start_app", label="Command\nPrompt", query="start cmd /k cd /d %USERPROFILE%\Desktop"),
+# dict(event="open_app", label="Command\nPrompt", query="start cmd /k cd /d %USERPROFILE%\Desktop"),

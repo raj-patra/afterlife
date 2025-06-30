@@ -20,17 +20,17 @@ lang_code = locale.getdefaultlocale()[0].split('_')[0]
 
 def event_handler_callback(event: str=None, query: str=None):
 
-    if event == "start_app":
+    if event == "open_app":
         os.system(query)
+        return None
+
+    elif event == "open_url":
+        webbrowser.get('edge').open(query)
         return None
 
     elif event == "execute_subprocess":
         response = sp.getoutput(query)
         return response
-
-    elif event == "open_url":
-        webbrowser.get('edge').open(query)
-        return None
 
     elif event == "search_query":
         url = "https://duckduckgo.com/?q={}".format(query.strip())

@@ -1,4 +1,4 @@
-DEFAULT_THEME = "ayu_mirage"
+DEFAULT_THEME = "bear"
 DEFAULT_FONT = "Cascadia Mono"
 
 THEMES = {
