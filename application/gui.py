@@ -244,29 +244,25 @@ class Afterlife:
         )
         self.custom_styles.configure("Secondary.TLabel",
             background=self.theme["secondary_bg"], foreground=self.theme["fg"],
-            font=self.theme["font"], relief=FLAT, width=20, padding=10,
+            font=self.theme["font"], relief=FLAT, padding=10,
         )
 
         # Button styles
         self.custom_styles.configure("Primary.TButton",
             background=self.theme["primary_bg"], foreground=self.theme["fg"],
-            font=self.theme["font"], width=3,
-            anchor=CENTER, justify=CENTER, cursor="hand1"
+            font=self.theme["font"], width=3, anchor=CENTER, justify=CENTER
         )
         self.custom_styles.map("Primary.TButton",
             background=[("active", self.theme["primary_bg"]), ("pressed", self.theme["primary_bg"])],
-            relief=[('pressed', FLAT), ('!pressed', FLAT)],
-            borderwidth=[("active", 6)],
+            relief=[('pressed', FLAT), ('!pressed', FLAT)], borderwidth=[("active", 5)],
         )
         self.custom_styles.configure("Secondary.TButton",
             background=self.theme["secondary_bg"], foreground=self.theme["fg"],
-            font=self.theme["font"], width=3,
-            anchor=CENTER, justify=CENTER
+            font=self.theme["font"], width=3, anchor=CENTER, justify=CENTER
         )
         self.custom_styles.map("Secondary.TButton",
             background=[("active", self.theme["secondary_bg"]), ("pressed", self.theme["secondary_bg"])],
-            relief=[('pressed', FLAT), ('!pressed', FLAT)],
-            borderwidth=[("active", 5)],
+            relief=[('pressed', FLAT), ('!pressed', FLAT)], borderwidth=[("active", 5)],
         )
 
         # PanedWindow styles
@@ -286,6 +282,10 @@ class Afterlife:
             background=[("!selected", self.theme["secondary_bg"])],
             relief=[('pressed', FLAT), ('!pressed', GROOVE)],
         )
+
+        # LabelFrame styles
+        self.custom_styles.configure("Primary.TLabelframe", background=self.theme["primary_bg"])
+        self.custom_styles.configure("Secondary.TLabelframe", background=self.theme["secondary_bg"])
 
         # Render styles for non ttk compatible components
         self.root.config(bg=self.theme['root'])
