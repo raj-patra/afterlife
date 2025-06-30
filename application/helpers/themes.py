@@ -1,4 +1,4 @@
-DEFAULT_THEME = "onedark"
+DEFAULT_THEME = "react"
 DEFAULT_FONT = "Cascadia Mono"
 
 THEMES = {
