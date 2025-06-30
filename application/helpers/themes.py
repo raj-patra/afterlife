@@ -1,4 +1,4 @@
-DEFAULT_THEME = "bear"
+DEFAULT_THEME = "onedark"
 DEFAULT_FONT = "Cascadia Mono"
 
 THEMES = {

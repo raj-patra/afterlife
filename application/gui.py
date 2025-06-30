@@ -36,18 +36,19 @@ class Afterlife:
         )
 
         # Root - Frames
-        self.root_pw = ttk.Panedwindow(self.root, orient='horizontal', style="Primary.TPanedwindow")
+        self.root_pw = ttk.Panedwindow(self.root, orient='horizontal', style="Secondary.TPanedwindow")
         self.status_bar = dict(frame=ttk.Frame(self.root, style="Primary.TFrame"))
 
         self.left_root_frame = ttk.Frame(self.root_pw, style="Secondary.TFrame")
         self.right_root_frame = ttk.Frame(self.root_pw, style="Secondary.TFrame")
-        self.root_pw.insert("end", self.left_root_frame)
-        self.root_pw.insert("end", self.right_root_frame)
 
-        self.iexe_widgets = dict(frame=ttk.Frame(self.left_root_frame))
-        self.action_centre_notebook = ttk.Notebook(self.left_root_frame)
+        # Left section - Frames
+        self.left_pw = ttk.Panedwindow(self.left_root_frame, orient='vertical', style="Secondary.TPanedwindow")
+        self.action_centre_notebook = ttk.Notebook(self.left_pw, style="Secondary.TNotebook", height=700)
+        self.iexe_widgets = dict(frame=ttk.Frame(self.left_pw))
 
-        self.interactive_notebook = ttk.Notebook(self.right_root_frame)
+        # Right section - Frames
+        self.interactive_notebook = ttk.Notebook(self.right_root_frame, style="Secondary.TNotebook")
         self.chatbot_widgets = dict(frame=Frame(self.interactive_notebook, pady=1))
 
         # Render all components and their call to actions
@@ -98,23 +99,6 @@ class Afterlife:
     def _render_actions(self):
         """Render action widgets for all components"""
 
-        for action in actions.IEXE_ACTIONS:
-            button_image = PhotoImage(file=action["icon_file"])
-            button = ttk.Button(self.iexe_widgets["frame"], image=button_image, text=action["label"],
-                style="Secondary.TButton", compound=LEFT,
-                command=partial(self._event_handler, event=action["event"]),
-            )
-            button.image = button_image
-            self.iexe_widgets["actions"].append(button)
-
-        for action in actions.CHATBOT_ACTIONS:
-            button_image = PhotoImage(file=action["icon_file"])
-            button = ttk.Button(self.chatbot_widgets["frame"], image=button_image,
-                style="Secondary.TButton", command=partial(self._event_handler, event=action["event"]),
-            )
-            button.image = button_image
-            self.chatbot_widgets["actions"].append(button)
-
         for section, items in actions.ACTION_CENTRE_ACTIONS.items():
             notebook_frame = ttk.Frame(self.action_centre_notebook)
 
@@ -131,6 +115,23 @@ class Afterlife:
                     self.action_centre_widgets["button_styles"].rotate(1)
 
             self.action_centre_notebook.add(notebook_frame, text=section)
+
+        for action in actions.IEXE_ACTIONS:
+            button_image = PhotoImage(file=action["icon_file"])
+            button = ttk.Button(self.iexe_widgets["frame"], image=button_image, text=action["label"],
+                style="Secondary.TButton", compound=LEFT,
+                command=partial(self._event_handler, event=action["event"]),
+            )
+            button.image = button_image
+            self.iexe_widgets["actions"].append(button)
+
+        for action in actions.CHATBOT_ACTIONS:
+            button_image = PhotoImage(file=action["icon_file"])
+            button = ttk.Button(self.chatbot_widgets["frame"], image=button_image,
+                style="Secondary.TButton", command=partial(self._event_handler, event=action["event"]),
+            )
+            button.image = button_image
+            self.chatbot_widgets["actions"].append(button)
 
         self.status_bar["sb_components_left"].update(
             clock = ttk.Label(self.status_bar["frame"], text="clock",
@@ -190,20 +191,24 @@ class Afterlife:
 
     def apply_position(self):
         self.root_pw.pack(side=TOP, fill=BOTH, expand=1)
+        self.root_pw.insert("end", self.left_root_frame)
+        self.root_pw.insert("end", self.right_root_frame)
+
         self.status_bar["frame"].pack(side=BOTTOM, fill=X, expand=0)
 
         # root.left
-        self.action_centre_notebook.pack(side=TOP, fill=BOTH, expand=1, padx=10, pady=10)
+        self.left_pw.pack(side=TOP, fill=BOTH, expand=1)
+        self.left_pw.insert("end", self.action_centre_notebook)
+        self.left_pw.insert("end", self.iexe_widgets["frame"])
+
         for action in self.action_centre_widgets["actions"]:
             action.pack(side=LEFT, fill=BOTH, expand=1)
-
-        self.iexe_widgets["frame"].pack(side=TOP, fill=BOTH, expand=1)
         self.iexe_widgets["query_entry"].pack(side=TOP, fill=BOTH, expand=1)
         for action in self.iexe_widgets["actions"]:
-            action.pack(side=LEFT, fill=BOTH, expand=1)
+            action.pack(side=LEFT, fill=X, expand=1)
 
         # root.right
-        self.interactive_notebook.pack(side=TOP, fill=BOTH, expand=1, padx=10, pady=10)
+        self.interactive_notebook.pack(side=TOP, fill=BOTH, expand=1)
         self.prompt_text.pack(side=TOP, fill=BOTH, expand=1)
 
         self.chatbot_widgets["chat_window_text"].pack(side=TOP, fill=BOTH, expand=1)
@@ -224,24 +229,27 @@ class Afterlife:
         self.custom_styles = ttk.Style()
         self.custom_styles.theme_use("clam")
 
+        # Frame styles
         self.custom_styles.configure("Primary.TFrame", background=self.theme["primary_bg"])
         self.custom_styles.configure("Secondary.TFrame", background=self.theme["secondary_bg"])
 
+        # Entry styles
         self.custom_styles.configure("Secondary.Entry.TLabel",
             background=self.theme["secondary_bg"], foreground=self.theme["fg"],
             font=self.theme["font"], borderwidth=10, padding=10,
         )
 
+        # Label styles
         self.custom_styles.configure("Primary.TLabel",
             background=self.theme["primary_bg"], foreground=self.theme["fg"],
             font=self.theme["font"], relief=FLAT, padding=10,
         )
-
         self.custom_styles.configure("Secondary.TLabel",
             background=self.theme["secondary_bg"], foreground=self.theme["fg"],
             font=self.theme["font"], relief=FLAT, width=20, padding=10,
         )
 
+        # Button styles
         self.custom_styles.configure("Primary.TButton",
             background=self.theme["primary_bg"], foreground=self.theme["fg"],
             font=self.theme["font"], width=3,
@@ -252,7 +260,6 @@ class Afterlife:
             relief=[('pressed', FLAT), ('!pressed', FLAT)],
             borderwidth=[("active", 6)],
         )
-
         self.custom_styles.configure("Secondary.TButton",
             background=self.theme["secondary_bg"], foreground=self.theme["fg"],
             font=self.theme["font"], width=3,
@@ -264,8 +271,17 @@ class Afterlife:
             borderwidth=[("active", 5)],
         )
 
-        self.custom_styles.configure("TNotebook", background=self.theme["secondary_bg"],
-            borderwidth=0,)
+        # PanedWindow styles
+        self.custom_styles.configure("Primary.TPanedwindow", background=self.theme["primary_bg"],)
+        self.custom_styles.configure("Secondary.TPanedwindow", background=self.theme["secondary_bg"],)
+
+        # Notebook styles
+        self.custom_styles.configure("Primary.TNotebook", background=self.theme["primary_bg"], 
+            borderwidth=0, relief=FLAT
+        )
+        self.custom_styles.configure("Secondary.TNotebook", background=self.theme["secondary_bg"], 
+            borderwidth=0, relief=FLAT
+        )
         self.custom_styles.configure("TNotebook.Tab", background=self.theme["primary_bg"],
             foreground=self.theme["fg"], borderwidth=0, font=self.theme["font"])
         self.custom_styles.map("TNotebook.Tab", 
